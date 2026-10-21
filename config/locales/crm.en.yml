@@ -4,12 +4,16 @@ en:
       default_names:
         won: Won
         lost: Lost
+    loss_reasons:
+      contact_blocked: Contact blocked
   errors:
     crm:
       different_account: must belong to the same account
       pipeline:
         has_deals: This pipeline has deals. Move them to another pipeline before deleting it.
         invalid_stage_order: The new order must list every open stage of this pipeline exactly once.
+      loss_reason:
+        system_reason_active: cannot be turned off because automations use this reason
       stage:
         has_deals: This stage has deals. Move them to another stage before deleting it.
         single_closing_stage: already exists in this pipeline. Each pipeline has one won and one lost stage.
@@ -19,5 +23,6 @@ en:
         loss_reason_required: is required when the deal is lost
         inactive_loss_reason: is inactive. Choose an active loss reason.
         blocked_contact: is blocked and cannot receive new deals
+        blocked_contact_locked: is blocked, so this deal stays lost until the contact is unblocked
         conversation_readonly: cannot be changed once the deal has an origin conversation
         conversation_other_contact: belongs to a different contact than the deal

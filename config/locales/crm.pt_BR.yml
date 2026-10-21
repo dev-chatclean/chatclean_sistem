@@ -4,12 +4,16 @@ pt_BR:
       default_names:
         won: Ganho
         lost: Perdido
+    loss_reasons:
+      contact_blocked: Contato bloqueado
   errors:
     crm:
       different_account: deve pertencer à mesma conta
       pipeline:
         has_deals: Este funil tem oportunidades. Mova-as para outro funil antes de excluí-lo.
         invalid_stage_order: A nova ordem precisa listar cada etapa aberta deste funil exatamente uma vez.
+      loss_reason:
+        system_reason_active: não pode ser desativado porque é usado por automações
       stage:
         has_deals: Esta etapa tem oportunidades. Mova-as para outra etapa antes de excluí-la.
         single_closing_stage: já existe neste funil. Cada funil tem uma etapa de ganho e uma de perda.
@@ -19,5 +23,6 @@ pt_BR:
         loss_reason_required: é obrigatório quando o negócio é perdido
         inactive_loss_reason: está inativo. Selecione um motivo vigente.
         blocked_contact: está bloqueado e não pode receber novas oportunidades
+        blocked_contact_locked: está bloqueado; a oportunidade fica perdida até o contato ser desbloqueado
         conversation_readonly: não pode ser alterada depois que a oportunidade tem uma conversa de origem
         conversation_other_contact: pertence a um contato diferente do da oportunidade

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_21_184856) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_21_195913) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1097,7 +1097,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_21_184856) do
     t.boolean "is_active", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "system_key"
     t.index "account_id, lower((name)::text)", name: "index_crm_loss_reasons_on_account_id_and_lower_name", unique: true
+    t.index ["account_id", "system_key"], name: "index_crm_loss_reasons_on_account_id_and_system_key", unique: true, where: "(system_key IS NOT NULL)"
   end
 
   create_table "crm_pipelines", force: :cascade do |t|

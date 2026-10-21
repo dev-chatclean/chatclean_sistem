@@ -185,6 +185,28 @@ RSpec.describe Crm::Deal do
     expect(crm_contact.deals.count).to eq(3)
   end
 
+  it 'keeps a deal of a blocked contact lost until the contact is unblocked' do
+    contact = create(:contact, account: account)
+    deal = create(:crm_deal, account: account, stage: pipeline.stages.lost.first,
+                             crm_contact: create(:crm_contact, contact: contact), loss_reason: create(:crm_loss_reason, account: account))
+    contact.update!(blocked: true)
+
+    expect(deal.reload.update(stage: open_stage)).to be(false)
+    expect(deal.errors[:crm_contact]).to include(I18n.t('errors.crm.deal.blocked_contact_locked'))
+
+    contact.update!(blocked: false)
+    expect(deal.reload.update(stage: open_stage)).to be(true)
+  end
+
+  it 'filters by assignee, including unassigned deals' do
+    agent = create(:user, account: account)
+    assigned = create(:crm_deal, account: account, stage: open_stage, assignee: agent)
+    unassigned = create(:crm_deal, account: account, stage: open_stage)
+
+    expect(described_class.assigned_to(agent.id.to_s)).to eq([assigned])
+    expect(described_class.assigned_to('none')).to eq([unassigned])
+  end
+
   it 'only accepts BRL' do
     expect(build(:crm_deal, currency: 'USD')).not_to be_valid
   end
