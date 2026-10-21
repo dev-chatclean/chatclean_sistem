@@ -1,0 +1,27 @@
+#!/bin/sh
+# ChatClean: configura remotes e hooks do clone local. Idempotente.
+set -e
+
+cd "$(git rev-parse --show-toplevel)"
+
+upstream_url="https://github.com/chatwoot/chatwoot.git"
+
+if git remote get-url upstream >/dev/null 2>&1; then
+  git remote set-url upstream "$upstream_url"
+else
+  git remote add upstream "$upstream_url"
+fi
+# Nunca enviar nada para o Chatwoot oficial.
+git remote set-url --push upstream DISABLE
+
+# Gera .husky/_ (necessario para os hooks do upstream) e aponta o git para os hooks ChatClean.
+if [ -d node_modules/husky ]; then
+  pnpm exec husky install >/dev/null
+fi
+git config core.hooksPath .chatclean/hooks
+
+git fetch upstream --no-tags --quiet
+
+echo "Remotes:"
+git remote -v
+echo "Hooks: $(git config core.hooksPath)"

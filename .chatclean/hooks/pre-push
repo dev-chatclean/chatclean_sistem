@@ -1,0 +1,29 @@
+#!/bin/sh
+# ChatClean: bloqueia push para main e libera develop somente como espelho exato de upstream/develop.
+# Depois executa o hook do upstream (.husky) para pushes de outras branches.
+
+remote="$1"
+zero="0000000000000000000000000000000000000000"
+
+while read -r local_ref local_sha remote_ref remote_sha; do
+  case "$remote_ref" in
+    refs/heads/main)
+      echo "[ChatClean] Push direto para main e proibido. Abra um Pull Request."
+      exit 1
+      ;;
+    refs/heads/develop)
+      upstream_sha="$(git rev-parse --verify -q refs/remotes/upstream/develop)"
+      if [ "$local_sha" = "$zero" ] || [ "$local_sha" != "$upstream_sha" ]; then
+        echo "[ChatClean] develop e espelho do Chatwoot: so pode receber upstream/develop."
+        echo "Use .chatclean/bin/sync-upstream."
+        exit 1
+      fi
+      # Espelho validado: o validate_push do upstream bloquearia develop, entao nao delegamos.
+      exit 0
+      ;;
+  esac
+done
+
+hook="$(git rev-parse --show-toplevel)/.husky/pre-push"
+[ -x "$hook" ] || exit 0
+exec "$hook" "$remote" "$2" < /dev/null

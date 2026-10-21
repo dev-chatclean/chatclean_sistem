@@ -1,0 +1,16 @@
+#!/bin/sh
+# ChatClean: impede commit direto em main/develop e depois executa o hook do upstream (.husky).
+
+branch="$(git rev-parse --abbrev-ref HEAD)"
+
+case "$branch" in
+  main|develop)
+    echo "[ChatClean] Commit direto em '$branch' e proibido."
+    echo "Crie uma branch a partir de main atualizada: git switch -c feature/<nome> main"
+    exit 1
+    ;;
+esac
+
+hook="$(git rev-parse --show-toplevel)/.husky/pre-commit"
+[ -x "$hook" ] || exit 0
+exec "$hook" "$@"
