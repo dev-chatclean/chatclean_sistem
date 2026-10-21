@@ -1,0 +1,20 @@
+# Falhas conhecidas da suíte do Chatwoot, aceitas como exceção na CCV2-1 (US 01).
+# No CI (CHATCLEAN_RSPEC_QUARANTINE=1) esses exemplos viram pendentes em vez de falhar.
+# Formato: <arquivo do spec> | <descrição completa do exemplo>
+# Remova a linha quando o upstream corrigir o teste.
+
+# O message_tracking_spec desliga transações e deixa audits de Inbox no banco.
+spec/enterprise/models/inbox_spec.rb | Inbox audit log when inbox is created has associated audit log created
+spec/enterprise/models/inbox_spec.rb | Inbox audit log with api channel when inbox is created has associated audit log created
+spec/enterprise/models/inbox_spec.rb | Inbox audit log with whatsapp channel when inbox is created has associated audit log created
+
+# Llm::Config.initialize! fica memorizado por um spec anterior sem CAPTAIN_OPEN_AI_API_KEY.
+spec/enterprise/services/llm/base_ai_service_spec.rb | Llm::BaseAiService routed request format uses Responses JSON mode and the requested effort for a shared text flow
+spec/enterprise/services/llm/base_ai_service_spec.rb | Llm::BaseAiService routed request format retains the existing JSON format and protocol on custom endpoints
+
+# Usam o relógio real com 1s de tolerância e falham com a CPU carregada.
+spec/models/conversation_spec.rb | Conversation reply time calculation flows correctly tracks waiting_since and creates first response time events
+spec/models/conversation_spec.rb | Conversation reply time calculation flows records the correct reply_time for subsequent messages
+
+# Depende de OpenSearch configurado na carga da classe Message.
+spec/enterprise/services/voice/call_transcription_service_spec.rb | Voice::CallTranscriptionService#perform reindexes before broadcasting so a retry after a reindex failure does not resend the update event
