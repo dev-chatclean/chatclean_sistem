@@ -196,6 +196,28 @@ O status do deal vem do estágio. Para ganhar, perder ou reabrir, envie o `crm_s
 devolvem 422 no formato do Chatwoot (`{ message, attributes }`). O histórico de estágio, status e
 motivo fica em `deal.audits`.
 
+### API de pipelines e estágios (`/api/v1/accounts/:account_id/crm/pipelines`)
+
+| Método | Uso | Quem |
+|---|---|---|
+| `GET` | lista os pipelines com os estágios em ordem (padrão primeiro, depois por nome) | todos |
+| `GET /:id` | detalhe com estágios | todos |
+| `POST` | cria com `name`, `description`, `is_default` | administrador |
+| `PATCH /:id` | edita os mesmos campos | administrador |
+| `DELETE /:id` | exclui com os estágios; recusa (422) se houver qualquer deal | administrador |
+| `GET /:pipeline_id/stages` | estágios do pipeline em ordem | todos |
+| `POST /:pipeline_id/stages` | cria estágio aberto com `name` e `probability` (0 a 100) | administrador |
+| `PATCH /:pipeline_id/stages/:id` | edita `name` e `probability` | administrador |
+| `DELETE /:pipeline_id/stages/:id` | exclui estágio aberto sem deals | administrador |
+| `POST /:pipeline_id/stages/reorder` | `stage_ids` com **todos os estágios abertos** na nova ordem | administrador |
+
+**Regras dos estágios:**
+- Todo pipeline nasce com "Ganho" (won, 100%) e "Perdido" (lost, 0%), sempre no fim do funil.
+- Esses dois só podem ser renomeados: não mudam de status nem de probabilidade, não são excluídos sozinhos e não entram na reordenação.
+- Não existe outro estágio de ganho ou perda no mesmo pipeline.
+- Um estágio aberto novo entra no fim dos abertos.
+- Marcar um pipeline como padrão desmarca o anterior.
+
 ### API de motivos de perda (`/api/v1/accounts/:account_id/crm/loss_reasons`)
 
 | Método | Uso | Quem |
