@@ -1,0 +1,53 @@
+{
+  "CRM": {
+    "SIDEBAR": {
+      "KANBAN": "Sales pipeline"
+    },
+    "KANBAN": {
+      "HEADER": "Sales pipeline",
+      "PIPELINE_LABEL": "Pipeline",
+      "ASSIGNEE_FILTER": {
+        "LABEL": "Assignee",
+        "ALL": "Everyone",
+        "MINE": "My deals",
+        "NONE": "Unassigned"
+      },
+      "COLUMN": {
+        "DEALS_COUNT": "{count} deals",
+        "PROBABILITY": "{probability}%",
+        "DRAG_TO_REORDER": "Drag to reorder",
+        "EMPTY": "No deals in this stage",
+        "LOADING": "Loading deals"
+      },
+      "CARD": {
+        "UNASSIGNED": "Unassigned",
+        "ASSIGN": "Assign",
+        "REMOVE_ASSIGNEE": "Remove assignee",
+        "OPEN_CONVERSATION": "Open the conversation",
+        "BLOCKED_CONTACT": "Blocked contact"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No pipelines yet",
+        "DESCRIPTION": "An administrator needs to create a pipeline before deals can be tracked here."
+      },
+      "LOSS_MODAL": {
+        "TITLE": "Mark deal as lost",
+        "DESCRIPTION": "Choose why \"{title}\" was lost.",
+        "REASON_LABEL": "Loss reason",
+        "REASON_PLACEHOLDER": "Select a reason",
+        "DETAILS_LABEL": "Details (optional)",
+        "DETAILS_PLACEHOLDER": "What happened in this negotiation?",
+        "CONFIRM": "Mark as lost",
+        "CANCEL": "Cancel",
+        "NO_REASONS": "No active loss reasons. Ask an administrator to create one."
+      },
+      "MESSAGES": {
+        "LOAD_ERROR": "Could not load the pipeline. Try again.",
+        "MOVE_ERROR": "Could not move the deal: {message}",
+        "ASSIGN_ERROR": "Could not change the assignee: {message}",
+        "REORDER_ERROR": "Could not reorder the stages: {message}",
+        "BLOCKED": "Deals of blocked contacts stay lost until the contact is unblocked."
+      }
+    }
+  }
+}

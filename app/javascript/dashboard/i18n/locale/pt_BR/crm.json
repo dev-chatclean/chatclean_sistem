@@ -1,0 +1,53 @@
+{
+  "CRM": {
+    "SIDEBAR": {
+      "KANBAN": "Funil de vendas"
+    },
+    "KANBAN": {
+      "HEADER": "Funil de vendas",
+      "PIPELINE_LABEL": "Funil",
+      "ASSIGNEE_FILTER": {
+        "LABEL": "Responsável",
+        "ALL": "Todos",
+        "MINE": "Meus negócios",
+        "NONE": "Sem responsável"
+      },
+      "COLUMN": {
+        "DEALS_COUNT": "{count} negócios",
+        "PROBABILITY": "{probability}%",
+        "DRAG_TO_REORDER": "Arraste para reordenar",
+        "EMPTY": "Nenhum negócio nesta etapa",
+        "LOADING": "Carregando negócios"
+      },
+      "CARD": {
+        "UNASSIGNED": "Sem responsável",
+        "ASSIGN": "Atribuir",
+        "REMOVE_ASSIGNEE": "Remover responsável",
+        "OPEN_CONVERSATION": "Abrir a conversa",
+        "BLOCKED_CONTACT": "Contato bloqueado"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "Nenhum funil ainda",
+        "DESCRIPTION": "Um administrador precisa criar um funil para que os negócios apareçam aqui."
+      },
+      "LOSS_MODAL": {
+        "TITLE": "Marcar negócio como perdido",
+        "DESCRIPTION": "Escolha por que \"{title}\" foi perdido.",
+        "REASON_LABEL": "Motivo da perda",
+        "REASON_PLACEHOLDER": "Selecione um motivo",
+        "DETAILS_LABEL": "Observações (opcional)",
+        "DETAILS_PLACEHOLDER": "O que aconteceu nesta negociação?",
+        "CONFIRM": "Marcar como perdido",
+        "CANCEL": "Cancelar",
+        "NO_REASONS": "Não há motivos de perda ativos. Peça a um administrador para cadastrar um."
+      },
+      "MESSAGES": {
+        "LOAD_ERROR": "Não foi possível carregar o funil. Tente de novo.",
+        "MOVE_ERROR": "Não foi possível mover o negócio: {message}",
+        "ASSIGN_ERROR": "Não foi possível trocar o responsável: {message}",
+        "REORDER_ERROR": "Não foi possível reordenar as etapas: {message}",
+        "BLOCKED": "Negócios de contatos bloqueados ficam perdidos até o contato ser desbloqueado."
+      }
+    }
+  }
+}
