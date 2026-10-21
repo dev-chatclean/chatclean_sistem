@@ -40,11 +40,15 @@ docker run --rm -v "$PWD":/workspace -w /workspace chatclean-rails:development b
 
 # RSpec: compile os assets de teste uma vez e desligue o auto-build
 docker compose run --rm --no-deps -e RAILS_ENV=test -e NODE_OPTIONS=--max-old-space-size=6144 vite bin/vite build --mode=test
-docker compose run --rm -e RAILS_ENV=test -e VITE_RUBY_AUTO_BUILD=false -e FRONTEND_URL= rails bundle exec rspec [spec/caminho_spec.rb]
+docker compose run --rm -e RAILS_ENV=test -e VITE_RUBY_AUTO_BUILD=false -v /dev/null:/app/.env \
+  rails sh -c 'unset FRONTEND_URL; bundle exec rspec [spec/caminho_spec.rb]'
 ```
 
-`FRONTEND_URL=` vazio reproduz o CI, que roda sem `.env`. Com o valor de dev (`http://localhost:3000`),
-o `slack_uploads_controller_spec` falha com `UnsafeRedirectError`.
+O CI roda sem `.env`, e alguns specs dependem de `FRONTEND_URL` estar **ausente**:
+- com o valor de dev, o `slack_uploads_controller_spec` falha com `UnsafeRedirectError`;
+- com o valor vazio, os specs de SAML e do `devise_mailer` perdem o default `http://localhost:3000`.
+
+Por isso o comando apaga a variável e mascara o `.env` (que o dotenv recarregaria) só nesse container.
 
 Por que desligar o auto-build: o `docker/entrypoints/rails.sh` apaga `tmp/cache` a cada start, e é ali que
 o `vite_ruby` guarda o registro do último build. Com o auto-build ligado, os specs que renderizam views
