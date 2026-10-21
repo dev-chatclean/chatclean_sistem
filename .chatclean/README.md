@@ -54,6 +54,9 @@ Por que desligar o auto-build: o `docker/entrypoints/rails.sh` apaga `tmp/cache`
 o `vite_ruby` guarda o registro do último build. Com o auto-build ligado, os specs que renderizam views
 recompilam todo o frontend, e no container essa compilação estoura a memória padrão do Node.
 
+O pre-commit do Chatwoot tenta rodar `bundle exec rubocop` no host. Sem Ruby 3.4.4 no host, ele falha
+silenciosamente e os arquivos `.rb` **não** são lintados no commit. Rode o comando acima antes do push.
+
 RuboCop não deve rodar com o código em `/app`, como faz o `docker compose run rails`: as regras do
 rubocop-rails usam padrões como `**/app/**/*.rb`, e então todo arquivo passa a contar como `app/`.
 Isso gera falsos positivos em `script/` e `spec/support/`.
