@@ -78,6 +78,15 @@ RSpec.describe 'CRM Loss Reasons API', type: :request do
       expect(loss_reason.reload).to have_attributes(name: 'Sem orçamento', is_active: false)
     end
 
+    it 'refuses to turn off the protected "contact blocked" reason' do
+      reason = Crm::LossReason.for_blocked_contact!(account)
+
+      patch "#{base_path}/#{reason.id}", params: { loss_reason: { is_active: false } }, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['attributes']).to eq(['is_active'])
+    end
+
     it 'does not let agents update reasons' do
       patch "#{base_path}/#{loss_reason.id}", params: { loss_reason: { is_active: false } }, headers: agent.create_new_auth_token, as: :json
 

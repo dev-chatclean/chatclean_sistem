@@ -39,6 +39,33 @@ RSpec.describe 'CRM Pipelines API', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/crm/pipelines/{id}/summary' do
+    let(:pipeline) { create(:crm_pipeline, account: account) }
+    let(:stage) { create(:crm_stage, pipeline: pipeline) }
+
+    it 'returns the count and total value of deals for every stage, in order' do
+      create(:crm_deal, account: account, stage: stage, value: 1000, assignee: agent)
+      create(:crm_deal, account: account, stage: stage, value: 500.5)
+
+      get "#{base_path}/#{pipeline.id}/summary", headers: agent.create_new_auth_token, as: :json
+
+      expect(response.parsed_body['payload']).to eq([
+                                                      { 'crm_stage_id' => stage.id, 'deals_count' => 2, 'total_value' => '1500.5' },
+                                                      { 'crm_stage_id' => pipeline.stages.won.first.id, 'deals_count' => 0, 'total_value' => '0' },
+                                                      { 'crm_stage_id' => pipeline.stages.lost.first.id, 'deals_count' => 0, 'total_value' => '0' }
+                                                    ])
+    end
+
+    it 'applies the assignee filter' do
+      create(:crm_deal, account: account, stage: stage, value: 1000, assignee: agent)
+      create(:crm_deal, account: account, stage: stage, value: 500)
+
+      get "#{base_path}/#{pipeline.id}/summary", params: { assignee_id: agent.id }, headers: agent.create_new_auth_token, as: :json
+
+      expect(response.parsed_body['payload'].first).to include('deals_count' => 1, 'total_value' => '1000.0')
+    end
+  end
+
   describe 'POST /api/v1/accounts/{account.id}/crm/pipelines' do
     it 'creates the pipeline with the won and lost stages' do
       post base_path, params: { pipeline: { name: 'Vendas Inbound', is_default: true } }, headers: admin.create_new_auth_token, as: :json

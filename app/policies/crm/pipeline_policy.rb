@@ -7,6 +7,10 @@ class Crm::PipelinePolicy < ApplicationPolicy
     true
   end
 
+  def summary?
+    true
+  end
+
   def create?
     @account_user.administrator?
   end
