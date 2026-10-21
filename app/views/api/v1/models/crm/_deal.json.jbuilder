@@ -9,6 +9,7 @@ json.crm_pipeline_id resource.stage.crm_pipeline_id
 json.crm_contact_id resource.crm_contact_id
 json.contact_id resource.crm_contact.contact_id
 json.assignee_id resource.assignee_id
+json.conversation_id resource.conversation_id
 json.loss_reason do
   if resource.loss_reason
     json.id resource.loss_reason.id

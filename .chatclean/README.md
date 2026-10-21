@@ -180,16 +180,32 @@ da `main`, trocando apenas tabelas/FKs `crm_*` e a versão. Assim o PR mexe só 
 
 | Método | Uso |
 |---|---|
-| `GET` | lista, com filtros `status`, `crm_stage_id`, `crm_pipeline_id`, `contact_id` e paginação (`page`) |
+| `GET` | lista, com filtros `status`, `crm_stage_id`, `crm_pipeline_id`, `contact_id`, `conversation_id` e paginação (`page`) |
 | `GET /:id` | detalhe |
-| `POST` | cria: `title`, `value`, `expected_close_date`, `crm_stage_id`, `contact_id` (contato do Chatwoot), `assignee_id` |
+| `POST` | cria: `title`, `value`, `expected_close_date`, `crm_stage_id`, `contact_id` (contato do Chatwoot), `assignee_id`, `conversation_id` |
 | `PATCH /:id` | edita e move de estágio |
+
+**Conversa de origem (`conversation_id`):**
+- Sem `contact_id`, o deal assume o contato da conversa. Se vierem os dois e forem de contatos diferentes, a API devolve 422.
+- O usuário precisa enxergar a conversa (admin, ou agente da inbox ou do time, segundo a `ConversationPolicy`); senão, a API devolve 404.
+- Depois de definida, a conversa de origem não pode ser trocada nem removida (422). Se a conversa for apagada no Chatwoot, o campo fica nulo.
 
 O status do deal vem do estágio. Para ganhar, perder ou reabrir, envie o `crm_stage_id` de um estágio
 `won`, `lost` ou `open` do pipeline. Perder exige `crm_loss_reason_id` (motivo ativo da conta) e aceita
 `loss_details`. Ganhar ou reabrir limpa os dois. IDs de outra conta devolvem 404, e erros de validação
 devolvem 422 no formato do Chatwoot (`{ message, attributes }`). O histórico de estágio, status e
 motivo fica em `deal.audits`.
+
+### API de motivos de perda (`/api/v1/accounts/:account_id/crm/loss_reasons`)
+
+| Método | Uso | Quem |
+|---|---|---|
+| `GET` | lista em ordem alfabética, sem paginação; `?active=true` traz só os ativos | todos |
+| `POST` | cria com `name` e `description` (nasce ativo) | administrador |
+| `PATCH /:id` | edita `name`, `description` e `is_active` | administrador |
+
+Não há exclusão: para aposentar um motivo, envie `is_active: false`. Nome repetido na conta, mesmo com
+outra combinação de maiúsculas, devolve 422 com `attributes: ["name"]`.
 
 ## Diferenças entre a história original e o código
 

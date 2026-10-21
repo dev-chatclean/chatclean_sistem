@@ -7,6 +7,7 @@ Rails.application.routes.append do
         scope module: :accounts do
           namespace :crm do
             resources :deals, only: [:index, :show, :create, :update]
+            resources :loss_reasons, only: [:index, :create, :update]
           end
         end
       end

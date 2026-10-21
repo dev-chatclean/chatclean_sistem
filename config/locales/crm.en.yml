@@ -10,3 +10,5 @@ en:
         loss_reason_required: is required when the deal is lost
         inactive_loss_reason: is inactive. Choose an active loss reason.
         blocked_contact: is blocked and cannot receive new deals
+        conversation_readonly: cannot be changed once the deal has an origin conversation
+        conversation_other_contact: belongs to a different contact than the deal

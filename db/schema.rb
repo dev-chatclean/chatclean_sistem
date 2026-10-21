@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_21_171835) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_21_175625) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1079,9 +1079,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_21_171835) do
     t.datetime "updated_at", null: false
     t.bigint "crm_loss_reason_id"
     t.text "loss_details"
+    t.bigint "conversation_id"
     t.index ["account_id", "crm_stage_id"], name: "index_crm_deals_on_account_id_and_crm_stage_id"
     t.index ["account_id", "status"], name: "index_crm_deals_on_account_id_and_status"
     t.index ["assignee_id"], name: "index_crm_deals_on_assignee_id"
+    t.index ["conversation_id"], name: "index_crm_deals_on_conversation_id"
     t.index ["crm_contact_id", "status"], name: "index_crm_deals_on_crm_contact_id_and_status"
     t.index ["crm_loss_reason_id"], name: "index_crm_deals_on_crm_loss_reason_id"
     t.check_constraint "currency::text = 'BRL'::text", name: "crm_deals_currency_brl"
@@ -1806,6 +1808,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_21_171835) do
   add_foreign_key "crm_contacts", "accounts", on_delete: :cascade
   add_foreign_key "crm_contacts", "contacts", on_delete: :cascade
   add_foreign_key "crm_deals", "accounts", on_delete: :cascade
+  add_foreign_key "crm_deals", "conversations", on_delete: :nullify
   add_foreign_key "crm_deals", "crm_contacts", on_delete: :cascade
   add_foreign_key "crm_deals", "crm_loss_reasons"
   add_foreign_key "crm_deals", "crm_stages"

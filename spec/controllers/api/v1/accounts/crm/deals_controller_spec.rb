@@ -73,6 +73,69 @@ RSpec.describe 'CRM Deals API', type: :request do
     end
   end
 
+  describe 'origin conversation' do
+    let(:admin) { create(:user, account: account, role: :administrator) }
+    let(:conversation) { create(:conversation, account: account, contact: contact) }
+    let(:params) { { deal: { title: 'Plano anual', crm_stage_id: open_stage.id, conversation_id: conversation.id } } }
+
+    it 'creates a deal from the conversation, taking its contact' do
+      post base_path, params: params, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['payload']).to include('conversation_id' => conversation.id, 'contact_id' => contact.id)
+    end
+
+    it 'rejects a contact different from the conversation contact' do
+      post base_path, params: params.deep_merge(deal: { contact_id: create(:contact, account: account).id }),
+                      headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['attributes']).to eq(['conversation_id'])
+    end
+
+    it 'returns not found for a conversation of another account' do
+      post base_path, params: params.deep_merge(deal: { conversation_id: create(:conversation).id }),
+                      headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'returns not found when the agent has no access to the conversation inbox' do
+      post base_path, params: params, headers: agent.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:not_found)
+      expect(Crm::Deal.count).to eq(0)
+    end
+
+    it 'lets agents link conversations of their inboxes' do
+      create(:inbox_member, user: agent, inbox: conversation.inbox)
+
+      post base_path, params: params, headers: agent.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'filters deals by origin conversation' do
+      deal = create(:crm_deal, account: account, stage: open_stage, crm_contact: create(:crm_contact, contact: contact), conversation: conversation)
+      create(:crm_deal, account: account, stage: open_stage)
+
+      get base_path, params: { conversation_id: conversation.id }, headers: admin.create_new_auth_token, as: :json
+
+      expect(response.parsed_body['payload'].pluck('id')).to eq([deal.id])
+    end
+
+    it 'does not allow replacing the origin conversation' do
+      deal = create(:crm_deal, account: account, stage: open_stage, crm_contact: create(:crm_contact, contact: contact), conversation: conversation)
+      other = create(:conversation, account: account, contact: contact)
+
+      patch "#{base_path}/#{deal.id}", params: { deal: { conversation_id: other.id } }, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['attributes']).to eq(['conversation_id'])
+      expect(deal.reload.conversation_id).to eq(conversation.id)
+    end
+  end
+
   describe 'PATCH /api/v1/accounts/{account.id}/crm/deals/{id}' do
     let(:deal) { create(:crm_deal, account: account, stage: open_stage) }
     let(:loss_reason) { create(:crm_loss_reason, account: account) }

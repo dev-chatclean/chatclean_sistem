@@ -26,4 +26,5 @@ class Crm::LossReason < Crm::ApplicationRecord
   validates :name, presence: true, uniqueness: { scope: :account_id, case_sensitive: false }
 
   scope :active, -> { where(is_active: true) }
+  scope :ordered, -> { order(Arel.sql('LOWER(crm_loss_reasons.name)')) }
 end
