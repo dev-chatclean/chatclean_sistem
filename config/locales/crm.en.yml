@@ -1,11 +1,20 @@
 en:
+  crm:
+    stages:
+      default_names:
+        won: Won
+        lost: Lost
   errors:
     crm:
       different_account: must belong to the same account
       pipeline:
         has_deals: This pipeline has deals. Move them to another pipeline before deleting it.
+        invalid_stage_order: The new order must list every open stage of this pipeline exactly once.
       stage:
         has_deals: This stage has deals. Move them to another stage before deleting it.
+        single_closing_stage: already exists in this pipeline. Each pipeline has one won and one lost stage.
+        closing_stage_immutable: The won and lost stages keep their status and probability. Only the name can change.
+        closing_stage_undeletable: The won and lost stages cannot be deleted. Delete the pipeline instead.
       deal:
         loss_reason_required: is required when the deal is lost
         inactive_loss_reason: is inactive. Choose an active loss reason.

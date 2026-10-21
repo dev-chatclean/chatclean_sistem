@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_21_175625) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_21_184856) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1119,8 +1119,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_21_175625) do
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "probability", default: 0, null: false
     t.index ["account_id", "crm_pipeline_id"], name: "index_crm_stages_on_account_id_and_crm_pipeline_id"
     t.index ["crm_pipeline_id", "position"], name: "index_crm_stages_on_crm_pipeline_id_and_position"
+    t.index ["crm_pipeline_id", "status"], name: "index_crm_stages_on_one_won_and_one_lost_per_pipeline", unique: true, where: "(status <> 0)"
+    t.check_constraint "probability >= 0 AND probability <= 100", name: "crm_stages_probability_range"
   end
 
   create_table "csat_survey_responses", force: :cascade do |t|

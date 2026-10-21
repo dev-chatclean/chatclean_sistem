@@ -7,16 +7,8 @@ FactoryBot.define do
   factory :crm_stage, class: 'Crm::Stage' do
     pipeline factory: :crm_pipeline
     account { pipeline.account }
+    # Estágios abertos; Ganho e Perdido vêm prontos no pipeline (pipeline.stages.won.first).
     sequence(:name) { |n| "Stage #{n}" }
-    sequence(:position)
-
-    trait :won do
-      status { :won }
-    end
-
-    trait :lost do
-      status { :lost }
-    end
   end
 
   factory :crm_contact, class: 'Crm::Contact' do
