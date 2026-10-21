@@ -28,6 +28,22 @@ RSpec.describe Crm::LossReason do
     end
   end
 
+  it 'orders by name ignoring case' do
+    zebra = create(:crm_loss_reason, account: account, name: 'zebra')
+    alpha = create(:crm_loss_reason, account: account, name: 'Alpha')
+
+    expect(described_class.where(account: account).ordered).to eq([alpha, zebra])
+  end
+
+  it 'cannot be deleted while deals use it' do
+    loss_reason = create(:crm_loss_reason, account: account)
+    stage = create(:crm_stage, :lost, pipeline: create(:crm_pipeline, account: account))
+    create(:crm_deal, account: account, stage: stage, loss_reason: loss_reason)
+
+    expect(loss_reason.destroy).to be(false)
+    expect(described_class.exists?(loss_reason.id)).to be(true)
+  end
+
   it 'lists only active reasons in the active scope' do
     active = create(:crm_loss_reason, account: account)
     create(:crm_loss_reason, :inactive, account: account)
