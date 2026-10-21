@@ -1,0 +1,8 @@
+en:
+  errors:
+    crm:
+      different_account: must belong to the same account
+      pipeline:
+        has_deals: This pipeline has deals. Move them to another pipeline before deleting it.
+      stage:
+        has_deals: This stage has deals. Move them to another stage before deleting it.

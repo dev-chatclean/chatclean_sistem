@@ -1,0 +1,8 @@
+pt_BR:
+  errors:
+    crm:
+      different_account: deve pertencer à mesma conta
+      pipeline:
+        has_deals: Este funil tem oportunidades. Mova-as para outro funil antes de excluí-lo.
+      stage:
+        has_deals: Esta etapa tem oportunidades. Mova-as para outra etapa antes de excluí-la.
