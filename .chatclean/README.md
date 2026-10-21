@@ -84,7 +84,13 @@ para e mostra como realinhar; `develop` nunca guarda trabalho próprio.
 
 Os hooks em `.chatclean/hooks/` bloqueiam commit em `main`/`develop`, push para `main` e push de
 `develop` diferente de `upstream/develop`. Depois disso, eles chamam os hooks do Chatwoot em `.husky/`.
-Rode `.chatclean/bin/setup-git` de novo se algum `pnpm install` reapontar `core.hooksPath` para `.husky`.
+O `setup-git` copia esses hooks para `.git/chatclean-hooks/`, para que valham em qualquer branch,
+inclusive na `develop`, que não tem `.chatclean/`. Rode `.chatclean/bin/setup-git` de novo quando:
+- os hooks mudarem;
+- algum `pnpm install` no host reapontar `core.hooksPath` para `.husky`.
+
+O bloqueio local é uma proteção de conveniência. A proteção que vale de fato são as regras de branch
+no GitHub (PR obrigatório na `main`), que precisam ser configuradas por um admin da organização.
 
 ## Diferenças entre a história original e o código
 

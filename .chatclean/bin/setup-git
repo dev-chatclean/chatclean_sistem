@@ -14,11 +14,18 @@ fi
 # Nunca enviar nada para o Chatwoot oficial.
 git remote set-url --push upstream DISABLE
 
-# Gera .husky/_ (necessario para os hooks do upstream) e aponta o git para os hooks ChatClean.
+# Gera .husky/_ (necessario para os hooks do upstream).
 if [ -d node_modules/husky ]; then
   pnpm exec husky install >/dev/null
 fi
-git config core.hooksPath .chatclean/hooks
+
+# Os hooks sao copiados para dentro do .git: assim valem em qualquer branch, inclusive na develop
+# (espelho do upstream, sem .chatclean/) e em worktrees. Rode de novo quando .chatclean/hooks mudar.
+hooks_dir="$(cd "$(git rev-parse --git-common-dir)" && pwd)/chatclean-hooks"
+mkdir -p "$hooks_dir"
+cp .chatclean/hooks/* "$hooks_dir/"
+chmod +x "$hooks_dir"/*
+git config core.hooksPath "$hooks_dir"
 
 git fetch upstream --no-tags --quiet
 
