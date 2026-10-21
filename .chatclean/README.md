@@ -116,7 +116,7 @@ GitHub, que valem para todos, inclusive admin:
 
 | Ruleset | Regras |
 |---|---|
-| `main: somente via Pull Request` | PR obrigatório (0 aprovações), sem force-push, sem deleção |
+| `main: somente via Pull Request` | PR obrigatório (0 aprovações), check **CI ok** obrigatório, sem force-push, sem deleção |
 | `develop: espelho sem force-push` | sem force-push, sem deleção (fast-forward continua liberado) |
 
 A branch padrão do repositório é `main`. Os rulesets ficam em Settings → Rules e só a conta dona
