@@ -28,6 +28,28 @@ RSpec.describe 'CRM Deals API', type: :request do
       expect(response.parsed_body['meta']['total_count']).to eq(1)
     end
 
+    it 'brings the contact and the assignee for the cards' do
+      deal = create(:crm_deal, account: account, stage: open_stage, assignee: agent,
+                               crm_contact: create(:crm_contact, contact: contact))
+
+      get base_path, headers: agent.create_new_auth_token, as: :json
+
+      card = response.parsed_body['payload'].find { |item| item['id'] == deal.id }
+      expect(card['contact']).to include('id' => contact.id, 'name' => contact.name, 'blocked' => false)
+      expect(card['assignee']).to include('id' => agent.id, 'name' => agent.available_name)
+    end
+
+    it 'filters by assignee, with "none" for unassigned deals' do
+      mine = create(:crm_deal, account: account, stage: open_stage, assignee: agent)
+      unassigned = create(:crm_deal, account: account, stage: open_stage)
+
+      get base_path, params: { assignee_id: agent.id }, headers: agent.create_new_auth_token, as: :json
+      expect(response.parsed_body['payload'].pluck('id')).to eq([mine.id])
+
+      get base_path, params: { assignee_id: 'none' }, headers: agent.create_new_auth_token, as: :json
+      expect(response.parsed_body['payload'].pluck('id')).to eq([unassigned.id])
+    end
+
     it 'filters by pipeline and by contact' do
       deal = create(:crm_deal, account: account, stage: open_stage, crm_contact: create(:crm_contact, contact: contact))
       create(:crm_deal, account: account, stage: create(:crm_stage, pipeline: create(:crm_pipeline, account: account)))
@@ -82,7 +104,8 @@ RSpec.describe 'CRM Deals API', type: :request do
       post base_path, params: params, headers: admin.create_new_auth_token, as: :json
 
       expect(response).to have_http_status(:success)
-      expect(response.parsed_body['payload']).to include('conversation_id' => conversation.id, 'contact_id' => contact.id)
+      expect(response.parsed_body['payload']).to include('conversation_id' => conversation.id, 'contact_id' => contact.id,
+                                                         'conversation_display_id' => conversation.display_id)
     end
 
     it 'rejects a contact different from the conversation contact' do

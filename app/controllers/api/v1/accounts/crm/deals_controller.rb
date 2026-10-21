@@ -3,6 +3,11 @@
 # conversation_id registra a conversa de origem e não pode ser trocado depois.
 class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::BaseController
   RESULTS_PER_PAGE = 50
+  # Contato e responsável aparecem no card do Kanban com nome e avatar.
+  CARD_INCLUDES = [:stage, :loss_reason, :conversation, { assignee: { avatar_attachment: :blob } },
+                   { crm_contact: { contact: { avatar_attachment: :blob } } }].freeze
+  # Filtros da listagem que viram scopes do Crm::Deal (assignee_id aceita "none").
+  SCOPE_FILTERS = { crm_pipeline_id: :in_pipeline, contact_id: :for_contact, assignee_id: :assigned_to }.freeze
 
   before_action -> { check_authorization(::Crm::Deal) }
   before_action :fetch_deal, only: [:show, :update]
@@ -29,10 +34,10 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::BaseControlle
 
   def filtered_deals
     filters = params.slice(:crm_stage_id, :status, :conversation_id).permit(:crm_stage_id, :status, :conversation_id).compact_blank
-    deals = account_scoped(::Crm::Deal).includes(:stage, :loss_reason, :assignee, crm_contact: :contact).where(filters.to_h)
-    deals = deals.in_pipeline(params[:crm_pipeline_id]) if params[:crm_pipeline_id].present?
-    deals = deals.for_contact(params[:contact_id]) if params[:contact_id].present?
-    deals
+    deals = account_scoped(::Crm::Deal).includes(*CARD_INCLUDES).where(filters.to_h)
+    SCOPE_FILTERS.reduce(deals) do |scope, (param, scope_name)|
+      params[param].present? ? scope.public_send(scope_name, params[param]) : scope
+    end
   end
 
   def deal_params

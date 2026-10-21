@@ -9,7 +9,24 @@ json.crm_pipeline_id resource.stage.crm_pipeline_id
 json.crm_contact_id resource.crm_contact_id
 json.contact_id resource.crm_contact.contact_id
 json.assignee_id resource.assignee_id
+json.contact do
+  json.id resource.crm_contact.contact.id
+  json.name resource.crm_contact.contact.name
+  json.thumbnail resource.crm_contact.contact.avatar_url
+  json.blocked resource.crm_contact.contact.blocked
+end
+json.assignee do
+  if resource.assignee
+    json.id resource.assignee.id
+    json.name resource.assignee.available_name
+    json.avatar_url resource.assignee.avatar_url
+  else
+    json.nil!
+  end
+end
 json.conversation_id resource.conversation_id
+# A rota da conversa no painel usa o número de exibição, não o id.
+json.conversation_display_id resource.conversation&.display_id
 json.loss_reason do
   if resource.loss_reason
     json.id resource.loss_reason.id

@@ -9,6 +9,7 @@ Rails.application.routes.append do
             resources :deals, only: [:index, :show, :create, :update]
             resources :loss_reasons, only: [:index, :create, :update]
             resources :pipelines, only: [:index, :show, :create, :update, :destroy] do
+              get :summary, on: :member
               resources :stages, only: [:index, :create, :update, :destroy] do
                 post :reorder, on: :collection
               end

@@ -50,6 +50,7 @@ class Crm::Deal < Crm::ApplicationRecord
 
   scope :in_pipeline, ->(pipeline_id) { joins(:stage).where(crm_stages: { crm_pipeline_id: pipeline_id }) }
   scope :for_contact, ->(contact_id) { joins(:crm_contact).where(crm_contacts: { contact_id: contact_id }) }
+  scope :assigned_to, ->(assignee_id) { where(assignee_id: assignee_id == 'none' ? nil : assignee_id) }
 
   # Histórico de funil e reaberturas (FA 3.2). Fica em deal.audits, fora da tela de auditoria da conta.
   audited only: %i[crm_stage_id status crm_loss_reason_id loss_details value assignee_id conversation_id]
@@ -62,6 +63,7 @@ class Crm::Deal < Crm::ApplicationRecord
   validate :assignee_is_account_agent
   validate :loss_reason_usable, if: -> { lost? && (will_save_change_to_crm_loss_reason_id? || will_save_change_to_status?) }
   validate :contact_not_blocked, on: :create
+  validate :blocked_contact_stays_lost, on: :update, if: :will_save_change_to_crm_stage_id?
   validate :conversation_unchanged, on: :update
   validate :conversation_from_deal_contact, if: :conversation
 
@@ -111,6 +113,13 @@ class Crm::Deal < Crm::ApplicationRecord
     return unless crm_contact&.contact&.blocked?
 
     errors.add(:crm_contact, I18n.t('errors.crm.deal.blocked_contact'))
+  end
+
+  # Deals de contato bloqueado ficam perdidos até o contato ser desbloqueado.
+  def blocked_contact_stays_lost
+    return if lost? || !crm_contact&.contact&.blocked?
+
+    errors.add(:crm_contact, I18n.t('errors.crm.deal.blocked_contact_locked'))
   end
 
   def assignee_is_account_agent

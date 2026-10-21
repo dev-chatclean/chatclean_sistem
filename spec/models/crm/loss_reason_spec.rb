@@ -44,6 +44,31 @@ RSpec.describe Crm::LossReason do
     expect(described_class.exists?(loss_reason.id)).to be(true)
   end
 
+  describe '.for_blocked_contact!' do
+    it 'creates the protected reason in the account language once' do
+      account.update!(locale: 'pt_BR')
+
+      reason = described_class.for_blocked_contact!(account)
+
+      expect(reason).to have_attributes(name: 'Contato bloqueado', system_key: 'contact_blocked', is_active: true)
+      expect(described_class.for_blocked_contact!(account)).to eq(reason)
+    end
+
+    it 'adopts a manual reason with the same name and reactivates it' do
+      manual = create(:crm_loss_reason, :inactive, account: account, name: 'contact blocked')
+
+      expect(described_class.for_blocked_contact!(account)).to eq(manual)
+      expect(manual.reload).to have_attributes(system_key: 'contact_blocked', is_active: true)
+    end
+
+    it 'cannot be turned off' do
+      reason = described_class.for_blocked_contact!(account)
+
+      expect(reason.update(is_active: false)).to be(false)
+      expect(reason.errors[:is_active]).to include(I18n.t('errors.crm.loss_reason.system_reason_active'))
+    end
+  end
+
   it 'lists only active reasons in the active scope' do
     active = create(:crm_loss_reason, account: account)
     create(:crm_loss_reason, :inactive, account: account)
