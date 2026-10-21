@@ -28,4 +28,6 @@ git push origin refs/remotes/upstream/develop:refs/heads/develop
 
 echo "develop = $(git rev-parse --short develop) ($(git log -1 --format=%s develop))"
 echo "Commits do upstream ainda fora da main: $(git rev-list --count origin/main..develop)"
-echo "Para integrar: abra um PR develop -> main."
+echo "Para integrar (SOP semanal, .chatclean/README.md):"
+echo "  git switch -c sync/upstream-sprint-XX origin/main && git merge origin/develop"
+echo "  git push -u origin sync/upstream-sprint-XX   # e abra o PR para a main"
