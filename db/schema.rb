@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_14_152259) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_21_145848) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1055,6 +1055,57 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_14_152259) do
     t.index ["user_id"], name: "index_copilot_threads_on_user_id"
   end
 
+  create_table "crm_contacts", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "contact_id", null: false
+    t.jsonb "additional_attributes", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "contact_id"], name: "index_crm_contacts_on_account_id_and_contact_id", unique: true
+    t.index ["contact_id"], name: "index_crm_contacts_on_contact_id"
+  end
+
+  create_table "crm_deals", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "crm_contact_id", null: false
+    t.bigint "crm_stage_id", null: false
+    t.bigint "assignee_id"
+    t.string "title", null: false
+    t.decimal "value", precision: 12, scale: 2, default: "0.0", null: false
+    t.string "currency", default: "BRL", null: false
+    t.date "expected_close_date"
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "crm_stage_id"], name: "index_crm_deals_on_account_id_and_crm_stage_id"
+    t.index ["assignee_id"], name: "index_crm_deals_on_assignee_id"
+    t.index ["crm_contact_id"], name: "index_crm_deals_on_crm_contact_id"
+    t.check_constraint "value >= 0::numeric", name: "crm_deals_value_non_negative"
+  end
+
+  create_table "crm_pipelines", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.boolean "is_default", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_crm_pipelines_on_account_id"
+    t.index ["account_id"], name: "index_crm_pipelines_on_default_per_account", unique: true, where: "is_default"
+  end
+
+  create_table "crm_stages", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "crm_pipeline_id", null: false
+    t.string "name", null: false
+    t.integer "position", default: 0, null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "crm_pipeline_id"], name: "index_crm_stages_on_account_id_and_crm_pipeline_id"
+    t.index ["crm_pipeline_id", "position"], name: "index_crm_stages_on_crm_pipeline_id_and_position"
+  end
+
   create_table "csat_survey_responses", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "conversation_id", null: false
@@ -1737,6 +1788,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_14_152259) do
   add_foreign_key "conversation_monitor_work_items", "conversations", on_delete: :cascade
   add_foreign_key "conversation_monitors", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitors", "users", on_delete: :nullify
+  add_foreign_key "crm_contacts", "accounts", on_delete: :cascade
+  add_foreign_key "crm_contacts", "contacts", on_delete: :cascade
+  add_foreign_key "crm_deals", "accounts", on_delete: :cascade
+  add_foreign_key "crm_deals", "crm_contacts", on_delete: :cascade
+  add_foreign_key "crm_deals", "crm_stages"
+  add_foreign_key "crm_deals", "users", column: "assignee_id", on_delete: :nullify
+  add_foreign_key "crm_pipelines", "accounts", on_delete: :cascade
+  add_foreign_key "crm_stages", "accounts", on_delete: :cascade
+  add_foreign_key "crm_stages", "crm_pipelines"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
