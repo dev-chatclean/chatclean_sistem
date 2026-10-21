@@ -1,0 +1,84 @@
+# ChatClean: ajustes locais sobre o docker-compose.yaml do Chatwoot.
+# Carregado automaticamente pelo `docker compose`. Mantemos o arquivo upstream
+# intacto para que merges do chatwoot/chatwoot nao gerem conflito.
+
+name: chatclean
+
+services:
+  base:
+    image: chatclean:development
+
+  rails:
+    build:
+      dockerfile: ./.chatclean/docker/rails.Dockerfile
+    image: chatclean-rails:development
+    ports: !override
+      - 127.0.0.1:3000:3000
+    environment:
+      # O vite_ruby le VITE_RUBY_HOST (o VITE_DEV_SERVER_HOST do compose upstream e ignorado).
+      - VITE_RUBY_HOST=vite
+    depends_on: !override
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      vite:
+        condition: service_started
+      mailhog:
+        condition: service_started
+      sidekiq:
+        condition: service_started
+
+  sidekiq:
+    image: chatclean-rails:development
+    depends_on: !override
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mailhog:
+        condition: service_started
+
+  vite:
+    build:
+      dockerfile: ./.chatclean/docker/vite.Dockerfile
+    image: chatclean-vite:development
+    ports: !override
+      - 127.0.0.1:3036:3036
+    environment:
+      # O entrypoint roda `pnpm install`, cujo prepare (`husky install`) reescreveria o
+      # core.hooksPath do repositorio montado. Sem git visivel, o husky sai sem alterar nada.
+      - GIT_DIR=/nonexistent
+      - VITE_RUBY_HOST=0.0.0.0
+      # O Rails faz proxy dos assets com Host "vite", que o Vite 6 bloqueia por padrao.
+      - __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS=vite
+
+  postgres:
+    ports: !override
+      - 127.0.0.1:5432:5432
+    volumes: !override
+      - postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    ports: !override
+      - 127.0.0.1:6379:6379
+    volumes: !override
+      - redis:/data
+    healthcheck:
+      test: ["CMD-SHELL", "REDISCLI_AUTH=\"$$REDIS_PASSWORD\" redis-cli ping | grep PONG"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  mailhog:
+    ports: !override
+      - 127.0.0.1:1025:1025
+      - 127.0.0.1:8025:8025
