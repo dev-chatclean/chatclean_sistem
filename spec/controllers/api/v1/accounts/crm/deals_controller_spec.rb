@@ -5,7 +5,7 @@ RSpec.describe 'CRM Deals API', type: :request do
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:pipeline) { create(:crm_pipeline, account: account) }
   let(:open_stage) { create(:crm_stage, pipeline: pipeline) }
-  let(:lost_stage) { create(:crm_stage, :lost, pipeline: pipeline) }
+  let(:lost_stage) { pipeline.stages.lost.first }
   let(:contact) { create(:contact, account: account) }
   let(:base_path) { "/api/v1/accounts/#{account.id}/crm/deals" }
 
@@ -18,7 +18,7 @@ RSpec.describe 'CRM Deals API', type: :request do
 
     it 'lists only the deals of the account, filtered by status' do
       open_deal = create(:crm_deal, account: account, stage: open_stage)
-      create(:crm_deal, account: account, stage: create(:crm_stage, :won, pipeline: pipeline))
+      create(:crm_deal, account: account, stage: pipeline.stages.won.first)
       create(:crm_deal)
 
       get base_path, params: { status: 'open' }, headers: agent.create_new_auth_token, as: :json

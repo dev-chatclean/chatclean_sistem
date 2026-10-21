@@ -37,7 +37,7 @@ RSpec.describe Crm::LossReason do
 
   it 'cannot be deleted while deals use it' do
     loss_reason = create(:crm_loss_reason, account: account)
-    stage = create(:crm_stage, :lost, pipeline: create(:crm_pipeline, account: account))
+    stage = create(:crm_pipeline, account: account).stages.lost.first
     create(:crm_deal, account: account, stage: stage, loss_reason: loss_reason)
 
     expect(loss_reason.destroy).to be(false)

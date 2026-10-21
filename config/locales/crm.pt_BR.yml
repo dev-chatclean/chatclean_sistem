@@ -1,11 +1,20 @@
 pt_BR:
+  crm:
+    stages:
+      default_names:
+        won: Ganho
+        lost: Perdido
   errors:
     crm:
       different_account: deve pertencer à mesma conta
       pipeline:
         has_deals: Este funil tem oportunidades. Mova-as para outro funil antes de excluí-lo.
+        invalid_stage_order: A nova ordem precisa listar cada etapa aberta deste funil exatamente uma vez.
       stage:
         has_deals: Esta etapa tem oportunidades. Mova-as para outra etapa antes de excluí-la.
+        single_closing_stage: já existe neste funil. Cada funil tem uma etapa de ganho e uma de perda.
+        closing_stage_immutable: As etapas de ganho e perda mantêm o status e a probabilidade. Só o nome pode mudar.
+        closing_stage_undeletable: As etapas de ganho e perda não podem ser excluídas. Exclua o funil inteiro.
       deal:
         loss_reason_required: é obrigatório quando o negócio é perdido
         inactive_loss_reason: está inativo. Selecione um motivo vigente.

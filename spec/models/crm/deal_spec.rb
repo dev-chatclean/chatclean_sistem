@@ -55,10 +55,10 @@ RSpec.describe Crm::Deal do
     end
 
     it 'follows the stage when moved' do
-      deal.update!(stage: create(:crm_stage, :won, pipeline: pipeline))
+      deal.update!(stage: pipeline.stages.won.first)
       expect(deal).to be_won
 
-      deal.update!(stage: create(:crm_stage, :lost, pipeline: pipeline), loss_reason: create(:crm_loss_reason, account: account))
+      deal.update!(stage: pipeline.stages.lost.first, loss_reason: create(:crm_loss_reason, account: account))
       expect(deal).to be_lost
 
       deal.update!(stage: open_stage)
@@ -68,8 +68,8 @@ RSpec.describe Crm::Deal do
 
   describe 'losing and winning' do
     let(:deal) { create(:crm_deal, account: account, stage: open_stage) }
-    let(:lost_stage) { create(:crm_stage, :lost, pipeline: pipeline) }
-    let(:won_stage) { create(:crm_stage, :won, pipeline: pipeline) }
+    let(:lost_stage) { pipeline.stages.lost.first }
+    let(:won_stage) { pipeline.stages.won.first }
     let(:loss_reason) { create(:crm_loss_reason, account: account) }
 
     it 'requires a loss reason to lose the deal' do

@@ -8,6 +8,11 @@ Rails.application.routes.append do
           namespace :crm do
             resources :deals, only: [:index, :show, :create, :update]
             resources :loss_reasons, only: [:index, :create, :update]
+            resources :pipelines, only: [:index, :show, :create, :update, :destroy] do
+              resources :stages, only: [:index, :create, :update, :destroy] do
+                post :reorder, on: :collection
+              end
+            end
           end
         end
       end
