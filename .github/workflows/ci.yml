@@ -1,0 +1,210 @@
+# CI do ChatClean (CCV2-2). Roda só em Pull Requests; os workflows herdados do Chatwoot
+# ficam desativados nas configurações do Actions, sem alterar os arquivos deles.
+name: ChatClean CI
+
+on:
+  pull_request:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: chatclean-ci-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  REGRESSION_NODES: 8
+
+# Runners fixados em ubuntu-24.04: no ubuntu-latest (26.04) o ruby/setup-ruby ainda não tem o Ruby 3.4.4.
+
+jobs:
+  rubocop:
+    name: RuboCop
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - run: bundle exec rubocop --parallel
+
+  eslint:
+    name: ESLint
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm eslint
+
+  vitest:
+    name: Vitest
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+
+  crm-namespace:
+    name: Namespace CRM
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: .chatclean/ci/check-crm-namespace.sh "origin/$BASE_REF" "$HEAD_REF"
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          HEAD_REF: ${{ github.head_ref }}
+
+  # Os specs leem os assets do Vite já compilados; compilar uma vez evita que cada nó
+  # dispare o auto-build (que estoura a memória padrão do Node).
+  vite-test-assets:
+    name: Assets de teste (Vite)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: bin/vite build --mode=test
+        env:
+          RAILS_ENV: test
+          NODE_OPTIONS: --max-old-space-size=6144
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vite-test-assets
+          path: public/vite-test
+          include-hidden-files: true
+          retention-days: 1
+
+  crm-specs:
+    name: RSpec CRM
+    needs: vite-test-assets
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ''
+          POSTGRES_DB: postgres
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+        options: >-
+          --mount type=tmpfs,destination=/var/lib/postgresql/data
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+    env:
+      RAILS_ENV: test
+      VITE_RUBY_AUTO_BUILD: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: vite-test-assets
+          path: public/vite-test
+      - run: bundle exec rails db:create db:schema:load
+      - run: bin/rails zeitwerk:check
+      - run: bundle exec rspec spec/models/crm/
+
+  regression:
+    name: RSpec regressão (${{ matrix.node }}/8)
+    needs: vite-test-assets
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [0, 1, 2, 3, 4, 5, 6, 7]
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ''
+          POSTGRES_DB: postgres
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+        options: >-
+          --mount type=tmpfs,destination=/var/lib/postgresql/data
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+    env:
+      RAILS_ENV: test
+      VITE_RUBY_AUTO_BUILD: 'false'
+      CHATCLEAN_RSPEC_QUARANTINE: '1'
+      NODE_OPTIONS: --openssl-legacy-provider
+      NODE_INDEX: ${{ matrix.node }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: vite-test-assets
+          path: public/vite-test
+      - run: bundle exec rails db:create db:schema:load
+      - name: Run specs (round-robin, como no CI do Chatwoot)
+        run: |
+          mapfile -t files < <(find spec -name '*_spec.rb' | sort)
+          tests=()
+          for i in "${!files[@]}"; do
+            if [ $(( i % REGRESSION_NODES )) -eq "$NODE_INDEX" ]; then
+              tests+=("${files[$i]}")
+            fi
+          done
+          bundle exec rspec --format progress --format json --out tmp/rspec_results.json "${tests[@]}"
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: rspec-regression-${{ matrix.node }}
+          path: |
+            tmp/rspec_results.json
+            log/test.log
+          retention-days: 7
+
+  # Check único para o ruleset da main: só passa se todos os jobs acima passarem.
+  ci-ok:
+    name: CI ok
+    if: always()
+    needs: [rubocop, eslint, vitest, crm-namespace, vite-test-assets, crm-specs, regression]
+    runs-on: ubuntu-24.04
+    steps:
+      # "skipped" também reprova: acontece quando um job do qual os specs dependem falha.
+      - if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped')
+        run: exit 1
+      - run: echo "Todos os checks passaram."

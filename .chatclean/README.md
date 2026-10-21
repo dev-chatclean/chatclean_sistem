@@ -79,12 +79,25 @@ git switch main && git pull --ff-only
 git switch -c feature/<nome>
 ```
 
-Para trazer o upstream:
+### Sincronização semanal com o Chatwoot (SOP do líder técnico, início de cada sprint)
 
-```sh
-.chatclean/bin/sync-upstream     # develop <- upstream/develop (--ff-only), local e origin
-# depois abra um PR develop -> main e resolva conflitos nele
-```
+1. **Atualizar o espelho:**
+   ```sh
+   .chatclean/bin/sync-upstream     # develop <- upstream/develop (--ff-only), local e origin
+   ```
+2. **Trazer o upstream para a `main` numa branch de alinhamento** (`XX` = número da sprint):
+   ```sh
+   git switch -c sync/upstream-sprint-XX origin/main
+   git merge origin/develop          # conflitos com código ChatClean aparecem e são resolvidos aqui
+   git push -u origin sync/upstream-sprint-XX
+   ```
+   Abra o PR `sync/upstream-sprint-XX → main`. O CI completo roda; o check de namespace ignora
+   esse PR porque ele traz models novos do Chatwoot. Merge só com o CI verde.
+3. **Propagar para as branches ativas:** em cada `feature/*` aberta, rode
+   `git fetch origin && git merge origin/main` e suba de novo.
+
+O fast-forward só acontece na `develop` e nunca conflita. Os conflitos aparecem no passo 2 e são
+resolvidos na branch `sync/upstream-sprint-XX`, nunca na `develop` nem direto na `main`.
 
 Se o fast-forward falhar, `develop` recebeu algum commit que não veio do upstream. O script
 para e mostra como realinhar; `develop` nunca guarda trabalho próprio. Como o ruleset da `develop`
@@ -103,11 +116,47 @@ GitHub, que valem para todos, inclusive admin:
 
 | Ruleset | Regras |
 |---|---|
-| `main: somente via Pull Request` | PR obrigatório (0 aprovações), sem force-push, sem deleção |
+| `main: somente via Pull Request` | PR obrigatório (0 aprovações), check **CI ok** obrigatório, sem force-push, sem deleção |
 | `develop: espelho sem force-push` | sem force-push, sem deleção (fast-forward continua liberado) |
 
 A branch padrão do repositório é `main`. Os rulesets ficam em Settings → Rules e só a conta dona
 do repositório (`dev-chatclean`) pode alterá-los.
+
+## CI (GitHub Actions)
+
+O workflow `.github/workflows/ci.yml` roda **só em Pull Requests** para `main` e `develop`. Commits
+soltos em branches de trabalho não disparam nada. Os 17 workflows herdados do Chatwoot estão
+desativados nas configurações do Actions; os arquivos continuam intactos para não gerar conflito no sync.
+
+| Job | O que faz |
+|---|---|
+| RuboCop | `bundle exec rubocop --parallel` |
+| ESLint | `pnpm eslint` |
+| Vitest | `pnpm test` |
+| Namespace CRM | reprova model novo na raiz de `app/models/` (`.chatclean/ci/check-crm-namespace.sh`) |
+| Assets de teste (Vite) | compila o frontend de teste uma vez e compartilha com os jobs de RSpec |
+| RSpec CRM | `zeitwerk:check` + `bundle exec rspec spec/models/crm/` |
+| RSpec regressão (0–7/8) | suíte completa do core, dividida em 8 nós, com a quarentena ativa |
+| **CI ok** | consolida tudo; é o check obrigatório do ruleset da `main` |
+
+Qualquer job vermelho deixa o `CI ok` vermelho, e o merge fica bloqueado.
+
+**Quarentena:** `.chatclean/ci/rspec-quarantine.txt` lista os testes do Chatwoot com falha conhecida,
+aceitos na CCV2-1. No CI (`CHATCLEAN_RSPEC_QUARANTINE=1`) eles aparecem como pendentes. A
+correspondência é por arquivo + descrição completa, então mudar a linha do teste não quebra a lista.
+Nunca adicione um teste novo do ChatClean à quarentena; remova a linha quando o upstream corrigir.
+
+## Namespace do CRM
+
+- Models: `app/models/crm/`, herdando de `Crm::ApplicationRecord`, que prefixa as tabelas com `crm_`
+  (`Crm::Deal` → `crm_deals`).
+- Controllers: `app/controllers/api/v1/accounts/crm/`, herdando de `Api::V1::Accounts::BaseController`
+  (rotas `/api/v1/accounts/:account_id/crm/...`).
+- Specs: `spec/models/crm/` (e equivalentes para controllers e services).
+- O namespace `Crm::` já existe no Chatwoot para a integração LeadSquared (`app/services/crm/`,
+  `app/jobs/crm/`). Não crie classes com os mesmos nomes. Use sempre definições compactas
+  (`class Crm::Deal`), como o Chatwoot faz, para que `Contact`, `Conversation` etc. resolvam para os
+  models do core.
 
 ## Diferenças entre a história original e o código
 
