@@ -58,12 +58,82 @@ RSpec.describe Crm::Deal do
       deal.update!(stage: create(:crm_stage, :won, pipeline: pipeline))
       expect(deal).to be_won
 
-      deal.update!(stage: create(:crm_stage, :lost, pipeline: pipeline))
+      deal.update!(stage: create(:crm_stage, :lost, pipeline: pipeline), loss_reason: create(:crm_loss_reason, account: account))
       expect(deal).to be_lost
 
       deal.update!(stage: open_stage)
       expect(deal).to be_open
     end
+  end
+
+  describe 'losing and winning' do
+    let(:deal) { create(:crm_deal, account: account, stage: open_stage) }
+    let(:lost_stage) { create(:crm_stage, :lost, pipeline: pipeline) }
+    let(:won_stage) { create(:crm_stage, :won, pipeline: pipeline) }
+    let(:loss_reason) { create(:crm_loss_reason, account: account) }
+
+    it 'requires a loss reason to lose the deal' do
+      expect(deal.update(stage: lost_stage)).to be(false)
+      expect(deal.errors[:loss_reason]).to include(I18n.t('errors.crm.deal.loss_reason_required'))
+    end
+
+    it 'records the loss reason and details' do
+      deal.update!(stage: lost_stage, loss_reason: loss_reason, loss_details: 'Concorrente 20% mais barato')
+
+      expect(deal.reload).to have_attributes(status: 'lost', loss_reason: loss_reason, loss_details: 'Concorrente 20% mais barato')
+    end
+
+    it 'rejects an inactive loss reason' do
+      expect(deal.update(stage: lost_stage, loss_reason: create(:crm_loss_reason, :inactive, account: account))).to be(false)
+      expect(deal.errors[:loss_reason]).to include(I18n.t('errors.crm.deal.inactive_loss_reason'))
+    end
+
+    it 'rejects a loss reason from another account' do
+      expect(deal.update(stage: lost_stage, loss_reason: create(:crm_loss_reason))).to be(false)
+    end
+
+    it 'does not require anything to win' do
+      expect(deal.update(stage: won_stage)).to be(true)
+      expect(deal).to be_won
+    end
+
+    it 'clears the loss data when a lost deal is won or reopened' do
+      deal.update!(stage: lost_stage, loss_reason: loss_reason, loss_details: 'Sem orçamento')
+
+      deal.update!(stage: open_stage)
+
+      expect(deal.reload).to have_attributes(status: 'open', loss_reason: nil, loss_details: nil)
+    end
+
+    it 'keeps the status history, including reopenings' do
+      deal.update!(stage: lost_stage, loss_reason: loss_reason)
+      deal.update!(stage: open_stage)
+
+      # Na criação o audited grava só o valor; nas mudanças, o par [antes, depois].
+      statuses = deal.audits.filter_map { |audit| audit.audited_changes['status'] }.map { |change| Array(change).last }
+
+      expect(statuses).to eq([0, 2, 0])
+    end
+  end
+
+  it 'allows many deals for the same contact, in the same or different pipelines' do
+    crm_contact = create(:crm_contact, contact: create(:contact, account: account))
+    other_stage = create(:crm_stage, pipeline: create(:crm_pipeline, account: account))
+
+    create_list(:crm_deal, 2, account: account, stage: open_stage, crm_contact: crm_contact)
+    create(:crm_deal, account: account, stage: other_stage, crm_contact: crm_contact)
+
+    expect(crm_contact.deals.count).to eq(3)
+  end
+
+  it 'only accepts BRL' do
+    expect(build(:crm_deal, currency: 'USD')).not_to be_valid
+  end
+
+  it 'does not open deals for a blocked contact' do
+    blocked = create(:crm_contact, contact: create(:contact, account: account, blocked: true))
+
+    expect(build(:crm_deal, account: account, stage: open_stage, crm_contact: blocked)).not_to be_valid
   end
 
   it 'exposes the pipeline through the stage' do

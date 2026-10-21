@@ -6,3 +6,7 @@ en:
         has_deals: This pipeline has deals. Move them to another pipeline before deleting it.
       stage:
         has_deals: This stage has deals. Move them to another stage before deleting it.
+      deal:
+        loss_reason_required: is required when the deal is lost
+        inactive_loss_reason: is inactive. Choose an active loss reason.
+        blocked_contact: is blocked and cannot receive new deals

@@ -24,6 +24,15 @@ FactoryBot.define do
     account { contact.account }
   end
 
+  factory :crm_loss_reason, class: 'Crm::LossReason' do
+    account
+    sequence(:name) { |n| "Loss reason #{n}" }
+
+    trait :inactive do
+      is_active { false }
+    end
+  end
+
   factory :crm_deal, class: 'Crm::Deal' do
     account
     stage { association :crm_stage, pipeline: association(:crm_pipeline, account: account), account: account }

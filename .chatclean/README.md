@@ -151,12 +151,45 @@ Nunca adicione um teste novo do ChatClean à quarentena; remova a linha quando o
 - Models: `app/models/crm/`, herdando de `Crm::ApplicationRecord`, que prefixa as tabelas com `crm_`
   (`Crm::Deal` → `crm_deals`).
 - Controllers: `app/controllers/api/v1/accounts/crm/`, herdando de `Api::V1::Accounts::BaseController`
-  (rotas `/api/v1/accounts/:account_id/crm/...`).
+  (rotas `/api/v1/accounts/:account_id/crm/...`). Use `::Crm::Deal` etc. dentro deles, porque o
+  módulo `Api::V1::Accounts::Crm` também existe.
+- Rotas: em `config/initializers/crm_routes.rb`, anexadas com `Rails.application.routes.append`. O
+  `config/routes.rb` do Chatwoot não é editado.
+- Policies: `app/policies/crm/` (`Crm::DealPolicy`), chamadas com `check_authorization(::Crm::Deal)`.
+- Mensagens de erro: `config/locales/crm.en.yml` e `crm.pt_BR.yml`.
 - Specs: `spec/models/crm/` (e equivalentes para controllers e services).
 - O namespace `Crm::` já existe no Chatwoot para a integração LeadSquared (`app/services/crm/`,
   `app/jobs/crm/`). Não crie classes com os mesmos nomes. Use sempre definições compactas
   (`class Crm::Deal`), como o Chatwoot faz, para que `Contact`, `Conversation` etc. resolvam para os
   models do core.
+
+### Migrations do CRM
+
+Crie com o gerador (`docker compose run --rm rails bundle exec rails g migration CreateCrmX`), para ter
+timestamp real. Depois do `rails db:migrate`, rode:
+
+```sh
+.chatclean/bin/after-migrate
+```
+
+O `annotaterb` reescreve anotações de dezenas de models do Chatwoot, e o dump do `schema.rb` reordena
+linhas de tabelas deles. O script desfaz as mudanças que são só anotação e remonta o `schema.rb` a partir
+da `main`, trocando apenas tabelas/FKs `crm_*` e a versão. Assim o PR mexe só no que é nosso.
+
+### API de oportunidades (`/api/v1/accounts/:account_id/crm/deals`)
+
+| Método | Uso |
+|---|---|
+| `GET` | lista, com filtros `status`, `crm_stage_id`, `crm_pipeline_id`, `contact_id` e paginação (`page`) |
+| `GET /:id` | detalhe |
+| `POST` | cria: `title`, `value`, `expected_close_date`, `crm_stage_id`, `contact_id` (contato do Chatwoot), `assignee_id` |
+| `PATCH /:id` | edita e move de estágio |
+
+O status do deal vem do estágio. Para ganhar, perder ou reabrir, envie o `crm_stage_id` de um estágio
+`won`, `lost` ou `open` do pipeline. Perder exige `crm_loss_reason_id` (motivo ativo da conta) e aceita
+`loss_details`. Ganhar ou reabrir limpa os dois. IDs de outra conta devolvem 404, e erros de validação
+devolvem 422 no formato do Chatwoot (`{ message, attributes }`). O histórico de estágio, status e
+motivo fica em `deal.audits`.
 
 ## Diferenças entre a história original e o código
 
