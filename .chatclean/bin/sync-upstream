@@ -11,7 +11,11 @@ git fetch origin --quiet
 if ! git merge-base --is-ancestor origin/develop upstream/develop; then
   echo "[ChatClean] origin/develop divergiu de upstream/develop (fast-forward impossivel)."
   echo "develop e espelho e nao deve ter commits proprios. Alinhe antes de criar features:"
-  echo "  git switch develop && git reset --hard upstream/develop && git push --force-with-lease origin develop"
+  echo "  1. Se os commits extras forem trabalho valido, leve-os para uma branch: git branch feature/<nome> origin/develop"
+  echo "  2. Local:  git switch develop && git reset --hard upstream/develop"
+  echo "  3. GitHub: o ruleset 'develop: espelho sem force-push' bloqueia o force-push. Com a conta dona do repo"
+  echo "     (dev-chatclean), desative-o em Settings > Rules, rode"
+  echo "     'git push --force-with-lease origin develop' e reative o ruleset em seguida."
   exit 1
 fi
 

@@ -87,7 +87,9 @@ Para trazer o upstream:
 ```
 
 Se o fast-forward falhar, `develop` recebeu algum commit que não veio do upstream. O script
-para e mostra como realinhar; `develop` nunca guarda trabalho próprio.
+para e mostra como realinhar; `develop` nunca guarda trabalho próprio. Como o ruleset da `develop`
+bloqueia force-push, realinhar o GitHub exige desativar esse ruleset por alguns instantes com a conta
+dona do repositório.
 
 Os hooks em `.chatclean/hooks/` bloqueiam commit em `main`/`develop`, push para `main` e push de
 `develop` diferente de `upstream/develop`. Depois disso, eles chamam os hooks do Chatwoot em `.husky/`.
@@ -96,8 +98,16 @@ inclusive na `develop`, que não tem `.chatclean/`. Rode `.chatclean/bin/setup-g
 - os hooks mudarem;
 - algum `pnpm install` no host reapontar `core.hooksPath` para `.husky`.
 
-O bloqueio local é uma proteção de conveniência. A proteção que vale de fato são as regras de branch
-no GitHub (PR obrigatório na `main`), que precisam ser configuradas por um admin da organização.
+O bloqueio local é uma proteção de conveniência. A proteção que vale de fato são os rulesets do
+GitHub, que valem para todos, inclusive admin:
+
+| Ruleset | Regras |
+|---|---|
+| `main: somente via Pull Request` | PR obrigatório (0 aprovações), sem force-push, sem deleção |
+| `develop: espelho sem force-push` | sem force-push, sem deleção (fast-forward continua liberado) |
+
+A branch padrão do repositório é `main`. Os rulesets ficam em Settings → Rules e só a conta dona
+do repositório (`dev-chatclean`) pode alterá-los.
 
 ## Diferenças entre a história original e o código
 
