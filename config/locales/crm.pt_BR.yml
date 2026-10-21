@@ -6,3 +6,7 @@ pt_BR:
         has_deals: Este funil tem oportunidades. Mova-as para outro funil antes de excluí-lo.
       stage:
         has_deals: Esta etapa tem oportunidades. Mova-as para outra etapa antes de excluí-la.
+      deal:
+        loss_reason_required: é obrigatório quando o negócio é perdido
+        inactive_loss_reason: está inativo. Selecione um motivo vigente.
+        blocked_contact: está bloqueado e não pode receber novas oportunidades

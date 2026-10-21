@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_21_145848) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_21_171835) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1077,10 +1077,25 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_21_145848) do
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "crm_loss_reason_id"
+    t.text "loss_details"
     t.index ["account_id", "crm_stage_id"], name: "index_crm_deals_on_account_id_and_crm_stage_id"
+    t.index ["account_id", "status"], name: "index_crm_deals_on_account_id_and_status"
     t.index ["assignee_id"], name: "index_crm_deals_on_assignee_id"
-    t.index ["crm_contact_id"], name: "index_crm_deals_on_crm_contact_id"
+    t.index ["crm_contact_id", "status"], name: "index_crm_deals_on_crm_contact_id_and_status"
+    t.index ["crm_loss_reason_id"], name: "index_crm_deals_on_crm_loss_reason_id"
+    t.check_constraint "currency::text = 'BRL'::text", name: "crm_deals_currency_brl"
     t.check_constraint "value >= 0::numeric", name: "crm_deals_value_non_negative"
+  end
+
+  create_table "crm_loss_reasons", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.boolean "is_active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index "account_id, lower((name)::text)", name: "index_crm_loss_reasons_on_account_id_and_lower_name", unique: true
   end
 
   create_table "crm_pipelines", force: :cascade do |t|
@@ -1792,8 +1807,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_21_145848) do
   add_foreign_key "crm_contacts", "contacts", on_delete: :cascade
   add_foreign_key "crm_deals", "accounts", on_delete: :cascade
   add_foreign_key "crm_deals", "crm_contacts", on_delete: :cascade
+  add_foreign_key "crm_deals", "crm_loss_reasons"
   add_foreign_key "crm_deals", "crm_stages"
   add_foreign_key "crm_deals", "users", column: "assignee_id", on_delete: :nullify
+  add_foreign_key "crm_loss_reasons", "accounts", on_delete: :cascade
   add_foreign_key "crm_pipelines", "accounts", on_delete: :cascade
   add_foreign_key "crm_stages", "accounts", on_delete: :cascade
   add_foreign_key "crm_stages", "crm_pipelines"
