@@ -1,0 +1,25 @@
+#!/bin/sh
+# ChatClean: rode depois de `rails db:migrate` numa branch do CRM.
+# 1. Desfaz as anotações que o annotaterb reescreve em models do Chatwoot (só arquivos cuja
+#    mudança é exclusivamente comentário de anotação; alterações reais não são tocadas).
+# 2. Remonta db/schema.rb a partir da main, mudando só tabelas/FKs crm_* e a versão.
+# Assim o diff fica restrito ao que é nosso e o sync com o upstream não conflita.
+set -e
+
+cd "$(git rev-parse --show-toplevel)"
+
+for file in $(git diff --name-only -- app/models enterprise/app/models | grep -v '^app/models/crm/'); do
+  if [ -z "$(git diff -U0 -- "$file" | grep -E '^[-+][^-+]' | grep -vE '^[-+]#')" ]; then
+    git checkout -- "$file"
+    echo "anotação revertida: $file"
+  fi
+done
+
+base="$(git merge-base HEAD origin/main)"
+tmp="$(mktemp -d)"
+cp db/schema.rb "$tmp/dumped.rb"
+git show "$base:db/schema.rb" > "$tmp/base.rb"
+python3 -I .chatclean/bin/merge_schema.py "$tmp/base.rb" "$tmp/dumped.rb" db/schema.rb
+rm -rf "$tmp"
+
+git diff --stat -- db/schema.rb
