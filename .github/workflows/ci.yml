@@ -16,10 +16,12 @@ concurrency:
 env:
   REGRESSION_NODES: 8
 
+# Runners fixados em ubuntu-24.04: no ubuntu-latest (26.04) o ruby/setup-ruby ainda não tem o Ruby 3.4.4.
+
 jobs:
   rubocop:
     name: RuboCop
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
@@ -29,7 +31,7 @@ jobs:
 
   eslint:
     name: ESLint
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -42,7 +44,7 @@ jobs:
 
   vitest:
     name: Vitest
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -55,7 +57,7 @@ jobs:
 
   crm-namespace:
     name: Namespace CRM
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
         with:
@@ -69,7 +71,7 @@ jobs:
   # dispare o auto-build (que estoura a memória padrão do Node).
   vite-test-assets:
     name: Assets de teste (Vite)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
@@ -95,7 +97,7 @@ jobs:
   crm-specs:
     name: RSpec CRM
     needs: vite-test-assets
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     services:
       postgres:
         image: pgvector/pgvector:pg16
@@ -135,7 +137,7 @@ jobs:
   regression:
     name: RSpec regressão (${{ matrix.node }}/8)
     needs: vite-test-assets
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -200,7 +202,7 @@ jobs:
     name: CI ok
     if: always()
     needs: [rubocop, eslint, vitest, crm-namespace, vite-test-assets, crm-specs, regression]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       # "skipped" também reprova: acontece quando um job do qual os specs dependem falha.
       - if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped')
