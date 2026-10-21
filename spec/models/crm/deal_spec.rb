@@ -116,6 +116,65 @@ RSpec.describe Crm::Deal do
     end
   end
 
+  describe 'origin conversation' do
+    let(:contact) { create(:contact, account: account) }
+    let(:crm_contact) { create(:crm_contact, contact: contact) }
+    let(:conversation) { create(:conversation, account: account, contact: contact) }
+    let(:deal) { create(:crm_deal, account: account, stage: open_stage, crm_contact: crm_contact, conversation: conversation) }
+
+    it 'links a conversation of the deal contact' do
+      expect(deal.reload.conversation).to eq(conversation)
+    end
+
+    it 'rejects a conversation of another contact' do
+      other = create(:conversation, account: account)
+      record = build(:crm_deal, account: account, stage: open_stage, crm_contact: crm_contact, conversation: other)
+
+      expect(record).not_to be_valid
+      expect(record.errors[:conversation_id]).to include(I18n.t('errors.crm.deal.conversation_other_contact'))
+    end
+
+    it 'rejects a conversation of another account' do
+      record = build(:crm_deal, account: account, stage: open_stage, crm_contact: crm_contact, conversation: create(:conversation))
+
+      expect(record).not_to be_valid
+      expect(record.errors[:conversation_id]).to be_present
+    end
+
+    it 'validates without raising when the deal has no CRM contact' do
+      record = build(:crm_deal, account: account, stage: open_stage, crm_contact: nil, conversation: conversation)
+
+      expect(record).not_to be_valid
+      expect(record.errors[:crm_contact]).to be_present
+    end
+
+    it 'can be set later when the deal has no origin yet' do
+      without_origin = create(:crm_deal, account: account, stage: open_stage, crm_contact: crm_contact)
+
+      expect(without_origin.update(conversation: conversation)).to be(true)
+    end
+
+    it 'cannot be replaced or removed once set' do
+      other = create(:conversation, account: account, contact: contact)
+
+      expect(deal.update(conversation: other)).to be(false)
+      expect(deal.errors[:conversation_id]).to include(I18n.t('errors.crm.deal.conversation_readonly'))
+      expect(deal.reload.update(conversation: nil)).to be(false)
+    end
+
+    it 'keeps the deal without origin when the conversation is deleted' do
+      deal
+
+      conversation.destroy!
+
+      expect(deal.reload.conversation_id).to be_nil
+    end
+
+    it 'records the origin in the history' do
+      expect(deal.audits.first.audited_changes['conversation_id']).to eq(conversation.id)
+    end
+  end
+
   it 'allows many deals for the same contact, in the same or different pipelines' do
     crm_contact = create(:crm_contact, contact: create(:contact, account: account))
     other_stage = create(:crm_stage, pipeline: create(:crm_pipeline, account: account))
