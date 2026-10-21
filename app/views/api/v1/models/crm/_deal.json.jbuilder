@@ -25,6 +25,8 @@ json.assignee do
   end
 end
 json.conversation_id resource.conversation_id
+# A rota da conversa no painel usa o número de exibição, não o id.
+json.conversation_display_id resource.conversation&.display_id
 json.loss_reason do
   if resource.loss_reason
     json.id resource.loss_reason.id

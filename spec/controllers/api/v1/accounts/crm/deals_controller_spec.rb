@@ -104,7 +104,8 @@ RSpec.describe 'CRM Deals API', type: :request do
       post base_path, params: params, headers: admin.create_new_auth_token, as: :json
 
       expect(response).to have_http_status(:success)
-      expect(response.parsed_body['payload']).to include('conversation_id' => conversation.id, 'contact_id' => contact.id)
+      expect(response.parsed_body['payload']).to include('conversation_id' => conversation.id, 'contact_id' => contact.id,
+                                                         'conversation_display_id' => conversation.display_id)
     end
 
     it 'rejects a contact different from the conversation contact' do

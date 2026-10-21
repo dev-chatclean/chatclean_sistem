@@ -4,7 +4,7 @@
 class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::BaseController
   RESULTS_PER_PAGE = 50
   # Contato e responsável aparecem no card do Kanban com nome e avatar.
-  CARD_INCLUDES = [:stage, :loss_reason, { assignee: { avatar_attachment: :blob } },
+  CARD_INCLUDES = [:stage, :loss_reason, :conversation, { assignee: { avatar_attachment: :blob } },
                    { crm_contact: { contact: { avatar_attachment: :blob } } }].freeze
   # Filtros da listagem que viram scopes do Crm::Deal (assignee_id aceita "none").
   SCOPE_FILTERS = { crm_pipeline_id: :in_pipeline, contact_id: :for_contact, assignee_id: :assigned_to }.freeze
