@@ -4,6 +4,8 @@ import wootConstants from 'dashboard/constants/globals';
 
 export const DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER = Object.freeze([
   { name: 'conversation_actions' },
+  // ChatClean: painel do CRM (CCV2-16).
+  { name: 'crm_deals' },
   { name: 'macros' },
   { name: 'conversation_info' },
   { name: 'contact_attributes' },

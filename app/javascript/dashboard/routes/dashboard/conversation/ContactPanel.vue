@@ -25,6 +25,7 @@ import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
 import StripeCustomer from 'dashboard/components/widgets/conversation/StripeCustomer.vue';
+import ConversationCrmPanel from 'dashboard/routes/dashboard/crm/components/conversation/ConversationCrmPanel.vue';
 
 const props = defineProps({
   conversationId: {
@@ -177,6 +178,23 @@ onMounted(() => {
               <ConversationAction
                 :conversation-id="conversationId"
                 :inbox-id="inboxId"
+              />
+            </AccordionItem>
+          </div>
+          <div v-else-if="element.name === 'crm_deals'">
+            <AccordionItem
+              v-if="contact.id"
+              :title="$t('CRM.CONVERSATION_PANEL.TITLE')"
+              :is-open="isContactSidebarItemOpen('is_crm_deals_open')"
+              compact
+              @toggle="
+                value => toggleSidebarUIState('is_crm_deals_open', value)
+              "
+            >
+              <ConversationCrmPanel
+                :contact-id="contact.id"
+                :conversation-display-id="conversationId"
+                :contact-blocked="!!contact.blocked"
               />
             </AccordionItem>
           </div>

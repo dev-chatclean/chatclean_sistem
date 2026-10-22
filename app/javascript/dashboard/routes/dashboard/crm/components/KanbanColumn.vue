@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { formatCurrency } from '../helpers/currency';
 import { useIntersectionObserver } from '@vueuse/core';
 import Draggable from 'vuedraggable';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -18,14 +19,8 @@ const props = defineProps({
 const emit = defineEmits(['dragStart', 'dealAdded', 'loadMore', 'assign']);
 
 const { t } = useI18n();
-const currency = new Intl.NumberFormat('pt-BR', {
-  style: 'currency',
-  currency: 'BRL',
-});
 
-const formattedTotal = computed(() =>
-  currency.format(props.summary.totalValue || 0)
-);
+const formattedTotal = computed(() => formatCurrency(props.summary.totalValue));
 const accentClass = computed(
   () =>
     ({ won: 'bg-n-teal-9', lost: 'bg-n-ruby-9' })[props.stage.status] ||
