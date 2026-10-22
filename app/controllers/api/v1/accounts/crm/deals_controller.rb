@@ -1,6 +1,7 @@
 # Oportunidades do CRM. O status vem do estágio: para ganhar, perder ou reabrir, mova o deal
 # (crm_stage_id) para um estágio won, lost ou open do pipeline. Perder exige crm_loss_reason_id.
-# conversation_id registra a conversa de origem e não pode ser trocado depois.
+# conversation_id registra a conversa de origem e não pode ser trocado depois. O painel da conversa
+# envia conversation_display_id, o número que aparece na URL (CCV2-16).
 class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::BaseController
   RESULTS_PER_PAGE = 50
   # Contato e responsável aparecem no card do Kanban com nome e avatar.
@@ -42,7 +43,8 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::BaseControlle
 
   def deal_params
     params.require(:deal).permit(:title, :value, :expected_close_date, :loss_details,
-                                 :crm_stage_id, :crm_loss_reason_id, :assignee_id, :contact_id, :conversation_id)
+                                 :crm_stage_id, :crm_loss_reason_id, :assignee_id, :contact_id, :conversation_id,
+                                 :conversation_display_id)
   end
 
   # IDs de outra conta não são encontrados e devolvem 404 (FA 3.2).
@@ -57,7 +59,7 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::BaseControlle
     associations = {}
     associations[:loss_reason] = find_optional(account_scoped(::Crm::LossReason), :crm_loss_reason_id) if deal_params.key?(:crm_loss_reason_id)
     associations[:assignee] = find_optional(Current.account.users, :assignee_id) if deal_params.key?(:assignee_id)
-    associations[:conversation] = conversation if deal_params.key?(:conversation_id)
+    associations[:conversation] = conversation if deal_params.key?(:conversation_id) || deal_params.key?(:conversation_display_id)
     associations
   end
 
@@ -69,10 +71,18 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::BaseControlle
 
   # Conversa de outra conta, ou que o usuário não enxerga pela inbox/time, responde 404 (CA 5.8).
   def conversation
-    return if deal_params[:conversation_id].blank?
+    return if conversation_lookup.blank?
 
-    @conversation ||= Current.account.conversations.find(deal_params[:conversation_id]).tap do |record|
+    @conversation ||= Current.account.conversations.find_by!(conversation_lookup).tap do |record|
       raise ActiveRecord::RecordNotFound unless ConversationPolicy.new(pundit_user, record).show?
+    end
+  end
+
+  def conversation_lookup
+    if deal_params[:conversation_display_id].present?
+      { display_id: deal_params[:conversation_display_id] }
+    elsif deal_params[:conversation_id].present?
+      { id: deal_params[:conversation_id] }
     end
   end
 

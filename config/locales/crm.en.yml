@@ -1,4 +1,9 @@
 en:
+  activerecord:
+    attributes:
+      crm/deal:
+        # Aparece no início das mensagens de erro do deal (ex.: contato bloqueado).
+        crm_contact: Contact
   crm:
     stages:
       default_names:
@@ -24,5 +29,6 @@ en:
         inactive_loss_reason: is inactive. Choose an active loss reason.
         blocked_contact: is blocked and cannot receive new deals
         blocked_contact_locked: is blocked, so this deal stays lost until the contact is unblocked
+        blocked_contact_assignee_locked: is blocked, so this deal's assignee cannot change until the contact is unblocked
         conversation_readonly: cannot be changed once the deal has an origin conversation
         conversation_other_contact: belongs to a different contact than the deal

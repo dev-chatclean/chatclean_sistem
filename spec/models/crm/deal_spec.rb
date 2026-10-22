@@ -198,6 +198,15 @@ RSpec.describe Crm::Deal do
     expect(deal.reload.update(stage: open_stage)).to be(true)
   end
 
+  it 'keeps the assignee of a blocked contact deal' do
+    contact = create(:contact, account: account)
+    deal = create(:crm_deal, account: account, stage: open_stage, crm_contact: create(:crm_contact, contact: contact))
+    contact.update!(blocked: true)
+
+    expect(deal.reload.update(assignee: create(:user, account: account))).to be(false)
+    expect(deal.errors[:crm_contact]).to include(I18n.t('errors.crm.deal.blocked_contact_assignee_locked'))
+  end
+
   it 'filters by assignee, including unassigned deals' do
     agent = create(:user, account: account)
     assigned = create(:crm_deal, account: account, stage: open_stage, assignee: agent)

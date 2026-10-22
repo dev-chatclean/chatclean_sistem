@@ -64,6 +64,7 @@ class Crm::Deal < Crm::ApplicationRecord
   validate :loss_reason_usable, if: -> { lost? && (will_save_change_to_crm_loss_reason_id? || will_save_change_to_status?) }
   validate :contact_not_blocked, on: :create
   validate :blocked_contact_stays_lost, on: :update, if: :will_save_change_to_crm_stage_id?
+  validate :blocked_contact_keeps_assignee, on: :update, if: :will_save_change_to_assignee_id?
   validate :conversation_unchanged, on: :update
   validate :conversation_from_deal_contact, if: :conversation
 
@@ -120,6 +121,13 @@ class Crm::Deal < Crm::ApplicationRecord
     return if lost? || !crm_contact&.contact&.blocked?
 
     errors.add(:crm_contact, I18n.t('errors.crm.deal.blocked_contact_locked'))
+  end
+
+  # O responsável também fica travado enquanto o contato estiver bloqueado (CCV2-16).
+  def blocked_contact_keeps_assignee
+    return unless crm_contact&.contact&.blocked?
+
+    errors.add(:crm_contact, I18n.t('errors.crm.deal.blocked_contact_assignee_locked'))
   end
 
   def assignee_is_account_agent

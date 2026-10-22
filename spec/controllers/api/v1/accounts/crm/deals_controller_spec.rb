@@ -108,6 +108,25 @@ RSpec.describe 'CRM Deals API', type: :request do
                                                          'conversation_display_id' => conversation.display_id)
     end
 
+    it 'creates a deal from the conversation display number used by the dashboard' do
+      other_account_conversation = create(:conversation)
+      display_params = { deal: { title: 'Plano anual', crm_stage_id: open_stage.id, conversation_display_id: conversation.display_id } }
+
+      post base_path, params: display_params, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(conversation.display_id).not_to eq(conversation.id)
+      expect(response.parsed_body['payload']).to include('conversation_id' => conversation.id, 'contact_id' => contact.id)
+      expect(Crm::Deal.where(conversation: other_account_conversation)).to be_empty
+    end
+
+    it 'returns not found for a display number the agent cannot access' do
+      post base_path, params: { deal: { title: 'Plano anual', crm_stage_id: open_stage.id, conversation_display_id: conversation.display_id } },
+                      headers: agent.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:not_found)
+    end
+
     it 'rejects a contact different from the conversation contact' do
       post base_path, params: params.deep_merge(deal: { contact_id: create(:contact, account: account).id }),
                       headers: admin.create_new_auth_token, as: :json
