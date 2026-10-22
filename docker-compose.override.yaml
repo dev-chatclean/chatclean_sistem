@@ -17,6 +17,9 @@ services:
     environment:
       # O vite_ruby le VITE_RUBY_HOST (o VITE_DEV_SERVER_HOST do compose upstream e ignorado).
       - VITE_RUBY_HOST=vite
+      # Edicao MIT: o codigo de enterprise/ so pode rodar em producao com licenca (CCV2-18).
+      # Para rodar a regressao do upstream, remova a variavel no comando do RSpec.
+      - DISABLE_ENTERPRISE=true
     depends_on: !override
       postgres:
         condition: service_healthy
@@ -31,6 +34,8 @@ services:
 
   sidekiq:
     image: chatclean-rails:development
+    environment:
+      - DISABLE_ENTERPRISE=true
     depends_on: !override
       postgres:
         condition: service_healthy
