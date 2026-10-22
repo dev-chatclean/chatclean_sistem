@@ -28,7 +28,8 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Nenhum funil ainda",
-        "DESCRIPTION": "Um administrador precisa criar um funil para que os negócios apareçam aqui."
+        "DESCRIPTION": "Um administrador precisa criar um funil para que os negócios apareçam aqui.",
+        "SETTINGS_LINK": "Ir para as configurações do CRM"
       },
       "LOSS_MODAL": {
         "TITLE": "Marcar negócio como perdido",
@@ -57,7 +58,8 @@
       "EMPTY": "Nenhum negócio cadastrado para este contato",
       "NO_PIPELINE": {
         "ADMIN": "Ainda não há funil de vendas. Crie o primeiro para começar a registrar negócios.",
-        "AGENT": "Nenhum funil de vendas foi configurado ainda. Peça a um administrador para criar um."
+        "AGENT": "Nenhum funil de vendas foi configurado ainda. Peça a um administrador para criar um.",
+        "SETTINGS_LINK": "Ir para as configurações do CRM"
       },
       "SHOW_CLOSED": "Ver finalizados ({count})",
       "HIDE_CLOSED": "Ocultar finalizados",
@@ -82,6 +84,82 @@
       "MESSAGES": {
         "CREATED": "Negócio criado",
         "LOAD_ERROR": "Não foi possível carregar os negócios. Tente de novo."
+      }
+    },
+    "SETTINGS": {
+      "MENU": "CRM",
+      "HEADER": "CRM",
+      "DESCRIPTION": "Configure os funis de venda, seus estágios e os motivos de perda usados pela equipe.",
+      "SAVE": "Salvar",
+      "CANCEL": "Cancelar",
+      "CONFIRM_DELETE": "Excluir",
+      "DELETED": "Excluído",
+      "TABS": {
+        "PIPELINES": "Funis e estágios",
+        "LOSS_REASONS": "Motivos de perda"
+      },
+      "PIPELINES": {
+        "NEW": "Novo funil",
+        "EDIT": "Editar funil",
+        "EMPTY": "Ainda não há funis. Crie o primeiro para começar a usar o CRM.",
+        "DEFAULT_TAG": "Padrão",
+        "SAVED": "Funil salvo",
+        "DIALOG": {
+          "CREATE_TITLE": "Novo funil",
+          "EDIT_TITLE": "Editar funil",
+          "NAME": "Nome",
+          "DESCRIPTION": "Descrição",
+          "DEFAULT": "Definir como funil padrão",
+          "DEFAULT_WARNING": "O funil \"{name}\" deixará de ser o padrão."
+        },
+        "DELETE": {
+          "ACTION": "Excluir funil",
+          "TITLE": "Excluir funil",
+          "DESCRIPTION": "Excluir \"{name}\" e os estágios dele? Não é possível desfazer."
+        }
+      },
+      "STAGES": {
+        "TITLE": "Estágios",
+        "NEW": "Novo estágio",
+        "EDIT": "Editar estágio",
+        "RENAME": "Renomear estágio",
+        "DRAG": "Arraste para reordenar",
+        "PROBABILITY": "{probability}%",
+        "CLOSING_TAG": "Encerramento",
+        "SAVED": "Estágio salvo",
+        "DIALOG": {
+          "CREATE_TITLE": "Novo estágio",
+          "EDIT_TITLE": "Editar estágio",
+          "CLOSING_HINT": "Ganho e Perdido são estágios de encerramento: só o nome pode ser alterado.",
+          "NAME": "Nome",
+          "PROBABILITY": "Probabilidade de fechamento (%)",
+          "PROBABILITY_INVALID": "Use um número inteiro de 0 a 100"
+        },
+        "DELETE": {
+          "ACTION": "Excluir estágio",
+          "TITLE": "Excluir estágio",
+          "DESCRIPTION": "Excluir o estágio \"{name}\"? Não é possível desfazer."
+        }
+      },
+      "LOSS_REASONS": {
+        "NEW": "Novo motivo",
+        "EDIT": "Editar motivo",
+        "EMPTY": "Ainda não há motivos de perda",
+        "SYSTEM_TAG": "Sistema",
+        "SYSTEM_LOCKED": "Motivo do sistema: pode ser renomeado, mas não desativado",
+        "SAVED": "Motivo de perda salvo",
+        "TABLE": {
+          "NAME": "Nome",
+          "DESCRIPTION": "Descrição",
+          "ACTIVE": "Ativo",
+          "ACTIONS": "Ações"
+        },
+        "DIALOG": {
+          "CREATE_TITLE": "Novo motivo de perda",
+          "EDIT_TITLE": "Editar motivo de perda",
+          "NAME": "Nome",
+          "DESCRIPTION": "Descrição"
+        }
       }
     }
   }

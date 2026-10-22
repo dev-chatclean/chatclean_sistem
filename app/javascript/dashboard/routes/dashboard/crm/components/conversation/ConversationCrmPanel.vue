@@ -165,17 +165,27 @@ onMounted(() => {
       <Spinner />
     </div>
 
-    <p
+    <div
       v-else-if="!hasPipelines"
-      class="text-xs text-n-slate-11"
+      class="flex flex-col gap-1 text-xs text-n-slate-11"
       data-test="no-pipeline"
     >
-      {{
-        isAdmin
-          ? t('CRM.CONVERSATION_PANEL.NO_PIPELINE.ADMIN')
-          : t('CRM.CONVERSATION_PANEL.NO_PIPELINE.AGENT')
-      }}
-    </p>
+      <p>
+        {{
+          isAdmin
+            ? t('CRM.CONVERSATION_PANEL.NO_PIPELINE.ADMIN')
+            : t('CRM.CONVERSATION_PANEL.NO_PIPELINE.AGENT')
+        }}
+      </p>
+      <RouterLink
+        v-if="isAdmin"
+        :to="{ name: 'crm_settings_index' }"
+        class="text-n-blue-11 hover:underline"
+        data-test="settings-link"
+      >
+        {{ t('CRM.CONVERSATION_PANEL.NO_PIPELINE.SETTINGS_LINK') }}
+      </RouterLink>
+    </div>
 
     <template v-else>
       <p

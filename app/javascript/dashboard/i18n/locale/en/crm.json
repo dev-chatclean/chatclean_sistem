@@ -28,7 +28,8 @@
       },
       "EMPTY_STATE": {
         "TITLE": "No pipelines yet",
-        "DESCRIPTION": "An administrator needs to create a pipeline before deals can be tracked here."
+        "DESCRIPTION": "An administrator needs to create a pipeline before deals can be tracked here.",
+        "SETTINGS_LINK": "Go to CRM settings"
       },
       "LOSS_MODAL": {
         "TITLE": "Mark deal as lost",
@@ -57,7 +58,8 @@
       "EMPTY": "No deals for this contact yet",
       "NO_PIPELINE": {
         "ADMIN": "No sales pipeline yet. Create the first one to start registering deals.",
-        "AGENT": "No sales pipeline has been set up yet. Ask an administrator to create one."
+        "AGENT": "No sales pipeline has been set up yet. Ask an administrator to create one.",
+        "SETTINGS_LINK": "Go to CRM settings"
       },
       "SHOW_CLOSED": "Show closed ({count})",
       "HIDE_CLOSED": "Hide closed",
@@ -82,6 +84,82 @@
       "MESSAGES": {
         "CREATED": "Deal created",
         "LOAD_ERROR": "Could not load the deals. Try again."
+      }
+    },
+    "SETTINGS": {
+      "MENU": "CRM",
+      "HEADER": "CRM",
+      "DESCRIPTION": "Set up the sales pipelines, their stages and the loss reasons your team uses.",
+      "SAVE": "Save",
+      "CANCEL": "Cancel",
+      "CONFIRM_DELETE": "Delete",
+      "DELETED": "Deleted",
+      "TABS": {
+        "PIPELINES": "Pipelines and stages",
+        "LOSS_REASONS": "Loss reasons"
+      },
+      "PIPELINES": {
+        "NEW": "New pipeline",
+        "EDIT": "Edit pipeline",
+        "EMPTY": "No pipelines yet. Create the first one to start using the CRM.",
+        "DEFAULT_TAG": "Default",
+        "SAVED": "Pipeline saved",
+        "DIALOG": {
+          "CREATE_TITLE": "New pipeline",
+          "EDIT_TITLE": "Edit pipeline",
+          "NAME": "Name",
+          "DESCRIPTION": "Description",
+          "DEFAULT": "Set as default pipeline",
+          "DEFAULT_WARNING": "The pipeline \"{name}\" will no longer be the default."
+        },
+        "DELETE": {
+          "ACTION": "Delete pipeline",
+          "TITLE": "Delete pipeline",
+          "DESCRIPTION": "Delete \"{name}\" and its stages? This cannot be undone."
+        }
+      },
+      "STAGES": {
+        "TITLE": "Stages",
+        "NEW": "New stage",
+        "EDIT": "Edit stage",
+        "RENAME": "Rename stage",
+        "DRAG": "Drag to reorder",
+        "PROBABILITY": "{probability}%",
+        "CLOSING_TAG": "Closing",
+        "SAVED": "Stage saved",
+        "DIALOG": {
+          "CREATE_TITLE": "New stage",
+          "EDIT_TITLE": "Edit stage",
+          "CLOSING_HINT": "Won and Lost are closing stages: only the name can be changed.",
+          "NAME": "Name",
+          "PROBABILITY": "Win probability (%)",
+          "PROBABILITY_INVALID": "Use a whole number from 0 to 100"
+        },
+        "DELETE": {
+          "ACTION": "Delete stage",
+          "TITLE": "Delete stage",
+          "DESCRIPTION": "Delete the stage \"{name}\"? This cannot be undone."
+        }
+      },
+      "LOSS_REASONS": {
+        "NEW": "New reason",
+        "EDIT": "Edit reason",
+        "EMPTY": "No loss reasons yet",
+        "SYSTEM_TAG": "System",
+        "SYSTEM_LOCKED": "System reason: it can be renamed but not deactivated",
+        "SAVED": "Loss reason saved",
+        "TABLE": {
+          "NAME": "Name",
+          "DESCRIPTION": "Description",
+          "ACTIVE": "Active",
+          "ACTIONS": "Actions"
+        },
+        "DIALOG": {
+          "CREATE_TITLE": "New loss reason",
+          "EDIT_TITLE": "Edit loss reason",
+          "NAME": "Name",
+          "DESCRIPTION": "Description"
+        }
       }
     }
   }
