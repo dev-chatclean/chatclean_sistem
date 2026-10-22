@@ -23,6 +23,10 @@ const props = defineProps({
 
 const emit = defineEmits(['loadMore']);
 
+// ChatClean (CCV2-18): o arquivo é servido pelo Rails (public/). Com o caminho numa
+// constante, o Vite não tenta importá-lo como módulo.
+const EOF_ISOTYPE_URL = '/brand-assets/chatclean/isotipo-dourado.png';
+
 const conversationListRef = ref(null);
 const virtualListRef = ref(null);
 const isContextMenuOpen = ref(false);
@@ -88,12 +92,7 @@ defineExpose({ conversationListRef });
       class="flex items-center justify-center gap-1.5 p-4 text-n-slate-11"
     >
       {{ $t('CHATCLEAN.CHAT_LIST.EOF') }}
-      <!-- O arquivo é servido pelo Rails (public/); com :src o Vite não tenta importá-lo. -->
-      <img
-        src="/brand-assets/chatclean/isotipo-dourado.png"
-        alt=""
-        class="size-5"
-      />
+      <img :src="EOF_ISOTYPE_URL" alt="" class="size-5" />
     </p>
     <IntersectionObserver
       v-else
