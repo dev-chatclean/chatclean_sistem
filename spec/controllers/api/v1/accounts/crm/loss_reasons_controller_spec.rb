@@ -24,6 +24,16 @@ RSpec.describe 'CRM Loss Reasons API', type: :request do
       expect(response.parsed_body['payload'].pluck('name')).to eq(['Concorrente', 'sem retorno'])
     end
 
+    it 'flags the system reason, even after it is renamed' do
+      Crm::LossReason.for_blocked_contact!(account).update!(name: 'Cliente bloqueado')
+      create(:crm_loss_reason, account: account, name: 'Preço alto')
+
+      get base_path, headers: admin.create_new_auth_token, as: :json
+
+      expect(response.parsed_body['payload'].to_h { |reason| [reason['name'], reason['is_system']] })
+        .to eq('Cliente bloqueado' => true, 'Preço alto' => false)
+    end
+
     it 'filters active reasons' do
       create(:crm_loss_reason, account: account, name: 'Preço alto')
       create(:crm_loss_reason, :inactive, account: account, name: 'Concorrente')
