@@ -61,12 +61,15 @@ describe('DealCard', () => {
     );
   });
 
-  it('marca o contato bloqueado', () => {
+  it('marca o contato bloqueado e trava a troca de responsável', () => {
     const wrapper = mountCard(
       buildDeal({ contact: { id: 3, name: 'Maria', blocked: true } })
     );
 
     expect(wrapper.text()).toContain('CRM.KANBAN.CARD.BLOCKED_CONTACT');
+    expect(
+      wrapper.find('[data-test="assignee"]').attributes('disabled')
+    ).toBeDefined();
   });
 
   it('emite assign com o agente escolhido e com null ao remover', async () => {

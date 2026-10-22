@@ -48,6 +48,41 @@
         "REORDER_ERROR": "Could not reorder the stages: {message}",
         "BLOCKED": "Deals of blocked contacts stay lost until the contact is unblocked."
       }
+    },
+    "CONVERSATION_PANEL": {
+      "TITLE": "Deals (CRM)",
+      "VIEW_IN_PIPELINE": "View in pipeline",
+      "NEW_DEAL": "New deal",
+      "BLOCKED": "Contact blocked. New deals cannot be created and existing deals cannot change stage or assignee.",
+      "EMPTY": "No deals for this contact yet",
+      "NO_PIPELINE": {
+        "ADMIN": "No sales pipeline yet. Create the first one to start registering deals.",
+        "AGENT": "No sales pipeline has been set up yet. Ask an administrator to create one."
+      },
+      "SHOW_CLOSED": "Show closed ({count})",
+      "HIDE_CLOSED": "Hide closed",
+      "CARD": {
+        "THIS_CONVERSATION": "This conversation",
+        "PIPELINE_STAGE": "{pipeline} › {stage}",
+        "STAGE_LABEL": "Stage"
+      },
+      "CREATE": {
+        "TITLE": "New deal",
+        "TITLE_LABEL": "Title",
+        "TITLE_PLACEHOLDER": "e.g. Annual plan",
+        "VALUE_LABEL": "Value (R$)",
+        "PIPELINE_LABEL": "Pipeline",
+        "STAGE_LABEL": "Stage",
+        "CLOSE_DATE_LABEL": "Expected close date",
+        "ASSIGNEE_LABEL": "Assignee",
+        "NO_ASSIGNEE": "Unassigned",
+        "CONFIRM": "Create deal",
+        "CANCEL": "Cancel"
+      },
+      "MESSAGES": {
+        "CREATED": "Deal created",
+        "LOAD_ERROR": "Could not load the deals. Try again."
+      }
     }
   }
 }
