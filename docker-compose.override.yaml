@@ -20,6 +20,12 @@ services:
       # Edicao MIT: o codigo de enterprise/ so pode rodar em producao com licenca (CCV2-18).
       # Para rodar a regressao do upstream, remova a variavel no comando do RSpec.
       - DISABLE_ENTERPRISE=true
+    # Em dev o Rails repassa cada arquivo do front ao Vite numa conexao nova; uma tela carrega
+    # mais de mil arquivos e, apos alguns recarregamentos, as portas se esgotavam
+    # (Errno::EADDRNOTAVAIL e erro 500). Reaproveita conexoes encerradas e amplia a faixa.
+    sysctls:
+      - net.ipv4.tcp_tw_reuse=1
+      - net.ipv4.ip_local_port_range=1024 65000
     depends_on: !override
       postgres:
         condition: service_healthy
