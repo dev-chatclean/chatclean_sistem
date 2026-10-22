@@ -14,6 +14,7 @@ import components from './components.json';
 import contact from './contact.json';
 import contactFilters from './contactFilters.json';
 import crm from './crm.json';
+import chatclean from './chatclean.json';
 import contentTemplates from './contentTemplates.json';
 import conversation from './conversation.json';
 import csatMgmt from './csatMgmt.json';
@@ -64,6 +65,7 @@ export default {
   ...contact,
   ...contactFilters,
   ...crm,
+  ...chatclean,
   ...contentTemplates,
   ...conversation,
   ...csatMgmt,
