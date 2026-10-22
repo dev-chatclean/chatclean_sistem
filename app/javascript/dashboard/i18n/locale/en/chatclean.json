@@ -1,0 +1,11 @@
+{
+  "CHATCLEAN": {
+    "SIDEBAR": {
+      "COLLAPSE": "Collapse sidebar",
+      "EXPAND": "Expand sidebar"
+    },
+    "CHAT_LIST": {
+      "EOF": "All conversations loaded"
+    }
+  }
+}

@@ -41,8 +41,10 @@ docker run --rm -v "$PWD":/workspace -w /workspace chatclean-rails:development b
 # RSpec: compile os assets de teste uma vez e desligue o auto-build
 docker compose run --rm --no-deps -e RAILS_ENV=test -e NODE_OPTIONS=--max-old-space-size=6144 vite bin/vite build --mode=test
 docker compose run --rm -e RAILS_ENV=test -e VITE_RUBY_AUTO_BUILD=false -v /dev/null:/app/.env \
-  rails sh -c 'unset FRONTEND_URL; bundle exec rspec [spec/caminho_spec.rb]'
+  rails sh -c 'unset FRONTEND_URL DISABLE_ENTERPRISE; bundle exec rspec [spec/caminho_spec.rb]'
 ```
+
+O RSpec roda com o Enterprise ligado, como o CI, para a regressão do upstream valer; por isso o `unset DISABLE_ENTERPRISE` (ver "Marca ChatClean e edição MIT").
 
 O CI roda sem `.env`, e alguns specs dependem de `FRONTEND_URL` estar **ausente**:
 - com o valor de dev, o `slack_uploads_controller_spec` falha com `UnsafeRedirectError`;
@@ -63,6 +65,33 @@ Isso gera falsos positivos em `script/` e `spec/support/`.
 
 Se o build de assets do Vite estourar a memória (`JavaScript heap out of memory`), passe
 `-e NODE_OPTIONS=--max-old-space-size=6144`.
+
+## Marca ChatClean e edição MIT
+
+O código de `enterprise/` tem licença própria (`enterprise/LICENSE`): **só pode rodar em produção com assinatura Chatwoot Enterprise**. A ChatClean V2 roda como edição MIT (decisão do PO, CCV2-18).
+
+**Ambiente local**
+- `DISABLE_ENTERPRISE=true` no rails e no sidekiq (`docker-compose.override.yaml`).
+- O `config/application.rb` ainda carrega o código, mas as extensões Enterprise ficam desligadas. Entre elas está o job que devolve nome e logos para os do Chatwoot.
+
+**Produção (E7)**
+- A imagem deve ser montada **sem a pasta `enterprise/`**.
+- Saem Captain (assistentes), SLA, papéis customizados, auditoria, voz, capacidade de agentes e SAML.
+- Companies é MIT e fica.
+
+**Aplicar a marca**
+- Rode `docker compose exec rails bundle exec rails chatclean:branding` depois de preparar o banco e a cada deploy.
+- A tarefa grava nome, logos (`public/brand-assets/chatclean/`), links e `DISPLAY_MANIFEST=false`.
+
+**Cores**
+- `app/javascript/dashboard/assets/scss/_chatclean-brand.scss` troca a escala azul do Chatwoot (`--blue-*`, `--solid-blue`, `n-brand`) pelo verde da marca.
+- Fundos, textos e fontes continuam os do Chatwoot.
+- Ele é importado logo depois do `next-colors` em quatro lugares:
+  - `app.scss` (painel);
+  - `v3/App.vue` (login);
+  - `portal/application.scss` (central de ajuda);
+  - `survey/assets/scss/woot.scss` (pesquisa).
+- Os e-mails usam `#007A2A` direto nos templates.
 
 ## Branches
 

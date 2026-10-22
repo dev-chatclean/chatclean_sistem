@@ -1,0 +1,47 @@
+// Cor de destaque da ChatClean (CCV2-18). O azul do Chatwoot (escala --blue-*, que também
+// alimenta o n-brand) vira o verde da marca. Fundos, textos e fontes continuam os do Chatwoot.
+// Vem depois do next-colors no app.scss, então estas variáveis prevalecem.
+@layer base {
+  :root {
+    --blue-1: 251 254 251;
+    --blue-2: 244 251 245;
+    --blue-3: 232 245 236; // #e8f5ec, fundo suave do site
+    --blue-4: 218 241 219;
+    --blue-5: 201 232 202;
+    --blue-6: 178 221 181;
+    --blue-7: 148 206 154;
+    --blue-8: 81 188 105; // #51bc69, verde do logo
+    --blue-9: 0 122 42; // #007a2a, cor de ação do site (botões)
+    --blue-10: 0 107 37;
+    --blue-11: 0 92 58; // #005c3a, texto e links
+    --blue-12: 20 35 27; // #14231b
+
+    // Bolhas das mensagens do agente e bordas/textos de destaque.
+    --text-blue: 10 36 22;
+    --border-blue-strong: 0 92 58;
+    --border-blue: 0, 122, 42, 0.5;
+    --solid-blue: 218 241 219;
+    --solid-blue-2: 251 254 251;
+  }
+
+  .dark {
+    --blue-1: 14 21 17;
+    --blue-2: 20 26 21;
+    --blue-3: 27 42 30;
+    --blue-4: 29 58 36;
+    --blue-5: 37 72 45;
+    --blue-6: 45 87 54;
+    --blue-7: 54 103 64;
+    --blue-8: 62 121 73;
+    --blue-9: 0 122 42;
+    --blue-10: 0 138 48;
+    --blue-11: 113 208 131;
+    --blue-12: 194 240 194;
+
+    // --solid-blue-2 continua o do Chatwoot: no escuro ele é praticamente o fundo neutro.
+    --text-blue: 205 240 210;
+    --border-blue-strong: 194 240 194;
+    --border-blue: 0, 122, 42, 0.5;
+    --solid-blue: 18 70 40;
+  }
+}
