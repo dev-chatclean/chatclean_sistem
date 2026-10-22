@@ -143,9 +143,10 @@ describe('ConversationCrmPanel', () => {
     isAdmin.value = true;
     const wrapper = mountPanel();
 
-    expect(wrapper.find('[data-test="no-pipeline"]').text()).toBe(
+    expect(wrapper.find('[data-test="no-pipeline"]').text()).toContain(
       'CRM.CONVERSATION_PANEL.NO_PIPELINE.ADMIN'
     );
+    expect(wrapper.find('[data-test="settings-link"]').exists()).toBe(true);
     expect(
       wrapper.find('[data-test="new-deal"]').attributes('disabled')
     ).toBeDefined();

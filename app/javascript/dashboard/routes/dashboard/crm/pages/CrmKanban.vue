@@ -168,6 +168,14 @@ onBeforeUnmount(() =>
       <p class="max-w-md text-sm text-n-slate-11">
         {{ t('CRM.KANBAN.EMPTY_STATE.DESCRIPTION') }}
       </p>
+      <RouterLink
+        v-if="isAdmin"
+        :to="{ name: 'crm_settings_index' }"
+        class="text-sm text-n-blue-11 hover:underline"
+        data-test="settings-link"
+      >
+        {{ t('CRM.KANBAN.EMPTY_STATE.SETTINGS_LINK') }}
+      </RouterLink>
     </div>
 
     <div v-else class="flex flex-1 min-h-0 gap-3 p-4 overflow-x-auto">

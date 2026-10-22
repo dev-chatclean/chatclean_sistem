@@ -889,6 +889,12 @@ const menuItems = computed(() => {
           to: accountScopedRoute('labels_list'),
         },
         {
+          name: 'Settings CRM',
+          label: t('CRM.SETTINGS.MENU'),
+          icon: 'i-lucide-square-kanban',
+          to: accountScopedRoute('crm_settings_index'),
+        },
+        {
           name: 'Settings Custom Attributes',
           label: t('SIDEBAR.CUSTOM_ATTRIBUTES'),
           icon: 'i-lucide-code',
