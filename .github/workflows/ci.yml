@@ -130,9 +130,13 @@ jobs:
         with:
           name: vite-test-assets
           path: public/vite-test
+      # Edição MIT, a que vai para produção (CCV2-18/CCV2-20): o código de enterprise/ só pode
+      # rodar em produção com licença. Mesmo passo do workflow CE do Chatwoot (run_foss_spec).
+      - name: Remove o código Enterprise
+        run: rm -rf enterprise spec/enterprise
       - run: bundle exec rails db:create db:schema:load
       - run: bin/rails zeitwerk:check
-      - run: bundle exec rspec spec/models/crm/
+      - run: bundle exec rspec spec/models/crm/ spec/controllers/api/v1/accounts/crm/ spec/jobs/crm/
 
   regression:
     name: RSpec regressão (${{ matrix.node }}/8)
@@ -177,6 +181,10 @@ jobs:
         with:
           name: vite-test-assets
           path: public/vite-test
+      # Edição MIT, a que vai para produção (CCV2-18/CCV2-20): o código de enterprise/ só pode
+      # rodar em produção com licença. Mesmo passo do workflow CE do Chatwoot (run_foss_spec).
+      - name: Remove o código Enterprise
+        run: rm -rf enterprise spec/enterprise
       - run: bundle exec rails db:create db:schema:load
       - name: Run specs (round-robin, como no CI do Chatwoot)
         run: |
