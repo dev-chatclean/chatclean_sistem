@@ -21,7 +21,7 @@ produção com licença paga do Chatwoot (CCV2-18).
 
 1. Um PR é mergeado na `main` (só com o "CI ok" verde).
 2. O workflow entra na AWS por OIDC (sem chave fixa), monta a imagem sem `enterprise/`, confere e publica no ECR.
-3. Pelo SSM Run Command (sem SSH), roda `/opt/chatclean/release.sh <imagem>` na máquina.
+3. Pelo SSM Run Command (sem SSH), tira o `release.sh` da própria imagem e roda `release.sh <imagem>` em `/opt/chatclean`.
 4. O `deploy.sh` roda `db:chatwoot_prepare` (cria o banco na primeira vez, migra nas seguintes) e `chatclean:branding` com a imagem nova. Se algo falhar, nada no ar muda.
 5. Recria rails e sidekiq e espera o `/health`. Se não ficar saudável, volta para a imagem anterior.
 
@@ -47,13 +47,14 @@ Depois abra `https://localhost:8443` (certificado interno do Caddy). Para limpar
 
 ## Primeiro deploy (US 10 a US 13)
 
-A infraestrutura (EC2, IP fixo, Security Group, IAM, ECR, buckets, SES) é criada nas histórias
-CCV2-19 a CCV2-22, depois da aprovação dos créditos da AWS. Antes de ligar o workflow:
+A infraestrutura é criada nas histórias CCV2-19 a CCV2-22, depois da aprovação dos créditos da AWS.
+Antes de ligar o workflow:
 
-1. Na máquina: Docker, AWS CLI, SSM Agent, pasta `/opt/chatclean` com o `release.sh`.
+1. A stack `chatclean-base` (`../infra/README.md`, CCV2-19): máquina com Docker, AWS CLI e SSM, IP
+   fixo, firewall, ECR e a role de deploy. Os buckets (CCV2-21) e o SES (CCV2-22) vêm depois.
 2. No Parameter Store, em `/chatclean/production/`, todas as variáveis do `env.production.example`
    (segredos como SecureString).
-3. No GitHub, as variáveis `AWS_DEPLOY_ROLE_ARN`, `CHATCLEAN_INSTANCE_ID` e, por último,
+3. No GitHub, as variáveis `AWS_DEPLOY_ROLE_ARN` e `CHATCLEAN_INSTANCE_ID` (saídas da stack) e, por último,
    `CHATCLEAN_DEPLOY_ENABLED=true`.
 4. No primeiro acesso, o sistema abre `/installation/onboarding` para criar o primeiro administrador e
    a conta. A tela já tem a marca ChatClean e não tem a caixa "receber novidades", que enviava ao

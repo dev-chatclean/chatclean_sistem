@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# Cria ou atualiza a infraestrutura de produção do ChatClean (CCV2-19): a stack
+# CloudFormation chatclean-base em sa-east-1, a partir de chatclean-base.yaml.
+#
+# Uso: .chatclean/infra/deploy-base [--dry-run]
+#   --dry-run  mostra o que seria criado ou alterado (change set) e descarta, sem aplicar nada.
+#
+# Precisa da sessão AWS do projeto: aws sso login --profile ChatClean
+set -euo pipefail
+cd "$(dirname "$0")"
+
+export AWS_PROFILE="${AWS_PROFILE:-ChatClean}"
+export AWS_REGION=sa-east-1
+STACK=chatclean-base
+AMI_PARAMETER=/aws/service/canonical/ubuntu/server/24.04/stable/current/amd64/hvm/ebs-gp3/ami-id
+
+aws cloudformation validate-template --template-body file://chatclean-base.yaml > /dev/null
+
+# Parâmetros só na criação: nas atualizações o deploy mantém os valores anteriores, e o AMI
+# precisa ficar o mesmo (um AMI novo recriaria a máquina).
+overrides=()
+stack_exists=true
+if ! aws cloudformation describe-stacks --stack-name "$STACK" > /dev/null 2>&1; then
+  stack_exists=false
+  if [ "$(aws ec2 describe-vpcs --filters Name=is-default,Values=true --query 'length(Vpcs)')" = 0 ]; then
+    echo "A conta não tem VPC padrão em $AWS_REGION. Crie com: aws ec2 create-default-vpc" >&2
+    exit 1
+  fi
+  overrides+=("AmiId=$(aws ssm get-parameter --name "$AMI_PARAMETER" --query Parameter.Value --output text)")
+  if aws iam list-open-id-connect-providers --output text | grep -q token.actions.githubusercontent.com; then
+    overrides+=(CreateGitHubOidcProvider=false)
+  fi
+  echo "==> Stack nova: ${overrides[*]}"
+fi
+
+deploy() {
+  aws cloudformation deploy --stack-name "$STACK" --template-file chatclean-base.yaml \
+    --capabilities CAPABILITY_NAMED_IAM --no-fail-on-empty-changeset \
+    ${overrides[@]+--parameter-overrides "${overrides[@]}"} "$@"
+}
+
+if [ "${1:-}" = "--dry-run" ]; then
+  change_set="$(deploy --no-execute-changeset | grep -o 'arn:aws:cloudformation:[^ ]*' || true)"
+  if [ -z "$change_set" ]; then
+    echo "==> Nada a mudar."
+    exit 0
+  fi
+  aws cloudformation describe-change-set --change-set-name "$change_set" \
+    --query 'Changes[].ResourceChange.[Action, LogicalResourceId, ResourceType, Replacement]' --output table
+  aws cloudformation delete-change-set --change-set-name "$change_set"
+  # A stack vazia (REVIEW_IN_PROGRESS) que o change set de criação deixa não tem recursos.
+  [ "$stack_exists" = true ] || aws cloudformation delete-stack --stack-name "$STACK"
+  exit 0
+fi
+
+deploy
+aws cloudformation describe-stacks --stack-name "$STACK" \
+  --query 'Stacks[0].Outputs[].[OutputKey, OutputValue]' --output table
