@@ -1,0 +1,23 @@
+<%# ChatClean (CCV2-22): menu lateral do Super Admin recolhível, como o do painel.
+    Aplica o estado salvo antes da primeira pintura e trata o botão [data-sidebar-toggle]. %>
+<script>
+  (function () {
+    var KEY = 'super-admin-sidebar';
+    var root = document.documentElement;
+    var read = function () {
+      try { return localStorage.getItem(KEY); } catch (e) { return null; }
+    };
+    var save = function (value) {
+      try { localStorage.setItem(KEY, value); } catch (e) { /* sem storage: vale só nesta página */ }
+    };
+    if (read() === 'collapsed') root.dataset.sidebar = 'collapsed';
+
+    document.addEventListener('click', function (event) {
+      if (!event.target.closest('[data-sidebar-toggle]')) return;
+      var collapsed = root.dataset.sidebar !== 'collapsed';
+      if (collapsed) root.dataset.sidebar = 'collapsed';
+      else delete root.dataset.sidebar;
+      save(collapsed ? 'collapsed' : 'expanded');
+    });
+  })();
+</script>

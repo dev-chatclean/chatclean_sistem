@@ -1,4 +1,9 @@
 en:
+  chatclean:
+    super_admin:
+      sidebar:
+        collapse: Collapse menu
+        toggle: Collapse or expand the menu
   activerecord:
     attributes:
       crm/deal:

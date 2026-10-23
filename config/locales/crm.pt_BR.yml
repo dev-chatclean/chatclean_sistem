@@ -1,4 +1,9 @@
 pt_BR:
+  chatclean:
+    super_admin:
+      sidebar:
+        collapse: Recolher menu
+        toggle: Recolher ou expandir o menu
   activerecord:
     attributes:
       crm/deal:

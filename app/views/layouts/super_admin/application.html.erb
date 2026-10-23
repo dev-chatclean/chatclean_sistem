@@ -7,6 +7,7 @@
   <%# ChatClean (CCV2-22): o application_title do Administrate vem do módulo Chatwoot. %>
   <title><%= content_for(:title) %> - <%= ChatcleanBrand.value('INSTALLATION_NAME') %></title>
   <%= render "theme" %>
+  <%= render "chatclean_sidebar" %>
   <%= render "font_preload", file: "Inter/InterVariable.woff2" %>
   <%= render "stylesheet" %>
   <%= vite_client_tag %>
