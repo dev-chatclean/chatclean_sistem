@@ -93,6 +93,14 @@ O código de `enterprise/` tem licença própria (`enterprise/LICENSE`): **só p
   - `survey/assets/scss/woot.scss` (pesquisa).
 - Os e-mails usam `#007A2A` direto nos templates.
 
+**Super Admin**
+- Marca: `ChatcleanBrand.value` (`app/services/chatclean_brand.rb`) lê nome e logos nas telas do Administrate, que não enxergam os helpers de `app/helpers`.
+- Idioma: o menu do perfil tem English/Português. A escolha fica no cookie `super_admin_locale` e é aplicada pelo `SuperAdminLocale` (`app/controllers/concerns/`). Sem cookie, vale o `DEFAULT_LOCALE`.
+- Traduções que o Chatwoot não tem em pt_BR:
+  - `config/locales/chatclean_super_admin.pt_BR.yml`: textos do Super Admin, da configuração inicial e do Administrate;
+  - `config/locales/chatclean_rails.pt_BR.yml`: datas e botões, copiados do rails-i18n, que usa o código `pt-BR`.
+- Continuam em inglês as descrições das integrações em Configurações, que vêm dos dados de configuração do Chatwoot.
+
 ## Branches
 
 | Branch | Papel | Quem escreve |

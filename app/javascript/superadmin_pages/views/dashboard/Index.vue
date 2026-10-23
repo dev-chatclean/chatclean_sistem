@@ -1,6 +1,5 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
-import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import BarChart from 'shared/components/charts/BarChart.vue';
 
@@ -17,7 +16,16 @@ const CHART_HEIGHT = 300;
 const BAR_MAX_WIDTH = 28;
 const BAR_RADIUS = 6;
 const Y_TICK_COUNT = 4;
-const AXIS_DATE_FORMAT = 'd MMM';
+const AXIS_DATE_FORMAT = { day: 'numeric', month: 'short' };
+
+const labels = computed(() => props.componentData.labels);
+// Só dia e mês, sem os conectivos do idioma: "Oct 20" em inglês, "20 out." em português.
+const formatDay = day =>
+  new Intl.DateTimeFormat(props.componentData.locale, AXIS_DATE_FORMAT)
+    .formatToParts(parseISO(day))
+    .filter(({ type }) => type !== 'literal')
+    .map(({ value }) => value)
+    .join(' ');
 
 const stats = ref(null);
 const failed = ref(false);
@@ -38,49 +46,41 @@ onMounted(async () => {
 
 const metrics = computed(() => [
   {
-    label: 'Accounts',
+    label: labels.value.accounts,
     value: stats.value?.accountsCount,
     icon: 'i-lucide-building-2',
     tone: 'bg-n-blue-3 text-n-blue-11',
     href: props.componentData.accountsPath,
   },
   {
-    label: 'Users',
+    label: labels.value.users,
     value: stats.value?.usersCount,
     icon: 'i-lucide-users',
     tone: 'bg-n-iris-3 text-n-iris-11',
     href: props.componentData.usersPath,
   },
   {
-    label: 'Inboxes',
+    label: labels.value.inboxes,
     value: stats.value?.inboxesCount,
     icon: 'i-lucide-inbox',
     tone: 'bg-n-teal-3 text-n-teal-11',
   },
   {
-    label: 'Conversations',
+    label: labels.value.conversations,
     value: stats.value?.conversationsCount,
     icon: 'i-lucide-messages-square',
     tone: 'bg-n-amber-3 text-n-amber-11',
   },
 ]);
 
-const chartTitle = 'Conversations';
-const chartCaption = 'Created per day over the last 30 days';
-const chartAriaLabel = 'Conversations created by day';
-const loadError =
-  'Could not load the dashboard stats. Reload the page to try again.';
-
 const chartData = computed(() => {
   const sourceData = stats.value?.chartData || [];
   return {
-    categories: sourceData.map(([label]) =>
-      format(parseISO(label), AXIS_DATE_FORMAT)
-    ),
+    categories: sourceData.map(([day]) => formatDay(day)),
     series: [
       {
         id: 'conversations',
-        label: 'Conversations',
+        label: labels.value.conversations,
         color: CHART_COLOR,
         data: sourceData.map(([, value]) => value),
       },
@@ -104,14 +104,14 @@ const chartSummary = computed(() => {
   );
 
   return [
-    { label: 'Total', value: total.toLocaleString() },
+    { label: labels.value.total, value: total.toLocaleString() },
     {
-      label: 'Daily average',
+      label: labels.value.daily_average,
       value: Math.round(total / sourceData.length).toLocaleString(),
     },
     {
-      label: 'Busiest day',
-      value: format(parseISO(busiestDay), AXIS_DATE_FORMAT),
+      label: labels.value.busiest_day,
+      value: formatDay(busiestDay),
     },
   ];
 });
@@ -156,8 +156,12 @@ const chartSummary = computed(() => {
     <section class="p-4 border rounded-xl border-n-weak bg-n-solid-1">
       <div class="flex flex-wrap items-start justify-between gap-x-8 gap-y-3">
         <div>
-          <h2 class="text-heading-3 text-n-slate-12">{{ chartTitle }}</h2>
-          <p class="text-label-small text-n-slate-11">{{ chartCaption }}</p>
+          <h2 class="text-heading-3 text-n-slate-12">
+            {{ labels.conversations }}
+          </h2>
+          <p class="text-label-small text-n-slate-11">
+            {{ labels.chart_caption }}
+          </p>
         </div>
         <dl class="flex flex-wrap gap-x-8 gap-y-2">
           <div v-for="item in chartSummary" :key="item.label">
@@ -182,7 +186,7 @@ const chartSummary = computed(() => {
         v-else-if="failed"
         class="py-16 text-center text-body-main text-n-slate-11"
       >
-        {{ loadError }}
+        {{ labels.load_error }}
       </p>
       <div v-else class="w-full min-w-0 mt-4">
         <BarChart
@@ -193,7 +197,7 @@ const chartSummary = computed(() => {
           :bar-radius="BAR_RADIUS"
           :y-step-size="yStepSize"
           timeseries
-          :aria-label="chartAriaLabel"
+          :aria-label="labels.chart_aria_label"
         />
       </div>
     </section>

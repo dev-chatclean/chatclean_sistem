@@ -1,0 +1,504 @@
+# ChatClean (CCV2-22): textos do Super Admin, da configuração inicial e do Administrate que o
+# Chatwoot não traduz para pt_BR. Só as chaves que faltam; as que o Chatwoot já tem ficam no pt_BR.yml.
+# O Administrate traz as dele como pt-BR, que não é o código usado aqui.
+pt_BR:
+  activerecord:
+    models:
+      account:
+        one: Conta
+        other: Contas
+      user:
+        one: Usuário
+        other: Usuários
+      agent_bot:
+        one: Bot
+        other: Bots
+      platform_app:
+        one: App da plataforma
+        other: Apps da plataforma
+      access_token:
+        one: Token de acesso
+        other: Tokens de acesso
+      account_user:
+        one: Usuário da conta
+        other: Usuários da conta
+      installation_config:
+        one: Configuração da instalação
+        other: Configurações da instalação
+      platform_banner:
+        one: Banner da plataforma
+        other: Banners da plataforma
+  administrate:
+    actions:
+      back: Voltar
+      confirm: Tem certeza?
+      destroy: Excluir
+      edit: Editar
+      edit_resource: Editar %{name}
+      new_resource: Criar %{name}
+      show_resource: Ver %{name}
+    controller:
+      create:
+        success: "%{resource} criado com sucesso."
+      destroy:
+        success: "%{resource} excluído com sucesso."
+      update:
+        success: "%{resource} atualizado com sucesso."
+    fields:
+      active_storage:
+        remove: Remover
+      has_many:
+        more: Exibindo %{count} de %{total_count}
+        none: Nenhum
+    form:
+      error: erro
+      errors: "%{pluralized_errors} impediram que %{resource_name} fosse salvo:"
+    navigation:
+      back_to_app: Voltar ao aplicativo
+    search:
+      clear: Limpar busca
+      label: Buscar %{resource}
+  helpers:
+    label:
+      access_token:
+        id: ID
+        created_at: Criado em
+        updated_at: Atualizado em
+        name: Nome
+        owner: Dono
+        token: Token
+      account:
+        id: ID
+        created_at: Criado em
+        updated_at: Atualizado em
+        name: Nome
+        users: Usuários
+        conversations: Conversas
+        locale: Idioma
+        status: Status
+        suspension_history: Histórico de suspensões
+        account_users: Usuários da conta
+        custom_attributes: Atributos personalizados
+      account_user:
+        id: ID
+        created_at: Criado em
+        updated_at: Atualizado em
+        name: Nome
+        account: Conta
+        user: Usuário
+        inviter: Convidado por
+        role: Papel
+      agent_bot:
+        id: ID
+        created_at: Criado em
+        updated_at: Atualizado em
+        name: Nome
+        access_token: Token de acesso
+        avatar_url: URL do avatar
+        avatar: Avatar
+        account: Conta
+        description: Descrição
+        outgoing_url: URL de webhook
+      installation_config:
+        id: ID
+        created_at: Criado em
+        updated_at: Atualizado em
+        name: Nome
+        value: Valor
+      platform_app:
+        id: ID
+        created_at: Criado em
+        updated_at: Atualizado em
+        name: Nome
+        access_token: Token de acesso
+      platform_banner:
+        id: ID
+        created_at: Criado em
+        updated_at: Atualizado em
+        name: Nome
+        banner_type: Tipo
+        title: Título
+        banner_message: Mensagem
+        video_url: URL do vídeo
+        active: Ativo
+      user:
+        id: ID
+        created_at: Criado em
+        updated_at: Atualizado em
+        name: Nome
+        account_users: Contas
+        avatar_url: URL do avatar
+        avatar: Avatar
+        provider: Provedor
+        uid: UID
+        password: Senha
+        sign_in_count: Número de acessos
+        current_sign_in_at: Acesso atual em
+        last_sign_in_at: Último acesso em
+        current_sign_in_ip: IP do acesso atual
+        last_sign_in_ip: IP do último acesso
+        confirmation_token: Token de confirmação
+        confirmed_at: Confirmado em
+        confirmation_sent_at: Confirmação enviada em
+        unconfirmed_email: E-mail não confirmado
+        display_name: Nome de exibição
+        email: E-mail
+        tokens: Tokens
+        pubsub_token: Token pubsub
+        type: Tipo
+        accounts: Contas
+  installation:
+    onboarding:
+      company: Nome da empresa
+      company_placeholder: 'Nome da sua empresa. Ex.: ChatClean'
+      email: E-mail de trabalho
+      email_placeholder: 'Seu e-mail de trabalho. Ex.: maria@empresa.com.br'
+      heading: "Olá! Boas-vindas ao Chatwoot \U0001F44B"
+      name: Nome
+      name_placeholder: 'Seu nome completo. Ex.: Maria Silva'
+      password: Senha
+      password_placeholder: Uma senha com 6 caracteres ou mais.
+      submit: Concluir configuração
+      subscribe: Receber notas de versão, newsletters e pesquisas sobre o produto.
+  super_admin:
+    account_suspension:
+      history:
+        suspended_by: Suspensa por
+        unknown_user: Usuário desconhecido
+    accounts:
+      add_user: Adicionar um usuário a esta conta
+      captain_models: Modelos do Captain
+      conversations: Conversas
+      custom_attributes: Atributos personalizados
+      general: Geral
+      limits: Limites
+      maintenance: Manutenção
+      manually_managed_features: Recursos gerenciados manualmente
+      reset_cache: Limpar o cache do frontend
+      reset_cache_button: Limpar cache do frontend
+      reset_cache_description: Remove do Redis as chaves de cache do IndexedDB. No próximo carregamento, os dados serão buscados no backend.
+      seed_data: Gerar dados de exemplo
+      seed_data_button: Gerar dados de exemplo
+      seed_data_description: Clique no botão para gerar dados de exemplo nesta conta, para demonstrações.
+      seed_data_warning: 'Atenção: isso apaga todos os dados existentes nesta conta.'
+      suspension_history: Histórico de suspensões
+      users: Usuários
+    actions:
+      clear: Limpar
+      close: Fechar
+      copy: Copiar
+      more: Mais
+      save_changes: Salvar alterações
+      select_all: Selecionar tudo
+      toggle_secret: Mostrar ou ocultar
+    collection:
+      actions: Ações
+      empty: Nenhum registro de %{resource} encontrado.
+      showing: Exibindo %{from}–%{to} de %{total}
+    command_bar:
+      create: Criar
+      empty: Nenhum resultado encontrado.
+      go_to: Ir para
+      label: Barra de comandos
+      navigate: Navegar
+      open: Abrir
+      placeholder: Busque ou execute um comando
+      see_all: Ver todos os resultados em %{resource}
+      select: Selecionar
+      trigger: Buscar
+    dashboard:
+      description: Contas, usuários e volume de conversas desta instalação.
+      installation: Instalação
+      new_account: Nova conta
+      new_user: Novo usuário
+      plan: Plano
+      shortcuts: Atalhos
+      version: Versão
+    features:
+      disabled: Desativado
+      enabled: Ativado
+      enabled_count: "%{enabled} de %{total} ativados"
+      filter: Filtrar recursos
+      help_article: Artigo de ajuda
+      manually_managed_empty: Nenhum recurso gerenciado manualmente
+      manually_managed_hint: Recursos que continuam ativos mesmo quando o plano da conta é rebaixado
+      no_match: Nenhum recurso corresponde a este filtro.
+      not_selected: Não selecionado
+      premium: Recursos premium
+      selected: Selecionado
+      selected_count: "%{selected} de %{total} selecionados"
+      title: Recursos
+    filters:
+      all: Todos
+      label: Filtrar por
+    instance_status:
+      description: Versões e estado da conexão dos serviços usados por esta instalação.
+      details: Detalhes
+    login:
+      email: E-mail
+      email_placeholder: 'Ex.: alguem@exemplo.com'
+      heading: "Olá, admin \U0001F44B"
+      password: Senha
+      password_placeholder: Senha
+      submit: Entrar
+    navigation:
+      account: Conta
+      agent_dashboard: Painel de atendimento
+      back: Voltar
+      dashboard: Painel
+      groups:
+        instance: Instância
+        manage: Gerenciar
+      instance_health: Saúde da instância
+      label: Super Admin
+      logout: Sair
+      monitor: Monitoramento
+      more: Mais
+      overview: Visão geral
+      profile: Perfil
+      release_notes: Notas da versão
+      settings: Configurações
+      settings_groups:
+        authentication: Autenticação
+        channels: Canais
+        integrations: Integrações
+        product: Produto
+      sidekiq_dashboard: Painel do Sidekiq
+      suffix: Console Super Admin
+      tabs:
+        agent_bots: Bots
+        platform_apps: Apps
+        platform_banners: Banners
+      theme:
+        dark: Escuro
+        label: Tema
+        light: Claro
+        system: Igual ao sistema
+      update_available: v%{version} disponível
+      user_diagnostics: Diagnóstico de usuários
+    record:
+      created: Criado em
+      last_updated: Última atualização
+      overview: Visão geral
+      profile: Perfil
+      time_ago: há %{time}
+    settings:
+      agents_over_limit: Você tem %{count} agentes. Adicione mais licenças para incluir mais usuários.
+      alert: Atenção!
+      chat_support: Suporte por chat
+      community_support: Suporte da comunidade
+      configure: Configurar
+      configure_title: Configurar - %{config}
+      contact_for_help: 'Contato para ajuda:'
+      current_plan: Plano atual
+      default_description: Opções da instância inteira
+      description: Atualize as configurações da instância e acesse o portal de cobrança
+      enterprise_badge: EE
+      included: Incluído
+      installation_identifier: Identificador da instalação
+      installation_identifier_description: ID único desta instalação.
+      locked: Bloqueado
+      manage: Gerenciar
+      need_help: Precisa de ajuda?
+      need_help_description: Está com algum problema? Estamos aqui para ajudar.
+      pages:
+        general: Geral
+        internal: Interno
+        internal_description: Chaves e opções usadas pelo Chatwoot Cloud
+      refresh: Atualizar
+      switch_to_enterprise: Mudar para a edição Enterprise
+      unauthorized_changes: Foram detectadas alterações premium não autorizadas no Chatwoot. Para continuar usando-as, faça upgrade do plano.
+      upgrade_now: Fazer upgrade agora
+    user_diagnostics:
+      calls:
+        account_columns:
+          account: Conta
+          inboxes: Caixas de voz
+          ringing: Ligações no celular
+          rings: Celular toca
+          status: Status
+          voice: Canal de voz
+        accounts_heading: Contas
+        assigned_only: Ligações atribuídas a ele
+        availability:
+          busy: Ocupado
+          offline: Off-line
+          online: On-line
+        blockers:
+          no_device: Não, nenhum celular registrado
+          no_inboxes: Não, não há caixas de voz
+          not_online: Não, não está on-line
+          push_unavailable: Só com o app aberto
+          ringing_off: Não, Ligações no celular está desligado
+          voice_off: Não, o Canal de voz está desligado
+        configured: Configurado
+        credentials:
+          android: Requer FIREBASE_PROJECT_ID e FIREBASE_CREDENTIALS
+          apple: Requer APNS_VOIP_KEY, APNS_VOIP_KEY_ID e APNS_VOIP_TEAM_ID
+        description: Se uma ligação toca no celular deste usuário com o app em segundo plano ou fechado. Com o app aberto, as ligações tocam pela conexão ativa.
+        heading: Ligações recebidas
+        invalid_environment: APNS_VOIP_ENVIRONMENT deve ser development ou production
+        not_configured: Não configurado
+        'off': Desligado
+        'on': Ligado
+        platforms:
+          android: Android
+          apple: iPhone
+        rings: Sim
+        setup:
+          columns:
+            devices: Aparelhos registrados para ligações
+            installation: Instalação
+            platform: Plataforma
+          heading: Configuração de push
+      description: Encontre um usuário para investigar um problema que ele relatou. Cada aba cobre uma parte da configuração dele.
+      devices:
+        build_number_note: Aqui, buildNumber é o número de build nativo, não a versão do app mostrada na aba App de celular.
+        columns:
+          details: Detalhes do aparelho
+          device: Aparelho
+          id: ID
+          last_updated: Última atualização
+          registered: Registrado em
+          token: Token
+          type: Tipo
+        empty:
+          description: Este usuário não tem aparelho registrado para receber notificações push.
+          title: Nenhum aparelho registrado.
+        heading: Aparelhos registrados
+      push:
+        body_hint: O usuário verá este texto como uma notificação push real no aparelho.
+        body_label: Texto
+        delete_confirm: Excluir as inscrições selecionadas? O usuário não receberá push nesses aparelhos até o app se registrar de novo.
+        delete_selected: Excluir inscrições selecionadas
+        no_subscriptions_to_delete: Selecione pelo menos uma inscrição para excluir.
+        no_subscriptions_to_test: Selecione pelo menos uma inscrição para testar.
+        real_push_warning: Isso envia um push real para cada aparelho selecionado. Use só ao investigar um problema relatado.
+        results_columns:
+          details: Detalhes
+          device: Aparelho
+          id: ID da inscrição
+          status: Status
+          token: Token de push
+          type: Tipo
+        results_heading: Resultados
+        send_test: Enviar push de teste aos selecionados
+        subscriptions_deleted:
+          one: "%{count} inscrição excluída. O aparelho do usuário vai se registrar de novo na próxima abertura do app."
+          other: "%{count} inscrições excluídas. Os aparelhos vão se registrar de novo na próxima abertura do app."
+        title_label: Título
+      push_settings:
+        calls_unavailable: Canal de voz e Ligações no celular não estão ambos ativados nesta conta
+        description: Definidas por conta e verificadas antes de qualquer tentativa de envio. Com todos os tipos desligados, o usuário não recebe push em nenhum aparelho, por mais que os registros abaixo pareçam corretos.
+        empty:
+          description: Este usuário não pertence a nenhuma conta.
+          title: Nenhuma configuração de notificação registrada.
+        heading: Configurações de notificação push
+        none_enabled:
+          one: Nenhum tipo de push está ativado para %{names}. Este usuário não recebe notificações push dessa conta.
+          other: Nenhum tipo de push está ativado para %{names}. Este usuário não recebe notificações push dessas contas.
+        notification_type: Tipo de notificação
+        review_link: Revisar configurações de notificação push →
+        sla_unavailable: O SLA não está ativado nesta conta
+        unnamed_account: Conta %{id}
+      push_types:
+        assigned_conversation_new_message: Uma nova mensagem chega numa conversa atribuída
+        conversation_assignment: Uma conversa é atribuída ao usuário
+        conversation_creation: Uma nova conversa é criada
+        conversation_mention: O usuário é mencionado numa conversa
+        participating_conversation_new_message: Uma nova mensagem chega numa conversa em que participa
+        sla_missed_first_response: Uma conversa perde o SLA de primeira resposta
+        sla_missed_next_response: Uma conversa perde o SLA de próxima resposta
+        sla_missed_resolution: Uma conversa perde o SLA de resolução
+        voice_call_missed: Uma ligação para a qual o usuário foi chamado é perdida
+      search:
+        not_found: Nenhum usuário encontrado para "%{query}".
+        placeholder: usuario@exemplo.com ou ID numérico do usuário
+        submit: Buscar
+        title: Buscar usuário
+      sessions:
+        columns:
+          app_version: Versão do app
+          device: Aparelho
+          first_seen: Primeiro acesso
+          last_active: Última atividade
+          os_version: Versão do sistema
+          platform: Plataforma
+        description: Vem dos cabeçalhos X-Chatwoot-* que o app envia em cada requisição, então reflete a versão instalada no aparelho.
+        empty:
+          description: Este usuário não entrou pelo app de iOS ou Android.
+          title: Nenhuma sessão de celular registrada.
+        heading: Sessões no celular
+        legacy_build: versão antiga
+        legacy_note: '"versão antiga" indica uma sessão anterior à versão 4.8.0 do app, quando ele passou a enviar X-Chatwoot-Client-Version. A versão exata é desconhecida.'
+      tabs:
+        label: Seções do diagnóstico
+        mobile: App de celular
+        push: Envio de push
+        web: Web
+      user:
+        accounts: Contas
+        details_link: Detalhes do usuário
+        id: ID %{id}
+      user_not_found: Usuário não encontrado.
+      web_sessions:
+        columns:
+          browser: Navegador
+          browser_version: Versão
+          first_seen: Primeiro acesso
+          last_active: Última atividade
+          os: Sistema operacional
+          os_version: Versão do sistema
+        description: Lido do navegador no login e atualizado enquanto o usuário trabalha, então reflete o navegador em uso. Só aparecem as sessões que continuam conectadas.
+        empty:
+          description: Este usuário não está conectado por um navegador.
+          title: Nenhuma sessão na web registrada.
+        heading: Sessões na web
+    users:
+      accounts: Contas
+      add_account: Adicionar este usuário a uma conta
+      confirmed: Confirmado
+      copy_impersonation_link: Copiar link
+      email_suppression:
+        check:
+          bounce: Os e-mails para %{email} estão bloqueados desde %{since} porque o endereço voltou. Desbloqueie e peça ao usuário para tentar de novo.
+          complaint: Os e-mails para %{email} estão bloqueados desde %{since} por causa de uma denúncia de spam. Encaminhe para a engenharia.
+          not_suppressed: Os e-mails para %{email} não estão bloqueados.
+          unavailable: Não foi possível verificar a entrega para %{email}. Tente de novo ou encaminhe para a engenharia.
+        check_button: Verificar entrega de e-mail
+        check_first_hint: Verifique a entrega de e-mail primeiro.
+        clear:
+          failed: Não foi possível desbloquear %{email} (%{error}). Encaminhe para a engenharia.
+          success: "%{email} desbloqueado. Peça ao usuário para tentar de novo ou envie um e-mail de teste para verificar a entrega."
+        clear_button: Desbloquear e-mail
+        clear_dialog:
+          body: "%{brand_name} voltará a enviar e-mails para este endereço. Se o próximo voltar, ele será bloqueado de novo."
+          cancel: Cancelar
+          confirm: Desbloquear
+          title: Desbloquear %{email}?
+        complaint_hint: Bloqueado após uma denúncia de spam. Encaminhe para a engenharia.
+        menu: E-mail
+        not_blocked_hint: Os e-mails para este endereço não estão bloqueados.
+        pending:
+          check: Verificando…
+          clear: Desbloqueando…
+          send: Enviando…
+        test_email:
+          queued: E-mail de teste a caminho de %{email}. Peça ao usuário para conferir a caixa de entrada e o spam.
+          subject: E-mail de teste do suporte %{brand_name}
+        test_email_blocked_hint:
+          bounce: Desbloqueie o endereço primeiro. E-mails para endereços bloqueados são descartados.
+          complaint: Bloqueado após uma denúncia de spam. E-mails para este endereço são descartados.
+        test_email_button: Enviar e-mail de teste
+      impersonate: Entrar como este usuário
+      impersonate_caution: Tudo o que você fizer enquanto estiver como este usuário vai aparecer como feito por %{name}.
+      impersonate_dialog:
+        private_window_hint: Isso conecta seu navegador ao painel como este usuário e substitui a sua sessão. Para manter a sua, copie o link e abra numa janela anônima.
+        title: Entrar como %{name}?
+      impersonation_link_copied: Copiado
+      impersonation_link_failed: Não foi possível copiar
+      mfa: MFA
+      mfa_disabled: Desativado
+      mfa_enabled: Ativado
+      support: Suporte
+      unconfirmed: Não confirmado

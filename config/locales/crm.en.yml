@@ -1,9 +1,25 @@
 en:
   chatclean:
     super_admin:
+      date_format: "%b %-d, %Y"
       sidebar:
         collapse: Collapse menu
         toggle: Collapse or expand the menu
+      language:
+        label: Language
+        en: English
+        pt_BR: Português (Brasil)
+      dashboard:
+        accounts: Accounts
+        users: Users
+        inboxes: Inboxes
+        conversations: Conversations
+        chart_caption: Created per day over the last 30 days
+        chart_aria_label: Conversations created by day
+        load_error: Could not load the dashboard stats. Reload the page to try again.
+        total: Total
+        daily_average: Daily average
+        busiest_day: Busiest day
   activerecord:
     attributes:
       crm/deal:

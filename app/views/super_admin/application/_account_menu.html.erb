@@ -39,6 +39,17 @@
         <% end %>
       </div>
     </div>
+    <%# ChatClean (CCV2-22): idioma do Super Admin; o clique é tratado em _chatclean_sidebar. %>
+    <div class="flex items-center justify-between gap-3 px-2.5 py-2">
+      <span class="text-body-main text-n-slate-11"><%= t("chatclean.super_admin.language.label") %></span>
+      <div class="flex gap-0.5 rounded-lg border border-n-weak p-0.5" role="group" aria-label="<%= t("chatclean.super_admin.language.label") %>">
+        <% SuperAdminLocale::LOCALES.each do |locale| %>
+          <button type="button" class="h-7 rounded-md px-2 text-label-small text-n-slate-10 transition-colors hover:text-n-slate-12 aria-pressed:bg-n-alpha-2 aria-pressed:text-n-slate-12 touch:h-9" data-locale-value="<%= locale %>" aria-pressed="<%= I18n.locale.to_s == locale %>" title="<%= t("chatclean.super_admin.language.#{locale}") %>">
+            <%= locale.first(2).upcase %>
+          </button>
+        <% end %>
+      </div>
+    </div>
     <ul class="space-y-0.5 border-t border-n-weak pt-1">
       <%= render "nav_item", item: { label: t("super_admin.navigation.profile"), url: super_admin_user_path(admin), icon: "i-lucide-user" } %>
       <%= render "nav_item", item: { label: t("super_admin.navigation.agent_dashboard"), url: "/", icon: "i-lucide-message-circle" } %>

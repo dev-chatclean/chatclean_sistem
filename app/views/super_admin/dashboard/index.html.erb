@@ -30,9 +30,12 @@
 
 <div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_19rem]">
   <div class="min-w-0">
+    <%# ChatClean (CCV2-22): textos e idioma vindos do Rails, para seguir o idioma do Super Admin. %>
     <%= render_vue_component('DashboardIndex', {
       accountsPath: super_admin_accounts_path,
-      usersPath: super_admin_users_path
+      usersPath: super_admin_users_path,
+      locale: I18n.locale.to_s.dasherize,
+      labels: t("chatclean.super_admin.dashboard")
     }) %>
     <%# Stands in for the stats and the chart until the Vue page above has mounted, in the shape of its loading state. %>
     <div class="flex flex-col gap-6 [#app:not(:empty)~&]:hidden" aria-hidden="true">

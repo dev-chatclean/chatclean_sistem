@@ -39,7 +39,7 @@ module SuperAdmin::CommandBarHelper
 
   def create_commands
     nav_resources.select { |resource| existing_action?(resource, :new) }.map do |resource|
-      { label: t('administrate.actions.new_resource', name: resource.singularize.titleize.downcase),
+      { label: t('administrate.actions.new_resource', name: display_resource_name(resource, singular: true).downcase),
         url: [:new, namespace, resource.singularize.to_sym], icon: 'i-lucide-plus' }
     end
   end
