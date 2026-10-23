@@ -56,9 +56,8 @@ CCV2-19 a CCV2-22, depois da aprovação dos créditos da AWS. Antes de ligar o 
 3. No GitHub, as variáveis `AWS_DEPLOY_ROLE_ARN`, `CHATCLEAN_INSTANCE_ID` e, por último,
    `CHATCLEAN_DEPLOY_ENABLED=true`.
 4. No primeiro acesso, o sistema abre `/installation/onboarding` para criar o primeiro administrador e
-   a conta. **Desmarque "receber novidades"**: marcada, ela envia ao Chatwoot o nome da empresa, o
-   nome e o e-mail do administrador. Essa tela e o Super Admin ainda mostram a marca Chatwoot
-   (título e logo); o ajuste está previsto na US 13 (CCV2-22).
+   a conta. A tela já tem a marca ChatClean e não tem a caixa "receber novidades", que enviava ao
+   Chatwoot o nome da empresa, o nome e o e-mail do administrador (CCV2-22).
 
 ## Validado localmente (23/10/2026)
 

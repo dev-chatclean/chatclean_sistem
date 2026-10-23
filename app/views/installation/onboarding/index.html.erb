@@ -1,4 +1,6 @@
-<%= render "super_admin/application/standalone", heading: t("installation.onboarding.heading") do %>
+<%# ChatClean (CCV2-22): o texto do Chatwoot com o nome da instalação, como o replaceInstallationName do front. %>
+<%= render "super_admin/application/standalone",
+           heading: t("installation.onboarding.heading").gsub('Chatwoot', ChatcleanBrand.value('INSTALLATION_NAME')) do %>
   <%= form_tag('/installation/onboarding', class: 'space-y-4') do %>
     <div>
       <label for="user_name" class="text-label"><%= t("installation.onboarding.name") %></label>
@@ -20,11 +22,8 @@
       <%= password_field :user, :password, placeholder: t("installation.onboarding.password_placeholder"), required: true, class: ui(:input, "mt-1 min-h-10") %>
     </div>
 
-    <label class="flex items-start gap-2 text-body-main" for="subscribe_to_updates">
-      <%= check_box_tag "subscribe_to_updates", 'true', true, class: ui(:checkbox, "mt-0.5") %>
-      <%= t("installation.onboarding.subscribe") %>
-    </label>
-
+    <%# ChatClean (CCV2-22): sem "receber novidades". Marcada, ela enviava ao Chatwoot a empresa,
+        o nome e o e-mail do primeiro administrador (ChatwootHub.register_instance). %>
     <%= render "super_admin/application/button", label: t("installation.onboarding.submit"), type: "submit", extra: "h-10 w-full" %>
   <% end %>
 <% end %>

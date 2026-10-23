@@ -13,7 +13,7 @@
   <div data-account-suspension-form data-original-status="<%= field.original_status %>" data-has-suspension-history="<%= field.resource.suspension_history.present? %>">
     <%= f.select(
           field.attribute,
-          options_for_select(field.selectable_options, field.data),
+          options_for_select(field.selectable_options.map { |label, value| [t("chatclean.super_admin.values.#{value}", default: label), value] }, field.data),
           { include_blank: field.include_blank_option },
           { class: ui(:select), data: { account_status_select: true } }
         ) %>

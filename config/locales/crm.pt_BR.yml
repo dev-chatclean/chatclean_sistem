@@ -1,4 +1,52 @@
 pt_BR:
+  chatclean:
+    super_admin:
+      date_format: "%-d de %b de %Y"
+      sidebar:
+        collapse: Recolher menu
+        toggle: Recolher ou expandir o menu
+      # Filtros e valores que o Super Admin mostra a partir dos nomes em inglês (inglês segue o padrão).
+      filters:
+        active: Ativas
+        suspended: Suspensas
+        recent: Recentes
+        marked_for_deletion: Marcadas para exclusão
+        user: Usuário
+        agent_bot: Bot
+        platform_app: App da plataforma
+        info: Informação
+        warning: Aviso
+        error: Erro
+        feature_announcement: Anúncio de recurso
+        super_admin: Super Admin
+        confirmed: Confirmados
+        unconfirmed: Não confirmados
+      values:
+        active: Ativa
+        suspended: Suspensa
+        super_admin: Super Admin
+        user: Usuário
+        administrator: Administrador
+        agent: Agente
+        info: Informação
+        warning: Aviso
+        error: Erro
+        feature_announcement: Anúncio de recurso
+      language:
+        label: Idioma
+        en: English
+        pt_BR: Português (Brasil)
+      dashboard:
+        accounts: Contas
+        users: Usuários
+        inboxes: Caixas de entrada
+        conversations: Conversas
+        chart_caption: Criadas por dia nos últimos 30 dias
+        chart_aria_label: Conversas criadas por dia
+        load_error: Não foi possível carregar os números do painel. Recarregue a página para tentar de novo.
+        total: Total
+        daily_average: Média diária
+        busiest_day: Dia mais movimentado
   activerecord:
     attributes:
       crm/deal:

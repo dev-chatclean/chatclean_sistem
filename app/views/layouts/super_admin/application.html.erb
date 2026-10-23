@@ -4,8 +4,10 @@
   <meta charset="utf-8">
   <meta name="robots" content="noindex">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><%= content_for(:title) %> - <%= application_title %></title>
+  <%# ChatClean (CCV2-22): o application_title do Administrate vem do módulo Chatwoot. %>
+  <title><%= content_for(:title) %> - <%= ChatcleanBrand.value('INSTALLATION_NAME') %></title>
   <%= render "theme" %>
+  <%= render "chatclean_sidebar" %>
   <%= render "font_preload", file: "Inter/InterVariable.woff2" %>
   <%= render "stylesheet" %>
   <%= vite_client_tag %>

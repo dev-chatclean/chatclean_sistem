@@ -7,6 +7,7 @@
 class SuperAdmin::ApplicationController < Administrate::ApplicationController
   include ActionView::Helpers::TagHelper
   include ActionView::Context
+  include SuperAdminLocale
 
   helper SuperAdmin::NavigationHelper, SuperAdmin::CommandBarHelper, SuperAdmin::UiHelper
   helper_method :render_vue_component

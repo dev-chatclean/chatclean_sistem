@@ -49,10 +49,13 @@ const filteredAgentList = computed(() => {
 const uiFlags = computed(() => getters['agents/getUIFlags'].value);
 const currentUserId = computed(() => getters.getCurrentUserID.value);
 const customRoles = useMapGetter('customRole/getCustomRoles');
+const globalConfig = useMapGetter('globalConfig/get');
 
 onMounted(() => {
   store.dispatch('agents/get');
-  store.dispatch('customRole/getCustomRole');
+  // ChatClean (CCV2-22): papéis customizados são Enterprise; na edição MIT a API não existe.
+  if (globalConfig.value.isEnterprise)
+    store.dispatch('customRole/getCustomRole');
 });
 
 const findCustomRole = agent =>
