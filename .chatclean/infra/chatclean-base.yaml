@@ -1,0 +1,219 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >-
+  ChatClean V2 em produção, máquina única em sa-east-1 (CCV2-19). EC2 com Docker e Caddy,
+  Elastic IP, firewall só com 80/443, acesso por SSM (sem SSH), ECR e a role de deploy do
+  GitHub Actions por OIDC (CCV2-20). Aplicado por .chatclean/infra/deploy-base.
+
+Parameters:
+  AmiId:
+    Type: AWS::EC2::Image::Id
+    Description: >-
+      Ubuntu 24.04 LTS x86. O deploy-base resolve na criação e mantém nas atualizações:
+      um AMI novo recriaria a máquina.
+  InstanceType:
+    Type: String
+    Default: t3.large
+    AllowedValues: [t3.large, t3.xlarge]
+  RootVolumeSize:
+    Type: Number
+    Default: 50
+    MinValue: 50
+  GitHubRepository:
+    Type: String
+    Default: dev-chatclean/chatclean_sistem
+  CreateGitHubOidcProvider:
+    Type: String
+    Default: 'true'
+    AllowedValues: ['true', 'false']
+    Description: false quando a conta já tem o provedor OIDC do GitHub.
+
+Conditions:
+  CreateOidcProvider: !Equals [!Ref CreateGitHubOidcProvider, 'true']
+
+Resources:
+  # Firewall: só HTTP e HTTPS. Sem porta 22 (o terminal é pelo SSM Session Manager) e sem as
+  # portas do Postgres e do Redis, que nem saem dos containers.
+  WebSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: ChatClean - HTTP e HTTPS publicos
+      SecurityGroupIngress:
+        - { IpProtocol: tcp, FromPort: 80, ToPort: 80, CidrIp: 0.0.0.0/0, Description: HTTP (redireciona para HTTPS e desafio ACME) }
+        - { IpProtocol: tcp, FromPort: 443, ToPort: 443, CidrIp: 0.0.0.0/0, Description: HTTPS }
+      Tags: [{ Key: Name, Value: chatclean-web }]
+
+  InstanceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: chatclean-instance
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: { Service: ec2.amazonaws.com }
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+      Policies:
+        - PolicyName: chatclean-production-parameters
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: ssm:GetParametersByPath
+                Resource: !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/chatclean/production
+
+  InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles: [!Ref InstanceRole]
+
+  Instance:
+    Type: AWS::EC2::Instance
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      ImageId: !Ref AmiId
+      InstanceType: !Ref InstanceType
+      IamInstanceProfile: !Ref InstanceProfile
+      SecurityGroupIds: [!GetAtt WebSecurityGroup.GroupId]
+      DisableApiTermination: true
+      # IMDSv2 obrigatório; 2 saltos para os containers (rails e sidekiq usam a role para o S3).
+      MetadataOptions:
+        HttpTokens: required
+        HttpPutResponseHopLimit: 2
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeType: gp3
+            VolumeSize: !Ref RootVolumeSize
+            Encrypted: true
+            # O banco e o Redis moram neste disco: ele sobrevive se a máquina for encerrada.
+            DeleteOnTermination: false
+      Tags: [{ Key: Name, Value: chatclean-production }]
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          # Preparação da máquina (CCV2-19). Roda uma vez, no primeiro boot; log em /var/log/cloud-init-output.log.
+          set -euxo pipefail
+          export DEBIAN_FRONTEND=noninteractive
+
+          # Swap de 4 GB contra picos de memória.
+          fallocate -l 4G /swapfile
+          chmod 600 /swapfile
+          mkswap /swapfile
+          swapon /swapfile
+          echo '/swapfile none swap sw 0 0' >> /etc/fstab
+
+          # Recomendações do Redis.
+          printf 'net.core.somaxconn = 1024\nvm.overcommit_memory = 1\n' > /etc/sysctl.d/90-chatclean.conf
+          sysctl --system
+
+          # Docker Engine e Compose pelo repositório oficial.
+          apt-get update
+          apt-get install -y ca-certificates curl unzip
+          install -m 0755 -d /etc/apt/keyrings
+          curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+          echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" \
+            > /etc/apt/sources.list.d/docker.list
+          apt-get update
+          apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+          systemctl enable --now docker
+
+          # AWS CLI v2 (ECR e Parameter Store no deploy).
+          curl -fsSL https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o /tmp/awscliv2.zip
+          unzip -q /tmp/awscliv2.zip -d /tmp
+          /tmp/aws/install
+          rm -rf /tmp/aws /tmp/awscliv2.zip
+
+          # O AMI Ubuntu traz o SSM Agent (snap); garante que sobe no boot.
+          snap start --enable amazon-ssm-agent
+
+          # Pasta do deploy; os arquivos vêm da imagem a cada release (ver .chatclean/deploy).
+          install -m 0700 -d /opt/chatclean
+
+  ElasticIp:
+    Type: AWS::EC2::EIP
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      Domain: vpc
+      InstanceId: !Ref Instance
+      Tags: [{ Key: Name, Value: chatclean-production }]
+
+  ImageRepository:
+    Type: AWS::ECR::Repository
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      RepositoryName: chatclean
+      ImageTagMutability: IMMUTABLE
+      ImageScanningConfiguration: { ScanOnPush: true }
+      LifecyclePolicy:
+        LifecyclePolicyText: |
+          {"rules": [{"rulePriority": 1, "description": "Guarda as 20 imagens mais recentes",
+            "selection": {"tagStatus": "any", "countType": "imageCountMoreThan", "countNumber": 20},
+            "action": {"type": "expire"}}]}
+
+  GitHubOidcProvider:
+    Type: AWS::IAM::OIDCProvider
+    Condition: CreateOidcProvider
+    Properties:
+      Url: https://token.actions.githubusercontent.com
+      ClientIdList: [sts.amazonaws.com]
+
+  # Role que o workflow chatclean-deploy.yml assume, só a partir de pushes na main.
+  DeployRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: chatclean-github-deploy
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !Sub arn:aws:iam::${AWS::AccountId}:oidc-provider/token.actions.githubusercontent.com
+            Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                token.actions.githubusercontent.com:aud: sts.amazonaws.com
+                token.actions.githubusercontent.com:sub: !Sub repo:${GitHubRepository}:ref:refs/heads/main
+      Policies:
+        - PolicyName: chatclean-deploy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: ecr:GetAuthorizationToken
+                Resource: '*'
+              - Effect: Allow
+                Action:
+                  - ecr:BatchCheckLayerAvailability
+                  - ecr:InitiateLayerUpload
+                  - ecr:UploadLayerPart
+                  - ecr:CompleteLayerUpload
+                  - ecr:PutImage
+                  - ecr:BatchGetImage
+                Resource: !GetAtt ImageRepository.Arn
+              - Effect: Allow
+                Action: ssm:SendCommand
+                Resource:
+                  - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:instance/${Instance}
+                  - !Sub arn:aws:ssm:${AWS::Region}::document/AWS-RunShellScript
+              - Effect: Allow
+                Action: ssm:GetCommandInvocation
+                Resource: '*'
+
+Outputs:
+  InstanceId:
+    Description: Variável CHATCLEAN_INSTANCE_ID do GitHub
+    Value: !Ref Instance
+  PublicIp:
+    Description: Registro A de chat.chatclean.com.br na Hostinger
+    Value: !Ref ElasticIp
+  DeployRoleArn:
+    Description: Variável AWS_DEPLOY_ROLE_ARN do GitHub
+    Value: !GetAtt DeployRole.Arn
+  ImageRepositoryUri:
+    Value: !GetAtt ImageRepository.RepositoryUri

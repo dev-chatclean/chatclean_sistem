@@ -101,6 +101,11 @@ O código de `enterprise/` tem licença própria (`enterprise/LICENSE`): **só p
   - `config/locales/chatclean_rails.pt_BR.yml`: datas e botões, copiados do rails-i18n, que usa o código `pt-BR`.
 - Continuam em inglês as descrições das integrações em Configurações, que vêm dos dados de configuração do Chatwoot.
 
+## Produção (E7)
+
+- Infraestrutura na AWS (máquina, IP fixo, firewall, ECR, role de deploy): `.chatclean/infra/README.md` (CCV2-19).
+- Imagem MIT e deploy: `.chatclean/deploy/README.md` (CCV2-20).
+
 ## Branches
 
 | Branch | Papel | Quem escreve |

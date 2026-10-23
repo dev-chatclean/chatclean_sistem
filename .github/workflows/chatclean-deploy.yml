@@ -1,8 +1,9 @@
 # Deploy do ChatClean em produção (CCV2-20).
 #
 # Desligado até a infraestrutura existir: só roda com a variável de repositório
-# CHATCLEAN_DEPLOY_ENABLED=true. A US 10 (CCV2-19) cria a máquina e define as variáveis
-# AWS_DEPLOY_ROLE_ARN (role assumida por OIDC, sem chave fixa) e CHATCLEAN_INSTANCE_ID.
+# CHATCLEAN_DEPLOY_ENABLED=true. A stack de .chatclean/infra (CCV2-19) cria a máquina e dá os
+# valores das variáveis AWS_DEPLOY_ROLE_ARN (role assumida por OIDC, sem chave fixa) e
+# CHATCLEAN_INSTANCE_ID.
 #
 # O push na main só acontece por PR com o "CI ok" verde (ruleset), então o deploy parte
 # de código já testado.
@@ -60,17 +61,26 @@ jobs:
           docker push "$image"
           echo "IMAGE=$image" >> "$GITHUB_ENV"
 
-      # Sem SSH: o deploy roda na máquina pelo SSM Run Command (release.sh, ver .chatclean/deploy).
+      # Sem SSH: o deploy roda na máquina pelo SSM Run Command. O release.sh vem da própria imagem,
+      # então a máquina só precisa da pasta /opt/chatclean (ver .chatclean/deploy e .chatclean/infra).
       - name: Deploy na máquina
         env:
           INSTANCE_ID: ${{ vars.CHATCLEAN_INSTANCE_ID }}
+          REGISTRY: ${{ steps.ecr.outputs.registry }}
         run: |
+          parameters=$(jq -n --arg image "$IMAGE" --arg registry "$REGISTRY" --arg region "$AWS_REGION" '{commands: [
+            "set -eu",
+            "cd /opt/chatclean",
+            "aws ecr get-login-password --region \($region) | docker login --username AWS --password-stdin \($registry)",
+            "docker run --rm --entrypoint cat \($image) /app/.chatclean/deploy/release.sh > release.sh",
+            "bash release.sh \($image)"
+          ]}')
           command_id=$(aws ssm send-command \
             --instance-ids "$INSTANCE_ID" \
             --document-name AWS-RunShellScript \
             --comment "deploy ${GITHUB_SHA::7}" \
             --timeout-seconds 1800 \
-            --parameters "commands=['/opt/chatclean/release.sh $IMAGE']" \
+            --parameters "$parameters" \
             --query 'Command.CommandId' --output text)
 
           for _ in $(seq 1 120); do
