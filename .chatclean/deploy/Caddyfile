@@ -4,6 +4,12 @@
 {$CHATCLEAN_DOMAIN} {
 	encode zstd gzip
 	reverse_proxy rails:3000
+
+	# Log de acesso em JSON, lido pelo CloudWatch Agent para o alarme de erros 5xx (CCV2-22).
+	log {
+		output file /var/log/caddy/access.log
+		format json
+	}
 }
 
 # HTTP vai para HTTPS com 301 (o redirecionamento automático do Caddy seria 308). O desafio

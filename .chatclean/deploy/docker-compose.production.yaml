@@ -26,6 +26,7 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
+      - ./logs/caddy:/var/log/caddy
     depends_on:
       - rails
 

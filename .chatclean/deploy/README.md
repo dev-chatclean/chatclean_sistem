@@ -55,7 +55,8 @@ Antes de ligar o workflow:
 1. A stack `chatclean-base` (`../infra/README.md`, CCV2-19): máquina com Docker, AWS CLI e SSM, IP
    fixo, firewall, ECR e a role de deploy. Os buckets (CCV2-21) e o SES (CCV2-22) vêm depois.
 2. No Parameter Store, em `/chatclean/production/`, todas as variáveis do `env.production.example`
-   (segredos como SecureString).
+   (segredos como SecureString). `SMTP_USERNAME` e `SMTP_PASSWORD` são gravadas pelo
+   `../infra/ses-smtp-credentials`.
 3. No GitHub, as variáveis `AWS_DEPLOY_ROLE_ARN` e `CHATCLEAN_INSTANCE_ID` (saídas da stack) e, por último,
    `CHATCLEAN_DEPLOY_ENABLED=true`.
 4. No primeiro acesso, o sistema abre `/installation/onboarding` para criar o primeiro administrador e

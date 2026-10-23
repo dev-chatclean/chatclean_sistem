@@ -3,7 +3,8 @@ Description: >-
   ChatClean V2 em produção, máquina única em sa-east-1 (CCV2-19). EC2 com Docker e Caddy,
   Elastic IP, firewall só com 80/443, acesso por SSM (sem SSH), ECR e a role de deploy do
   GitHub Actions por OIDC (CCV2-20). Buckets de anexos e de backup, snapshots diários e o
-  tópico de alertas (CCV2-21). Aplicado por .chatclean/infra/deploy-base.
+  tópico de alertas (CCV2-21). E-mail pelo SES, alarmes do CloudWatch e orçamento (CCV2-22).
+  Aplicado por .chatclean/infra/deploy-base.
 
 Parameters:
   AmiId:
@@ -30,7 +31,15 @@ Parameters:
   AlertEmail:
     Type: String
     Default: desenvolvimento@chatclean.com.br
-    Description: Recebe os alertas (falha de backup e, na CCV2-22, alarmes e orçamento).
+    Description: Recebe os alertas (falha de backup, alarmes e orçamento).
+  MailDomain:
+    Type: String
+    Default: chatclean.com.br
+    Description: Domínio do remetente dos e-mails (SES).
+  MonthlyBudget:
+    Type: Number
+    Default: 150
+    Description: Teto mensal em dólares; alerta em 80% e 100% do gasto e na previsão de 100%.
 
 Conditions:
   CreateOidcProvider: !Equals [!Ref CreateGitHubOidcProvider, 'true']
@@ -60,6 +69,7 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
         - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+        - arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy
       Policies:
         - PolicyName: chatclean-production-parameters
           PolicyDocument:
@@ -159,6 +169,39 @@ Resources:
           # Pasta do deploy; os arquivos vêm da imagem a cada release (ver .chatclean/deploy).
           install -m 0700 -d /opt/chatclean
 
+          # CloudWatch Agent (CCV2-22): memória e disco da máquina, e o log de acesso do Caddy
+          # (logs/caddy, montado no container) para o alarme de erros 5xx.
+          curl -fsSL https://amazoncloudwatch-agent.s3.amazonaws.com/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb \
+            -o /tmp/amazon-cloudwatch-agent.deb
+          dpkg -i -E /tmp/amazon-cloudwatch-agent.deb
+          rm -f /tmp/amazon-cloudwatch-agent.deb
+          cat > /opt/aws/amazon-cloudwatch-agent/etc/chatclean.json <<'JSON'
+          {
+            "agent": { "run_as_user": "root" },
+            "metrics": {
+              "namespace": "ChatClean",
+              "append_dimensions": { "InstanceId": "${aws:InstanceId}" },
+              "aggregation_dimensions": [["InstanceId"]],
+              "metrics_collected": {
+                "mem": { "measurement": ["mem_used_percent"] },
+                "disk": { "resources": ["/"], "measurement": ["used_percent"], "drop_device": true }
+              }
+            },
+            "logs": {
+              "logs_collected": {
+                "files": {
+                  "collect_list": [
+                    { "file_path": "/opt/chatclean/logs/caddy/access.log", "log_group_name": "/chatclean/caddy",
+                      "log_stream_name": "{instance_id}", "retention_in_days": 30 }
+                  ]
+                }
+              }
+            }
+          }
+          JSON
+          /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s \
+            -c file:/opt/aws/amazon-cloudwatch-agent/etc/chatclean.json
+
   ElasticIp:
     Type: AWS::EC2::EIP
     DeletionPolicy: Retain
@@ -247,6 +290,164 @@ Resources:
       Subscription:
         - { Protocol: email, Endpoint: !Ref AlertEmail }
 
+  # E-mail transacional (CCV2-22). O domínio é verificado por DKIM (3 CNAMEs) e o MAIL FROM
+  # bounce.<domínio> tem SPF próprio, então o SPF da raiz (e-mail da Hostinger) não muda.
+  MailIdentity:
+    Type: AWS::SES::EmailIdentity
+    Properties:
+      EmailIdentity: !Ref MailDomain
+      DkimSigningAttributes: { NextSigningKeyLength: RSA_2048_BIT }
+      MailFromAttributes:
+        MailFromDomain: !Sub bounce.${MailDomain}
+        BehaviorOnMxFailure: USE_DEFAULT_VALUE
+
+  # Usuário só para as credenciais SMTP do SES, a única chave fixa do sistema (o Chatwoot envia
+  # por SMTP). A chave é criada pelo ses-smtp-credentials direto no Parameter Store.
+  SmtpUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: chatclean-ses-smtp
+      Policies:
+        - PolicyName: chatclean-ses-send
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: ses:SendRawEmail
+                Resource: !Sub arn:aws:ses:${AWS::Region}:${AWS::AccountId}:identity/${MailDomain}
+
+  # Log de acesso do Caddy, enviado pelo CloudWatch Agent. Tem IP e URL de quem acessa: 30 dias.
+  CaddyLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /chatclean/caddy
+      RetentionInDays: 30
+
+  Http5xxMetricFilter:
+    Type: AWS::Logs::MetricFilter
+    Properties:
+      LogGroupName: !Ref CaddyLogGroup
+      FilterPattern: '{ $.status >= 500 }'
+      MetricTransformations:
+        - { MetricNamespace: ChatClean, MetricName: Http5xx, MetricValue: '1', DefaultValue: 0 }
+
+  Http5xxAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: chatclean-http-5xx
+      AlarmDescription: Mais de 20 respostas 5xx em 5 minutos
+      Namespace: ChatClean
+      MetricName: Http5xx
+      Statistic: Sum
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 20
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: notBreaching
+      AlarmActions: [!Ref AlertsTopic]
+      OKActions: [!Ref AlertsTopic]
+
+  CpuAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: chatclean-cpu
+      AlarmDescription: CPU acima de 85% por 10 minutos
+      Namespace: AWS/EC2
+      MetricName: CPUUtilization
+      Dimensions: [{ Name: InstanceId, Value: !Ref Instance }]
+      Statistic: Average
+      Period: 300
+      EvaluationPeriods: 2
+      Threshold: 85
+      ComparisonOperator: GreaterThanThreshold
+      AlarmActions: [!Ref AlertsTopic]
+      OKActions: [!Ref AlertsTopic]
+
+  MemoryAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: chatclean-memoria
+      AlarmDescription: Memória acima de 90% por 10 minutos
+      Namespace: ChatClean
+      MetricName: mem_used_percent
+      Dimensions: [{ Name: InstanceId, Value: !Ref Instance }]
+      Statistic: Average
+      Period: 300
+      EvaluationPeriods: 2
+      Threshold: 90
+      ComparisonOperator: GreaterThanThreshold
+      AlarmActions: [!Ref AlertsTopic]
+      OKActions: [!Ref AlertsTopic]
+
+  DiskAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: chatclean-disco
+      AlarmDescription: Disco acima de 80%
+      Namespace: ChatClean
+      MetricName: disk_used_percent
+      Dimensions: [{ Name: InstanceId, Value: !Ref Instance }]
+      Statistic: Maximum
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 80
+      ComparisonOperator: GreaterThanThreshold
+      AlarmActions: [!Ref AlertsTopic]
+      OKActions: [!Ref AlertsTopic]
+
+  # Falha do hardware da AWS: a máquina é recuperada em outro host, com o mesmo disco e IP.
+  SystemCheckAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: chatclean-maquina-recuperada
+      AlarmDescription: Falha no host da AWS; a máquina foi recuperada automaticamente
+      Namespace: AWS/EC2
+      MetricName: StatusCheckFailed_System
+      Dimensions: [{ Name: InstanceId, Value: !Ref Instance }]
+      Statistic: Maximum
+      Period: 60
+      EvaluationPeriods: 2
+      Threshold: 0
+      ComparisonOperator: GreaterThanThreshold
+      AlarmActions:
+        - !Sub arn:aws:automate:${AWS::Region}:ec2:recover
+        - !Ref AlertsTopic
+
+  # Falha dentro da máquina (sistema travado, sem memória): alerta para alguém olhar.
+  InstanceCheckAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: chatclean-maquina-sem-resposta
+      AlarmDescription: A máquina não responde à verificação de status da AWS
+      Namespace: AWS/EC2
+      MetricName: StatusCheckFailed_Instance
+      Dimensions: [{ Name: InstanceId, Value: !Ref Instance }]
+      Statistic: Maximum
+      Period: 60
+      EvaluationPeriods: 3
+      Threshold: 0
+      ComparisonOperator: GreaterThanThreshold
+      AlarmActions: [!Ref AlertsTopic]
+      OKActions: [!Ref AlertsTopic]
+
+  # Gasto bruto, sem descontar os créditos: mostra o consumo real mesmo com a conta coberta.
+  MonthlyCostBudget:
+    Type: AWS::Budgets::Budget
+    Properties:
+      Budget:
+        BudgetName: chatclean-mensal
+        BudgetType: COST
+        TimeUnit: MONTHLY
+        BudgetLimit: { Amount: !Ref MonthlyBudget, Unit: USD }
+        CostTypes: { IncludeCredit: false, IncludeRefund: false }
+      NotificationsWithSubscribers:
+        - Notification: { NotificationType: ACTUAL, ComparisonOperator: GREATER_THAN, Threshold: 80, ThresholdType: PERCENTAGE }
+          Subscribers: [{ SubscriptionType: EMAIL, Address: !Ref AlertEmail }]
+        - Notification: { NotificationType: ACTUAL, ComparisonOperator: GREATER_THAN, Threshold: 100, ThresholdType: PERCENTAGE }
+          Subscribers: [{ SubscriptionType: EMAIL, Address: !Ref AlertEmail }]
+        - Notification: { NotificationType: FORECASTED, ComparisonOperator: GREATER_THAN, Threshold: 100, ThresholdType: PERCENTAGE }
+          Subscribers: [{ SubscriptionType: EMAIL, Address: !Ref AlertEmail }]
+
   ImageRepository:
     Type: AWS::ECR::Repository
     DeletionPolicy: Retain
@@ -327,3 +528,12 @@ Outputs:
     Value: !Ref AttachmentsBucket
   BackupsBucketName:
     Value: !Ref BackupsBucket
+  DkimRecord1:
+    Description: CNAME na Hostinger (nome -> valor)
+    Value: !Sub ${MailIdentity.DkimDNSTokenName1} -> ${MailIdentity.DkimDNSTokenValue1}
+  DkimRecord2:
+    Description: CNAME na Hostinger (nome -> valor)
+    Value: !Sub ${MailIdentity.DkimDNSTokenName2} -> ${MailIdentity.DkimDNSTokenValue2}
+  DkimRecord3:
+    Description: CNAME na Hostinger (nome -> valor)
+    Value: !Sub ${MailIdentity.DkimDNSTokenName3} -> ${MailIdentity.DkimDNSTokenValue3}
