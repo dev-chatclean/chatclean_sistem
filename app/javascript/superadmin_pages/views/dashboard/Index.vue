@@ -11,7 +11,8 @@ const props = defineProps({
   },
 });
 
-const CHART_COLOR = '#2781F6';
+// ChatClean (CCV2-22): verde de ação da marca.
+const CHART_COLOR = '#007A2A';
 const CHART_HEIGHT = 300;
 const BAR_MAX_WIDTH = 28;
 const BAR_RADIUS = 6;
