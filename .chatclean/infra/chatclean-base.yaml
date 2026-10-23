@@ -2,7 +2,8 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: >-
   ChatClean V2 em produção, máquina única em sa-east-1 (CCV2-19). EC2 com Docker e Caddy,
   Elastic IP, firewall só com 80/443, acesso por SSM (sem SSH), ECR e a role de deploy do
-  GitHub Actions por OIDC (CCV2-20). Aplicado por .chatclean/infra/deploy-base.
+  GitHub Actions por OIDC (CCV2-20). Buckets de anexos e de backup, snapshots diários e o
+  tópico de alertas (CCV2-21). Aplicado por .chatclean/infra/deploy-base.
 
 Parameters:
   AmiId:
@@ -26,6 +27,10 @@ Parameters:
     Default: 'true'
     AllowedValues: ['true', 'false']
     Description: false quando a conta já tem o provedor OIDC do GitHub.
+  AlertEmail:
+    Type: String
+    Default: desenvolvimento@chatclean.com.br
+    Description: Recebe os alertas (falha de backup e, na CCV2-22, alarmes e orçamento).
 
 Conditions:
   CreateOidcProvider: !Equals [!Ref CreateGitHubOidcProvider, 'true']
@@ -63,6 +68,23 @@ Resources:
               - Effect: Allow
                 Action: ssm:GetParametersByPath
                 Resource: !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/chatclean/production
+        # Anexos (Active Storage, sem chave fixa: o SDK usa esta role) e envio dos backups.
+        - PolicyName: chatclean-storage
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: s3:ListBucket
+                Resource: !GetAtt AttachmentsBucket.Arn
+              - Effect: Allow
+                Action: [s3:GetObject, s3:PutObject, s3:DeleteObject]
+                Resource: !Sub ${AttachmentsBucket.Arn}/*
+              - Effect: Allow
+                Action: s3:PutObject
+                Resource: !Sub ${BackupsBucket.Arn}/database/*
+              - Effect: Allow
+                Action: sns:Publish
+                Resource: !Ref AlertsTopic
 
   InstanceProfile:
     Type: AWS::IAM::InstanceProfile
@@ -95,16 +117,20 @@ Resources:
       UserData:
         Fn::Base64: |
           #!/bin/bash
-          # Preparação da máquina (CCV2-19). Roda uma vez, no primeiro boot; log em /var/log/cloud-init-output.log.
+          # Preparação da máquina (CCV2-19). Roda no primeiro boot de cada máquina, inclusive de uma
+          # recriada a partir de um snapshot (CCV2-21), por isso pode encontrar tudo já feito.
+          # Log em /var/log/cloud-init-output.log.
           set -euxo pipefail
           export DEBIAN_FRONTEND=noninteractive
 
           # Swap de 4 GB contra picos de memória.
-          fallocate -l 4G /swapfile
-          chmod 600 /swapfile
-          mkswap /swapfile
-          swapon /swapfile
-          echo '/swapfile none swap sw 0 0' >> /etc/fstab
+          if [ ! -f /swapfile ]; then
+            fallocate -l 4G /swapfile
+            chmod 600 /swapfile
+            mkswap /swapfile
+            swapon /swapfile
+            echo '/swapfile none swap sw 0 0' >> /etc/fstab
+          fi
 
           # Recomendações do Redis.
           printf 'net.core.somaxconn = 1024\nvm.overcommit_memory = 1\n' > /etc/sysctl.d/90-chatclean.conf
@@ -123,8 +149,8 @@ Resources:
 
           # AWS CLI v2 (ECR e Parameter Store no deploy).
           curl -fsSL https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o /tmp/awscliv2.zip
-          unzip -q /tmp/awscliv2.zip -d /tmp
-          /tmp/aws/install
+          unzip -q -o /tmp/awscliv2.zip -d /tmp
+          /tmp/aws/install --update
           rm -rf /tmp/aws /tmp/awscliv2.zip
 
           # O AMI Ubuntu traz o SSM Agent (snap); garante que sobe no boot.
@@ -141,6 +167,85 @@ Resources:
       Domain: vpc
       InstanceId: !Ref Instance
       Tags: [{ Key: Name, Value: chatclean-production }]
+
+  # Anexos das conversas. Privado; o Rails entrega por URL pré-assinada de validade curta.
+  AttachmentsBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BucketName: !Sub chatclean-attachments-${AWS::AccountId}
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault: { SSEAlgorithm: AES256 }
+      OwnershipControls:
+        Rules: [{ ObjectOwnership: BucketOwnerEnforced }]
+
+  # Dumps diários do banco (backup-db.sh), apagados depois de 30 dias.
+  BackupsBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BucketName: !Sub chatclean-backups-${AWS::AccountId}
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault: { SSEAlgorithm: AES256 }
+      OwnershipControls:
+        Rules: [{ ObjectOwnership: BucketOwnerEnforced }]
+      LifecycleConfiguration:
+        Rules:
+          - Id: expira-dumps
+            Status: Enabled
+            Prefix: database/
+            ExpirationInDays: 30
+
+  # Snapshot diário do disco da máquina às 03:30 de Brasília, guardando os 7 últimos.
+  SnapshotRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: chatclean-snapshots
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: { Service: dlm.amazonaws.com }
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSDataLifecycleManagerServiceRole
+
+  SnapshotPolicy:
+    Type: AWS::DLM::LifecyclePolicy
+    Properties:
+      Description: ChatClean - snapshot diario do disco, 7 dias
+      State: ENABLED
+      ExecutionRoleArn: !GetAtt SnapshotRole.Arn
+      PolicyDetails:
+        ResourceTypes: [INSTANCE]
+        TargetTags: [{ Key: Name, Value: chatclean-production }]
+        Schedules:
+          - Name: diario
+            CreateRule: { Interval: 24, IntervalUnit: HOURS, Times: ['06:30'] }
+            RetainRule: { Count: 7 }
+            CopyTags: true
+
+  # Alertas por e-mail. A assinatura precisa ser confirmada no link que a AWS manda.
+  AlertsTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: chatclean-alerts
+      Subscription:
+        - { Protocol: email, Endpoint: !Ref AlertEmail }
 
   ImageRepository:
     Type: AWS::ECR::Repository
@@ -217,3 +322,8 @@ Outputs:
     Value: !GetAtt DeployRole.Arn
   ImageRepositoryUri:
     Value: !GetAtt ImageRepository.RepositoryUri
+  AttachmentsBucketName:
+    Description: Parâmetro S3_BUCKET_NAME em /chatclean/production
+    Value: !Ref AttachmentsBucket
+  BackupsBucketName:
+    Value: !Ref BackupsBucket

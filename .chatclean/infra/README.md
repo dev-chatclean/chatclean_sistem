@@ -18,12 +18,16 @@ CLI com `deploy-base`. O deploy da aplicação nessa máquina está em `../deplo
 | Role da máquina | SSM, leitura do ECR e dos parâmetros em `/chatclean/production` |
 | ECR `chatclean` | imagens imutáveis, varredura de vulnerabilidades e as 20 mais recentes guardadas |
 | OIDC do GitHub + role `chatclean-github-deploy` | o workflow de deploy entra na AWS sem chave fixa, só a partir da `main` |
+| Bucket `chatclean-attachments-<conta>` | anexos das conversas (CCV2-21): privado, criptografado (SSE-S3); a máquina acessa pela role, sem chave fixa |
+| Bucket `chatclean-backups-<conta>` | dumps diários do banco em `database/`, apagados depois de 30 dias |
+| Snapshots (Data Lifecycle Manager) | snapshot diário do disco às 03:30 de Brasília, guardando os 7 últimos |
+| Tópico SNS `chatclean-alerts` | alertas por e-mail para `AlertEmail` (padrão `desenvolvimento@chatclean.com.br`) |
 
 O Docker sobe no boot pelo systemd. Caddy, rails, sidekiq, Postgres e Redis são containers com
 `restart: always`, então voltam junto depois de um reboot.
 
-Custo aproximado: US$ 110/mês (máquina ~US$ 98, disco ~US$ 8, IP ~US$ 4). Confira na calculadora da
-AWS antes de criar.
+Custo aproximado: US$ 115/mês (máquina ~US$ 98, disco ~US$ 8, IP ~US$ 4, snapshots e S3 alguns dólares,
+crescendo com os anexos). Confira na calculadora da AWS antes de criar.
 
 ## Criar
 
@@ -41,6 +45,11 @@ Saídas:
 | `PublicIp` | registro A de `chat` na Hostinger |
 | `InstanceId` | variável `CHATCLEAN_INSTANCE_ID` do GitHub |
 | `DeployRoleArn` | variável `AWS_DEPLOY_ROLE_ARN` do GitHub |
+| `AttachmentsBucketName` | parâmetro `S3_BUCKET_NAME` em `/chatclean/production` |
+
+A AWS manda um e-mail para o `AlertEmail` pedindo para confirmar a assinatura dos alertas. **Clique no
+link**, senão nenhum alerta chega. Para outro endereço, crie com
+`aws cloudformation deploy ... --parameter-overrides AlertEmail=<email>` ou troque depois no console do SNS.
 
 A preparação da máquina leva alguns minutos depois que a stack termina. Para conferir:
 
@@ -75,6 +84,7 @@ Se o DNS ainda não tiver propagado, o Caddy tenta emitir de novo sozinho, com i
 ## Depois
 
 1. Parâmetros em `/chatclean/production/` e variáveis do GitHub: ver "Primeiro deploy" em `../deploy/README.md`.
+   Backup e recuperação: ver "Backup e recuperação" no mesmo arquivo.
 2. Teste de reboot: `aws ec2 reboot-instances --instance-ids <InstanceId>`. A máquina volta com o mesmo IP
    e os containers sobem sozinhos.
 
@@ -86,4 +96,4 @@ Se o DNS ainda não tiver propagado, o Caddy tenta emitir de novo sozinho, com i
 - **Desmontar tudo** (só com o PO de acordo, porque apaga o banco):
   1. desligue a proteção contra encerramento e encerre a máquina;
   2. apague a stack: ela remove o Security Group, as roles e o OIDC;
-  3. apague à mão o que a stack mantém (`DeletionPolicy: Retain`): o disco, o Elastic IP e o ECR.
+  3. apague à mão o que a stack mantém (`DeletionPolicy: Retain`): o disco, o Elastic IP, o ECR e os dois buckets.
