@@ -1,0 +1,91 @@
+# ChatClean em produção numa máquina única (CCV2-19/CCV2-20).
+# No servidor fica em /opt/chatclean, ao lado do .env gerado a partir do SSM Parameter Store.
+# A imagem (CHATCLEAN_IMAGE) é a edição MIT, montada sem enterprise/ (build-production-image).
+name: chatclean
+
+x-app: &app
+  image: ${CHATCLEAN_IMAGE:?defina CHATCLEAN_IMAGE com a imagem a rodar}
+  env_file: .env
+  restart: always
+  depends_on:
+    postgres:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+
+services:
+  caddy:
+    image: caddy:2.10-alpine
+    restart: always
+    ports:
+      - '${CHATCLEAN_HTTP_PORT:-80}:80'
+      - '${CHATCLEAN_HTTPS_PORT:-443}:443'
+    environment:
+      CHATCLEAN_DOMAIN: ${CHATCLEAN_DOMAIN:?defina CHATCLEAN_DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - rails
+
+  rails:
+    <<: *app
+    entrypoint: docker/entrypoints/rails.sh
+    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+    # 127.0.0.1 porque "localhost" resolve para IPv6 e o Puma escuta só IPv4. O cabeçalho imita o
+    # Caddy: com FORCE_SSL=true, uma chamada HTTP pura seria redirecionada para HTTPS.
+    healthcheck:
+      test: ['CMD-SHELL', "wget -qO- --header 'X-Forwarded-Proto: https' http://127.0.0.1:3000/health > /dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 60s
+
+  sidekiq:
+    <<: *app
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USERNAME:?defina POSTGRES_USERNAME no .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?defina POSTGRES_PASSWORD no .env}
+      POSTGRES_DB: ${POSTGRES_DATABASE:?defina POSTGRES_DATABASE no .env}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U "$$POSTGRES_USER"']
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    # appendonly: as filas do Sidekiq sobrevivem a um reinício (CCV2-21).
+    command: ['sh', '-c', 'redis-server --requirepass "$$REDIS_PASSWORD" --appendonly yes']
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?defina REDIS_PASSWORD no .env}
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ['CMD-SHELL', 'redis-cli -a "$$REDIS_PASSWORD" --no-auth-warning ping | grep -q PONG']
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+volumes:
+  caddy_data:
+  caddy_config:
+  postgres_data:
+  redis_data:

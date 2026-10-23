@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Monta a imagem de produção da edição MIT (CCV2-20): o código de enterprise/ só pode rodar em
+# produção com licença, então sai do build, como no workflow CE do próprio Chatwoot
+# (publish_foss_docker.yml). Usa um clone local do commit atual, sem mexer no projeto.
+#
+# Uso: .chatclean/bin/build-production-image [tag]   (padrão: chatclean:local)
+set -euo pipefail
+
+TAG="${1:-chatclean:local}"
+ROOT="$(git rev-parse --show-toplevel)"
+WORK="$(mktemp -d)"
+trap 'rm -rf "$WORK"' EXIT
+
+git clone --quiet --no-hardlinks --branch "$(git -C "$ROOT" rev-parse --abbrev-ref HEAD)" "$ROOT" "$WORK/src"
+rm -rf "$WORK/src/enterprise" "$WORK/src/spec/enterprise"
+printf '\nENV CW_EDITION="ce"\n' >> "$WORK/src/docker/Dockerfile"
+
+docker build --file "$WORK/src/docker/Dockerfile" --tag "$TAG" "$WORK/src"
+
+if docker run --rm --entrypoint sh "$TAG" -c 'test -e /app/enterprise'; then
+  echo "ERRO: a imagem $TAG contém enterprise/." >&2
+  exit 1
+fi
+echo "Imagem $TAG pronta, sem enterprise/ ($(git -C "$ROOT" rev-parse --short HEAD))."
