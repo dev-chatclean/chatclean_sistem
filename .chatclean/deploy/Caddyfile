@@ -1,0 +1,7 @@
+# HTTPS automático (Let's Encrypt) para o domínio do ChatClean (CCV2-19). O Caddy já redireciona
+# HTTP para HTTPS, repassa WebSocket (/cable) e os cabeçalhos X-Forwarded-*.
+# Com CHATCLEAN_DOMAIN=localhost (teste local), usa um certificado interno.
+{$CHATCLEAN_DOMAIN} {
+	encode zstd gzip
+	reverse_proxy rails:3000
+}
