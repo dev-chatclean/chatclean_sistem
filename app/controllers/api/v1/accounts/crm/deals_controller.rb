@@ -2,6 +2,8 @@
 # (crm_stage_id) para um estágio won, lost ou open do pipeline. Perder exige crm_loss_reason_id.
 # conversation_id registra a conversa de origem e não pode ser trocado depois. O painel da conversa
 # envia conversation_display_id, o número que aparece na URL (CCV2-16).
+# O atendente só vê e edita os deals em que é o responsável; só o administrador troca o
+# responsável (US 27).
 class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::BaseController
   RESULTS_PER_PAGE = 50
   # Contato e responsável aparecem no card do Kanban com nome e avatar.
@@ -20,22 +22,29 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::BaseControlle
   def show; end
 
   def create
-    @deal = ::Crm::Deal.create!(deal_attributes.merge(account: Current.account, crm_contact: crm_contact))
+    attributes = deal_attributes.merge(account: Current.account, crm_contact: crm_contact)
+    attributes[:assignee] = Current.user unless Current.account_user.administrator?
+    @deal = ::Crm::Deal.create!(attributes)
   end
 
   def update
+    authorize(::Crm::Deal, :assign?) if deal_params.key?(:assignee_id)
     @deal.update!(deal_attributes)
   end
 
   private
 
   def fetch_deal
-    @deal = account_scoped(::Crm::Deal).find(params[:id])
+    @deal = visible_deals.find(params[:id])
+  end
+
+  def visible_deals
+    account_scoped(::Crm::Deal).visible_to(Current.account_user)
   end
 
   def filtered_deals
     filters = params.slice(:crm_stage_id, :status, :conversation_id).permit(:crm_stage_id, :status, :conversation_id).compact_blank
-    deals = account_scoped(::Crm::Deal).includes(*CARD_INCLUDES).where(filters.to_h)
+    deals = visible_deals.includes(*CARD_INCLUDES).where(filters.to_h)
     SCOPE_FILTERS.reduce(deals) do |scope, (param, scope_name)|
       params[param].present? ? scope.public_send(scope_name, params[param]) : scope
     end

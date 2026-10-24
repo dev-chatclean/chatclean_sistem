@@ -1,6 +1,17 @@
 import { mount } from '@vue/test-utils';
 import DealCard from '../DealCard.vue';
 
+const mocks = vi.hoisted(() => ({ isAdmin: { value: true } }));
+
+vi.mock('dashboard/composables/useAdmin', async () => {
+  const { computed } = await vi.importActual('vue');
+  return { useAdmin: () => ({ isAdmin: computed(() => mocks.isAdmin.value) }) };
+});
+
+beforeEach(() => {
+  mocks.isAdmin.value = true;
+});
+
 const buildDeal = overrides => ({
   id: 7,
   title: 'Plano anual',
@@ -67,6 +78,15 @@ describe('DealCard', () => {
     );
 
     expect(wrapper.text()).toContain('CRM.KANBAN.CARD.BLOCKED_CONTACT');
+    expect(
+      wrapper.find('[data-test="assignee"]').attributes('disabled')
+    ).toBeDefined();
+  });
+
+  it('trava a troca de responsável para o atendente (US 27)', () => {
+    mocks.isAdmin.value = false;
+    const wrapper = mountCard(buildDeal());
+
     expect(
       wrapper.find('[data-test="assignee"]').attributes('disabled')
     ).toBeDefined();
