@@ -51,6 +51,8 @@ class Crm::Deal < Crm::ApplicationRecord
   scope :in_pipeline, ->(pipeline_id) { joins(:stage).where(crm_stages: { crm_pipeline_id: pipeline_id }) }
   scope :for_contact, ->(contact_id) { joins(:crm_contact).where(crm_contacts: { contact_id: contact_id }) }
   scope :assigned_to, ->(assignee_id) { where(assignee_id: assignee_id == 'none' ? nil : assignee_id) }
+  # O administrador vê todos; o atendente, só os deals em que é o responsável (US 27).
+  scope :visible_to, ->(account_user) { account_user.administrator? ? all : where(assignee_id: account_user.user_id) }
 
   # Histórico de funil e reaberturas (FA 3.2). Fica em deal.audits, fora da tela de auditoria da conta.
   audited only: %i[crm_stage_id status crm_loss_reason_id loss_details value assignee_id conversation_id]
