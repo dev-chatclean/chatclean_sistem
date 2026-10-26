@@ -5,7 +5,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import ButtonNext from 'next/button/Button.vue';
 import Icon from 'next/icon/Icon.vue';
-import Logo from 'next/icon/Logo.vue';
+import BrandIcon from 'dashboard/chatclean/BrandIcon.vue';
 
 import {
   DropdownContainer,
@@ -61,7 +61,8 @@ const emitNewAccount = () => {
         :title="currentAccount.name"
         @click="toggle"
       >
-        <Logo class="size-7" />
+        <!-- ChatClean: isotipo verde no claro e dourado no escuro. -->
+        <BrandIcon class="size-7" />
       </button>
       <!-- Expanded view: Account name trigger -->
       <button
