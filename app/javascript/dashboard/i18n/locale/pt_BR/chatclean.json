@@ -107,6 +107,21 @@
       "SUCCESS": "Atendimento iniciado",
       "ERROR": "Não foi possível iniciar o atendimento. Tente de novo.",
       "NO_INBOX": "Não há canal para falar com este contato. Use um número com um canal que envie por telefone, como o WhatsApp."
+    },
+    "CANNED": {
+      "VISIBILITY": {
+        "LABEL": "Disponível para",
+        "EVERYONE": "Todos",
+        "TEAMS": "Departamentos",
+        "PERSONAL": "Só eu"
+      },
+      "TEAMS": "Departamentos",
+      "TEAMS_PLACEHOLDER": "Escolha os departamentos",
+      "ATTACHMENTS": "Anexos (até 16 MB no total)",
+      "ADD_ATTACHMENT": "Adicionar arquivo",
+      "OVER_LIMIT": "Os anexos passam de 16 MB no total. Remova algum arquivo para salvar.",
+      "SHOW_USER_RESPONSES": "Exibir mensagens criadas por usuários",
+      "OWNED_BY": "Só {name}"
     }
   }
 }

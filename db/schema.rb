@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_26_164532) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_26_185407) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -412,6 +412,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_164532) do
     t.text "content"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.bigint "owner_id"
+    t.integer "visibility", default: 0, null: false
+    t.index ["owner_id"], name: "index_canned_responses_on_owner_id"
   end
 
   create_table "captain_assistant_responses", force: :cascade do |t|
@@ -762,6 +765,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_164532) do
     t.string "phone_number_health_error", limit: 500
     t.index ["phone_number_health_checked_at"], name: "index_channel_whatsapp_on_phone_number_health_checked_at"
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
+  end
+
+  create_table "chatclean_canned_response_teams", force: :cascade do |t|
+    t.integer "canned_response_id", null: false
+    t.bigint "team_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["canned_response_id", "team_id"], name: "index_chatclean_canned_response_teams_on_response_and_team", unique: true
+    t.index ["team_id"], name: "index_chatclean_canned_response_teams_on_team_id"
   end
 
   create_table "chatclean_closing_reason_teams", force: :cascade do |t|
@@ -1837,6 +1849,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_164532) do
   add_foreign_key "campaign_recipients", "campaigns", on_delete: :cascade
   add_foreign_key "campaign_recipients", "contacts", on_delete: :cascade
   add_foreign_key "campaign_recipients", "inboxes", on_delete: :cascade
+  add_foreign_key "canned_responses", "users", column: "owner_id", on_delete: :nullify
+  add_foreign_key "chatclean_canned_response_teams", "canned_responses", on_delete: :cascade
+  add_foreign_key "chatclean_canned_response_teams", "teams", on_delete: :cascade
   add_foreign_key "chatclean_closing_reason_teams", "chatclean_closing_reasons", column: "closing_reason_id", on_delete: :cascade
   add_foreign_key "chatclean_closing_reason_teams", "teams", on_delete: :cascade
   add_foreign_key "chatclean_closing_reasons", "accounts", on_delete: :cascade

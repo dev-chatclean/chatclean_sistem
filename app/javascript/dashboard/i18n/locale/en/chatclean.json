@@ -107,6 +107,21 @@
       "SUCCESS": "Conversation started",
       "ERROR": "Could not start the conversation. Try again.",
       "NO_INBOX": "There is no inbox to reach this contact. Use a number with an inbox that sends by phone, such as WhatsApp."
+    },
+    "CANNED": {
+      "VISIBILITY": {
+        "LABEL": "Available to",
+        "EVERYONE": "Everyone",
+        "TEAMS": "Teams",
+        "PERSONAL": "Only me"
+      },
+      "TEAMS": "Teams",
+      "TEAMS_PLACEHOLDER": "Choose the teams",
+      "ATTACHMENTS": "Attachments (up to 16 MB in total)",
+      "ADD_ATTACHMENT": "Add file",
+      "OVER_LIMIT": "The attachments exceed 16 MB in total. Remove some files to save.",
+      "SHOW_USER_RESPONSES": "Show responses created by users",
+      "OWNED_BY": "Only {name}"
     }
   }
 }

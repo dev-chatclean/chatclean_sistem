@@ -16,7 +16,8 @@ class CannedResponse < ApplicationRecord
   validates :content, presence: true
   validates :short_code, presence: true
   validates :account, presence: true
-  validates :short_code, uniqueness: { scope: :account_id }
+  # ChatClean (US 17): o atalho é único entre as compartilhadas e entre as de cada usuário.
+  validates :short_code, uniqueness: { scope: [:account_id, :owner_id] }
 
   belongs_to :account
 

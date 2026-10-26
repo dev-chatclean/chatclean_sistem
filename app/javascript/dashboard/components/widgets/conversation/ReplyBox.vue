@@ -59,6 +59,10 @@ import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { emitter } from 'shared/helpers/mitt';
+import {
+  CANNED_ATTACHMENTS_EVENT,
+  downloadCannedAttachments,
+} from 'dashboard/chatclean/canned/cannedAttachments';
 const EmojiIconPicker = defineAsyncComponent(
   () =>
     import('dashboard/components-next/emoji-icon-picker/EmojiIconPicker.vue')
@@ -636,6 +640,7 @@ export default {
       this.onNewConversationModalActive
     );
     emitter.on(CMD_AI_ASSIST, this.executeCopilotAction);
+    emitter.on(CANNED_ATTACHMENTS_EVENT, this.attachCannedFiles);
   },
   unmounted() {
     document.removeEventListener('paste', this.onPaste);
@@ -645,6 +650,7 @@ export default {
       this.onNewConversationModalActive
     );
     emitter.off(CMD_AI_ASSIST, this.executeCopilotAction);
+    emitter.off(CANNED_ATTACHMENTS_EVENT, this.attachCannedFiles);
   },
   methods: {
     openContactInfoTemplateModal() {
@@ -789,6 +795,27 @@ export default {
         this.isFocused &&
         this.isEditorHotKeyEnabled(selectedKey)
       );
+    },
+    // ChatClean (US 17): anexos da mensagem rápida escolhida no "/". Em canal que não aceita
+    // arquivo, só o texto entra.
+    async attachCannedFiles(attachments) {
+      if (!this.showFileUpload) return;
+
+      const files = await downloadCannedAttachments(attachments);
+      files
+        .filter(file =>
+          isFileTypeAllowedForChannel(file, {
+            channelType: this.channelType || this.inbox?.channel_type,
+            medium: this.inbox?.medium,
+            conversationType: this.conversationType,
+            isInstagramChannel: this.isAnInstagramChannel,
+            isOnPrivateNote: this.isOnPrivateNote,
+          })
+        )
+        .forEach(file => {
+          const { name, type, size } = file;
+          this.onFileUpload({ name, type, size, file });
+        });
     },
     onPaste(e) {
       // Don't handle paste if compose new conversation modal is open
