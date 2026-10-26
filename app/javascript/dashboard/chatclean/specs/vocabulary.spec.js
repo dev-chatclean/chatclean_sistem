@@ -7,7 +7,7 @@ const OLD_TERMS =
   /\b(conversas?|caixas? de entrada|times?|agentes?|respostas? prontas?|atributos? personalizados?|aplicativos? do painel|campanhas?)\b/i;
 
 // Usos que continuam com o termo: e-mail do próprio usuário, notificações, o time do Linear,
-// o robô (agente bot), conversas do WhatsApp e o botão do widget, que tem tradução própria.
+// o robô (agente bot), conversas do WhatsApp, o botão do widget, que tem tradução própria, e o time inteiro.
 const ALLOWED = [
   'REGISTER.VERIFY_EMAIL.TITLE',
   'REGISTER.VERIFY_EMAIL.RESEND_SUCCESS',
@@ -35,6 +35,26 @@ const ALLOWED = [
   'INBOX_MGMT.ADD.EMAIL_CHANNEL.DESC',
   'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.DESCRIPTIONS.APPROVED',
   'INBOX_MGMT.WIDGET_BUILDER.FOOTER.START_CONVERSATION_BUTTON_TEXT',
+  // "Time" no sentido do time inteiro, e não de departamento, fica como no Chatwoot (decisão do PO, 26/10/2026).
+  'INTEGRATION_SETTINGS.DESCRIPTION',
+  'INTEGRATION_SETTINGS.SLACK.HELP_TEXT.BODY_ALERT',
+  'CAPTAIN.OVERVIEW.METRICS.HANDLED.HINT',
+  'CAPTAIN.OVERVIEW.METRICS.AUTO_RESOLUTION.HINT',
+  'CAPTAIN.OVERVIEW.METRICS.HANDOFF.HINT',
+  'CAPTAIN.OVERVIEW.V2.RESOLUTION_FLOW.ARIA_LABEL',
+  'CAPTAIN.OVERVIEW.V2.RESOLUTION_FLOW.NODES.CLOSED_WITH_TEAM',
+  'CAPTAIN.OVERVIEW.V2.CSAT.AUTONOMOUS_HINT',
+  'CONVERSATION.VISIBLE_TO_AGENTS',
+  'SLA.DESCRIPTION',
+  'TEAMS_SETTINGS.CREATE_FLOW.AGENTS.DESC',
+  'TEAMS_SETTINGS.ADD.DESC',
+  'TEAMS_SETTINGS.FINISH.MESSAGE',
+  'AGENT_MGMT.DESCRIPTION',
+  'AGENT_MGMT.LIST.TITLE',
+  'AGENT_MGMT.LIST.DESC',
+  'AGENT_MGMT.ADD.TITLE',
+  'AUTOMATION.DESCRIPTION',
+  'BILLING_SETTINGS.DESCRIPTION',
 ];
 
 const texts = (node, path = []) =>
