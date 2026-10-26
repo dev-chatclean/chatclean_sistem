@@ -856,6 +856,12 @@ const chatwootMenuItems = computed(() => {
           to: accountScopedRoute('closing_reasons_settings_index'),
         },
         {
+          name: 'Settings Business Hours',
+          label: t('CHATCLEAN.BUSINESS_HOURS.MENU'),
+          icon: 'i-lucide-calendar-clock',
+          to: accountScopedRoute('chatclean_business_hours_index'),
+        },
+        {
           name: 'Settings Custom Attributes',
           label: t('SIDEBAR.CUSTOM_ATTRIBUTES'),
           icon: 'i-lucide-code',

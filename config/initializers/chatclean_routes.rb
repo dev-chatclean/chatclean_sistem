@@ -7,6 +7,10 @@ Rails.application.routes.append do
       resources :accounts, only: [] do
         scope module: :accounts do
           resources :closing_reasons, only: [:index, :create, :update, :destroy]
+          resource :working_schedule, only: [:show, :update]
+          resources :holidays, only: [:index, :create, :update, :destroy] do
+            post :import_national, on: :collection
+          end
           resources :conversations, only: [] do
             scope module: :conversations do
               resource :acceptance, only: [:create]

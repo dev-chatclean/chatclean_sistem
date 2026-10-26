@@ -122,6 +122,64 @@
       "OVER_LIMIT": "The attachments exceed 16 MB in total. Remove some files to save.",
       "SHOW_USER_RESPONSES": "Show responses created by users",
       "OWNED_BY": "Only {name}"
+    },
+    "BUSINESS_HOURS": {
+      "MENU": "Business hours and holidays",
+      "HEADER": "Business hours and holidays",
+      "DESCRIPTION": "Set one schedule for every inbox or keep a schedule per inbox, and register the holidays.",
+      "TABS": {
+        "SCHEDULE": "Business hours",
+        "HOLIDAYS": "Holidays"
+      },
+      "MODE": {
+        "LABEL": "Business hours by",
+        "PER_CHANNEL": "Inbox",
+        "PER_ACCOUNT": "Account",
+        "PER_CHANNEL_HINT": "Each inbox keeps its own business hours, set in the inbox settings.",
+        "PER_ACCOUNT_HINT": "Every inbox follows the hours below, including the ones created later."
+      },
+      "ENABLED": "Enable business hours",
+      "MESSAGE": "Away message",
+      "MESSAGE_PLACEHOLDER": "Sent to the customer who writes outside the business hours",
+      "TIMEZONE": "Timezone",
+      "DAYS": {
+        "SUNDAY": "Sunday",
+        "MONDAY": "Monday",
+        "TUESDAY": "Tuesday",
+        "WEDNESDAY": "Wednesday",
+        "THURSDAY": "Thursday",
+        "FRIDAY": "Friday",
+        "SATURDAY": "Saturday"
+      },
+      "SAVE": "Save",
+      "SAVED": "Business hours saved",
+      "ERROR": "Could not save the business hours. Try again.",
+      "INBOX_FOLLOWS_ACCOUNT": "This inbox follows the account business hours.",
+      "INBOX_FOLLOWS_ACCOUNT_LINK": "Change them in Business hours and holidays."
+    },
+    "HOLIDAYS": {
+      "NEW": "New holiday",
+      "EDIT": "Edit holiday",
+      "DELETE": "Delete holiday",
+      "DELETE_CONFIRM": "Delete \"{name}\"?",
+      "IMPORT": "Import {year} national holidays",
+      "IMPORTED": "National holidays imported",
+      "SAVED": "Holiday saved",
+      "SAVE": "Save",
+      "EMPTY": "There are no holidays in this year.",
+      "ERROR": "Could not save the holiday. Try again.",
+      "DEFAULT_MESSAGE": "Today is a holiday. Our service is paused and we will be back on the next business day.",
+      "TABLE": {
+        "DATE": "Date",
+        "NAME": "Name",
+        "MESSAGE": "Message",
+        "ACTIONS": "Actions"
+      },
+      "FORM": {
+        "DATE": "Date",
+        "NAME": "Name",
+        "MESSAGE": "Message (optional)"
+      }
     }
   }
 }

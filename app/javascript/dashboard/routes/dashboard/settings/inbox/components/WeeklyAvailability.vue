@@ -14,6 +14,7 @@ import {
 } from '../helpers/businessHour';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import WorkingScheduleAPI from 'dashboard/api/chatclean/workingSchedule';
 
 const DEFAULT_TIMEZONE = {
   label: 'Pacific Time (US & Canada) (GMT-07:00)',
@@ -51,6 +52,8 @@ export default {
         6: 'Saturday',
       },
       timeSlots: [...defaultTimeSlot],
+      // ChatClean (US 19): em "por conta", o horário do canal vem da conta.
+      followsAccount: false,
     };
   },
   computed: {
@@ -88,6 +91,9 @@ export default {
   },
   mounted() {
     this.setDefaults();
+    WorkingScheduleAPI.show().then(({ data }) => {
+      this.followsAccount = data.mode === 'per_account';
+    });
   },
   methods: {
     setDefaults() {
@@ -134,7 +140,16 @@ export default {
 </script>
 
 <template>
-  <div class="mx-6">
+  <div v-if="followsAccount" class="mx-6 py-6 text-sm text-n-slate-12">
+    {{ $t('CHATCLEAN.BUSINESS_HOURS.INBOX_FOLLOWS_ACCOUNT') }}
+    <router-link
+      :to="{ name: 'chatclean_business_hours_index' }"
+      class="text-n-brand underline"
+    >
+      {{ $t('CHATCLEAN.BUSINESS_HOURS.INBOX_FOLLOWS_ACCOUNT_LINK') }}
+    </router-link>
+  </div>
+  <div v-else class="mx-6">
     <SettingsToggleSection
       v-model="isBusinessHoursEnabled"
       :header="$t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_AVAILABILITY')"

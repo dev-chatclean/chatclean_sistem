@@ -122,6 +122,64 @@
       "OVER_LIMIT": "Os anexos passam de 16 MB no total. Remova algum arquivo para salvar.",
       "SHOW_USER_RESPONSES": "Exibir mensagens criadas por usuários",
       "OWNED_BY": "Só {name}"
+    },
+    "BUSINESS_HOURS": {
+      "MENU": "Horário e feriados",
+      "HEADER": "Horário e feriados",
+      "DESCRIPTION": "Defina um horário único para todos os canais ou mantenha o horário de cada canal, e cadastre os feriados.",
+      "TABS": {
+        "SCHEDULE": "Horário de atendimento",
+        "HOLIDAYS": "Feriados"
+      },
+      "MODE": {
+        "LABEL": "Horário de atendimento por",
+        "PER_CHANNEL": "Canal",
+        "PER_ACCOUNT": "Conta",
+        "PER_CHANNEL_HINT": "Cada canal tem o próprio horário, definido nas configurações do canal.",
+        "PER_ACCOUNT_HINT": "Todos os canais seguem o horário abaixo, inclusive os criados depois."
+      },
+      "ENABLED": "Ativar horário de atendimento",
+      "MESSAGE": "Mensagem de ausência",
+      "MESSAGE_PLACEHOLDER": "Enviada ao cliente que escreve fora do horário de atendimento",
+      "TIMEZONE": "Fuso horário",
+      "DAYS": {
+        "SUNDAY": "Domingo",
+        "MONDAY": "Segunda-feira",
+        "TUESDAY": "Terça-feira",
+        "WEDNESDAY": "Quarta-feira",
+        "THURSDAY": "Quinta-feira",
+        "FRIDAY": "Sexta-feira",
+        "SATURDAY": "Sábado"
+      },
+      "SAVE": "Salvar",
+      "SAVED": "Horário salvo",
+      "ERROR": "Não foi possível salvar o horário. Tente de novo.",
+      "INBOX_FOLLOWS_ACCOUNT": "Este canal segue o horário de atendimento da conta.",
+      "INBOX_FOLLOWS_ACCOUNT_LINK": "Altere em Horário e feriados."
+    },
+    "HOLIDAYS": {
+      "NEW": "Novo feriado",
+      "EDIT": "Editar feriado",
+      "DELETE": "Excluir feriado",
+      "DELETE_CONFIRM": "Excluir \"{name}\"?",
+      "IMPORT": "Importar feriados nacionais de {year}",
+      "IMPORTED": "Feriados nacionais importados",
+      "SAVED": "Feriado salvo",
+      "SAVE": "Salvar",
+      "EMPTY": "Não há feriados neste ano.",
+      "ERROR": "Não foi possível salvar o feriado. Tente de novo.",
+      "DEFAULT_MESSAGE": "Hoje é feriado. Nosso atendimento está suspenso e retornaremos no próximo dia útil.",
+      "TABLE": {
+        "DATE": "Data",
+        "NAME": "Nome",
+        "MESSAGE": "Mensagem",
+        "ACTIONS": "Ações"
+      },
+      "FORM": {
+        "DATE": "Data",
+        "NAME": "Nome",
+        "MESSAGE": "Mensagem (opcional)"
+      }
     }
   }
 }

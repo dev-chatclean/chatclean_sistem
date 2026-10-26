@@ -5,7 +5,9 @@
   'Api::V1::Accounts::ConversationsController' => 'Chatclean::ConversationsControllerClosing',
   'Api::V1::Accounts::BulkActionsController' => 'Chatclean::BulkActionsControllerClosing',
   'BulkActionsJob' => 'Chatclean::BulkActionsJobClosing',
-  'Api::V1::Accounts::CannedResponsesController' => 'Chatclean::CannedResponsesControllerScope'
+  'Api::V1::Accounts::CannedResponsesController' => 'Chatclean::CannedResponsesControllerScope',
+  'Api::V1::Accounts::InboxesController' => 'Chatclean::InboxesControllerSchedule',
+  'Inbox' => 'Chatclean::InboxSchedule'
 }.each do |class_name, hooks|
   Rails.autoloaders.main.on_load(class_name) { |klass, _path| klass.prepend(hooks.constantize) }
 end

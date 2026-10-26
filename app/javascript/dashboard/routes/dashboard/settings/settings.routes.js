@@ -30,6 +30,7 @@ import captain from './captain/captain.routes';
 import data from './data/data.routes';
 import crm from './crm/crm.routes';
 import closingReasons from './closingReasons/closingReasons.routes';
+import businessHours from './businessHours/businessHours.routes';
 
 export default {
   routes: [
@@ -75,5 +76,6 @@ export default {
     ...captain.routes,
     ...crm.routes,
     ...closingReasons.routes,
+    ...businessHours.routes,
   ],
 };

@@ -1,5 +1,24 @@
 pt_BR:
   chatclean:
+    schedule:
+      errors:
+        seven_days: precisa ter os sete dias da semana
+        closed_and_open: um dia não pode ser "Fechado" e "Aberto 24h" ao mesmo tempo
+        close_before_open: o fechamento precisa ser depois da abertura
+        follows_account: O horário deste canal segue o horário da conta. Altere em Configurações → Horário e feriados.
+    holidays:
+      default_message: Hoje é feriado. Nosso atendimento está suspenso e retornaremos no próximo dia útil.
+      national:
+        new_year: Confraternização Universal
+        tiradentes: Tiradentes
+        labour_day: Dia do Trabalho
+        independence: Independência do Brasil
+        aparecida: Nossa Senhora Aparecida
+        all_souls: Finados
+        republic: Proclamação da República
+        black_consciousness: Dia Nacional de Zumbi e da Consciência Negra
+        christmas: Natal
+        good_friday: Sexta-feira Santa
     canned_responses:
       attachments_too_large: Os anexos passam de 16 MB no total
     closing:
