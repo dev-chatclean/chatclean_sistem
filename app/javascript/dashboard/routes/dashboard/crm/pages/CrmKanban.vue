@@ -141,6 +141,7 @@ onBeforeUnmount(() =>
           data-test="pipeline-select"
         />
         <Select
+          v-if="isAdmin"
           v-model="assigneeFilter"
           :options="assigneeOptions"
           :aria-label="t('CRM.KANBAN.ASSIGNEE_FILTER.LABEL')"

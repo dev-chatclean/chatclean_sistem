@@ -1,6 +1,17 @@
 import { mount } from '@vue/test-utils';
 import ConversationDealCard from '../ConversationDealCard.vue';
 
+const mocks = vi.hoisted(() => ({ isAdmin: { value: true } }));
+
+vi.mock('dashboard/composables/useAdmin', async () => {
+  const { computed } = await vi.importActual('vue');
+  return { useAdmin: () => ({ isAdmin: computed(() => mocks.isAdmin.value) }) };
+});
+
+beforeEach(() => {
+  mocks.isAdmin.value = true;
+});
+
 const pipeline = {
   id: 1,
   name: 'Vendas',

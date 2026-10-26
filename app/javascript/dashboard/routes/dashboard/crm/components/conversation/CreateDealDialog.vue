@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Select from 'dashboard/components-next/select/Select.vue';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 
 const props = defineProps({
   pipelines: { type: Array, default: () => [] },
@@ -17,6 +18,8 @@ const props = defineProps({
 const emit = defineEmits(['create']);
 
 const { t } = useI18n();
+// O atendente sempre é o responsável do deal que cria (US 27).
+const { isAdmin } = useAdmin();
 const dialogRef = ref(null);
 
 const form = reactive({
@@ -140,7 +143,10 @@ defineExpose({ open, close });
         :label="t('CRM.CONVERSATION_PANEL.CREATE.CLOSE_DATE_LABEL')"
         data-test="deal-close-date"
       />
-      <label class="flex flex-col gap-1.5 text-sm text-n-slate-12">
+      <label
+        v-if="isAdmin"
+        class="flex flex-col gap-1.5 text-sm text-n-slate-12"
+      >
         {{ t('CRM.CONVERSATION_PANEL.CREATE.ASSIGNEE_LABEL') }}
         <Select
           v-model="form.assigneeId"

@@ -14,4 +14,9 @@ class Crm::DealPolicy < ApplicationPolicy
   def update?
     true
   end
+
+  # Trocar o responsável é só do administrador (US 27).
+  def assign?
+    @account_user.administrator?
+  end
 end

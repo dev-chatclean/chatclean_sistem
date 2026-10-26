@@ -5,8 +5,10 @@ import { onClickOutside } from '@vueuse/core';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 
 // Responsável do deal com troca rápida, usado no Kanban e no painel da conversa.
+// Só o administrador troca o responsável (US 27); para o atendente, só mostra.
 const props = defineProps({
   deal: { type: Object, required: true },
   agents: { type: Array, default: () => [] },
@@ -16,6 +18,7 @@ const props = defineProps({
 const emit = defineEmits(['assign']);
 
 const { t } = useI18n();
+const { isAdmin } = useAdmin();
 
 const showMenu = ref(false);
 const pickerRef = ref(null);
@@ -58,7 +61,7 @@ const onAction = ({ value }) => {
       type="button"
       class="flex items-center min-w-0 gap-1.5 px-1 -mx-1 rounded-md enabled:hover:bg-n-alpha-2 disabled:cursor-not-allowed"
       :title="t('CRM.KANBAN.CARD.ASSIGN')"
-      :disabled="disabled"
+      :disabled="disabled || !isAdmin"
       data-test="assignee"
       @click.stop="showMenu = !showMenu"
     >

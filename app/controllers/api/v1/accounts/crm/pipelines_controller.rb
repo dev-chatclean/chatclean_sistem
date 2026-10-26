@@ -20,8 +20,9 @@ class Api::V1::Accounts::Crm::PipelinesController < Api::V1::Accounts::BaseContr
 
   # Quantidade e valor total de deals por estágio, para os cabeçalhos do Kanban.
   # Aceita o mesmo filtro assignee_id da listagem de deals (id do agente ou "none").
+  # Para o atendente, conta só os deals dele (US 27).
   def summary
-    deals = ::Crm::Deal.where(crm_stage_id: @pipeline.stages.ids)
+    deals = ::Crm::Deal.visible_to(Current.account_user).where(crm_stage_id: @pipeline.stages.ids)
     deals = deals.assigned_to(params[:assignee_id]) if params[:assignee_id].present?
     totals = deals.group(:crm_stage_id).pluck(:crm_stage_id, Arel.sql('COUNT(*)'), Arel.sql('SUM(value)'))
                   .to_h { |stage_id, count, value| [stage_id, [count, value]] }

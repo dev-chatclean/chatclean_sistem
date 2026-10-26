@@ -1,6 +1,17 @@
 import { mount } from '@vue/test-utils';
 import CreateDealDialog from '../CreateDealDialog.vue';
 
+const mocks = vi.hoisted(() => ({ isAdmin: { value: true } }));
+
+vi.mock('dashboard/composables/useAdmin', async () => {
+  const { computed } = await vi.importActual('vue');
+  return { useAdmin: () => ({ isAdmin: computed(() => mocks.isAdmin.value) }) };
+});
+
+beforeEach(() => {
+  mocks.isAdmin.value = true;
+});
+
 const pipelines = [
   {
     id: 1,
@@ -60,6 +71,15 @@ describe('CreateDealDialog', () => {
     expect(wrapper.find('[data-test="deal-pipeline"]').element.value).toBe('2');
     expect(wrapper.find('[data-test="deal-stage"]').element.value).toBe('20');
     expect(wrapper.find('[data-test="deal-assignee"]').element.value).toBe('3');
+  });
+
+  it('não mostra a escolha de responsável para o atendente (US 27)', async () => {
+    mocks.isAdmin.value = false;
+    const wrapper = mountDialog();
+    wrapper.vm.open();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.find('[data-test="deal-assignee"]').exists()).toBe(false);
   });
 
   it('exige o título antes de liberar a criação', async () => {

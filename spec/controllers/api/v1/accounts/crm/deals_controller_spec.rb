@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'CRM Deals API', type: :request do
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
+  let(:administrator) { create(:user, account: account, role: :administrator) }
   let(:pipeline) { create(:crm_pipeline, account: account) }
   let(:open_stage) { create(:crm_stage, pipeline: pipeline) }
   let(:lost_stage) { pipeline.stages.lost.first }
@@ -21,7 +22,7 @@ RSpec.describe 'CRM Deals API', type: :request do
       create(:crm_deal, account: account, stage: pipeline.stages.won.first)
       create(:crm_deal)
 
-      get base_path, params: { status: 'open' }, headers: agent.create_new_auth_token, as: :json
+      get base_path, params: { status: 'open' }, headers: administrator.create_new_auth_token, as: :json
 
       expect(response).to have_http_status(:success)
       expect(response.parsed_body['payload'].pluck('id')).to eq([open_deal.id])
@@ -43,10 +44,10 @@ RSpec.describe 'CRM Deals API', type: :request do
       mine = create(:crm_deal, account: account, stage: open_stage, assignee: agent)
       unassigned = create(:crm_deal, account: account, stage: open_stage)
 
-      get base_path, params: { assignee_id: agent.id }, headers: agent.create_new_auth_token, as: :json
+      get base_path, params: { assignee_id: agent.id }, headers: administrator.create_new_auth_token, as: :json
       expect(response.parsed_body['payload'].pluck('id')).to eq([mine.id])
 
-      get base_path, params: { assignee_id: 'none' }, headers: agent.create_new_auth_token, as: :json
+      get base_path, params: { assignee_id: 'none' }, headers: administrator.create_new_auth_token, as: :json
       expect(response.parsed_body['payload'].pluck('id')).to eq([unassigned.id])
     end
 
@@ -54,7 +55,7 @@ RSpec.describe 'CRM Deals API', type: :request do
       deal = create(:crm_deal, account: account, stage: open_stage, crm_contact: create(:crm_contact, contact: contact))
       create(:crm_deal, account: account, stage: create(:crm_stage, pipeline: create(:crm_pipeline, account: account)))
 
-      get base_path, params: { crm_pipeline_id: pipeline.id, contact_id: contact.id }, headers: agent.create_new_auth_token, as: :json
+      get base_path, params: { crm_pipeline_id: pipeline.id, contact_id: contact.id }, headers: administrator.create_new_auth_token, as: :json
 
       expect(response.parsed_body['payload'].pluck('id')).to eq([deal.id])
     end
@@ -179,7 +180,7 @@ RSpec.describe 'CRM Deals API', type: :request do
   end
 
   describe 'PATCH /api/v1/accounts/{account.id}/crm/deals/{id}' do
-    let(:deal) { create(:crm_deal, account: account, stage: open_stage) }
+    let(:deal) { create(:crm_deal, account: account, stage: open_stage, assignee: agent) }
     let(:loss_reason) { create(:crm_loss_reason, account: account) }
 
     it 'marks the deal as lost with a loss reason and details' do
@@ -229,6 +230,50 @@ RSpec.describe 'CRM Deals API', type: :request do
       patch "#{base_path}/#{create(:crm_deal).id}", params: { deal: { title: 'x' } }, headers: agent.create_new_auth_token, as: :json
 
       expect(response).to have_http_status(:not_found)
+    end
+  end
+
+  describe 'visibility by assignee (US 27)' do
+    let(:colleague) { create(:user, account: account, role: :agent) }
+    let!(:mine) { create(:crm_deal, account: account, stage: open_stage, assignee: agent) }
+    let!(:theirs) { create(:crm_deal, account: account, stage: open_stage, assignee: colleague) }
+    let!(:unassigned) { create(:crm_deal, account: account, stage: open_stage) }
+
+    it 'lists only the deals of the agent, while the administrator sees all' do
+      get base_path, headers: agent.create_new_auth_token, as: :json
+      expect(response.parsed_body['payload'].pluck('id')).to eq([mine.id])
+
+      get base_path, headers: administrator.create_new_auth_token, as: :json
+      expect(response.parsed_body['payload'].pluck('id')).to contain_exactly(mine.id, theirs.id, unassigned.id)
+    end
+
+    it 'returns not found for deals of other assignees and unassigned ones' do
+      [theirs, unassigned].each do |deal|
+        get "#{base_path}/#{deal.id}", headers: agent.create_new_auth_token, as: :json
+        expect(response).to have_http_status(:not_found)
+
+        patch "#{base_path}/#{deal.id}", params: { deal: { crm_stage_id: lost_stage.id } }, headers: agent.create_new_auth_token, as: :json
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    it 'makes the agent the assignee of the deals they create' do
+      post base_path,
+           params: { deal: { title: 'Plano', crm_stage_id: open_stage.id, contact_id: contact.id, assignee_id: colleague.id } },
+           headers: agent.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(Crm::Deal.find(response.parsed_body['payload']['id']).assignee).to eq(agent)
+    end
+
+    it 'lets only the administrator change the assignee' do
+      patch "#{base_path}/#{mine.id}", params: { deal: { assignee_id: colleague.id } }, headers: agent.create_new_auth_token, as: :json
+      expect(response).to have_http_status(:unauthorized)
+      expect(mine.reload.assignee).to eq(agent)
+
+      patch "#{base_path}/#{mine.id}", params: { deal: { assignee_id: colleague.id } }, headers: administrator.create_new_auth_token, as: :json
+      expect(response).to have_http_status(:success)
+      expect(mine.reload.assignee).to eq(colleague)
     end
   end
 end
