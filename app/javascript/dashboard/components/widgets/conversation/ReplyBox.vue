@@ -15,6 +15,7 @@ import CopilotReplyBottomPanel from 'dashboard/components/widgets/WootWriter/Cop
 import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/SearchPopover.vue';
 import CopilotEditorSection from './CopilotEditorSection.vue';
 import MessageSignatureMissingAlert from './MessageSignatureMissingAlert.vue';
+import { withAgentName } from 'dashboard/chatclean/conversation/agentSignature';
 import ReplyBoxBanner from './ReplyBoxBanner.vue';
 import QuotedEmailPreview from './QuotedEmailPreview.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
@@ -198,7 +199,7 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
-      messageSignature: 'getMessageSignature',
+      profileSignature: 'getMessageSignature',
       currentUser: 'getCurrentUser',
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
@@ -450,8 +451,13 @@ export default {
     isSignatureEnabledForInbox() {
       return !this.isPrivate && this.sendWithSignature;
     },
+    // ChatClean (US 18): fora do e-mail, a assinatura é o nome do atendente no topo, acrescentado no
+    // envio; a assinatura do perfil só vale no e-mail e só ele a mostra no editor.
+    messageSignature() {
+      return this.isAnEmailChannel ? this.profileSignature : '';
+    },
     isSignatureAvailable() {
-      return !!this.messageSignature;
+      return !this.isAnEmailChannel || !!this.messageSignature;
     },
     sendWithSignature() {
       return this.fetchSignatureFlagFromUISettings(this.channelType);
@@ -870,13 +876,21 @@ export default {
         // To handle both cases, text and attachments are always sent as separate messages.
         const isOnInstagram = this.isAnInstagramChannel;
         const isOnTiktok = this.isATiktokChannel;
+        // ChatClean (US 18): com a assinatura ligada, o nome do atendente vai no topo da mensagem.
+        const outgoingMessage =
+          this.isSignatureEnabledForInbox && !this.isAnEmailChannel
+            ? withAgentName(this.message, {
+                user: this.currentUser,
+                channelType: this.channelType,
+              })
+            : this.message;
         if ((isOnWhatsApp || isOnInstagram || isOnTiktok) && !this.isPrivate) {
           this.sendMessageAsMultipleMessages(
-            this.message,
+            outgoingMessage,
             copilotAcceptedMessage
           );
         } else {
-          const messagePayload = this.getMessagePayload(this.message);
+          const messagePayload = this.getMessagePayload(outgoingMessage);
           this.sendMessage(
             messagePayload,
             this.message,

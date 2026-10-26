@@ -328,13 +328,15 @@ export default {
         :label="recordingAudioDurationText"
         @click="toggleAudioRecorderPlayPause"
       />
+      <!-- ChatClean (US 18): o botão fica verde com a assinatura ligada. -->
       <NextButton
         v-if="showMessageSignatureButton"
         v-tooltip.top-end="signatureToggleTooltip"
         icon="i-ph-signature"
-        slate
+        :color="sendWithSignature ? 'teal' : 'slate'"
         faded
         sm
+        data-test="signature-toggle"
         @click="toggleMessageSignature"
       />
       <!-- ChatClean (US 15): abre as mensagens rápidas, o mesmo que digitar "/". -->
