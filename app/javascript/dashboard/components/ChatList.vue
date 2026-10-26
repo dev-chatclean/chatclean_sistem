@@ -17,6 +17,7 @@ import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCust
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
 import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
+import { closeConversation } from 'dashboard/chatclean/closing/closingRequest';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
@@ -789,6 +790,14 @@ function toggleConversationStatus(
   snoozedUntil,
   customAttributes = null
 ) {
+  // ChatClean (US 16): fechar pelo menu do card passa pela janela obrigatória de motivo.
+  if (status === wootConstants.STATUS_TYPE.RESOLVED) {
+    closeConversation(store, conversationId).then(closed => {
+      if (closed) useAlert(t('CONVERSATION.CHANGE_STATUS'));
+    });
+    return;
+  }
+
   const payload = {
     conversationId,
     status,

@@ -80,10 +80,12 @@ RSpec.describe BulkActionsJob do
 
     it 'skips conversations whose inbox the agent does not belong to' do
       forbidden_conversation = create(:conversation, account_id: account.id, status: :open)
+      # ChatClean (US 16): fechar exige motivo.
       params = {
         type: 'Conversation',
         fields: { status: 'resolved' },
-        ids: [conversation_1.display_id, forbidden_conversation.display_id]
+        ids: [conversation_1.display_id, forbidden_conversation.display_id],
+        closing_reason_id: create(:chatclean_closing_reason, account: account).id
       }
 
       described_class.perform_now(account: account, params: params, user: agent)

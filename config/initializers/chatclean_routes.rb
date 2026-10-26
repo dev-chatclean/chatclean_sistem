@@ -6,6 +6,7 @@ Rails.application.routes.append do
     namespace :v1 do
       resources :accounts, only: [] do
         scope module: :accounts do
+          resources :closing_reasons, only: [:index, :create, :update, :destroy]
           resources :conversations, only: [] do
             scope module: :conversations do
               resource :acceptance, only: [:create]

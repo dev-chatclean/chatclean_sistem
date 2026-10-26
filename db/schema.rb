@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_21_195913) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_26_164532) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -762,6 +762,42 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_21_195913) do
     t.string "phone_number_health_error", limit: 500
     t.index ["phone_number_health_checked_at"], name: "index_channel_whatsapp_on_phone_number_health_checked_at"
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
+  end
+
+  create_table "chatclean_closing_reason_teams", force: :cascade do |t|
+    t.bigint "closing_reason_id", null: false
+    t.bigint "team_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["closing_reason_id", "team_id"], name: "index_chatclean_closing_reason_teams_on_reason_and_team", unique: true
+    t.index ["team_id"], name: "index_chatclean_closing_reason_teams_on_team_id"
+  end
+
+  create_table "chatclean_closing_reasons", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.boolean "is_active", default: true, null: false
+    t.text "closing_message"
+    t.boolean "ask_sale_value", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index "account_id, lower((name)::text)", name: "index_chatclean_closing_reasons_on_account_id_and_lower_name", unique: true
+  end
+
+  create_table "chatclean_conversation_closures", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "closing_reason_id", null: false
+    t.bigint "user_id"
+    t.decimal "sale_value", precision: 12, scale: 2
+    t.bigint "crm_deal_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "created_at"], name: "index_chatclean_conversation_closures_on_account_and_created_at"
+    t.index ["closing_reason_id"], name: "index_chatclean_conversation_closures_on_closing_reason_id"
+    t.index ["conversation_id"], name: "index_chatclean_conversation_closures_on_conversation_id"
+    t.index ["crm_deal_id"], name: "index_chatclean_conversation_closures_on_crm_deal_id"
+    t.index ["user_id"], name: "index_chatclean_conversation_closures_on_user_id"
   end
 
   create_table "companies", force: :cascade do |t|
@@ -1801,6 +1837,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_21_195913) do
   add_foreign_key "campaign_recipients", "campaigns", on_delete: :cascade
   add_foreign_key "campaign_recipients", "contacts", on_delete: :cascade
   add_foreign_key "campaign_recipients", "inboxes", on_delete: :cascade
+  add_foreign_key "chatclean_closing_reason_teams", "chatclean_closing_reasons", column: "closing_reason_id", on_delete: :cascade
+  add_foreign_key "chatclean_closing_reason_teams", "teams", on_delete: :cascade
+  add_foreign_key "chatclean_closing_reasons", "accounts", on_delete: :cascade
+  add_foreign_key "chatclean_conversation_closures", "accounts", on_delete: :cascade
+  add_foreign_key "chatclean_conversation_closures", "chatclean_closing_reasons", column: "closing_reason_id"
+  add_foreign_key "chatclean_conversation_closures", "conversations", on_delete: :cascade
+  add_foreign_key "chatclean_conversation_closures", "crm_deals", on_delete: :nullify
+  add_foreign_key "chatclean_conversation_closures", "users", on_delete: :nullify
   add_foreign_key "conversation_monitor_daily_usages", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitor_evaluations", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitor_evaluations", "conversation_monitors", column: "monitor_id", on_delete: :cascade

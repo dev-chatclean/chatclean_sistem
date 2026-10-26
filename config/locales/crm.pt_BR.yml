@@ -1,5 +1,9 @@
 pt_BR:
   chatclean:
+    closing:
+      reason_required: Escolha um motivo de fechamento. Se não houver nenhum, peça a um administrador para cadastrar.
+      invalid_sale_value: Informe o valor da venda, sem valores negativos
+      deal_title: "%{reason} — atendimento #%{id}"
     conversations:
       already_accepted: "Atendimento já aceito por %{name}"
       transfer:

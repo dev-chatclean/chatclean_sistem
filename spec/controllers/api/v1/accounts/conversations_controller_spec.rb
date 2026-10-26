@@ -608,10 +608,12 @@ RSpec.describe 'Conversations API', type: :request do
 
       it 'toggles the conversation status if status is empty' do
         expect(conversation.status).to eq('open')
+        # ChatClean (US 16): fechar exige motivo.
+        reason = create(:chatclean_closing_reason, account: account)
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
              headers: agent.create_new_auth_token,
-             params: { status: '' },
+             params: { status: '', closing_reason_id: reason.id },
              as: :json
 
         expect(response).to have_http_status(:success)
