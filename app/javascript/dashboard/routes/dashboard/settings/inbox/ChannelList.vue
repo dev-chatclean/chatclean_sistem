@@ -8,6 +8,8 @@ import { useAccount } from 'dashboard/composables/useAccount';
 
 import ChannelItem from 'dashboard/components/widgets/ChannelItem.vue';
 
+const HIDDEN_CHANNELS = ['sms', 'voice', 'whatsapp_call'];
+
 const { t } = useI18n();
 const router = useRouter();
 const { accountId, currentAccount, isOnChatwootCloud } = useAccount();
@@ -107,7 +109,8 @@ const channelList = computed(() => {
     icon: 'i-woot-whatsapp',
   });
 
-  return channels;
+  // ChatClean (US 14): sem SMS e sem telefonia na criação de canal.
+  return channels.filter(channel => !HIDDEN_CHANNELS.includes(channel.key));
 });
 
 const initChannelAuth = channel => {

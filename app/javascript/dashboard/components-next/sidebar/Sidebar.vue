@@ -15,6 +15,7 @@ import { useWindowSize } from '@vueuse/core';
 import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
 import SidebarProfileMenu from './SidebarProfileMenu.vue';
+import { chatcleanMenu } from 'dashboard/chatclean/sidebarMenu';
 import SidebarChangelogCard from './SidebarChangelogCard.vue';
 import SidebarChangelogButton from './SidebarChangelogButton.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
@@ -321,7 +322,8 @@ const newReportRoutes = () => [
 
 const reportRoutes = computed(() => newReportRoutes());
 
-const menuItems = computed(() => {
+// ChatClean: a lista do Chatwoot passa pelo chatcleanMenu (ordem e itens da ChatClean, US 14).
+const chatwootMenuItems = computed(() => {
   return [
     {
       name: 'Inbox',
@@ -933,6 +935,8 @@ const menuItems = computed(() => {
     },
   ];
 });
+
+const menuItems = computed(() => chatcleanMenu(chatwootMenuItems.value));
 </script>
 
 <template>
@@ -1089,7 +1093,9 @@ const menuItems = computed(() => {
           {{ t('CHATCLEAN.SIDEBAR.COLLAPSE') }}
         </span>
       </button>
+      <!-- ChatClean (US 14): no desktop o perfil fica na barra superior. -->
       <div
+        v-if="isMobile"
         class="px-1 py-1.5 flex-shrink-0 flex w-full z-50 gap-2 items-center border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)]"
         :class="isEffectivelyCollapsed ? 'justify-center' : 'justify-between'"
       >

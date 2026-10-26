@@ -1,0 +1,2345 @@
+{
+  "PROFILE_SETTINGS": {
+    "FORM": {
+      "INTERFACE_SECTION": {
+        "NOTE": "Personalize a aparência do seu painel do ChatClean."
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "NOTE": "Crie uma assinatura de mensagem única para aparecer no final de cada mensagem que você enviar de qualquer canal. Você também pode incluir uma imagem anexada, suportada nos canais de live-chat, e-mail e API."
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "NOTE": "Habilitar notificações de áudio no painel para novas mensagens e atendimentos.",
+        "ALERT_TYPES": {
+          "ASSIGNED": "Atendimentos atribuídos a mim",
+          "UNASSIGNED": "Atendimentos não atribuídos",
+          "NOTME": "Atendimentos abertos atribuídos a outras pessoas"
+        },
+        "ALERT_COMBINATIONS": {
+          "ASSIGNED": "Você receberá alertas para atendimentos atribuídos a você.",
+          "UNASSIGNED": "Você receberá alertas para quaisquer atendimentos não atribuídos.",
+          "NOTME": "Você receberá alertas para atendimentos atribuídos a outras pessoas.",
+          "ASSIGNED+UNASSIGNED": "Receberá alertas de atendimentos atribuídos e de quaisquer atendimentos sem resposta.",
+          "ASSIGNED+NOTME": "Você receberá alertas para atendimentos atribuídos a você e a outros, mas não para atendimentos não atribuídos.",
+          "NOTME+UNASSIGNED": "Você receberá alertas de atendimentos sem resposta e daqueles atribuídos a outros.",
+          "ASSIGNED+NOTME+UNASSIGNED": "Você receberá alertas para todos os atendimentos."
+        },
+        "ALERT_TYPE": {
+          "TITLE": "Eventos de alerta para atendimentos",
+          "ASSIGNED": "Atendimentos atribuídos",
+          "ALL_CONVERSATIONS": "Todos os atendimentos"
+        },
+        "CONDITIONS": {
+          "CONDITION_TWO": "Enviar alertas a cada 30 segundos até que todos os atendimentos atribuídos sejam lidos"
+        }
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "CONVERSATION_ASSIGNMENT": "Enviar notificações por email quando um atendimento for atribuído a mim",
+        "CONVERSATION_CREATION": "Enviar notificações por email quando um novo atendimento for criado",
+        "CONVERSATION_MENTION": "Enviar notificações por email quando você for mencionado em um atendimento",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envie notificações por e-mail quando uma nova mensagem for criada num atendimento já atribuído",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Enviar notificações por email quando uma nova mensagem é criada em um atendimento de que você participa",
+        "SLA_MISSED_FIRST_RESPONSE": "Enviar notificações por e-mail quando um atendimento perder o SLA de primeira resposta",
+        "SLA_MISSED_NEXT_RESPONSE": "Enviar notificações por e-mail quando um atendimento perder o SLA da próxima resposta",
+        "SLA_MISSED_RESOLUTION": "Enviar notificações por e-mail quando um atendimento perder o SLA de resolução"
+      },
+      "NOTIFICATIONS": {
+        "TYPES": {
+          "CONVERSATION_CREATED": "Um novo atendimento foi criado",
+          "CONVERSATION_ASSIGNED": "Um atendimento foi atribuído a você",
+          "CONVERSATION_MENTION": "Você foi mencionado em um atendimento",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Uma nova mensagem foi criada em um atendimento de que você participa",
+          "SLA_MISSED_FIRST_RESPONSE": "Um atendimento perde o SLA de primeira resposta",
+          "SLA_MISSED_NEXT_RESPONSE": "Um atendimento perde o SLA da próxima resposta",
+          "SLA_MISSED_RESOLUTION": "Um atendimento perde o SLA de resolução"
+        }
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "CONVERSATION_ASSIGNMENT": "Enviar notificações push quando um atendimento é atribuído a mim",
+        "CONVERSATION_CREATION": "Enviar notificações push quando um novo atendimento é criado",
+        "CONVERSATION_MENTION": "Enviar notificações push quando você for mencionado em um atendimento",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envie notificações quando uma nova mensagem for criada num atendimento já atribuído",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Enviar notificações push quando uma nova mensagem é criada em um atendimento de que você participa",
+        "SLA_MISSED_FIRST_RESPONSE": "Enviar notificações quando um atendimento perder o SLA de primeira resposta",
+        "SLA_MISSED_NEXT_RESPONSE": "Enviar notificações quando um atendimento perder o SLA da próxima resposta",
+        "SLA_MISSED_RESOLUTION": "Enviar notificações quando um atendimento perder o SLA de resolução"
+      },
+      "DISPLAY_NAME": {
+        "PLACEHOLDER": "Por favor, insira um nome de exibição para ser exibido nos atendimentos"
+      },
+      "EMAIL": {
+        "PLACEHOLDER": "Por favor, insira seu endereço de e-mail, que será exibido nos atendimentos"
+      }
+    }
+  },
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Adicionar Canal"
+    }
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Atendimentos",
+    "ALL_CONVERSATIONS": "Todos",
+    "CAPTAIN_INBOXES": "Canais",
+    "AGENTS": "Usuários",
+    "INBOXES": "Canais",
+    "CANNED_RESPONSES": "Mensagens Rápidas",
+    "CUSTOM_ATTRIBUTES": "Campos Customizados",
+    "TEAMS": "Departamentos",
+    "NEW_TEAM": "Novo departamento",
+    "NEW_INBOX": "Novo canal",
+    "REPORTS_CONVERSATION": "Atendimentos",
+    "CAMPAIGNS": "Envios",
+    "REPORTS_AGENT": "Atendentes",
+    "REPORTS_INBOX": "Canal",
+    "REPORTS_TEAM": "Departamento",
+    "AGENT_ASSIGNMENT": "Atribuição de Atendentes",
+    "REAUTHORIZE": "A conexão com o seu canal expirou. Por favor, reconecte para continuar recebendo e enviando mensagens",
+    "CONVERSATION_WORKFLOW": "Fluxo de Atendimento",
+    "REPORTS": "Dashboards",
+    "UNATTENDED_CONVERSATIONS": "Sem resposta"
+  },
+  "DATA_IMPORTS": {
+    "DESCRIPTION": "Importe seus contatos existentes e atendimentos anteriores de outra ferramenta de atendimento para esta conta. Cada importação é executada em segundo plano, para que você possa continuar trabalhando enquanto ela é concluída, acompanhar seu progresso e revisar tudo o que foi ignorado durante o processo.",
+    "TYPES": {
+      "CONVERSATIONS": "Atendimentos"
+    },
+    "EXPORT": {
+      "DESCRIPTION": "Exporte seus contatos e atendimentos para fora desta conta. Este fluxo de trabalho estará disponível em breve."
+    },
+    "MONITOR": {
+      "STAGES": {
+        "conversations": "Importando atendimentos"
+      }
+    }
+  },
+  "CAPTAIN_SETTINGS": {
+    "MODEL_CONFIG": {
+      "ASSISTANT": {
+        "DESCRIPTION": "Gerencia respostas automatizadas, resumos de atendimentos e sugestões inteligentes de resposta para interações com clientes."
+      },
+      "COPILOT": {
+        "DESCRIPTION": "Fornece sugestões contextuais em tempo real, recomendações da base de conhecimento e insights proativos durante os atendimentos."
+      }
+    },
+    "FEATURES": {
+      "LABEL_SUGGESTION": {
+        "DESCRIPTION": "Sugere automaticamente rótulos e etiquetas relevantes para os atendimentos, com base na análise de conteúdo e no contexto.",
+        "MODEL_DESCRIPTION": "Selecione o modelo de IA a ser utilizado para analisar os atendimentos e sugerir etiquetas apropriadas"
+      }
+    }
+  },
+  "SECURITY_SETTINGS": {
+    "SAML": {
+      "SP_ENTITY_ID": {
+        "TOOLTIP": "Identificador exclusivo do ChatClean como Provedor de Serviço - configure-o nas configurações do seu IdP"
+      }
+    }
+  },
+  "CONVERSATION_WORKFLOW": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Fluxos de Atendimento",
+        "DESCRIPTION": "Configure regras e campos obrigatórios para o fechamento de atendimentos."
+      }
+    },
+    "REQUIRED_ATTRIBUTES": {
+      "DESCRIPTION": "Ao fechar um atendimento, os atendentes serão solicitados a preencher esses atributos caso ainda não o tenham feito.",
+      "MODAL": {
+        "TITLE": "Fechar atendimento",
+        "DESCRIPTION": "Por favor, preencha os seguintes campos customizados antes de fechar este atendimento",
+        "ACTIONS": {
+          "RESOLVE": "Fechar atendimento"
+        }
+      },
+      "PAYWALL": {
+        "AVAILABLE_ON": "O recurso de atributos obrigatórios do atendimento está disponível nos planos Business e Enterprise.",
+        "UPGRADE_PROMPT": "Atualize seu plano para solicitar que os atendentes preencham os atributos obrigatórios antes do fechamento do atendimento."
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "O recurso de atributos obrigatórios do atendimento está disponível nos planos pagos.",
+        "UPGRADE_PROMPT": "Atualize para um plano pago para exigir atributos obrigatórios antes do fechamento do atendimento."
+      },
+      "TITLE": "Atributos obrigatórios para fechamento"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TITLE": {
+      "OPEN_CONVERSATION": "Abrir atendimento",
+      "RESOLVE_AND_NEXT": "Fechar e ir para o próximo",
+      "RESOLVE_CONVERSATION": "Fechar Atendimento",
+      "MOVE_TO_NEXT_TAB": "Mover para a próxima aba da lista de atendimentos",
+      "SWITCH_TO_PRIVATE_NOTE": "Mudar para Nota Interna",
+      "GO_TO_CONVERSATION_DASHBOARD": "Ir para Painel de Atendimentos"
+    }
+  },
+  "ASSIGNMENT_POLICY": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Atribuição de atendentes",
+        "DESCRIPTION": "Defina políticas para gerenciar a carga de trabalho de forma eficaz e encaminhar atendimentos com base nas necessidades dos canais e dos atendentes. Saiba mais aqui"
+      },
+      "ASSIGNMENT_POLICY": {
+        "DESCRIPTION": "Gerencie como os atendimentos são atribuídos nos canais.",
+        "FEATURES": [
+          "Atribuir atendimentos de forma uniforme ou com base na capacidade disponível",
+          "Adicione regras de distribuição justa para evitar sobrecarregar qualquer atendente",
+          "Adicione canais a uma política - uma política por canal"
+        ]
+      },
+      "AGENT_CAPACITY_POLICY": {
+        "TITLE": "Política de capacidade dos atendentes",
+        "DESCRIPTION": "Gerencie a carga de trabalho dos atendentes.",
+        "FEATURES": [
+          "Defina o número máximo de atendimentos por canal",
+          "Criar exceções com base em rótulos e tempo",
+          "Adicione atendentes a uma política - uma política por atendente"
+        ]
+      }
+    },
+    "AGENT_ASSIGNMENT_POLICY": {
+      "INDEX": {
+        "CARD": {
+          "POPOVER": "Canais adicionados"
+        }
+      },
+      "CREATE": {
+        "API": {
+          "INBOX_LINKED": "O canal foi vinculado à política"
+        }
+      },
+      "EDIT": {
+        "CONFIRM_ADD_INBOX_DIALOG": {
+          "TITLE": "Adicionar canal",
+          "DESCRIPTION": "O canal {inboxName} já está vinculado a outra política. Tem certeza de que deseja vinculá-lo a esta política? Ele será desvinculado da outra."
+        },
+        "INBOX_LINK_PROMPT": {
+          "TITLE": "Vincular canal à política",
+          "DESCRIPTION": "Deseja vincular este canal à política de atribuição?",
+          "LINK_BUTTON": "Vincular canal"
+        },
+        "INBOX_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Canal adicionado à política com sucesso",
+            "ERROR_MESSAGE": "Falha ao adicionar o canal à política"
+          },
+          "REMOVE": {
+            "SUCCESS_MESSAGE": "Canal removido da política com sucesso",
+            "ERROR_MESSAGE": "Falha ao remover o canal da política"
+          }
+        }
+      },
+      "FORM": {
+        "ASSIGNMENT_ORDER": {
+          "ROUND_ROBIN": {
+            "DESCRIPTION": "Distribuir os atendimentos de forma uniforme entre os atendentes."
+          },
+          "BALANCED": {
+            "DESCRIPTION": "Atribuir atendimentos com base na capacidade disponível.",
+            "PREMIUM_MESSAGE": "Atualize o plano para acessar a atribuição equilibrada e o gerenciamento de capacidade dos atendentes."
+          }
+        },
+        "ASSIGNMENT_PRIORITY": {
+          "EARLIEST_CREATED": {
+            "DESCRIPTION": "O atendimento criado primeiro será atribuído primeiro."
+          },
+          "LONGEST_WAITING": {
+            "DESCRIPTION": "O atendimento que está aguardando há mais tempo é atribuído primeiro."
+          }
+        },
+        "FAIR_DISTRIBUTION": {
+          "DESCRIPTION": "Limite o número de atendimentos por atendente em um intervalo de tempo para evitar sobrecarga. O padrão é 100 por hora.",
+          "DURATION": "Atendimentos por atendente a cada"
+        },
+        "EXCLUDE_OLDER_THAN": {
+          "LABEL": "Ignorar atendimentos inativos",
+          "DESCRIPTION": "Ignore atendimentos não atribuídos mais antigos do que este período. O padrão é 7 dias; deixe em branco para desativar."
+        },
+        "INBOXES": {
+          "LABEL": "Canais adicionados",
+          "DESCRIPTION": "Adicionar canais aos quais esta política será aplicada.",
+          "ADD_BUTTON": "Adicionar canal",
+          "DROPDOWN": {
+            "SEARCH_PLACEHOLDER": "Pesquisar e selecionar canais para adicionar"
+          },
+          "EMPTY_STATE": "Nenhum canal adicionado a esta política. Adicione um canal para começar",
+          "API": {
+            "SUCCESS_MESSAGE": "Canal adicionado à política com sucesso",
+            "ERROR_MESSAGE": "Falha ao adicionar o canal à política"
+          }
+        }
+      }
+    },
+    "AGENT_CAPACITY_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Capacidade do atendente"
+        },
+        "CARD": {
+          "POPOVER": "Atendentes adicionados"
+        },
+        "NO_RECORDS_FOUND": "Nenhuma política de capacidade dos atendentes encontrada"
+      },
+      "CREATE": {
+        "HEADER": {
+          "TITLE": "Criar política de capacidade dos atendentes"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Política de capacidade dos atendentes criada com sucesso",
+          "ERROR_MESSAGE": "Falha ao criar a política de capacidade dos atendentes"
+        }
+      },
+      "EDIT": {
+        "HEADER": {
+          "TITLE": "Editar política de capacidade dos atendentes"
+        },
+        "CONFIRM_ADD_AGENT_DIALOG": {
+          "TITLE": "Adicionar atendente"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Política de capacidade dos atendentes atualizada com sucesso",
+          "ERROR_MESSAGE": "Falha ao atualizar a política de capacidade dos atendentes"
+        },
+        "AGENT_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Atendente adicionado à política com sucesso",
+            "ERROR_MESSAGE": "Falha ao adicionar o atendente à política"
+          },
+          "REMOVE": {
+            "SUCCESS_MESSAGE": "Atendente removido da política com sucesso",
+            "ERROR_MESSAGE": "Falha ao remover o atendente da política"
+          }
+        },
+        "INBOX_LIMIT_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Limite de canal adicionado com sucesso",
+            "ERROR_MESSAGE": "Falha ao adicionar limite de canal"
+          },
+          "UPDATE": {
+            "SUCCESS_MESSAGE": "Limite de canal atualizado com sucesso",
+            "ERROR_MESSAGE": "Falha ao atualizar limite do canal"
+          },
+          "DELETE": {
+            "SUCCESS_MESSAGE": "Limite do canal excluído com sucesso",
+            "ERROR_MESSAGE": "Falha ao excluir o limite do canal"
+          }
+        }
+      },
+      "FORM": {
+        "INBOX_CAPACITY_LIMIT": {
+          "LABEL": "Limites de capacidade do canal",
+          "ADD_BUTTON": "Adicionar canal",
+          "FIELD": {
+            "SELECT_INBOX": "Selecionar canal",
+            "MAX_CONVERSATIONS": "Máximo de atendimentos"
+          },
+          "EMPTY_STATE": "Nenhum limite de canal definido"
+        },
+        "EXCLUSION_RULES": {
+          "DESCRIPTION": "Atendimentos que cumpram as seguintes condições não serão contabilizados na capacidade do atendente",
+          "TAGS": {
+            "LABEL": "Excluir atendimentos marcados com rótulos específicos"
+          },
+          "DURATION": {
+            "LABEL": "Excluir atendimentos mais antigos que um período especificado"
+          }
+        },
+        "USERS": {
+          "LABEL": "Atendentes atribuídos",
+          "DESCRIPTION": "Adicione os atendentes aos quais esta política será aplicada.",
+          "ADD_BUTTON": "Adicionar atendente",
+          "DROPDOWN": {
+            "SEARCH_PLACEHOLDER": "Pesquise e selecione atendentes para adicionar"
+          },
+          "EMPTY_STATE": "Nenhum atendente adicionado",
+          "API": {
+            "SUCCESS_MESSAGE": "Atendente adicionado à política com sucesso",
+            "ERROR_MESSAGE": "Falha ao adicionar o atendente à política"
+          }
+        }
+      },
+      "DELETE_POLICY": {
+        "SUCCESS_MESSAGE": "Política de capacidade de atendentes excluída com sucesso",
+        "ERROR_MESSAGE": "Falha ao excluir a política de capacidade de atendentes"
+      }
+    }
+  },
+  "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "Você excedeu o limite de atendimentos. O plano Hacker permite apenas 500 atendimentos.",
+      "INBOXES": "Você excedeu o limite de canais. O plano Hacker só suporta chat ao vivo do site. Canais adicionais como e-mail, WhatsApp etc. requerem um plano pago.",
+      "AGENTS": "Você excedeu o limite de atendentes. Seu plano permite apenas {allowedAgents} atendentes."
+    },
+    "FORM": {
+      "AUTO_RESOLVE": {
+        "TITLE": "Fechar atendimentos automaticamente",
+        "NOTE": "Essa configuração permitirá que você feche automaticamente o atendimento após um determinado período de inatividade.",
+        "DURATION": {
+          "HELP": "Período de tempo de inatividade após o qual o atendimento é fechado automaticamente",
+          "ERROR": "O tempo decorrido para fechamento automático deve ser entre 10 minutos e 999 dias",
+          "API": {
+            "SUCCESS": "Configurações de fechamento automático atualizadas com sucesso",
+            "ERROR": "Falha ao atualizar as configurações de fechamento automático"
+          }
+        },
+        "MESSAGE": {
+          "PLACEHOLDER": "O atendimento foi marcado como fechado pelo sistema por ter 15 dias de inatividade",
+          "HELP": "Mensagem enviada ao cliente após o fechamento automático do atendimento",
+          "LABEL": "Mensagem personalizada de fechamento automático"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Pular atendimentos aguardando a resposta do atendente"
+        },
+        "LABEL": {
+          "LABEL": "Adicionar etiqueta após fechamento automático"
+        }
+      },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "Excluir atendimentos sem resposta",
+        "HELP": "Se ativado, o sistema não fechará atendimentos que estiverem aguardando a resposta de um atendente."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "NOTE": "Transcreve automaticamente mensagens de áudio nos atendimentos. Gera uma transcrição de texto sempre que uma mensagem de áudio é enviada ou recebida, e a exibe junto da mensagem."
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "HELP": "Tempo de inatividade após o qual o atendimento deve ser fechado automaticamente",
+        "MESSAGE_PLACEHOLDER": "O atendimento foi marcado como fechado pelo sistema por ter 15 dias de inatividade",
+        "MESSAGE_HELP": "Esta mensagem é enviada ao cliente quando um atendimento é fechado automaticamente pelo sistema devido à inatividade.",
+        "LABEL": "Tempo de inatividade para fechamento",
+        "ERROR": "O tempo decorrido para fechamento automático deve ser entre 10 minutos e 999 dias",
+        "API": {
+          "SUCCESS": "Configurações de fechamento automático atualizadas com sucesso",
+          "ERROR": "Falha ao atualizar as configurações de fechamento automático"
+        },
+        "MESSAGE_LABEL": "Mensagem de fechamento personalizada"
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "A continuidade dos atendimentos com e-mails está ativada para sua conta."
+      }
+    },
+    "UPDATE_CHATWOOT": "Uma atualização {latestChatwootVersion} para o ChatClean está disponível. Por favor, atualize sua instância.",
+    "PAYMENT_PENDING": "Seu pagamento está pendente. Por favor, atualize suas informações de pagamento para continuar usando o ChatClean",
+    "UPGRADE": "Atualize para continuar usando o ChatClean",
+    "LIMITS_UPGRADE": "Sua conta excedeu os limites de uso. Por favor, faça um upgrade do seu plano para continuar usando o ChatClean"
+  },
+  "COMMAND_BAR": {
+    "SECTIONS": {
+      "CONVERSATION": "Atendimentos",
+      "CHANGE_ASSIGNEE": "Atribuir novo atendente",
+      "CHANGE_TEAM": "Alterar o Departamento",
+      "SNOOZE_CONVERSATION": "Adiar Atendimento",
+      "ADD_LABEL": "Adicionar etiqueta ao atendimento",
+      "REMOVE_LABEL": "Remover etiqueta do atendimento"
+    },
+    "COMMANDS": {
+      "GO_TO_CAMPAIGNS": "Ir para Envios",
+      "GO_TO_CONVERSATION_REPORTS": "Ir para Relatórios dos Atendimentos",
+      "GO_TO_AGENT_REPORTS": "Ir para Relatórios do Atendente",
+      "GO_TO_INBOX_REPORTS": "Ir para Relatórios do Canal",
+      "GO_TO_TEAM_REPORTS": "Ir para Relatórios de Departamento",
+      "GO_TO_SETTINGS_AGENTS": "Ir para Configurações de Atendente",
+      "GO_TO_SETTINGS_TEAMS": "Ir para as Configurações de Departamento",
+      "GO_TO_SETTINGS_INBOXES": "Ir para as Configurações do Canal",
+      "GO_TO_SETTINGS_CUSTOM_ATTRIBUTES": "Ir para Campos Customizados",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Ir para as Configurações de Mensagens Rápidas",
+      "ADD_LABELS_TO_CONVERSATION": "Adicionar etiqueta ao atendimento",
+      "ASSIGN_AN_AGENT": "Atribuir um atendente",
+      "ASSIGN_A_TEAM": "Atribuir um departamento",
+      "MUTE_CONVERSATION": "Silenciar atendimento",
+      "UNMUTE_CONVERSATION": "Reativar atendimento",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Remover etiqueta do atendimento",
+      "REOPEN_CONVERSATION": "Reabrir atendimento",
+      "RESOLVE_CONVERSATION": "Fechar atendimento",
+      "SNOOZE_CONVERSATION": "Adiar Atendimento",
+      "GO_TO_CONVERSATION_DASHBOARD": "Ir para Painel de Atendimentos"
+    }
+  },
+  "CONTACT_PANEL": {
+    "CONVERSATION_TITLE": "Detalhes do atendimento",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Escolha um canal de voz"
+    },
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "Não há atendimentos anteriores associados a este contato.",
+      "TITLE": "Atendimentos anteriores"
+    },
+    "LABELS": {
+      "CONVERSATION": {
+        "TITLE": "Etiquetas do atendimento"
+      }
+    },
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Campos Customizados",
+      "PREVIOUS_CONVERSATIONS": "Atendimentos anteriores"
+    },
+    "MUTED_SUCCESS": "Este contato foi bloqueado com sucesso. Você não será notificado sobre nenhum atendimento futuro."
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Iniciar atendimento",
+    "TITLE": "Novo atendimento",
+    "DESC": "Iniciar um novo atendimento enviando uma nova mensagem.",
+    "NO_INBOX": "Não foi possível encontrar um canal para iniciar um novo atendimento com este contato.",
+    "FORM": {
+      "INBOX": {
+        "LABEL": "Canal",
+        "PLACEHOLDER": "Escolher o canal de origem",
+        "ERROR": "Selecione um canal"
+      }
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "BUTTON": "Criar campo customizado",
+    "ADD": {
+      "TITLE": "Criar campo customizado"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nome do Campo Customizado",
+        "ERROR": "Nome de campo customizado inválido"
+      }
+    }
+  },
+  "MERGE_CONTACTS": {
+    "DESCRIPTION": "Mescle contatos para combinar dois perfis em um, incluindo todos os atributos e atendimentos. Em caso de conflito, os atributos do contato principal terão prioridade."
+  },
+  "CONTACTS_LAYOUT": {
+    "SIDEBAR": {
+      "HISTORY": {
+        "EMPTY_STATE": "Não há atendimentos anteriores associados a este contato"
+      },
+      "ATTRIBUTES": {
+        "EMPTY_STATE": "Não há campos customizados de contatos disponíveis nesta conta. Você pode criar um campo customizado nas configurações."
+      },
+      "MERGE": {
+        "DESCRIPTION": "Mescle contatos para combinar dois perfis em um, incluindo todos os atributos e atendimentos. Em caso de conflito, os atributos do contato principal terão prioridade."
+      }
+    }
+  },
+  "COMPOSE_NEW_CONVERSATION": {
+    "FORM": {
+      "ERROR_MESSAGE": "Ocorreu um erro ao criar o atendimento. Tente novamente mais tarde.",
+      "NO_INBOX_ALERT": "Não há canais disponíveis para iniciar um atendimento com este contato.",
+      "INBOX_SELECTOR": {
+        "BUTTON": "Mostrar Canais"
+      }
+    }
+  },
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "{conversationCount} atendimentos selecionados",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Tem certeza de que deseja atribuir {n} atendimento para {agentName}? | Tem certeza de que deseja atribuir {n} atendimentos para {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Tem certeza de que deseja remover a atribuição de {n} atendimento? | Tem certeza de que deseja remover a atribuição de {n} atendimentos?",
+    "ASSIGN_AGENT_TOOLTIP": "Atribuir Atendente",
+    "ASSIGN_TEAM_TOOLTIP": "Atribuir departamento",
+    "ASSIGN_SUCCESFUL": "Atendimentos atribuídos com sucesso.",
+    "ASSIGN_FAILED": "Falha ao atribuir atendimentos. Por favor, tente novamente.",
+    "RESOLVE_SUCCESFUL": "Atendimentos fechados com sucesso.",
+    "RESOLVE_FAILED": "Falha ao fechar atendimentos. Por favor, tente novamente.",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Apenas os atendimentos visíveis nesta página estão selecionados.",
+    "UPDATE": {
+      "UPDATE_SUCCESFUL": "Status do atendimento atualizado com sucesso.",
+      "UPDATE_FAILED": "Falha ao atualizar atendimentos. Por favor, tente novamente."
+    },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "Não é possível fechar os atendimentos devido à ausência de atributos obrigatórios",
+      "PARTIAL_SUCCESS": "Alguns atendimentos exigem atributos obrigatórios antes do fechamento e foram ignorados"
+    },
+    "TEAMS": {
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Tem certeza de que deseja atribuir {n} atendimento ao departamento {teamName}? | Tem certeza de que deseja atribuir {n} atendimentos ao departamento {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Tem certeza de que deseja remover a atribuição de {n} atendimento? | Tem certeza de que deseja remover a atribuição de {n} atendimentos?",
+      "ASSIGN_SUCCESFUL": "Departamentos atribuídos com sucesso.",
+      "ASSIGN_FAILED": "Falha ao atribuir departamento. Por favor, tente novamente."
+    }
+  },
+  "CANNED_MGMT": {
+    "HEADER": "Mensagens Rápidas",
+    "LEARN_MORE": "Saiba mais sobre mensagens rápidas",
+    "DESCRIPTION": "Mensagens rápidas são modelos de resposta pré-escritos que te ajudam a responder rapidamente a um atendimento. Os atendentes podem digitar o caractere ' /' seguido pelo atalho para inserir uma mensagem rápida durante um atendimento. ",
+    "COUNT": "{n} mensagem rápida | {n} mensagens rápidas",
+    "HEADER_BTN_TXT": "Adicionar mensagem rápida",
+    "LOADING": "Buscando mensagens rápidas...",
+    "SEARCH_PLACEHOLDER": "Pesquisar mensagens rápidas...",
+    "NO_RESULTS": "Nenhuma mensagem rápida encontrada correspondente à sua busca",
+    "LIST": {
+      "404": "Não há mensagens rápidas disponíveis nesta conta.",
+      "TITLE": "Gerenciar Mensagens Rápidas",
+      "DESC": "Mensagens Rápidas são modelos de resposta predefinidos que podem ser usados para enviar respostas rapidamente durante os atendimentos."
+    },
+    "ADD": {
+      "TITLE": "Adicionar mensagem rápida",
+      "DESC": "Mensagens Rápidas são modelos de resposta predefinidos que podem ser usados para enviar respostas rapidamente durante os atendimentos.",
+      "API": {
+        "SUCCESS_MESSAGE": "Mensagem rápida adicionada com sucesso."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Editar mensagem rápida",
+      "API": {
+        "SUCCESS_MESSAGE": "Mensagem rápida atualizada com sucesso."
+      }
+    },
+    "DELETE": {
+      "API": {
+        "SUCCESS_MESSAGE": "Mensagem rápida excluída com sucesso."
+      }
+    }
+  },
+  "SEARCH": {
+    "TABS": {
+      "CONVERSATIONS": "Atendimentos"
+    },
+    "SECTION": {
+      "CONVERSATIONS": "Atendimentos"
+    },
+    "EMPTY_STATE_DEFAULT": "Procurar por ID de atendimento, e-mail, número de telefone, mensagens para melhores resultados de busca.",
+    "PRIVATE": "Nota interna",
+    "FILTERS": {
+      "IN": "Canal",
+      "AGENTS": "Atendentes",
+      "INBOXES": "Canais",
+      "NO_AGENTS": "Nenhum atendente encontrado",
+      "NO_INBOXES": "Nenhum canal encontrado"
+    }
+  },
+  "CHAT_LIST": {
+    "LOADING": "Buscando atendimentos",
+    "LOAD_MORE_CONVERSATIONS": "Carregar mais atendimentos",
+    "EOF": "Todos os atendimentos carregados 🎉",
+    "LIST": {
+      "404": "Não há atendimentos ativos neste grupo."
+    },
+    "FETCH_ERROR": "Não foi possível carregar os atendimentos. Por favor, tente novamente.",
+    "TAB_HEADING": "Atendimentos",
+    "SEARCH": {
+      "INPUT": "Pesquisar pessoas, atendimentos, mensagens rápidas .."
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "resolved": {
+        "TEXT": "Fechados"
+      },
+      "open": {
+        "TEXT": "Abertos"
+      },
+      "snoozed": {
+        "TEXT": "Adiados"
+      },
+      "all": {
+        "TEXT": "Todos"
+      }
+    },
+    "SORT_TOOLTIP_LABEL": "Ordenar atendimentos",
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Ordenar atendimentos"
+    },
+    "UNATTENDED_HEADING": "Sem Resposta",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Meus",
+      "unassigned": "Não atribuídos"
+    }
+  },
+  "FILTER": {
+    "TITLE": "Filtrar atendimentos",
+    "SUBTITLE": "Adicione seus filtros abaixo e clique em 'Aplicar filtros' para reduzir a desordem nos atendimentos.",
+    "TOOLTIP_LABEL": "Filtrar atendimentos",
+    "ATTRIBUTES": {
+      "ASSIGNEE_NAME": "Atendente atribuído",
+      "INBOX_NAME": "Canal",
+      "TEAM_NAME": "Nome do Departamento",
+      "CONVERSATION_IDENTIFIER": "Identificador do atendimento",
+      "CAMPAIGN_NAME": "Nome do envio"
+    },
+    "GROUPS": {
+      "CUSTOM_ATTRIBUTES": "Campos customizados"
+    }
+  },
+  "INBOX_MGMT": {
+    "HEADER": "Canais",
+    "DESCRIPTION": "Um canal é o meio de comunicação que seu cliente escolhe para interagir com você, e é nele que você gerencia essas interações. Pode incluir comunicações de várias fontes, como e-mail, chat ao vivo e mídia social.",
+    "LEARN_MORE": "Saiba mais sobre os canais",
+    "COUNT": "{n} canal | {n} canais",
+    "SEARCH_PLACEHOLDER": "Pesquisar por nome do canal, tipo de canal ou identificador...",
+    "NO_RESULTS": "Nenhum canal encontrado correspondente à sua busca",
+    "RECONNECTION_REQUIRED": "Seu canal está desconectado. Você não receberá novas mensagens até reautorizar.",
+    "LIST": {
+      "404": "Não há canais anexados a esta conta."
+    },
+    "CREATE_FLOW": {
+      "INBOX": {
+        "TITLE": "Criar Canal",
+        "BODY": "Autenticar sua conta e criar um canal."
+      },
+      "AGENT": {
+        "TITLE": "Adicionar Atendentes",
+        "BODY": "Adicionar atendentes ao canal criado."
+      }
+    },
+    "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Nome do Canal",
+        "PLACEHOLDER": "Digite o nome do canal (ex: Acme Inc)"
+      },
+      "FB": {
+        "INBOX_NAME": "Nome do Canal",
+        "ADD_NAME": "Adicione um nome para seu canal",
+        "PICK_NAME": "Escolha um nome para seu canal",
+        "CREATE_INBOX": "Criar Canal",
+        "RESTRICTED_WARNING": "A criação de canais do Facebook está temporariamente indisponível devido a um problema na API da Meta, e não por uma falha no ChatClean. Estamos trabalhando em conjunto com a Meta para resolver a situação o mais rápido possível."
+      },
+      "INSTAGRAM": {
+        "NEW_INBOX_SUGGESTION": "Esta conta do Instagram estava conectada a um canal diferente e agora foi migrada para cá. Todas as novas mensagens aparecerão aqui. O canal antigo não poderá mais enviar ou receber mensagens para esta conta.",
+        "DUPLICATE_INBOX_BANNER": "Esta conta do Instagram foi migrada para o novo canal do Instagram. Você não poderá mais enviar/receber mensagens do Instagram por este canal.",
+        "RESTRICTED_WARNING": "A criação de canais do Instagram está temporariamente indisponível devido a um problema na API da Meta, e não por uma falha no ChatClean. Estamos trabalhando em conjunto com a Meta para resolver a situação o mais rápido possível."
+      },
+      "TWITTER": {
+        "TWEETS": {
+          "ENABLE": "Criar atendimentos a partir dos Tweets mencionados"
+        }
+      },
+      "WEBSITE_CHANNEL": {
+        "CHANNEL_GREETING_TOGGLE": {
+          "HELP_TEXT": "Enviar automaticamente uma mensagem de saudação quando um novo atendimento é criado."
+        },
+        "SUBMIT_BUTTON": "Criar canal"
+      },
+      "TWILIO": {
+        "CHANNEL_NAME": {
+          "LABEL": "Nome do Canal",
+          "PLACEHOLDER": "Por favor, digite um nome para o canal"
+        }
+      },
+      "SMS": {
+        "BANDWIDTH": {
+          "INBOX_NAME": {
+            "LABEL": "Nome do Canal",
+            "PLACEHOLDER": "Por favor, digite um nome para o canal"
+          }
+        }
+      },
+      "WHATSAPP": {
+        "INBOX_NAME": {
+          "LABEL": "Nome do Canal",
+          "PLACEHOLDER": "Por favor, digite um nome para o canal"
+        },
+        "MANUAL_SETUP": {
+          "REVIEW": {
+            "TITLE": "Crie seu canal do WhatsApp",
+            "DESCRIPTION": "Revise os detalhes do número e escolha um nome para o canal.",
+            "INBOX_NAME": "Nome do Canal"
+          },
+          "VERIFY": {
+            "SUCCESS": "Seu número do WhatsApp está conectado e pronto para a atribuição de atendentes."
+          },
+          "ACTIONS": {
+            "CONNECT": "Criar canal",
+            "CONTINUE": "Continuar para adicionar atendentes"
+          }
+        },
+        "EMBEDDED_SIGNUP": {
+          "CALLING_ENABLE_FAILED": "Seu canal do WhatsApp está pronto, mas as chamadas de voz não puderam ser ativadas — este número ainda não está cadastrado na API de Chamadas do WhatsApp Business. Entre em contato com a Meta ou com seu provedor de soluções WhatsApp Business para realizar o cadastro e, depois, ative as chamadas nas configurações de Chamadas do canal."
+        }
+      },
+      "EMAIL_CHANNEL": {
+        "FINISH_MESSAGE_NO_FORWARDING": "Seu canal de e-mail foi criado com sucesso! É necessário configurar as credenciais de SMTP e IMAP para enviar e receber e-mails. Sem essas configurações, nenhum e-mail será processado."
+      },
+      "AGENTS": {
+        "TITLE": "Atendentes",
+        "DESC": "Aqui você pode adicionar atendentes para gerenciar seu canal recém-criado. Somente os atendentes selecionados terão acesso ao seu canal. Os atendentes que não fazem parte deste canal não poderão ver ou responder a mensagens nele quando fizerem login. <br> <b> PS: </b> Como administrador, se você precisar acessar todos os canais, adicione-se como atendente a todos os canais criados.",
+        "VALIDATION_ERROR": "Adicione pelo menos um atendente ao seu novo canal",
+        "PICK_AGENTS": "Escolha atendentes para o canal"
+      },
+      "DETAILS": {
+        "TITLE": "Detalhes do Canal",
+        "DESC": "No menu abaixo, selecione a Página do Facebook que você deseja conectar ao ChatClean. Você também pode dar um nome personalizado para seu canal para uma melhor identificação."
+      },
+      "FINISH": {
+        "DESC": "Você concluiu a integração da sua página do Facebook com o ChatClean. Na próxima vez que um cliente enviar uma mensagem para sua página, o atendimento aparecerá automaticamente no seu canal. <br> Também estamos fornecendo um script de widget que você pode adicionar facilmente ao seu site. Assim que estiver disponível no seu site, os clientes poderão enviar mensagens diretamente do seu site, sem a ajuda de nenhuma ferramenta externa, e o atendimento aparecerá aqui, no ChatClean. Legal, hein? Com certeza estamos tentando ser :)"
+      },
+      "MICROSOFT": {
+        "DESCRIPTION": "Clique no botão Entrar com a Microsoft para começar. Você será redirecionado para o login do e-mail. Após aceitar as permissões solicitadas, você será redirecionado de volta para a etapa de criação do canal."
+      },
+      "GOOGLE": {
+        "DESCRIPTION": "Clique no botão Entrar com o Google para começar. Você será redirecionado para o login do e-mail. Depois que você aceitar as permissões solicitadas, você será redirecionado de volta para a etapa de criação do canal."
+      }
+    },
+    "DETAILS": {
+      "ERROR_CHANNEL_CREATION": "Não foi possível criar o canal. Por favor, tente novamente.",
+      "CREATING_CHANNEL": "Criando seu canal...",
+      "TITLE": "Configurar detalhes do Canal"
+    },
+    "AGENTS": {
+      "BUTTON_TEXT": "Adicionar atendentes",
+      "ADD_AGENTS": "Adicionando atendentes ao seu canal..."
+    },
+    "FINISH": {
+      "TITLE": "Seu canal está pronto!",
+      "WEBSITE_SUCCESS": "Você concluiu a criação de um canal de site. Copie o código mostrado abaixo e cole-o no seu site. Na próxima vez que um cliente usar o bate-papo ao vivo, o atendimento aparecerá automaticamente neste canal.",
+      "WHATSAPP_QR_INSTRUCTION": "Escaneie o código QR acima para testar rapidamente seu canal do WhatsApp",
+      "MESSENGER_QR_INSTRUCTION": "Escaneie o código QR acima para testar rapidamente seu canal do Facebook Messenger",
+      "TELEGRAM_QR_INSTRUCTION": "Escaneie o código QR acima para testar rapidamente seu canal do Telegram"
+    },
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "Configurações do canal atualizadas com sucesso",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Atribuição automática atualizada com sucesso",
+        "ERROR_MESSAGE": "Não foi possível atualizar as configurações do canal. Por favor, tente novamente mais tarde."
+      },
+      "SENDER_NAME_SECTION": {
+        "SUB_TEXT": "Selecione o nome mostrado ao seu cliente quando ele recebe e-mails dos seus atendentes.",
+        "FRIENDLY": {
+          "SUBTITLE": "Adicione o nome do atendente que enviou a resposta ao nome do remetente para torná-la amigável."
+        }
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Reabrir o mesmo atendimento",
+        "DISABLED": "Criar novos atendimentos",
+        "ENABLED_DESCRIPTION": "Quando um contato enviar mensagem novamente, o atendimento anterior será reaberto.",
+        "DISABLED_DESCRIPTION": "Um novo atendimento será criado toda vez que o anterior for fechado."
+      }
+    },
+    "DELETE": {
+      "API": {
+        "SUCCESS_MESSAGE": "Canal excluído com sucesso",
+        "ERROR_MESSAGE": "Não foi possível excluir o canal. Tente novamente mais tarde.",
+        "AVATAR_SUCCESS_MESSAGE": "Perfil do canal excluído com sucesso",
+        "AVATAR_ERROR_MESSAGE": "Não foi possível excluir o perfil do canal. Por favor, tente novamente mais tarde."
+      }
+    },
+    "TABS": {
+      "COLLABORATORS": "Atendentes",
+      "CAMPAIGN": "Envios"
+    },
+    "VOICE_CONFIGURATION": {
+      "ENABLE_VOICE": {
+        "DESCRIPTION": "Habilite chamadas de voz neste canal. Atendentes poderão fazer e receber chamadas telefônicas."
+      },
+      "CREDENTIALS": {
+        "DESCRIPTION": "Chamada de voz requer credenciais de chave da API Twilio. Elas são usadas para gerar tokens para conexões de voz do atendente."
+      },
+      "INBOUND": {
+        "DESCRIPTION": "Permita que os clientes liguem para este número. Quando desativado, as chamadas recebidas são recusadas automaticamente — os atendentes não são notificados e nenhum atendimento é criado. Os atendentes ainda podem realizar chamadas de saída."
+      },
+      "RECORDING": {
+        "DESCRIPTION": "Grave as chamadas e anexe as gravações ao atendimento. Desative esta opção onde a gravação de chamadas não for permitida."
+      }
+    },
+    "WHATSAPP_CALLING": {
+      "ENABLE": {
+        "DESCRIPTION": "Permita que os atendentes recebam e realizem chamadas do WhatsApp Cloud neste canal. Os clientes poderão ligar diretamente para este número comercial pelo WhatsApp."
+      },
+      "PERMISSION_REQUEST_BODY": {
+        "PLACEHOLDER": "Gostaríamos de ligar para você em relação ao seu atendimento."
+      }
+    },
+    "ACCOUNT_HEALTH": {
+      "ERRORS": {
+        "AUTHORIZATION": {
+          "EMBEDDED_DESCRIPTION": "A Meta não conseguiu validar a conexão deste canal. Acesse Configurações para reconfigurá-lo usando o Cadastro Incorporado.",
+          "MANUAL_DESCRIPTION": "A Meta não conseguiu validar o token de acesso deste canal. Acesse Configurações para verificá-lo ou substituí-lo."
+        }
+      }
+    },
+    "FEATURES": {
+      "ALLOW_END_CONVERSATION": "Permitir que usuários encerrem o atendimento a partir do widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use o nome do canal e o avatar do bot"
+    },
+    "SETTINGS_POPUP": {
+      "IDENTITY_VALIDATION": {
+        "REQUIRE_LABEL": "Exigir validação de identidade para todos os atendimentos",
+        "REQUIRE_DESCRIPTION": "Quando ativado, os usuários devem fornecer um token de identidade válido para iniciar atendimentos. Solicitações sem tokens válidos serão rejeitadas."
+      },
+      "INBOX_AGENTS": "Atendentes",
+      "INBOX_AGENTS_SUB_TEXT": "Adicionar ou remover atendentes deste canal",
+      "AGENT_ASSIGNMENT": "Atribuição de atendimento",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Atualizar configurações de atribuição de atendimento",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Ativar ou desativar caixa de coleta de e-mails em novos atendimentos",
+      "SENDER_NAME_SECTION": "Habilitar o Nome do Atendente no E-mail",
+      "SENDER_NAME_SECTION_TEXT": "Ativar/Desativar exibição do nome do atendente no e-mail, se estiver desativado, exibirá o nome da empresa",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Habilitar continuidade dos atendimentos por e-mail",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Os atendimentos continuarão por e-mail se o endereço de e-mail do contato estiver disponível.",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "Este recurso está disponível em um plano pago. Atualize para ativar a continuidade do atendimento via e-mail.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Roteamento de Atendimento",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configurar a criação de atendimentos para contatos existentes",
+      "INBOX_UPDATE_TITLE": "Configurações do Canal",
+      "INBOX_UPDATE_SUB_TEXT": "Atualize as configurações do seu canal",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Ativar ou desativar a atribuição automática de novos atendimentos aos atendentes adicionados a este canal.",
+      "INBOX_IDENTIFIER": "Identificador do canal",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "O encaminhamento de e-mails para o seu canal está desativado nesta instalação. Para utilizar esse recurso, ele deve ser habilitado pelo administrador. Entre em contato com um para prosseguir.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Permitir mensagens após o fechamento do atendimento",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permite que os usuários finais enviem mensagens mesmo depois que o atendimento for fechado.",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "Este canal está conectado através da inscrição incorporada do WhatsApp.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "Você pode reconfigurar este canal para atualizar suas configurações do WhatsApp Business.",
+      "WHATSAPP_MANUAL_TRANSFER_SUBHEADER": "Este canal foi conectado por meio do cadastro incorporado do WhatsApp, que não é mais compatível. Informe as credenciais da API do WhatsApp Cloud da sua própria aplicação da Meta para migrar este canal para uma configuração manual. Antes de realizar a migração, configure o webhook na sua aplicação da Meta utilizando o token de verificação acima.",
+      "WHATSAPP_MANUAL_TRANSFER_SUCCESS": "Canal migrado para configuração manual com sucesso.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "Conecte este canal ao WhatsApp Business para ter recursos aprimorados e um gerenciamento mais fácil.",
+      "WHATSAPP_MANUAL_MIGRATION": {
+        "BANNER": {
+          "DESCRIPTION": "Este canal está conectado por meio da aplicação compartilhada da Meta utilizada no cadastro incorporado, que foi afetada por restrições recentes da Meta. Para evitar problemas semelhantes no futuro, recomendamos reconectá-lo utilizando sua própria aplicação da Meta."
+        },
+        "DIALOG": {
+          "TITLE": "Reconectar canal do WhatsApp",
+          "ACTION_REQUIRED_DESCRIPTION": "Os canais conectados por meio da sua própria aplicação da Meta não são afetados pelas restrições da aplicação compartilhada utilizada no cadastro incorporado. Este fluxo guiado atualiza a conexão com a API do WhatsApp sem criar um novo canal.",
+          "PRESERVED_DESCRIPTION": "Atendimentos, contatos, colaboradores, roteamento, horário de atendimento e configurações do canal.",
+          "PHONE_NUMBER_HELP": "ID exclusivo da Meta para o número do WhatsApp conectado a este canal.",
+          "INBOX": "Canal",
+          "RECONNECT": "Reconectar canal do WhatsApp"
+        },
+        "STEPS": {
+          "BEFORE_YOU_START": {
+            "DESCRIPTION": "Isso reconecta os detalhes da API do WhatsApp para este canal. Atendimentos, colaboradores, roteadores, horários de funcionamento, CSAT e configurações do robô serão preservados."
+          },
+          "REVIEW_MIGRATION": {
+            "DESCRIPTION": "Confirme os detalhes da conexão antes de reconectar este canal. O ChatClean verificará o token, WABA e o número de telefone com a Meta antes de aplicar as alterações."
+          }
+        }
+      },
+      "WHATSAPP_CALLING_ENABLED": {
+        "DESCRIPTION": "Permita que os atendentes iniciem e recebam chamadas de voz do WhatsApp neste canal. Disponível apenas para canais do WhatsApp Cloud com cadastro incorporado e permissão de chamadas concedida pela Meta."
+      }
+    },
+    "HELP_CENTER": {
+      "SUB_TEXT": "Anexe um Centro de Ajuda ao canal"
+    },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limitar o número máximo de atendimentos deste canal que podem ser atribuídos automaticamente a um atendente"
+    },
+    "ASSIGNMENT": {
+      "TITLE": "Atribuição de atendimento",
+      "DESCRIPTION": "Atribua automaticamente os atendimentos recebidos aos atendentes disponíveis com base nas políticas de atribuição",
+      "ENABLE_AUTO_ASSIGNMENT": "Ativar atribuição automática de atendimentos",
+      "DEFAULT_RULES_DESCRIPTION": "Utilizando o comportamento de atribuição padrão para todos os atendimentos",
+      "DEFAULT_RULE_1": "Atendimentos criados há mais tempo primeiro",
+      "USING_POLICY": "Utilizando política de atribuição personalizada para este canal",
+      "DEFAULT_POLICY_DESCRIPTION": "Vincule uma política de atribuição personalizada para definir como os atendimentos serão atribuídos aos atendentes neste canal."
+    },
+    "ASSIGNMENT_POLICY": {
+      "DELETE_CONFIRM_MESSAGE": "Tem certeza de que deseja remover esta política de atribuição deste canal? O canal voltará às regras de atribuição padrão."
+    },
+    "PRE_CHAT_FORM": {
+      "DESCRIPTION": "Formulários de bate-papo permitem que você capture informações de usuário antes de iniciar um atendimento com você."
+    },
+    "CSAT": {
+      "SUBTITLE": "Iniciar automaticamente pesquisas de CSAT no final dos atendimentos para entender como os clientes se sentem em relação à sua experiência de suporte. Acompanhe as tendências de satisfação e identifique áreas para melhoria ao longo do tempo.",
+      "SURVEY_RULE": {
+        "DESCRIPTION_PREFIX": "Enviar a pesquisa se o atendimento"
+      },
+      "NOTE": "Nota: pesquisas de CSAT são enviadas apenas uma vez por atendimento",
+      "WHATSAPP_NOTE": "Observação: Ao salvar, o sistema cria um modelo CSAT dedicado no WhatsApp (usado para capturar avaliação e feedback nos relatórios) e o envia como Utilidade para aprovação. A Meta ainda pode classificá-lo como Marketing com base no conteúdo. Após a aprovação, as pesquisas são enviadas apenas uma vez por atendimento, conforme a regra da pesquisa."
+    },
+    "BUSINESS_HOURS": {
+      "TOGGLE_AVAILABILITY": "Permitir a disponibilidade de negócios para este canal",
+      "TOGGLE_HELP": "Permitir a disponibilidade de negócios mostrará as horas disponíveis no widget de bate-papo ao vivo, mesmo que todos os atendentes estejam offline. Os visitantes fora do horário disponível podem ser avisados com uma mensagem e um formulário de pré-bate-papo."
+    },
+    "IMAP": {
+      "TOGGLE_AVAILABILITY": "Habilitar a configuração IMAP para este canal"
+    },
+    "SMTP": {
+      "TOGGLE_AVAILABILITY": "Ativar a configuração SMTP para este canal"
+    }
+  },
+  "INTEGRATION_SETTINGS": {
+    "DESCRIPTION": "O ChatClean se integra com várias ferramentas e serviços para melhorar a eficiência da sua equipe. Explore a lista abaixo para configurar seus aplicativos favoritos.",
+    "WEBHOOK": {
+      "FORM": {
+        "SUBSCRIPTIONS": {
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Atendimento Criado",
+            "CONVERSATION_STATUS_CHANGED": "Status de atendimento alterado",
+            "CONVERSATION_UPDATED": "Atendimento Atualizado",
+            "INBOX_UPDATED": "Canal atualizado"
+          }
+        }
+      }
+    },
+    "SLACK": {
+      "DELETE_CONFIRMATION": {
+        "MESSAGE": "Tem certeza que deseja excluir a integração? Isso resultará na perda de acesso aos atendimentos no seu espaço de trabalho Slack."
+      },
+      "HELP_TEXT": {
+        "BODY": "Com essa integração, todos os seus atendimentos recebidos serão sincronizados com o canal ***{selectedChannelName}*** em seu espaço de trabalho Slack. Você pode gerenciar todos os seus atendimentos com clientes diretamente no canal e nunca perder uma mensagem.\n\nAqui estão os principais recursos da integração:\n\n**Responda a atendimentos de dentro do Slack:** Para responder a um atendimento no canal ***{selectedChannelName}*** Slack, simplesmente digite a sua mensagem e envie-a como um tópico. Isso criará uma resposta ao cliente por meio do ChatClean. Simples assim!\n\n **Crie notas internas:** Se você quiser criar notas internas em vez de respostas, inicie sua mensagem com ***`nota:`***. Isso garante que sua mensagem seja interna e não fique visível para o cliente.\n\n**Associar um perfil de atendente:** Se a pessoa que respondeu no Slack tem um perfil de atendente no ChatClean sob o mesmo e-mail, as respostas serão associadas automaticamente com esse perfil de atendente. Isso significa que você pode facilmente controlar quem disse o quê e quando. Por outro lado, quando o respondente não tiver um perfil de atendente associado, as respostas aparecerão do perfil do bot para o cliente.",
+        "BODY_ALERT": "Com esta integração, todos os seus atendimentos recebidos serão sincronizados com o canal ***{selectedChannelName}*** no seu workspace do Slack, para que sua equipe possa cuidar deles assim que chegarem.\n\nEsta integração está configurada como **Somente alertas**, o que significa que a thread do Slack é um espaço seguro para discussões internas. Tudo o que sua equipe publicar nela permanecerá no Slack e nunca será enviado ao cliente.\n\n**Responda ao cliente pelo ChatClean:** Abra o atendimento pelo link compartilhado na thread e responda pelo painel do ChatClean. As respostas e notas internas adicionadas no ChatClean continuarão aparecendo na thread do Slack, mantendo todos informados."
+      },
+      "MESSAGE_MODE": {
+        "OPTIONS": {
+          "ALERT": {
+            "DESCRIPTION": "Os atendimentos são publicados no Slack apenas para discussão interna. Nada na thread é enviado ao cliente."
+          }
+        }
+      }
+    },
+    "OPEN_AI": {
+      "REPLY_OPTIONS": {
+        "SUMMARIZE": "Resumir o atendimento"
+      }
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "Plugins",
+      "HEADER_BTN_TXT": "Adicionar um novo plugin",
+      "SIDEBAR_TXT": "<p><b>Plugins</b></p><p>Os Plugins permitem que as organizações incorporem uma aplicação dentro do painel do ChatClean para fornecer contexto aos atendentes de suporte ao cliente. Este recurso permite que você crie uma aplicação independente e a incorpore dentro do painel para fornecer informações do usuário, seus pedidos ou seu histórico de pagamentos anteriores.</p><p>Quando você incorpora sua aplicação usando os Plugins do ChatClean, ela recebe o contexto do atendimento e do contato como um evento de janela. Implemente um ouvinte para o evento de mensagem em sua página para receber o contexto.</p><p>Para adicionar um novo plugin, clique no botão 'Adicionar um novo plugin'.</p>",
+      "DESCRIPTION": "Os Plugins permitem que organizações incorporem uma aplicação dentro do painel para fornecer contexto aos atendentes de suporte ao cliente. Este recurso permite que você crie uma aplicação independente e a incorpore para fornecer informações de usuário, seus pedidos ou seu histórico de pagamentos anteriores.",
+      "LEARN_MORE": "Saiba mais sobre os Plugins",
+      "COUNT": "{n} plugin | {n} plugins",
+      "SEARCH_PLACEHOLDER": "Pesquisar plugins...",
+      "NO_RESULTS": "Nenhum plugin encontrado correspondente à sua busca",
+      "LIST": {
+        "404": "Ainda não há plugins configurados nesta conta",
+        "LOADING": "Buscando plugins...",
+        "EDIT_TOOLTIP": "Alterar plugin",
+        "DELETE_TOOLTIP": "Excluir plugin"
+      },
+      "FORM": {
+        "TITLE_PLACEHOLDER": "Digite um nome para o plugin",
+        "TITLE_ERROR": "É necessário um nome para o plugin",
+        "URL_PLACEHOLDER": "Digite a URL do endpoint onde seu plugin está hospedado"
+      },
+      "CREATE": {
+        "HEADER": "Adicionar um novo plugin",
+        "API_SUCCESS": "Plugin configurado com sucesso",
+        "API_ERROR": "Não conseguimos criar um plugin. Por favor, tente novamente mais tarde"
+      },
+      "UPDATE": {
+        "HEADER": "Alterar plugin",
+        "API_SUCCESS": "Plugin atualizado com sucesso",
+        "API_ERROR": "Não conseguimos atualizar o plugin. Por favor, tente novamente mais tarde"
+      },
+      "DELETE": {
+        "MESSAGE": "Tem certeza que deseja excluir o plugin - {appName}?",
+        "API_SUCCESS": "Plugin excluído com sucesso",
+        "API_ERROR": "Não conseguimos excluir o plugin. Por favor, tente novamente mais tarde"
+      }
+    },
+    "LINEAR": {
+      "LINK": {
+        "LINK_TITLE": "Atendimento (#{conversationId}) com {name}"
+      },
+      "ADD_OR_LINK": {
+        "DESCRIPTION": "Crie issues no Linear a partir de atendimentos, ou vincule-os a issues existentes para um rastreamento integrado."
+      }
+    }
+  },
+  "CAPTAIN": {
+    "OVERVIEW": {
+      "INBOX_BANNER": {
+        "TEXT": "Este assistente ainda não está conectado a nenhum canal, por isso ele não responderá a atendimentos.",
+        "ACTION": "Conectar canal"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} sugestões de FAQ estão prontas para revisão, mantendo a cobertura em {coverage}%. Aprove-as para que seu assistente consiga fechar ainda mais atendimentos de forma automática."
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Atendimentos realizados",
+          "HINT": "Atendimentos em que o Captain respondeu ao cliente ou transferiu o atendimento para a sua equipe."
+        },
+        "AUTO_RESOLUTION": {
+          "HINT": "A proporção de atendimentos realizados que o Captain fechou sem a ajuda da sua equipe. Quanto maior, mais atendimentos o Captain fechou sozinho."
+        },
+        "HANDOFF": {
+          "HINT": "A proporção de atendimentos realizados que o Captain transferiu para a sua equipe. Quanto menor, menos atendimentos precisaram de um atendente."
+        },
+        "HOURS_SAVED": {
+          "HINT": "Uma estimativa de quanto tempo de resposta dos atendentes o Captain economizou."
+        },
+        "REOPEN": {
+          "HINT": "A proporção de atendimentos fechados pelo Captain que os clientes retomaram posteriormente.",
+          "NOTE": "Quanto menor, mais atendimentos permaneceram fechados."
+        },
+        "DEPTH": {
+          "LABEL": "Mensagens por atendimento",
+          "HINT": "O número médio de respostas que o Captain enviou em cada atendimento realizado."
+        }
+      },
+      "DRILLDOWN": {
+        "RESULT_COUNT_CONVERSATION": "{count} atendimento | {count} atendimentos"
+      },
+      "V2": {
+        "METRICS": {
+          "TIME_SAVED": {
+            "LABEL": "Economia de esforço e tempo dos atendentes"
+          },
+          "DURABLE": {
+            "HINT": "A proporção de atendimentos fechados pelo Captain que continuavam encerrados após sete dias."
+          },
+          "MEDIAN_RESOLUTION": {
+            "HINT": "O tempo típico desde o momento em que um atendimento chegou ao Captain até ser fechado."
+          },
+          "DEPTH": {
+            "LABEL": "Mensagens por atendimento"
+          }
+        },
+        "RESOLUTION_FLOW": {
+          "ARIA_LABEL": "Fluxo de atendimentos realizados pelo Captain e resultados da equipe",
+          "NODES": {
+            "RESOLVED_BY_CAPTAIN": "Fechados pelo Captain",
+            "CLOSED_WITH_TEAM": "Encerrados com a equipe"
+          }
+        },
+        "RESOLUTION_TREND": {
+          "CONVERSATION_COUNT": "Quantidade de atendimentos",
+          "RESOLVED": "Fechados pelo Captain",
+          "ARIA_LABEL": "Atendimentos realizados e fechados pelo Captain por período do relatório"
+        },
+        "CSAT": {
+          "AUTONOMOUS": "Atendimentos fechados pelo Captain",
+          "AUTONOMOUS_HINT": "A avaliação média dos clientes nos atendimentos que o Captain fechou sem a ajuda da sua equipe.",
+          "ASSISTED": "Atendimentos assistidos pelo Captain",
+          "ASSISTED_HINT": "A avaliação média dos clientes quando o Captain ajudou antes de sua equipe fechar o atendimento."
+        }
+      }
+    },
+    "COPILOT": {
+      "KICK_OFF_MESSAGE": "Precisa de um resumo rápido, quer verificar atendimentos anteriores ou redigir uma resposta melhor? O Copiloto está aqui para acelerar as coisas.",
+      "PROMPTS": {
+        "SUMMARIZE": {
+          "LABEL": "Resumir este atendimento",
+          "CONTENT": "Resuma os pontos-chave discutidos entre o cliente e o atendente, incluindo as preocupações do cliente, as questões e as soluções ou respostas dadas pelo atendente"
+        },
+        "RATE": {
+          "LABEL": "Avaliar este atendimento",
+          "CONTENT": "Revise o atendimento para ver o quanto ele supre as necessidades do cliente. Compartilhe uma classificação de 0 a 5 com base em tom, clareza e eficácia."
+        },
+        "HIGH_PRIORITY": {
+          "LABEL": "Atendimentos de alta prioridade",
+          "CONTENT": "Dê um resumo de todos os atendimentos abertos com prioridade alta. Inclua o ID do atendimento, o nome do cliente (se disponível), o conteúdo da última mensagem e o atendente atribuído. Agrupe por status, se relevante."
+        }
+      }
+    },
+    "ASSISTANTS": {
+      "DELETE": {
+        "DESCRIPTION": "Esta ação é permanente. Excluir este assistente irá removê-lo de todos os canais conectados e apagará permanentemente todo o conhecimento gerado."
+      },
+      "FORM": {
+        "INACTIVITY_RESOLUTION": {
+          "DESCRIPTION": "Escolha como o Captain lida com o atendimento.",
+          "RESOLVE_AFTER": "Fechar após",
+          "ALWAYS_WARNING": "O Captain fechará todos os atendimentos após o tempo selecionado, sem revisá-los. Alguns atendimentos que ainda precisam de ajuda podem ser encerrados.",
+          "PENDING_INFO": "O atendimento permanece pendente até que o cliente responda.",
+          "RESOLUTION_MESSAGE": {
+            "TITLE": "Enviar uma mensagem ao fechar",
+            "DESCRIPTION": "O Captain envia esta mensagem de encerramento antes de fechar o atendimento."
+          },
+          "MODES": {
+            "DISABLED": {
+              "DESCRIPTION": "O Captain não fecha o atendimento. Ele ainda pode transferi-lo para a equipe se o cliente solicitar."
+            },
+            "LEGACY": {
+              "LABEL": "Sempre fechar",
+              "DESCRIPTION": "O Captain fecha todos os atendimentos após o tempo selecionado."
+            },
+            "EVALUATED": {
+              "LABEL": "Permitir que o Captain revise o atendimento (recomendado)",
+              "DESCRIPTION": "O Captain decide se deve fechar o atendimento ou transferi-lo para a equipe."
+            }
+          }
+        },
+        "FEATURES": {
+          "ALLOW_CONVERSATION_FAQS": "Gerar perguntas frequentes a partir de atendimentos fechados"
+        },
+        "AUDIENCE": {
+          "EVERYONE": {
+            "DESC": "O Captain responde a todos os atendimentos nos canais conectados."
+          },
+          "GROUP_CONVERSATION": "Atendimentos",
+          "GROUP_CUSTOM": "Campos customizados"
+        },
+        "SCHEDULE": {
+          "ALWAYS": {
+            "DESC": "O Captain responde a todos os atendimentos, independentemente do horário."
+          },
+          "BUSINESS_HOURS": {
+            "DESC": "O Captain responde apenas durante o horário de atendimento de cada canal."
+          },
+          "OUTSIDE_BUSINESS_HOURS": {
+            "DESC": "O Captain responde apenas quando cada canal estiver fechado."
+          },
+          "HINT": "Canais sem horário de atendimento configurado estão sempre cobertos."
+        }
+      },
+      "SETTINGS": {
+        "BASIC_SETTINGS": {
+          "DESCRIPTION": "Personalize o que o assistente diz quando encerra um atendimento ou o transfere para um humano."
+        },
+        "SYSTEM_SETTINGS": {
+          "DESCRIPTION": "Personalize o que o assistente diz quando encerra um atendimento ou o transfere para um humano."
+        },
+        "SCHEDULE": {
+          "DESCRIPTION": "Escolha quando o Captain responde. Fora desse horário, os atendimentos são encaminhados para sua equipe."
+        },
+        "DELETE": {
+          "DESCRIPTION": "Esta ação é permanente. Excluir este assistente irá removê-lo de todos os canais conectados e apagará permanentemente todo o conhecimento gerado."
+        }
+      },
+      "OPTIONS": {
+        "VIEW_CONNECTED_INBOXES": "Ver canais conectados"
+      },
+      "EMPTY_STATE": {
+        "SUBTITLE": "Crie um assistente para fornecer respostas rápidas e precisas aos seus usuários. Ele pode aprender com seus artigos de ajuda e atendimentos anteriores.",
+        "FEATURE_SPOTLIGHT": {
+          "NOTE": "O Assistente Capitão interage diretamente com os clientes, aprende com seus documentos de ajuda e atendimentos anteriores e fornece respostas instantâneas e precisas. Ele lida com as solicitações iniciais, oferecendo resoluções rápidas antes de transferir para um atendente quando necessário."
+        }
+      }
+    },
+    "DOCUMENTS": {
+      "USED_IN_CONVERSATIONS": "Usado em {n} atendimento | Usado em {n} atendimentos",
+      "NO_USED_CONVERSATIONS": "Não foi encontrado nenhum atendimento para este documento.",
+      "FILTERS": {
+        "SORT": {
+          "MOST_USED": "Mais utilizados em atendimentos"
+        }
+      },
+      "DETAILS": {
+        "USED_IN_CONVERSATIONS": "Utilizado em atendimentos"
+      }
+    },
+    "RESPONSES": {
+      "NO_USED_CONVERSATIONS": "Não foi encontrado nenhum atendimento para este FAQ.",
+      "DOCUMENTABLE": {
+        "CONVERSATION": "Atendimento #{id}"
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "SOURCE_COUNT": "{count} atendimento | {count} atendimentos",
+      "DETAILS": {
+        "DESCRIPTION": "O Captain agrupou {count} atendimento nesta sugestão. Revise as evidências e refine a FAQ antes de aprová-la. | O Captain agrupou {count} atendimentos nesta sugestão. Revise as evidências e refine a FAQ antes de aprová-la.",
+        "SOURCES": "Atendimentos de origem",
+        "NO_SOURCES": "Nenhum atendimento de origem acessível foi encontrado."
+      },
+      "ERRORS": {
+        "LOAD_DETAILS": "Ocorreu um erro ao carregar os atendimentos de origem."
+      }
+    },
+    "INBOXES": {
+      "HEADER": "Canais conectados",
+      "ADD_NEW": "Conectar um novo canal",
+      "DELETE": {
+        "TITLE": "Tem certeza que deseja desconectar o canal?",
+        "SUCCESS_MESSAGE": "O canal foi desconectado com sucesso.",
+        "ERROR_MESSAGE": "Ocorreu um erro ao desconectar o canal, por favor, tente novamente."
+      },
+      "FORM_DESCRIPTION": "Escolha um canal para conectar com o assistente.",
+      "CREATE": {
+        "TITLE": "Conecte um canal",
+        "SUCCESS_MESSAGE": "O canal foi conectado com sucesso.",
+        "ERROR_MESSAGE": "Ocorreu um erro ao conectar o canal. Por favor, tente novamente."
+      },
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Canal",
+          "PLACEHOLDER": "Selecione o canal para implantar o assistente.",
+          "ERROR": "É obrigatório selecionar um canal."
+        }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "Canal não conectado",
+        "SUBTITLE": "Conectar um canal permite ao assistente lidar com perguntas iniciais de seus clientes antes de transferi-las para você."
+      }
+    }
+  },
+  "INTEGRATION_APPS": {
+    "LIST": {
+      "INBOX": "Canal"
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Selecionar canal",
+          "PLACEHOLDER": "Selecionar canal"
+        }
+      }
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow é uma plataforma de processamento de linguagem natural para a construção de interfaces conversais. Integrá-lo com {installationName} permite que os bots lidem primeiro com consultas e transfiram para os atendentes quando necessário. Ele ajuda a qualificar leads e reduzir a carga de trabalho dos atendentes respondendo às FAQ. Para adicionar um fluxo de diálogo (Dialogflow), crie uma Conta de Serviço no Google Console e compartilhe as credenciais. Consulte sua documentação para obter detalhes"
+    }
+  },
+  "WHATSAPP_TEMPLATE_MGMT": {
+    "DESCRIPTION": "Visualize os modelos de mensagens sincronizados dos seus canais do WhatsApp. Para criar ou editar um modelo, gerencie-o com seu provedor.",
+    "SYNC_SUCCESS": "A sincronização de modelos foi iniciada para todos os canais do WhatsApp. As atualizações podem levar alguns minutos.",
+    "PARTIAL_SYNC_ERROR": "A sincronização de modelos foi iniciada para alguns canais do WhatsApp, mas outros não puderam ser sincronizados.",
+    "FILTERS": {
+      "ALL_INBOXES": "Todos os canais"
+    },
+    "PREVIEW": {
+      "INBOXES": "Canais"
+    }
+  },
+  "CALLS_PAGE": {
+    "FILTERS": {
+      "ASSIGNEE": "Atendente atribuído",
+      "INBOX": "Canal",
+      "ALL_INBOXES": "Todos os canais"
+    }
+  },
+  "ONBOARDING_INBOX_SETUP": {
+    "META_RESTRICTION": {
+      "MESSAGE": "A configuração de canais do Facebook, Instagram e WhatsApp está temporariamente indisponível devido a um problema na API da Meta, e não por uma falha no ChatClean. Estamos trabalhando em conjunto com a Meta para resolver a situação o mais rápido possível."
+    },
+    "CHANNELS": {
+      "TITLE": "Conectar todos os seus canais de atendimento"
+    },
+    "CHANNELS_DIALOG": {
+      "SUBTITLE": "Gerencie todos eles em um único painel. Você também pode configurar e editar canais posteriormente dentro do aplicativo."
+    }
+  },
+  "HELP_CENTER": {
+    "NEW_PAGE": {
+      "DESCRIPTION": "Crie portais centrais de ajuda de auto-serviço para seus clientes. Ajude-os a encontrar respostas rapidamente, sem esperar. Agilize dúvidas, aumente a eficiência dos atendentes e eleve o suporte ao cliente."
+    }
+  },
+  "CSAT": {
+    "TITLE": "Avalie seu atendimento"
+  },
+  "REPORT": {
+    "HEADER": "Atendimentos",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Baixar relatórios de atendimentos",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Atendimentos"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "INFO_TEXT": "Número total de atendimentos utilizados para computação:",
+        "TOOLTIP_DESCRIPTION": "Com base em {count} atendimento | Com base em {count} atendimentos",
+        "TOOLTIP_TEXT": "O Tempo de Primeira Resposta é de {metricValue} (com base em {conversationCount} atendimentos)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Tempo até o Fechamento",
+        "INFO_TEXT": "Número total de atendimentos utilizados para computação:",
+        "TOOLTIP_DESCRIPTION": "Com base em {count} atendimento | Com base em {count} atendimentos",
+        "TOOLTIP_TEXT": "O Tempo até o Fechamento é de {metricValue} (com base em {conversationCount} atendimentos)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Contagem de Fechamentos"
+      },
+      "BOT_RESOLUTION_COUNT": {
+        "NAME": "Contagem de Fechamentos"
+      }
+    },
+    "DRILLDOWN": {
+      "RESULT_COUNT_CONVERSATION": "{count} atendimento | {count} atendimentos",
+      "UNKNOWN_INBOX": "Canal desconhecido",
+      "UNASSIGNED_AGENT": "Não atribuídos"
+    }
+  },
+  "AGENT_REPORTS": {
+    "HEADER": "Visão Geral de Atendentes",
+    "DESCRIPTION": "Acompanhe facilmente o desempenho dos atendentes com métricas-chave, como atendimentos, tempos de resposta, tempos até o fechamento e atendimentos fechados. Clique no nome de um atendente para saber mais.",
+    "DOWNLOAD_AGENT_REPORTS": "Baixar relatórios de atendentes",
+    "FILTER_DROPDOWN_LABEL": "Selecione Atendente",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Pesquisar atendentes"
+      }
+    },
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Atendimentos"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "INFO_TEXT": "Número total de atendimentos utilizados para computação:",
+        "TOOLTIP_TEXT": "O Tempo de Primeira Resposta é de {metricValue} (com base em {conversationCount} atendimentos)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Tempo até o Fechamento",
+        "INFO_TEXT": "Número total de atendimentos utilizados para computação:",
+        "TOOLTIP_TEXT": "O Tempo até o Fechamento é de {metricValue} (com base em {conversationCount} atendimentos)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Contagem de Fechamentos"
+      }
+    }
+  },
+  "LABEL_REPORTS": {
+    "DESCRIPTION": "Acompanhe o desempenho da sua etiqueta com métricas-chave incluindo atendimentos, tempo de resposta, tempos até o fechamento e atendimentos fechados. Clique no nome da etiqueta para obter detalhes.",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Atendimentos"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "INFO_TEXT": "Número total de atendimentos utilizados para computação:",
+        "TOOLTIP_TEXT": "O Tempo de Primeira Resposta é de {metricValue} (com base em {conversationCount} atendimentos)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Tempo até o Fechamento",
+        "INFO_TEXT": "Número total de atendimentos utilizados para computação:",
+        "TOOLTIP_TEXT": "O Tempo até o Fechamento é de {metricValue} (com base em {conversationCount} atendimentos)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Contagem de Fechamentos"
+      }
+    }
+  },
+  "INBOX_REPORTS": {
+    "HEADER": "Visão Geral de Canais",
+    "DESCRIPTION": "Veja rapidamente o desempenho do canal com métricas-chave como atendimentos, tempos de resposta, tempos até o fechamento e atendimentos fechados — tudo em um só lugar. Clique no canal para mais detalhes",
+    "FILTER_DROPDOWN_LABEL": "Selecionar canal",
+    "ALL_INBOXES": "Todos os canais",
+    "SEARCH_INBOX": "Pesquisar canal",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "Pesquisar canais"
+      }
+    },
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Atendimentos"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "INFO_TEXT": "Número total de atendimentos utilizados para computação:",
+        "TOOLTIP_TEXT": "O Tempo de Primeira Resposta é de {metricValue} (com base em {conversationCount} atendimentos)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Tempo até o fechamento",
+        "INFO_TEXT": "Número total de atendimentos utilizados para computação:",
+        "TOOLTIP_TEXT": "O Tempo até o Fechamento é de {metricValue} (com base em {conversationCount} atendimentos)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Contagem de Fechamentos"
+      }
+    }
+  },
+  "TEAM_REPORTS": {
+    "HEADER": "Resumo dos Departamentos",
+    "DESCRIPTION": "Tenha uma visão geral do desempenho dos seus departamentos com métricas essenciais, incluindo atendimentos, tempos de resposta, tempos até o fechamento e atendimentos fechados. Clique no nome do departamento para ver mais detalhes.",
+    "DOWNLOAD_TEAM_REPORTS": "Baixar relatórios de departamentos",
+    "FILTER_DROPDOWN_LABEL": "Selecionar Departamento",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "Pesquisar departamentos"
+      }
+    },
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Atendimentos"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "INFO_TEXT": "Número total de atendimentos utilizados para computação:",
+        "TOOLTIP_TEXT": "O Tempo de Primeira Resposta é de {metricValue} (com base em {conversationCount} atendimentos)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Tempo até o Fechamento",
+        "INFO_TEXT": "Número total de atendimentos utilizados para computação:",
+        "TOOLTIP_TEXT": "O Tempo até o Fechamento é de {metricValue} (com base em {conversationCount} atendimentos)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Contagem de Fechamentos"
+      }
+    }
+  },
+  "CSAT_REPORTS": {
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Pesquisar atendentes",
+        "INBOXES": "Pesquisar canais",
+        "TEAMS": "Pesquisar departamentos"
+      },
+      "AGENTS": {
+        "LABEL": "Atendente"
+      },
+      "INBOXES": {
+        "LABEL": "Canal"
+      },
+      "TEAMS": {
+        "LABEL": "Departamento"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "AGENT_NAME": "Atendente",
+        "CONVERSATION": "Atendimentos"
+      }
+    },
+    "NO_AGENT": "Nenhum atendente atribuído"
+  },
+  "BOT_REPORTS": {
+    "METRIC": {
+      "TOTAL_CONVERSATIONS": {
+        "LABEL": "Nº de Atendimentos",
+        "TOOLTIP": "Número total de atendimentos tratados pelo bot"
+      },
+      "RESOLUTION_RATE": {
+        "LABEL": "Taxa de fechamento",
+        "TOOLTIP": "Número total de atendimentos fechados pelo bot / número total de atendimentos manipulados pelo bot * 100"
+      },
+      "HANDOFF_RATE": {
+        "TOOLTIP": "Número total de atendimentos entregues a atendentes / número total de atendimentos mantidos pelo bot * 100"
+      }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Atendimentos Abertos",
+      "LOADING_MESSAGE": "Carregando métricas de atendimento...",
+      "OPEN": "Abertos",
+      "UNATTENDED": "Sem resposta",
+      "UNASSIGNED": "Não atribuídos"
+    },
+    "CONVERSATION_HEATMAP": {
+      "HEADER": "Tráfego de atendimentos",
+      "NO_CONVERSATIONS": "Não há atendimentos",
+      "CONVERSATION": "{count} atendimento",
+      "CONVERSATIONS": "{count} atendimentos"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Fechamentos",
+      "NO_CONVERSATIONS": "Não há atendimentos",
+      "CONVERSATION": "{count} atendimento",
+      "CONVERSATIONS": "{count} atendimentos"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Atendimentos por atendentes",
+      "LOADING_MESSAGE": "Carregando métricas de atendente...",
+      "NO_AGENTS": "Não há atendimentos por atendentes",
+      "TABLE_HEADER": {
+        "AGENT": "Atendente",
+        "OPEN": "Abertos",
+        "UNATTENDED": "Sem resposta"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "Todos os Departamentos",
+      "HEADER": "Atendimentos por departamentos",
+      "LOADING_MESSAGE": "Carregando métricas de departamentos...",
+      "TABLE_HEADER": {
+        "TEAM": "Departamento",
+        "UNATTENDED": "Sem resposta"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Status do atendente"
+    }
+  },
+  "SLA_REPORTS": {
+    "NO_RECORDS": "Atendimentos com SLA aplicado não estão disponíveis.",
+    "DROPDOWN": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Nome do Atendente",
+        "INBOXES": "Nome do Canal",
+        "TEAMS": "Nome do Departamento"
+      },
+      "INBOXES": "Canal",
+      "AGENTS": "Atendente",
+      "TEAMS": "Departamento"
+    },
+    "METRICS": {
+      "NO_OF_CONVERSATIONS": {
+        "LABEL": "Nº de Atendimentos",
+        "TOOLTIP": "Número total de atendimentos com SLA"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "CONVERSATION": "Atendimentos",
+        "AGENT": "Atendente"
+      }
+    }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Canal",
+    "AGENT": "Atendente",
+    "TEAM": "Departamento",
+    "AVG_RESOLUTION_TIME": "Tempo Médio até o Fechamento",
+    "RESOLUTION_COUNT": "Contagem de Fechamentos",
+    "CONVERSATIONS": "Nº de Atendimentos"
+  },
+  "CONVERSATION": {
+    "SELECT_A_CONVERSATION": "Por favor, selecione um atendimento no painel da esquerda",
+    "CSAT_REPLY_MESSAGE": "Por favor, classifique o atendimento",
+    "404": "Desculpe, não conseguimos encontrar o atendimento. Por favor, tente novamente",
+    "NO_MESSAGE_1": "Oh oh! Parece que não há mensagens de clientes nos seus canais.",
+    "NO_INBOX_1": "Hola! Parece que você não adicionou nenhum canal ainda.",
+    "NO_INBOX_AGENT": "Uh Oh! Parece que você não faz parte de nenhum canal. Por favor, contate seu administrador",
+    "SEARCH_MESSAGES": "Pesquisar por mensagens nos atendimentos",
+    "LOADING_INBOXES": "Carregando canais",
+    "LOADING_CONVERSATIONS": "Carregando atendimentos",
+    "API_HOURS_WINDOW": "Você só pode responder a este atendimento em {hours} horas",
+    "NOT_ASSIGNED_TO_YOU": "Este atendimento não está atribuído a você. Gostaria de atribuir este atendimento a você mesmo?",
+    "BOT_HANDOFF_MESSAGE": "Este atendimento está sendo conduzido por {assigneeName}.",
+    "BOT_HANDOFF_REOPEN_ACTION": "Marcar atendimento como aberto",
+    "BOT_HANDOFF_SUCCESS": "Um atendimento foi atribuído a você",
+    "BOT_HANDOFF_ERROR": "Falha ao assumir o atendimento. Por favor, tente novamente.",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Você só pode responder a este atendimento usando um modelo de mensagem devido a",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Esta conta do Instagram foi migrada para o novo canal do Instagram. Todas as novas mensagens serão mostradas lá. Você não poderá mais enviar mensagens deste atendimento.",
+    "INSTAGRAM_RESTRICTION_BANNER": "As mensagens do Instagram estão sendo afetadas por um problema na API da Meta, e não por uma falha no ChatClean. Algumas mensagens ou ações podem sofrer atrasos ou ficar temporariamente indisponíveis. Estamos trabalhando em conjunto com a Meta para resolver a situação o mais rápido possível.",
+    "HEADER": {
+      "RESOLVE_ACTION": "Fechar",
+      "COPY_ID_SUCCESS": "ID do atendimento copiado para área de transferência"
+    },
+    "MENTION": {
+      "AGENTS": "Atendentes",
+      "TEAMS": "Departamentos"
+    },
+    "PICKER": {
+      "VARIABLE": {
+        "NO_VALUE": "Nenhum valor para este atendimento"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Pesquisar atendentes e departamentos",
+        "YOU_ARE_A_MEMBER": "Você faz parte deste departamento"
+      }
+    },
+    "PRIORITY": {
+      "CHANGE_PRIORITY": {
+        "SUCCESSFUL": "Alterada a prioridade do ID do atendimento {conversationId} para {priority}"
+      }
+    },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Excluir atendimento #{conversationId}",
+      "DESCRIPTION": "Tem certeza que deseja excluir este atendimento?"
+    },
+    "CARD_CONTEXT_MENU": {
+      "RESOLVED": "Marcar como fechado",
+      "REOPEN": "Reabrir atendimento",
+      "ASSIGN_AGENT": "Atribuir Atendente",
+      "AGENTS_LOADING": "Carregando atendentes...",
+      "ASSIGN_TEAM": "Atribuir departamento",
+      "DELETE": "Excluir atendimento",
+      "COPY_LINK": "Copiar link do atendimento",
+      "COPY_LINK_SUCCESS": "Link do atendimento copiado",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "ID do atendimento {conversationId} atribuído para \"{agentName}\"",
+          "FAILED": "Não foi possível atribuir atendente. Por favor, tente novamente."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Etiqueta #{labelName} atribuída ao atendimento {conversationId}"
+        },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Etiqueta #{labelName} removida do atendimento com id {conversationId}"
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Departamento {team} atribuído ao atendimento de id {conversationId}",
+          "FAILED": "Não foi possível atribuir departamento. Por favor, tente novamente."
+        }
+      }
+    },
+    "FOOTER": {
+      "MSG_INPUT": "Shift + enter para nova linha. Digite '/' para selecionar uma Mensagem Rápida.",
+      "PRIVATE_MSG_INPUT": "A mensagem será visível apenas para atendentes",
+      "MESSAGING_RESTRICTED": "Você não pode responder este atendimento"
+    },
+    "REPLYBOX": {
+      "PRIVATE_NOTE": "Nota Interna"
+    },
+    "VISIBLE_TO_AGENTS": "Nota Interna: Apenas visível para você e sua equipe",
+    "CHANGE_STATUS": "Estado do atendimento mudou",
+    "CHANGE_STATUS_FAILED": "Mudança de status do atendimento falhou",
+    "CHANGE_AGENT": "Novo atendente atribuído",
+    "CHANGE_AGENT_FAILED": "Falha ao atribuir outro atendente",
+    "CHANGE_TEAM": "Departamento do atendimento mudou",
+    "SUCCESS_DELETE_CONVERSATION": "Atendimento excluído com sucesso",
+    "FAIL_DELETE_CONVERSATION": "Não foi possível excluir o atendimento! Tente novamente",
+    "FILE_TYPE_NOT_SUPPORTED": "O tipo de arquivo {fileName} não é suportado neste atendimento",
+    "NATIVE_APP_ADVISORY": "Esta mensagem foi enviada a partir do aplicativo nativo. Responda pelo ChatClean para manter a janela de mensagens ativa.",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "selecionar Atendente"
+    },
+    "CONTEXT_MENU": {
+      "CREATE_A_CANNED_RESPONSE": "Adicionar às mensagens rápidas"
+    },
+    "VOICE_WIDGET": {
+      "VIEW_CHAT_HISTORY": "Ver histórico do atendimento",
+      "GO_TO_CONVERSATION": "Ir para o atendimento"
+    }
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "Enviar transcrição do atendimento",
+    "DESC": "Enviar uma cópia da transcrição do atendimento para o endereço de e-mail especificado",
+    "FORM": {
+      "SEND_TO_AGENT": "Envie a transcrição para o atendente designado"
+    }
+  },
+  "ONBOARDING": {
+    "ALL_CONVERSATION": {
+      "TITLE": "Todos os seus atendimentos em um só lugar",
+      "DESCRIPTION": "Veja todos os atendimentos dos seus clientes em um único painel. Você pode filtrar os atendimentos pelo canal de entrada, rótulo e status.",
+      "NEW_LINK": "Clique aqui para criar um canal"
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "Convidar seus atendentes",
+      "DESCRIPTION": "Já que você está se preparando para conversar com seu cliente, traga seus colegas para ajudá-lo. Você pode convidar seus colegas adicionando os endereços de e-mail deles na lista de atendentes.",
+      "NEW_LINK": "Clique aqui para convidar um atendente"
+    },
+    "LABELS": {
+      "TITLE": "Organizar atendimentos com etiquetas",
+      "DESCRIPTION": "Etiquetas fornecem uma forma mais fácil de organizar os seus atendimentos. Criar algumas etiquetas como #solicitação-suporte, #fatura-assunto etc., assim você poderá futuramente utiliza-las em um atendimento posteriormente."
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Criar mensagens rápidas",
+      "DESCRIPTION": "Os modelos de mensagens rápidas ajudam você a responder rapidamente a um atendimento. Os atendentes podem digitar o caractere '/' seguido pelo atalho para inserir uma resposta.",
+      "NEW_LINK": "Clique aqui para criar uma mensagem rápida"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "ASSIGNEE_LABEL": "Atendente atribuído",
+    "TEAM_LABEL": "Departamento atribuído",
+    "ACCORDION": {
+      "CONVERSATION_ACTIONS": "Ações do atendimento",
+      "CONVERSATION_LABELS": "Etiquetas do atendimento",
+      "CONVERSATION_INFO": "Informação do atendimento",
+      "PREVIOUS_CONVERSATION": "Atendimentos anteriores"
+    }
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_TITLE": "Participantes do atendimento",
+    "WATCH_CONVERSATION": "Participar do atendimento"
+  },
+  "YEAR_IN_REVIEW": {
+    "CONVERSATIONS": {
+      "SUBTITLE": "atendimentos",
+      "COMPARISON": {
+        "0_50": "Você esteve presente e é assim que todo bom atendimento começa.",
+        "50_100": "Você manteve as respostas fluindo e os atendimentos vivos.",
+        "2000_10000": "Você lidou com alto tráfego nos seus canais com tranquilidade."
+      }
+    },
+    "BUSIEST_DAY": {
+      "MESSAGE": "{count} atendimentos nesse dia.",
+      "COMPARISON": {
+        "0_5": "Só um aquecimento leve, mal deu tempo de os canais acordarem.",
+        "10_25": "A coisa começou a esquentar e os canais tiveram que ficar ligados o tempo todo.",
+        "500_PLUS": "Os canais perderam totalmente a calma e não deram trégua em nenhum momento."
+      }
+    },
+    "PERSONALITY": {
+      "MESSAGES": {
+        "QUICK_RESPONDER": "Você respondia em média em {time}. Os canais mal tiveram tempo de esperar."
+      }
+    },
+    "THANK_YOU": {
+      "TITLE": "Parabéns por sobreviver aos atendimentos de {year}."
+    },
+    "SHARE_MODAL": {
+      "SHARE_TEXT": "Confira minha retrospectiva de {year} com o ChatClean!",
+      "BRANDING": "Feito com ChatClean"
+    }
+  },
+  "AUDIT_LOGS": {
+    "DESCRIPTION": "Logs de Auditoria mantêm um registro de atividades em sua conta, permitindo que você acompanhe e auditore sua conta, departamento ou serviços.",
+    "SIDEBAR_TXT": "<p><b>Logs de Auditoria</b> </p><p> Os Logs de Auditoria são rastros para eventos e ações em um Sistema ChatClean. </p>",
+    "FILTERS": {
+      "EVENT_TYPE_GROUPS": {
+        "AGENTS_TEAMS": "Atendentes e departamentos",
+        "CONVERSATIONS": "Atendimentos"
+      },
+      "EVENT_TYPES": {
+        "AGENTS": "Atendentes",
+        "TEAMS": "Departamentos",
+        "TEAM_MEMBERS": "Membros do departamento",
+        "INBOX_MEMBERS": "Colaboradores do canal",
+        "INBOXES": "Canais",
+        "CONVERSATION_DELETIONS": "Exclusões de atendimentos"
+      }
+    },
+    "LIST": {
+      "DESC": "Logs de auditoria são rastros para eventos e ações em um Sistema ChatClean."
+    },
+    "INBOX": {
+      "ADD": "{agentName} criou um canal (#{id})",
+      "EDIT": "{agentName} atualizou um canal (#{id})",
+      "DELETE": "{agentName} excluiu um canal (#{id})"
+    },
+    "TEAM": {
+      "ADD": "{agentName} criou um departamento (#{id})",
+      "EDIT": "{agentName} atualizou um departamento (#{id})",
+      "DELETE": "{agentName} excluiu um departamento (#{id})"
+    },
+    "INBOX_MEMBER": {
+      "ADD": "{agentName} adicionou {user} ao canal (#{inbox_id})",
+      "REMOVE": "{agentName} removeu {user} do canal (#{inbox_id})"
+    },
+    "TEAM_MEMBER": {
+      "ADD": "{agentName} adicionou {user} ao departamento (#{team_id})",
+      "REMOVE": "{agentName} removeu {user} do departamento (#{team_id})"
+    },
+    "CONVERSATION": {
+      "DELETE": "{agentName} excluiu o atendimento #{id}"
+    },
+    "MESSAGE": {
+      "DELETE": "{agentName} excluiu uma mensagem no atendimento #{conversationId}"
+    }
+  },
+  "SLA": {
+    "DESCRIPTION": "Acordo de Nível de Serviço (SLAs em inglês) são acordos que definem expectativas claras entre sua equipe e os clientes. Estabelecem normas para tempos de resposta e de fechamento, criando um quadro de responsabilização e garantindo uma experiência coerente e de qualidade.",
+    "PAYWALL": {
+      "UPGRADE_PROMPT": "Atualize seu plano para obter acesso a recursos avançados como gerenciamento de departamentos, automações, campos customizados e muito mais."
+    },
+    "ENTERPRISE_PAYWALL": {
+      "UPGRADE_PROMPT": "Atualize para um plano pago para acessar recursos avançados como logs de auditoria, capacidade do atendente e muito mais."
+    },
+    "LIST": {
+      "RESPONSE_TYPES": {
+        "RT": "Limite de tempo até o fechamento"
+      }
+    },
+    "FORM": {
+      "RESOLUTION_TIME": {
+        "LABEL": "Tempo até o Fechamento"
+      }
+    },
+    "EVENTS": {
+      "RT": "Tempo até o fechamento"
+    }
+  },
+  "LABEL_MGMT": {
+    "DESCRIPTION": "As etiquetas ajudam você a categorizar e priorizar atendimentos e leads. Você pode atribuir uma etiqueta a um atendimento ou contato usando o painel lateral.",
+    "LIST": {
+      "DESC": "Etiquetas permitem agrupar os atendimentos."
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Adicionar etiqueta ao atendimento"
+      },
+      "POWERED_BY": "ChatClean AI"
+    },
+    "ADD": {
+      "DESC": "Etiquetas permitem agrupar os atendimentos."
+    }
+  },
+  "COMPANIES": {
+    "DETAIL": {
+      "HISTORY": {
+        "EMPTY": "Nenhum atendimento encontrado para os contatos desta empresa ainda."
+      },
+      "ATTRIBUTES": {
+        "EMPTY_STATE": "Não há campos customizados da empresa configurados ainda."
+      }
+    }
+  },
+  "CONTACTS_FILTER": {
+    "SUBTITLE": "Adicione filtros abaixo e clique em 'Enviar' para filtrar contatos.",
+    "GROUPS": {
+      "CUSTOM_ATTRIBUTES": "Campos Customizados"
+    }
+  },
+  "TEAMS_SETTINGS": {
+    "NEW_TEAM": "Criar novo departamento",
+    "HEADER": "Departamentos",
+    "LOADING": "Buscando departamentos",
+    "DESCRIPTION": "Os departamentos permitem que você organize atendentes em grupos com base em suas responsabilidades. Um atendente pode pertencer a vários departamentos. Ao trabalhar de forma colaborativa, você pode atribuir atendimentos a departamentos específicos.",
+    "LEARN_MORE": "Saiba mais sobre departamentos",
+    "COUNT": "{n} departamento | {n} departamentos",
+    "SEARCH_PLACEHOLDER": "Pesquisar departamentos...",
+    "NO_RESULTS": "Nenhum departamento encontrado correspondente à sua busca",
+    "LIST": {
+      "404": "Não há departamentos criados nesta conta.",
+      "EDIT_TEAM": "Editar departamento"
+    },
+    "CREATE_FLOW": {
+      "CREATE": {
+        "TITLE": "Criar novo departamento",
+        "DESC": "Adicione um título e uma descrição ao seu novo departamento."
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Adicionar atendente ao seu departamento",
+        "TITLE": "Adicionar atendentes ao departamento: {teamName}",
+        "DESC": "Adicione atendentes ao seu departamento recém-criado. Isso permite que vocês colaborem em equipe nos atendimentos e sejam notificados sobre novos eventos no mesmo atendimento."
+      },
+      "WIZARD_CREATE": {
+        "BODY": "Criar um novo departamento de atendentes."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Adicionar Atendentes",
+        "BODY": "Adicionar atendentes ao departamento."
+      }
+    },
+    "EDIT_FLOW": {
+      "CREATE": {
+        "TITLE": "Editar detalhes do seu departamento",
+        "DESC": "Edite o título e a descrição do seu departamento.",
+        "BUTTON_TEXT": "Atualizar departamento"
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Atualizar atendentes no departamento",
+        "TITLE": "Adicionar atendentes ao departamento: {teamName}",
+        "DESC": "Adicione atendentes ao seu departamento recém-criado. Todos os atendentes adicionados serão notificados quando um atendimento for atribuído a este departamento."
+      },
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Detalhes do departamento"
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Alterar atendentes",
+        "BODY": "Gerenciar atendentes do seu departamento."
+      }
+    },
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "Não foi possível salvar os detalhes do departamento. Tente novamente."
+    },
+    "AGENTS": {
+      "AGENT": "Atendente",
+      "BUTTON_TEXT": "Adicionar atendentes",
+      "ADD_AGENTS": "Adicionando atendentes ao seu departamento...",
+      "SELECT_ALL": "Selecionar todos os atendentes",
+      "SELECTED_COUNT": "{selected} de {total} atendentes selecionados."
+    },
+    "ADD": {
+      "TITLE": "Adicionar atendentes ao departamento: {teamName}",
+      "DESC": "Adicione atendentes ao departamento recém-criado. Isso permite que vocês colaborem em equipe nos atendimentos e sejam notificados sobre novos eventos no mesmo atendimento.",
+      "SELECT_ALL": "Selecionar todos os atendentes",
+      "SELECTED_COUNT": "{selected} de {total} atendentes selecionados.",
+      "BUTTON_TEXT": "Adicionar atendentes",
+      "AGENT_VALIDATION_ERROR": "Selecione pelo menos um atendente."
+    },
+    "FINISH": {
+      "TITLE": "Seu departamento está pronto!",
+      "MESSAGE": "Agora vocês podem colaborar em equipe nos atendimentos"
+    },
+    "DELETE": {
+      "API": {
+        "SUCCESS_MESSAGE": "Departamento excluído com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível excluir o departamento. Tente novamente."
+      },
+      "CONFIRM": {
+        "TITLE": "Tem certeza de que deseja excluir o departamento?",
+        "MESSAGE": "A exclusão do departamento removerá a atribuição do departamento dos atendimentos atribuídos a ele."
+      }
+    },
+    "FORM": {
+      "UPDATE": "Atualizar departamento",
+      "CREATE": "Criar novo departamento",
+      "NAME": {
+        "LABEL": "Nome do Departamento"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descrição do departamento",
+        "PLACEHOLDER": "Breve descrição sobre este departamento."
+      },
+      "AUTO_ASSIGN": {
+        "LABEL": "Permitir atribuição automática para este departamento."
+      },
+      "SUBMIT_CREATE": "Criar novo departamento"
+    }
+  },
+  "CAMPAIGN": {
+    "LIVE_CHAT": {
+      "HEADER_TITLE": "Envios de chat ao vivo",
+      "NEW_CAMPAIGN": "Criar envio",
+      "EMPTY_STATE": {
+        "TITLE": "Não há envios de chat ao vivo disponíveis",
+        "SUBTITLE": "Conecte-se com seus clientes usando mensagens proativas. Clique em 'Criar envio' para começar."
+      },
+      "CREATE": {
+        "TITLE": "Criar um envio de chat ao vivo",
+        "FORM": {
+          "TITLE": {
+            "PLACEHOLDER": "Por favor, digite o título do envio"
+          },
+          "MESSAGE": {
+            "PLACEHOLDER": "Por favor, insira a mensagem do envio"
+          },
+          "INBOX": {
+            "LABEL": "Selecionar canal",
+            "PLACEHOLDER": "Selecionar canal",
+            "ERROR": "Canal obrigatório"
+          },
+          "OTHER_PREFERENCES": {
+            "ENABLED": "Ativar envio"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Envio de chat ao vivo criado com sucesso"
+          }
+        }
+      },
+      "EDIT": {
+        "TITLE": "Editar envio de chat ao vivo",
+        "FORM": {
+          "API": {
+            "SUCCESS_MESSAGE": "Envio de chat ao vivo atualizado com sucesso"
+          }
+        }
+      }
+    },
+    "SMS": {
+      "HEADER_TITLE": "Envios SMS",
+      "NEW_CAMPAIGN": "Criar envio",
+      "EMPTY_STATE": {
+        "TITLE": "Não há envios SMS disponíveis",
+        "SUBTITLE": "Lance um envio de SMS para chegar diretamente aos seus clientes. Envie ofertas ou faça anúncios com facilidade. Clique em 'Criar envio' para começar."
+      },
+      "CARD": {
+        "STATUS": {
+          "SCHEDULED": "Agendado"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Criar um envio de SMS",
+        "FORM": {
+          "TITLE": {
+            "PLACEHOLDER": "Por favor, digite o título do envio"
+          },
+          "MESSAGE": {
+            "PLACEHOLDER": "Por favor, insira a mensagem do envio"
+          },
+          "INBOX": {
+            "LABEL": "Selecionar canal",
+            "PLACEHOLDER": "Selecionar canal",
+            "ERROR": "Canal obrigatório"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Envio SMS criado com sucesso"
+          }
+        }
+      }
+    },
+    "WHATSAPP": {
+      "HEADER_TITLE": "Envios do WhatsApp",
+      "NEW_CAMPAIGN": "Criar envio",
+      "EMPTY_STATE": {
+        "TITLE": "Nenhum envio do WhatsApp está disponível",
+        "SUBTITLE": "Inicie um envio do WhatsApp para atingir seus clientes diretamente. Envie ofertas ou faça anúncios facilmente. Clique em \"Criar envio\" para começar."
+      },
+      "CARD": {
+        "STATUS": {
+          "SCHEDULED": "Agendado"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Criar envio do WhatsApp",
+        "FORM": {
+          "TITLE": {
+            "PLACEHOLDER": "Por favor, digite o título do envio"
+          },
+          "INBOX": {
+            "LABEL": "Selecione um canal",
+            "PLACEHOLDER": "Selecione um canal",
+            "ERROR": "Canal obrigatório"
+          },
+          "TEMPLATE": {
+            "INFO": "Selecione um modelo para usar neste envio."
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Envio do WhatsApp criado com sucesso"
+          }
+        }
+      },
+      "ANALYTICS": {
+        "EMPTY_STATE": {
+          "UNAVAILABLE": {
+            "TITLE": "As análises não estão disponíveis para este envio",
+            "DESCRIPTION": "Nenhum dado de entrega foi registrado para este envio. Isso pode acontecer com envios realizados antes da introdução das análises de envio."
+          }
+        },
+        "PROCESSING_BANNER": {
+          "DEFAULT": "Este envio ainda está sendo processado. As análises serão atualizadas automaticamente.",
+          "BOTH": "Este envio ainda está sendo processado. {queued} mensagens estão na fila e {awaitingUpdate} aguardam uma atualização de entrega do WhatsApp.",
+          "BOTH_SINGLE": "Este envio ainda está sendo processado. {queued} mensagem está na fila e {awaitingUpdate} aguarda uma atualização de entrega do WhatsApp.",
+          "BOTH_QUEUED_SINGLE": "Este envio ainda está sendo processado. {queued} mensagem está na fila e {awaitingUpdate} aguardam uma atualização de entrega do WhatsApp.",
+          "BOTH_AWAITING_SINGLE": "Este envio ainda está sendo processado. {queued} mensagens estão na fila e {awaitingUpdate} aguarda uma atualização de entrega do WhatsApp.",
+          "QUEUED": "Este envio ainda está sendo processado. {count} mensagem está na fila. | Este envio ainda está sendo processado. {count} mensagens estão na fila.",
+          "AWAITING_UPDATE": "Este envio ainda está sendo processado. {count} mensagem aguarda uma atualização de entrega do WhatsApp. | Este envio ainda está sendo processado. {count} mensagens aguardam uma atualização de entrega do WhatsApp.",
+          "COMPLETING": "Este envio está sendo concluído. As análises serão atualizadas automaticamente."
+        },
+        "SENT_ON": "Enviado em {date}",
+        "BREADCRUMB": {
+          "CAMPAIGNS": "Envios"
+        },
+        "METRICS": {
+          "AUDIENCE": {
+            "HINT": "Contatos incluídos neste envio."
+          }
+        }
+      }
+    },
+    "CONFIRM_DELETE": {
+      "API": {
+        "SUCCESS_MESSAGE": "Envio excluído com sucesso"
+      }
+    }
+  },
+  "AGENT_MGMT": {
+    "HEADER": "Usuários",
+    "HEADER_BTN_TXT": "Adicionar Usuário",
+    "LOADING": "Buscando lista de usuários",
+    "DESCRIPTION": "Um usuário é um membro da sua equipe de atendimento ao cliente que pode visualizar e responder às mensagens dos clientes. A lista abaixo mostra todos os usuários da sua conta.",
+    "AGENT_TYPES": {
+      "AGENT": "Atendente"
+    },
+    "COUNT": "{n} usuário | {n} usuários",
+    "LIST": {
+      "404": "Não existem usuários associados a esta conta",
+      "TITLE": "Gerenciar os usuários da sua equipe",
+      "DESC": "Você pode adicionar e/ou remover usuários da sua equipe."
+    },
+    "ADD": {
+      "TITLE": "Adicionar usuário à sua equipe",
+      "DESC": "Você pode adicionar pessoas que poderão acompanhar o suporte dos seus canais.",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nome do Usuário",
+          "PLACEHOLDER": "Por favor, insira o nome do usuário"
+        },
+        "EMAIL": {
+          "PLACEHOLDER": "Por favor, insira um endereço de e-mail do usuário"
+        },
+        "SUBMIT": "Adicionar usuário"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Usuário adicionado com sucesso"
+      }
+    },
+    "DELETE": {
+      "API": {
+        "SUCCESS_MESSAGE": "Usuário excluído com sucesso"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Editar Usuário",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nome do Usuário",
+          "PLACEHOLDER": "Por favor, insira um nome do usuário"
+        },
+        "EMAIL": {
+          "PLACEHOLDER": "Por favor, insira um endereço de e-mail do usuário"
+        },
+        "AGENT_AVAILABILITY": {
+          "PLACEHOLDER": "Por favor, selecione a disponibilidade do usuário"
+        },
+        "SUBMIT": "Editar usuário"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Usuário atualizado com sucesso"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_SUCCESS_MESSAGE": "Um e-mail com instruções de redefinição de senha foi enviado para o usuário",
+        "SUCCESS_MESSAGE": "Senha do usuário redefinida com sucesso"
+      }
+    },
+    "SEARCH_PLACEHOLDER": "Pesquisar usuários...",
+    "NO_RESULTS": "Nenhum usuário encontrado correspondente à sua busca",
+    "MULTI_SELECTOR": {
+      "TITLE": {
+        "AGENT": "Selecionar atendente",
+        "TEAM": "Selecionar departamento"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Nenhum atendente encontrado",
+          "TEAM": "Nenhum departamento encontrado"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Pesquisar atendentes",
+          "TEAM": "Pesquisar departamentos",
+          "INPUT": "Pesquisar por atendentes"
+        }
+      }
+    }
+  },
+  "AUTOMATION": {
+    "DESCRIPTION": "A automação pode substituir e simplificar processos existentes que requerem esforço manual, como a adição de etiquetas e a atribuição de atendimentos ao atendente mais adequado. Isso permite que a equipe se concentre em seus pontos fortes e reduza o tempo gasto em tarefas rotineiras.",
+    "ADD": {
+      "FORM": {
+        "WAIT": {
+          "INBOX_LABEL": "Canal",
+          "OPTIONS": {
+            "CONVERSATION_STATUS": "O atendimento permanece em um status"
+          },
+          "EXPLANATION": {
+            "CONVERSATION_STATUS": "A contagem começa quando o atendimento entra nesse status. Se ele ainda estiver nele após {duration}, as ações abaixo serão executadas. Se o status mudar antes disso, nada acontecerá."
+          },
+          "FOOTNOTE": "Apenas novas atividades iniciam uma contagem. Atendimentos que já estiverem nesse estado só serão considerados na próxima vez que houver alguma atividade neles."
+        }
+      }
+    },
+    "CONDITION": {
+      "CONTACT_CUSTOM_ATTR_LABEL": "Campos customizados do contato",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Campos customizados do atendimento"
+    },
+    "ACTION": {
+      "TEAM_DROPDOWN_PLACEHOLDER": "Selecione departamentos"
+    },
+    "LAST_RESPONDING_AGENT": "Último Atendente que Respondeu",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Atendimento Criado",
+      "CONVERSATION_UPDATED": "Atendimento Atualizado",
+      "CONVERSATION_RESOLVED": "Atendimento Fechado",
+      "CONVERSATION_OPENED": "Atendimento Aberto"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Atribuir ao Atendente",
+      "ASSIGN_TEAM": "Atribuir um Departamento",
+      "REMOVE_ASSIGNED_TEAM": "Remover Departamento Atribuído",
+      "REMOVE_ASSIGNED_AGENT": "Remover Atendente Atribuído",
+      "SEND_EMAIL_TO_TEAM": "Enviar um e-mail para o Departamento",
+      "MUTE_CONVERSATION": "Silenciar Atendimento",
+      "SNOOZE_CONVERSATION": "Adiar Atendimento",
+      "RESOLVE_CONVERSATION": "Fechar Atendimento",
+      "ADD_PRIVATE_NOTE": "Adicionar uma Nota Interna",
+      "OPEN_CONVERSATION": "Abrir atendimento",
+      "PENDING_CONVERSATION": "Marcar atendimento como pendente"
+    },
+    "ATTRIBUTES": {
+      "PRIVATE_NOTE": "Nota Interna",
+      "INBOX": "Canal",
+      "CONVERSATION_LANGUAGE": "Idioma do atendimento",
+      "ASSIGNEE_NAME": "Atendente atribuído",
+      "TEAM_NAME": "Departamento"
+    }
+  },
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Campos Customizados",
+    "HEADER_BTN_TXT": "Criar campo customizado",
+    "LOADING": "Buscando campos customizados",
+    "DESCRIPTION": "Um campo customizado controla detalhes adicionais sobre seus contatos ou atendimentos — como o plano de assinatura ou a data de sua primeira compra. Você pode adicionar diferentes tipos de campos customizados, como texto, listas ou números, para capturar as informações específicas que você precisa.",
+    "LEARN_MORE": "Saiba mais sobre campos customizados",
+    "COUNT": "{n} campo | {n} campos",
+    "SEARCH_PLACEHOLDER": "Pesquisar campos...",
+    "NO_RESULTS": "Nenhum campo encontrado correspondente à sua busca",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Atendimentos"
+    },
+    "ADD": {
+      "TITLE": "Adicionar campo customizado",
+      "FORM": {
+        "NAME": {
+          "PLACEHOLDER": "Digite um nome de exibição para o campo customizado"
+        },
+        "DESC": {
+          "PLACEHOLDER": "Inserir descrição do campo customizado"
+        },
+        "KEY": {
+          "PLACEHOLDER": "Digite a chave do campo customizado"
+        },
+        "REGEX_PATTERN": {
+          "PLACEHOLDER": "Por favor, insira o padrão de expressão regular para o campo customizado. (Opcional)"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campo customizado adicionado com sucesso!",
+        "ERROR_MESSAGE": "Não foi possível criar um campo customizado. Por favor, tente novamente mais tarde."
+      }
+    },
+    "DELETE": {
+      "API": {
+        "SUCCESS_MESSAGE": "Campo customizado excluído com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível excluir o campo customizado. Tente novamente."
+      },
+      "CONFIRM": {
+        "MESSAGE": "A exclusão removerá o campo customizado"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Editar campo customizado",
+      "API": {
+        "SUCCESS_MESSAGE": "Campo customizado atualizado com sucesso",
+        "ERROR_MESSAGE": "Houve um erro ao atualizar o campo customizado, por favor, tente novamente"
+      }
+    },
+    "TABS": {
+      "HEADER": "Campos Customizados",
+      "CONVERSATION": "Atendimentos"
+    },
+    "LIST": {
+      "EMPTY_RESULT": {
+        "404": "Não há campos customizados criados",
+        "NOT_FOUND": "Não há campos customizados configurados"
+      },
+      "REGEX_PATTERN": {
+        "PLACEHOLDER": "Por favor, insira o padrão de expressão regular para o campo customizado. (Opcional)"
+      }
+    }
+  },
+  "INBOX": {
+    "LIST": {
+      "404": "Não há atendimentos ativos neste grupo.",
+      "NOTE": "Notificações de todos os canais inscritos"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "Você foi mencionado em um atendimento",
+      "CONVERSATION_CREATION": "Novo atendimento criado",
+      "CONVERSATION_ASSIGNMENT": "Um atendimento foi atribuído a você",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nova mensagem em um atendimento atribuído",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nova mensagem em um atendimento do qual você participa",
+      "SLA_MISSED_FIRST_RESPONSE": "Primeira resposta da meta de SLA perdida no atendimento",
+      "SLA_MISSED_NEXT_RESPONSE": "Próxima resposta da meta de SLA perdida no atendimento",
+      "SLA_MISSED_RESOLUTION": "A resolução da meta de SLA foi perdida no atendimento"
+    },
+    "TYPES_NEXT": {
+      "CONVERSATION_CREATION": "Novo atendimento"
+    },
+    "DISPLAY_MENU": {
+      "DISPLAY_OPTIONS": {
+        "CONVERSATION_ID": "ID do atendimento"
+      }
+    }
+  },
+  "AGENT_BOTS": {
+    "DESCRIPTION": "Robôs agentes são como os membros mais fabulosos da sua equipe. Eles podem lidar com as pequenas coisas, assim você pode focar nas coisas que importam. Dê uma chance a eles. Você pode gerenciar seus robôs a partir desta página ou criar novos usando o botão 'Criar Robô'.",
+    "BOT_CONFIGURATION": {
+      "DESC": "Atribua um Agente Robô ao seu canal. Eles podem lidar com os atendimentos iniciais e transferi-los para um atendente humano quando necessário."
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "Configure um robô de Webhook para integrar com seus serviços personalizados. O robô receberá e processará eventos de atendimentos e pode respondê-los."
+    }
+  },
+  "CUSTOM_ROLE": {
+    "DESCRIPTION": "Funções personalizadas são funções criadas pelo proprietário ou administrador da conta. Essas funções podem ser atribuídas a atendentes para definir seu acesso e permissões dentro da conta. Funções personalizadas podem ser criadas com permissões e níveis de acesso específicos para atender aos requisitos da organização.",
+    "PAYWALL": {
+      "UPGRADE_PROMPT": "Atualize seu plano para obter acesso a recursos avançados como gerenciamento de departamentos, automações, campos customizados e muito mais."
+    },
+    "ENTERPRISE_PAYWALL": {
+      "UPGRADE_PROMPT": "Atualize para um plano pago para acessar recursos avançados como logs de auditoria, capacidade dos atendentes e muito mais."
+    },
+    "LIST": {
+      "DESC": "Funções personalizadas são funções criadas pelo proprietário ou administrador da conta. Essas funções podem ser atribuídas a atendentes para definir seu acesso e permissões dentro da conta. Funções personalizadas podem ser criadas com permissões e níveis de acesso específicos para atender aos requisitos da organização."
+    },
+    "PERMISSIONS": {
+      "CONVERSATION_MANAGE": "Gerenciar todos os atendimentos",
+      "CONVERSATION_UNASSIGNED_MANAGE": "Gerenciar atendimentos não atribuídos e aqueles atribuídos a si",
+      "CONVERSATION_PARTICIPATING_MANAGE": "Gerenciar atendimentos de que participa e aqueles atribuídos a si"
+    },
+    "FORM": {
+      "API": {
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor. Por favor, tente novamente."
+      }
+    },
+    "DELETE": {
+      "API": {
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor. Por favor, tente novamente."
+      }
+    }
+  },
+  "MACROS": {
+    "DESCRIPTION": "Uma macro é um conjunto de ações salvas que ajudam os atendentes a concluir tarefas com facilidade. Os atendentes podem definir um conjunto de ações, como etiquetar um atendimento com um rótulo, enviar uma transcrição de e-mail, atualizar um campo customizado, etc., e podem executar essas ações com um único clique.",
+    "EDITOR": {
+      "VISIBILITY": {
+        "GLOBAL": {
+          "DESCRIPTION": "Esta macro está disponível publicamente para todos os atendentes desta conta."
+        }
+      }
+    },
+    "EXECUTE": {
+      "EXECUTED_WITHOUT_RESOLVING": "Macro executada. O atendimento não foi fechado porque faltam campos customizados obrigatórios."
+    },
+    "ACTIONS": {
+      "ASSIGN_TEAM": "Atribuir um Departamento",
+      "ASSIGN_AGENT": "Atribuir um Atendente",
+      "REMOVE_ASSIGNED_TEAM": "Remover Departamento Atribuído",
+      "REMOVE_ASSIGNED_AGENT": "Remover Atendente Atribuído",
+      "MUTE_CONVERSATION": "Silenciar Atendimento",
+      "SNOOZE_CONVERSATION": "Adiar Atendimento",
+      "RESOLVE_CONVERSATION": "Fechar Atendimento",
+      "ADD_PRIVATE_NOTE": "Adicionar uma Nota Interna"
+    }
+  },
+  "CRM": {
+    "KANBAN": {
+      "CARD": {
+        "OPEN_CONVERSATION": "Abrir o atendimento"
+      }
+    },
+    "CONVERSATION_PANEL": {
+      "CARD": {
+        "THIS_CONVERSATION": "Este atendimento"
+      }
+    }
+  },
+  "CHATCLEAN": {
+    "CHAT_LIST": {
+      "EOF": "Todos os atendimentos carregados"
+    }
+  },
+  "BILLING_SETTINGS": {
+    "DESCRIPTION": "Gerencie sua assinatura aqui, faça o upgrade do seu plano e obtenha mais para sua equipe."
+  },
+  "LOGIN": {
+    "API": {
+      "ERROR_MESSAGE": "Não foi possível conectar ao servidor. Por favor, tente novamente."
+    }
+  }
+}
