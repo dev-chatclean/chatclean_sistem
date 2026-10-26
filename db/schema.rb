@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_26_185407) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_26_193544) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -767,6 +767,18 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_185407) do
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
   end
 
+  create_table "chatclean_account_schedules", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.integer "mode", default: 0, null: false
+    t.boolean "enabled", default: false, null: false
+    t.string "timezone", default: "America/Sao_Paulo", null: false
+    t.text "out_of_office_message"
+    t.jsonb "working_hours", default: [], null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_chatclean_account_schedules_on_account_id", unique: true
+  end
+
   create_table "chatclean_canned_response_teams", force: :cascade do |t|
     t.integer "canned_response_id", null: false
     t.bigint "team_id", null: false
@@ -810,6 +822,16 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_185407) do
     t.index ["conversation_id"], name: "index_chatclean_conversation_closures_on_conversation_id"
     t.index ["crm_deal_id"], name: "index_chatclean_conversation_closures_on_crm_deal_id"
     t.index ["user_id"], name: "index_chatclean_conversation_closures_on_user_id"
+  end
+
+  create_table "chatclean_holidays", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.date "date", null: false
+    t.string "name", null: false
+    t.text "message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "date"], name: "index_chatclean_holidays_on_account_id_and_date", unique: true
   end
 
   create_table "companies", force: :cascade do |t|
@@ -1850,6 +1872,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_185407) do
   add_foreign_key "campaign_recipients", "contacts", on_delete: :cascade
   add_foreign_key "campaign_recipients", "inboxes", on_delete: :cascade
   add_foreign_key "canned_responses", "users", column: "owner_id", on_delete: :nullify
+  add_foreign_key "chatclean_account_schedules", "accounts", on_delete: :cascade
   add_foreign_key "chatclean_canned_response_teams", "canned_responses", on_delete: :cascade
   add_foreign_key "chatclean_canned_response_teams", "teams", on_delete: :cascade
   add_foreign_key "chatclean_closing_reason_teams", "chatclean_closing_reasons", column: "closing_reason_id", on_delete: :cascade
@@ -1860,6 +1883,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_185407) do
   add_foreign_key "chatclean_conversation_closures", "conversations", on_delete: :cascade
   add_foreign_key "chatclean_conversation_closures", "crm_deals", on_delete: :nullify
   add_foreign_key "chatclean_conversation_closures", "users", on_delete: :nullify
+  add_foreign_key "chatclean_holidays", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitor_daily_usages", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitor_evaluations", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitor_evaluations", "conversation_monitors", column: "monitor_id", on_delete: :cascade

@@ -7,4 +7,10 @@ FactoryBot.define do
       ask_sale_value { true }
     end
   end
+
+  factory :chatclean_holiday, class: 'Chatclean::Holiday' do
+    account
+    sequence(:date) { |n| Date.new(2030, 1, 1) + n.days }
+    name { 'Feriado' }
+  end
 end

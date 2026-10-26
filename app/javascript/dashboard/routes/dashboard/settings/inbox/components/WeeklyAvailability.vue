@@ -14,10 +14,12 @@ import {
 } from '../helpers/businessHour';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import WorkingScheduleAPI from 'dashboard/api/chatclean/workingSchedule';
 
+// ChatClean (US 19): sem fuso definido no canal, o padrão é o de Brasília.
 const DEFAULT_TIMEZONE = {
-  label: 'Pacific Time (US & Canada) (GMT-07:00)',
-  value: 'America/Los_Angeles',
+  label: 'Brasilia (GMT-03:00)',
+  value: 'America/Sao_Paulo',
 };
 
 export default {
@@ -41,20 +43,25 @@ export default {
       isBusinessHoursEnabled: false,
       unavailableMessage: '',
       timeZone: DEFAULT_TIMEZONE,
-      dayNames: {
-        0: 'Sunday',
-        1: 'Monday',
-        2: 'Tuesday',
-        3: 'Wednesday',
-        4: 'Thursday',
-        5: 'Friday',
-        6: 'Saturday',
-      },
       timeSlots: [...defaultTimeSlot],
+      // ChatClean (US 19): em "por conta", o horário do canal vem da conta.
+      followsAccount: false,
     };
   },
   computed: {
     ...mapGetters({ uiFlags: 'inboxes/getUIFlags' }),
+    // ChatClean (US 19): nomes dos dias no idioma do painel.
+    dayNames() {
+      return [
+        'SUNDAY',
+        'MONDAY',
+        'TUESDAY',
+        'WEDNESDAY',
+        'THURSDAY',
+        'FRIDAY',
+        'SATURDAY',
+      ].map(day => this.$t(`CHATCLEAN.BUSINESS_HOURS.DAYS.${day}`));
+    },
     hasError() {
       if (!this.isBusinessHoursEnabled) return false;
       return this.timeSlots.filter(slot => slot.from && !slot.valid).length > 0;
@@ -88,6 +95,9 @@ export default {
   },
   mounted() {
     this.setDefaults();
+    WorkingScheduleAPI.show().then(({ data }) => {
+      this.followsAccount = data.mode === 'per_account';
+    });
   },
   methods: {
     setDefaults() {
@@ -134,7 +144,16 @@ export default {
 </script>
 
 <template>
-  <div class="mx-6">
+  <div v-if="followsAccount" class="mx-6 py-6 text-sm text-n-slate-12">
+    {{ $t('CHATCLEAN.BUSINESS_HOURS.INBOX_FOLLOWS_ACCOUNT') }}
+    <router-link
+      :to="{ name: 'chatclean_business_hours_index' }"
+      class="text-n-brand underline"
+    >
+      {{ $t('CHATCLEAN.BUSINESS_HOURS.INBOX_FOLLOWS_ACCOUNT_LINK') }}
+    </router-link>
+  </div>
+  <div v-else class="mx-6">
     <SettingsToggleSection
       v-model="isBusinessHoursEnabled"
       :header="$t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_AVAILABILITY')"

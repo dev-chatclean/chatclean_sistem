@@ -1,5 +1,24 @@
 en:
   chatclean:
+    schedule:
+      errors:
+        seven_days: must have the seven days of the week
+        closed_and_open: a day cannot be "Closed" and "Open 24h" at the same time
+        close_before_open: closing must be after opening
+        follows_account: This inbox follows the account business hours. Change them in Settings → Business hours and holidays.
+    holidays:
+      default_message: Today is a holiday. Our service is paused and we will be back on the next business day.
+      national:
+        new_year: New Year's Day
+        tiradentes: Tiradentes Day
+        labour_day: Labour Day
+        independence: Independence Day
+        aparecida: Our Lady of Aparecida
+        all_souls: All Souls' Day
+        republic: Republic Day
+        black_consciousness: Black Consciousness Day
+        christmas: Christmas
+        good_friday: Good Friday
     canned_responses:
       attachments_too_large: The attachments exceed 16 MB in total
     closing:
