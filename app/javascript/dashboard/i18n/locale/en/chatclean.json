@@ -87,6 +87,26 @@
         "SAVE": "Save",
         "CANCEL": "Cancel"
       }
+    },
+    "START_CONVERSATION": {
+      "TITLE": "Start conversation",
+      "DESCRIPTION": "Start a new conversation with a contact",
+      "CONTACT": "Contact",
+      "PHONE_PLACEHOLDER": "Area code + number",
+      "SEARCH_PLACEHOLDER": "Find and select the contact",
+      "SEARCH_HINT": "Type at least two letters to find the contact.",
+      "CLEAR_CONTACT": "Choose another contact",
+      "CHANNEL_AND_TEAM": "Inbox and team",
+      "CHANNEL_PLACEHOLDER": "Inboxes",
+      "NO_TEAM": "No team",
+      "MESSAGE": "First message",
+      "MESSAGE_PLACEHOLDER": "First message",
+      "EMOJI": "Emoji",
+      "WHATSAPP_TEMPLATE_HINT": "On the official WhatsApp, the first message must be a template approved by Meta.",
+      "CONFIRM": "Start",
+      "SUCCESS": "Conversation started",
+      "ERROR": "Could not start the conversation. Try again.",
+      "NO_INBOX": "There is no inbox to reach this contact. Use a number with an inbox that sends by phone, such as WhatsApp."
     }
   }
 }

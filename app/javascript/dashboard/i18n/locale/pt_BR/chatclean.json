@@ -87,6 +87,26 @@
         "SAVE": "Salvar",
         "CANCEL": "Cancelar"
       }
+    },
+    "START_CONVERSATION": {
+      "TITLE": "Criar atendimento",
+      "DESCRIPTION": "Inicie uma nova conversa com um contato",
+      "CONTACT": "Contato",
+      "PHONE_PLACEHOLDER": "Iniciar com DDD + número",
+      "SEARCH_PLACEHOLDER": "Localize e selecione o contato",
+      "SEARCH_HINT": "Digite no mínimo duas letras para localizar o contato.",
+      "CLEAR_CONTACT": "Escolher outro contato",
+      "CHANNEL_AND_TEAM": "Canal e departamento",
+      "CHANNEL_PLACEHOLDER": "Canais",
+      "NO_TEAM": "Departamento",
+      "MESSAGE": "Mensagem inicial",
+      "MESSAGE_PLACEHOLDER": "Mensagem inicial",
+      "EMOJI": "Emoji",
+      "WHATSAPP_TEMPLATE_HINT": "No WhatsApp oficial, a primeira mensagem precisa ser um modelo aprovado pela Meta.",
+      "CONFIRM": "Iniciar",
+      "SUCCESS": "Atendimento iniciado",
+      "ERROR": "Não foi possível iniciar o atendimento. Tente de novo.",
+      "NO_INBOX": "Não há canal para falar com este contato. Use um número com um canal que envie por telefone, como o WhatsApp."
     }
   }
 }
