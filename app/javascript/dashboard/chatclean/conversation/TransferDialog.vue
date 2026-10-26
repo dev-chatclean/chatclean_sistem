@@ -22,7 +22,9 @@ const isLoading = ref(false);
 const form = reactive({ teamId: '', assigneeId: '', note: '' });
 
 const teams = useMapGetter('teams/getTeams');
-const assignableAgents = useMapGetter('inboxAssignableAgents/getAssignableAgents');
+const assignableAgents = useMapGetter(
+  'inboxAssignableAgents/getAssignableAgents'
+);
 
 const teamOptions = computed(() => [
   { value: '', label: t('CHATCLEAN.TRANSFER.NO_TEAM') },
