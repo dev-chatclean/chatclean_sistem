@@ -16,9 +16,10 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import WorkingScheduleAPI from 'dashboard/api/chatclean/workingSchedule';
 
+// ChatClean (US 19): sem fuso definido no canal, o padrão é o de Brasília.
 const DEFAULT_TIMEZONE = {
-  label: 'Pacific Time (US & Canada) (GMT-07:00)',
-  value: 'America/Los_Angeles',
+  label: 'Brasilia (GMT-03:00)',
+  value: 'America/Sao_Paulo',
 };
 
 export default {
@@ -42,15 +43,6 @@ export default {
       isBusinessHoursEnabled: false,
       unavailableMessage: '',
       timeZone: DEFAULT_TIMEZONE,
-      dayNames: {
-        0: 'Sunday',
-        1: 'Monday',
-        2: 'Tuesday',
-        3: 'Wednesday',
-        4: 'Thursday',
-        5: 'Friday',
-        6: 'Saturday',
-      },
       timeSlots: [...defaultTimeSlot],
       // ChatClean (US 19): em "por conta", o horário do canal vem da conta.
       followsAccount: false,
@@ -58,6 +50,18 @@ export default {
   },
   computed: {
     ...mapGetters({ uiFlags: 'inboxes/getUIFlags' }),
+    // ChatClean (US 19): nomes dos dias no idioma do painel.
+    dayNames() {
+      return [
+        'SUNDAY',
+        'MONDAY',
+        'TUESDAY',
+        'WEDNESDAY',
+        'THURSDAY',
+        'FRIDAY',
+        'SATURDAY',
+      ].map(day => this.$t(`CHATCLEAN.BUSINESS_HOURS.DAYS.${day}`));
+    },
     hasError() {
       if (!this.isBusinessHoursEnabled) return false;
       return this.timeSlots.filter(slot => slot.from && !slot.valid).length > 0;
