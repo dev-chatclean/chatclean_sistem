@@ -101,6 +101,16 @@ O código de `enterprise/` tem licença própria (`enterprise/LICENSE`): **só p
   - `config/locales/chatclean_rails.pt_BR.yml`: datas e botões, copiados do rails-i18n, que usa o código `pt-BR`.
 - Continuam em inglês as descrições das integrações em Configurações, que vêm dos dados de configuração do Chatwoot.
 
+## Vocabulário e menu da ChatClean (US 14)
+
+- **Vocabulário:** o painel em pt_BR usa os termos da ChatClean atual (Atendimento, Canal, Departamento, Atendente, Mensagem rápida, Campo customizado, Plugins, Envios; na tela de cadastro, Usuário).
+  - As frases trocadas ficam em `app/javascript/dashboard/i18n/locale/pt_BR/chatcleanVocabulary.json`, só as que mudam, aplicadas por cima das do Chatwoot (`chatclean/vocabulary.js`).
+  - O inglês não muda.
+  - Depois de um sync com o Chatwoot, o teste `chatclean/specs/vocabulary.spec.js` lista as frases novas que ainda usam os termos antigos: reescreva-as no `chatcleanVocabulary.json`, com a concordância certa ("o atendimento", "os atendimentos abertos").
+  - Exceções permitidas ficam na lista `ALLOWED` do teste: e-mail do usuário, notificações, time do Linear, agente robô.
+- **Menu:** `chatclean/sidebarMenu.js` reorganiza os itens do `Sidebar.vue` na ordem da ChatClean e esconde Automação, Macros e SMS. A criação de canal esconde SMS e telefonia (`ChannelList.vue`).
+- **Barra superior:** `chatclean/TopBar.vue`, com o atalho de Atendimentos, as notificações e o perfil. No celular, o perfil continua no menu lateral.
+
 ## Produção (E7)
 
 - Infraestrutura na AWS (máquina, IP fixo, firewall, ECR, role de deploy): `.chatclean/infra/README.md` (CCV2-19).

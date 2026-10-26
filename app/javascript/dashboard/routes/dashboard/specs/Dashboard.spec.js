@@ -97,6 +97,7 @@ describe('Dashboard', () => {
           UpgradePage: createUpgradePageStub(isPaywalled),
           CommandBar: createCommandBarStub(commandBar),
           NextSidebar: true,
+          ChatcleanTopBar: true,
           MobileSidebarLauncher: true,
           CopilotLauncher: true,
           CopilotContainer: true,

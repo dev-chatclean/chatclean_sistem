@@ -6,6 +6,10 @@
     },
     "CHAT_LIST": {
       "EOF": "All conversations loaded"
+    },
+    "TOP_BAR": {
+      "CONVERSATIONS": "Conversations",
+      "NOTIFICATIONS": "Notifications"
     }
   }
 }
