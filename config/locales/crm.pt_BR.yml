@@ -1,5 +1,10 @@
 pt_BR:
   chatclean:
+    conversations:
+      already_accepted: "Atendimento já aceito por %{name}"
+      transfer:
+        target_required: Escolha um departamento ou um atendente para transferir
+        no_inbox_access: O atendente não tem acesso ao canal deste atendimento
     super_admin:
       date_format: "%-d de %b de %Y"
       sidebar:

@@ -1,5 +1,10 @@
 en:
   chatclean:
+    conversations:
+      already_accepted: "This conversation was already accepted by %{name}"
+      transfer:
+        target_required: Choose a team or an agent to transfer to
+        no_inbox_access: The agent has no access to the inbox of this conversation
     super_admin:
       date_format: "%b %-d, %Y"
       sidebar:

@@ -187,6 +187,30 @@ const assigneeTabItems = computed(() => {
   }));
 });
 
+// ChatClean (US 15): aba "Fechados" ao lado de "Todos", com todos os atendimentos fechados. Ela é o
+// "Todos" com o status fechado. Os números do Chatwoot valem para o status em uso, então nenhuma aba
+// mostra contador enquanto "Fechados" está aberta, e ela própria nunca mostra.
+const CLOSED_TAB = 'closed';
+const isClosedTabActive = computed(
+  () =>
+    activeStatus.value === wootConstants.STATUS_TYPE.RESOLVED &&
+    activeAssigneeTab.value === wootConstants.ASSIGNEE_TYPE.ALL
+);
+const chatTabItems = computed(() => [
+  ...assigneeTabItems.value.map(item => ({
+    ...item,
+    showBadge: !isClosedTabActive.value,
+  })),
+  {
+    key: CLOSED_TAB,
+    name: t('CHATCLEAN.CHAT_LIST.CLOSED_TAB'),
+    showBadge: false,
+  },
+]);
+const activeChatTab = computed(() =>
+  isClosedTabActive.value ? CLOSED_TAB : activeAssigneeTab.value
+);
+
 const showAssigneeInConversationCard = computed(() => {
   return (
     hasAppliedFiltersOrActiveFolders.value ||
@@ -669,6 +693,18 @@ function onBasicFilterChange(value, type) {
   resetAndFetchData();
 }
 
+function onChatTabChange(selectedTab) {
+  if (selectedTab === CLOSED_TAB) {
+    activeAssigneeTab.value = wootConstants.ASSIGNEE_TYPE.ALL;
+    onBasicFilterChange(wootConstants.STATUS_TYPE.RESOLVED, 'status');
+  } else if (isClosedTabActive.value) {
+    activeAssigneeTab.value = selectedTab;
+    onBasicFilterChange(wootConstants.STATUS_TYPE.OPEN, 'status');
+  } else {
+    updateAssigneeTab(selectedTab);
+  }
+}
+
 function openLastSavedItemInFolder() {
   const lastItemOfFolder = folders.value[folders.value.length - 1];
   const lastItemId = lastItemOfFolder.id;
@@ -951,10 +987,10 @@ watch(appliedFilters, () => resetBulkActions());
 
     <ChatTypeTabs
       v-if="!hasAppliedFiltersOrActiveFolders"
-      :items="assigneeTabItems"
-      :active-tab="activeAssigneeTab"
+      :items="chatTabItems"
+      :active-tab="activeChatTab"
       is-compact
-      @chat-tab-change="updateAssigneeTab"
+      @chat-tab-change="onChatTabChange"
     />
 
     <p

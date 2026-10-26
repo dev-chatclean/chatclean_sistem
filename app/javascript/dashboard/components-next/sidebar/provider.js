@@ -17,7 +17,8 @@ let globalCloseTimeout = null;
 export function useSidebarResize() {
   const { uiSettings, updateUISettings } = useUISettings();
 
-  const sidebarWidth = ref(uiSettings.value.sidebar_width || DEFAULT_WIDTH);
+  // ChatClean (US 15): sem escolha gravada, o menu abre recolhido, só com os ícones.
+  const sidebarWidth = ref(uiSettings.value.sidebar_width || MIN_WIDTH);
   const isCollapsed = computed(() => sidebarWidth.value < COLLAPSED_THRESHOLD);
 
   const setSidebarWidth = width => {

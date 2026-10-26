@@ -16,6 +16,7 @@ import { useInbox } from 'dashboard/composables/useInbox';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import QueueActions from 'dashboard/chatclean/conversation/QueueActions.vue';
 
 const props = defineProps({
   chat: {
@@ -158,6 +159,13 @@ const copyConversationId = async () => {
           >
             {{ `#${chat.id}` }}
           </button>
+          <!-- ChatClean (US 15): telefone do contato ao lado do número do atendimento. -->
+          <template v-if="currentContact.phone_number">
+            <span>•</span>
+            <span class="truncate shrink-0 text-label-small text-n-slate-11">
+              {{ currentContact.phone_number }}
+            </span>
+          </template>
           <span v-if="hasMultipleInboxes">•</span>
           <InboxName v-if="hasMultipleInboxes" :inbox="inbox" class="!mx-0" />
           <span v-if="mailSubject">•</span>
@@ -188,6 +196,8 @@ const copyConversationId = async () => {
         :parent-width="width"
         class="hidden md:flex"
       />
+      <!-- ChatClean (US 15): Aceitar, Fila e Transferir. -->
+      <QueueActions :chat="currentChat" />
       <ConversationCallButton :inbox="inbox" :chat="currentChat" />
       <MoreActions :conversation-id="currentChat.id" />
     </div>

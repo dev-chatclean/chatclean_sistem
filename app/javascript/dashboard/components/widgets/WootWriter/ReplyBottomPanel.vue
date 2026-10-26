@@ -12,6 +12,8 @@ import RequestContactInfoButton from '../RequestContactInfoButton.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { mapGetters } from 'vuex';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   name: 'ReplyBottomPanel',
@@ -258,6 +260,9 @@ export default {
     ActiveStorage.start();
   },
   methods: {
+    openCannedResponses() {
+      emitter.emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, '/');
+    },
     toggleMessageSignature() {
       this.setSignatureFlagForInbox(this.channelType, !this.sendWithSignature);
     },
@@ -331,6 +336,17 @@ export default {
         faded
         sm
         @click="toggleMessageSignature"
+      />
+      <!-- ChatClean (US 15): abre as mensagens rápidas, o mesmo que digitar "/". -->
+      <NextButton
+        v-if="!isEditorDisabled && !isOnPrivateNote"
+        v-tooltip.top-end="$t('CHATCLEAN.REPLY_BOX.CANNED_RESPONSES')"
+        icon="i-ph-chat-text"
+        slate
+        faded
+        sm
+        data-test="open-canned-responses"
+        @click="openCannedResponses"
       />
       <NextButton
         v-if="enableWhatsAppTemplates"

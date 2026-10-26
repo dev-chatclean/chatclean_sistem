@@ -631,8 +631,8 @@
     },
     "UNATTENDED_HEADING": "Sem Resposta",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Meus",
-      "unassigned": "Não atribuídos"
+      "me": "Ativos",
+      "unassigned": "Pendentes"
     }
   },
   "FILTER": {
@@ -935,7 +935,7 @@
     }
   },
   "INTEGRATION_SETTINGS": {
-    "DESCRIPTION": "O ChatClean se integra com várias ferramentas e serviços para melhorar a eficiência da sua equipe. Explore a lista abaixo para configurar seus aplicativos favoritos.",
+    "DESCRIPTION": "O ChatClean se integra com várias ferramentas e serviços para melhorar a eficiência do seu time. Explore a lista abaixo para configurar seus aplicativos favoritos.",
     "WEBHOOK": {
       "FORM": {
         "SUBSCRIPTIONS": {
@@ -954,7 +954,7 @@
       },
       "HELP_TEXT": {
         "BODY": "Com essa integração, todos os seus atendimentos recebidos serão sincronizados com o canal ***{selectedChannelName}*** em seu espaço de trabalho Slack. Você pode gerenciar todos os seus atendimentos com clientes diretamente no canal e nunca perder uma mensagem.\n\nAqui estão os principais recursos da integração:\n\n**Responda a atendimentos de dentro do Slack:** Para responder a um atendimento no canal ***{selectedChannelName}*** Slack, simplesmente digite a sua mensagem e envie-a como um tópico. Isso criará uma resposta ao cliente por meio do ChatClean. Simples assim!\n\n **Crie notas internas:** Se você quiser criar notas internas em vez de respostas, inicie sua mensagem com ***`nota:`***. Isso garante que sua mensagem seja interna e não fique visível para o cliente.\n\n**Associar um perfil de atendente:** Se a pessoa que respondeu no Slack tem um perfil de atendente no ChatClean sob o mesmo e-mail, as respostas serão associadas automaticamente com esse perfil de atendente. Isso significa que você pode facilmente controlar quem disse o quê e quando. Por outro lado, quando o respondente não tiver um perfil de atendente associado, as respostas aparecerão do perfil do bot para o cliente.",
-        "BODY_ALERT": "Com esta integração, todos os seus atendimentos recebidos serão sincronizados com o canal ***{selectedChannelName}*** no seu workspace do Slack, para que sua equipe possa cuidar deles assim que chegarem.\n\nEsta integração está configurada como **Somente alertas**, o que significa que a thread do Slack é um espaço seguro para discussões internas. Tudo o que sua equipe publicar nela permanecerá no Slack e nunca será enviado ao cliente.\n\n**Responda ao cliente pelo ChatClean:** Abra o atendimento pelo link compartilhado na thread e responda pelo painel do ChatClean. As respostas e notas internas adicionadas no ChatClean continuarão aparecendo na thread do Slack, mantendo todos informados."
+        "BODY_ALERT": "Com esta integração, todos os seus atendimentos recebidos serão sincronizados com o canal ***{selectedChannelName}*** no seu workspace do Slack, para que seu time possa cuidar deles assim que chegarem.\n\nEsta integração está configurada como **Somente alertas**, o que significa que a thread do Slack é um espaço seguro para discussões internas. Tudo o que seu time publicar nela permanecerá no Slack e nunca será enviado ao cliente.\n\n**Responda ao cliente pelo ChatClean:** Abra o atendimento pelo link compartilhado na thread e responda pelo painel do ChatClean. As respostas e notas internas adicionadas no ChatClean continuarão aparecendo na thread do Slack, mantendo todos informados."
       },
       "MESSAGE_MODE": {
         "OPTIONS": {
@@ -1026,13 +1026,13 @@
       "METRICS": {
         "HANDLED": {
           "LABEL": "Atendimentos realizados",
-          "HINT": "Atendimentos em que o Captain respondeu ao cliente ou transferiu o atendimento para a sua equipe."
+          "HINT": "Atendimentos em que o Captain respondeu ao cliente ou transferiu o atendimento para o seu time."
         },
         "AUTO_RESOLUTION": {
-          "HINT": "A proporção de atendimentos realizados que o Captain fechou sem a ajuda da sua equipe. Quanto maior, mais atendimentos o Captain fechou sozinho."
+          "HINT": "A proporção de atendimentos realizados que o Captain fechou sem a ajuda do seu time. Quanto maior, mais atendimentos o Captain fechou sozinho."
         },
         "HANDOFF": {
-          "HINT": "A proporção de atendimentos realizados que o Captain transferiu para a sua equipe. Quanto menor, menos atendimentos precisaram de um atendente."
+          "HINT": "A proporção de atendimentos realizados que o Captain transferiu para o seu time. Quanto menor, menos atendimentos precisaram de um atendente."
         },
         "HOURS_SAVED": {
           "HINT": "Uma estimativa de quanto tempo de resposta dos atendentes o Captain economizou."
@@ -1065,10 +1065,10 @@
           }
         },
         "RESOLUTION_FLOW": {
-          "ARIA_LABEL": "Fluxo de atendimentos realizados pelo Captain e resultados da equipe",
+          "ARIA_LABEL": "Fluxo de atendimentos realizados pelo Captain e resultados do time",
           "NODES": {
             "RESOLVED_BY_CAPTAIN": "Fechados pelo Captain",
-            "CLOSED_WITH_TEAM": "Encerrados com a equipe"
+            "CLOSED_WITH_TEAM": "Encerrados com o time"
           }
         },
         "RESOLUTION_TREND": {
@@ -1078,7 +1078,7 @@
         },
         "CSAT": {
           "AUTONOMOUS": "Atendimentos fechados pelo Captain",
-          "AUTONOMOUS_HINT": "A avaliação média dos clientes nos atendimentos que o Captain fechou sem a ajuda da sua equipe.",
+          "AUTONOMOUS_HINT": "A avaliação média dos clientes nos atendimentos que o Captain fechou sem a ajuda do seu time.",
           "ASSISTED": "Atendimentos assistidos pelo Captain",
           "ASSISTED_HINT": "A avaliação média dos clientes quando o Captain ajudou antes de sua equipe fechar o atendimento."
         }
@@ -1609,14 +1609,14 @@
       }
     },
     "FOOTER": {
-      "MSG_INPUT": "Shift + enter para nova linha. Digite '/' para selecionar uma Mensagem Rápida.",
+      "MSG_INPUT": "Digite uma mensagem. Shift + enter para nova linha; '/' para uma mensagem rápida.",
       "PRIVATE_MSG_INPUT": "A mensagem será visível apenas para atendentes",
       "MESSAGING_RESTRICTED": "Você não pode responder este atendimento"
     },
     "REPLYBOX": {
       "PRIVATE_NOTE": "Nota Interna"
     },
-    "VISIBLE_TO_AGENTS": "Nota Interna: Apenas visível para você e sua equipe",
+    "VISIBLE_TO_AGENTS": "Nota Interna: Apenas visível para você e seu time",
     "CHANGE_STATUS": "Estado do atendimento mudou",
     "CHANGE_STATUS_FAILED": "Mudança de status do atendimento falhou",
     "CHANGE_AGENT": "Novo atendente atribuído",
@@ -1755,7 +1755,7 @@
     }
   },
   "SLA": {
-    "DESCRIPTION": "Acordo de Nível de Serviço (SLAs em inglês) são acordos que definem expectativas claras entre sua equipe e os clientes. Estabelecem normas para tempos de resposta e de fechamento, criando um quadro de responsabilização e garantindo uma experiência coerente e de qualidade.",
+    "DESCRIPTION": "Acordo de Nível de Serviço (SLAs em inglês) são acordos que definem expectativas claras entre seu time e os clientes. Estabelecem normas para tempos de resposta e de fechamento, criando um quadro de responsabilização e garantindo uma experiência coerente e de qualidade.",
     "PAYWALL": {
       "UPGRADE_PROMPT": "Atualize seu plano para obter acesso a recursos avançados como gerenciamento de departamentos, automações, campos customizados e muito mais."
     },
@@ -1828,7 +1828,7 @@
       "AGENTS": {
         "BUTTON_TEXT": "Adicionar atendente ao seu departamento",
         "TITLE": "Adicionar atendentes ao departamento: {teamName}",
-        "DESC": "Adicione atendentes ao seu departamento recém-criado. Isso permite que vocês colaborem em equipe nos atendimentos e sejam notificados sobre novos eventos no mesmo atendimento."
+        "DESC": "Adicione atendentes ao seu departamento recém-criado. Isso permite que vocês colaborem como um time nos atendimentos e sejam notificados sobre novos eventos no mesmo atendimento."
       },
       "WIZARD_CREATE": {
         "BODY": "Criar um novo departamento de atendentes."
@@ -1869,7 +1869,7 @@
     },
     "ADD": {
       "TITLE": "Adicionar atendentes ao departamento: {teamName}",
-      "DESC": "Adicione atendentes ao departamento recém-criado. Isso permite que vocês colaborem em equipe nos atendimentos e sejam notificados sobre novos eventos no mesmo atendimento.",
+      "DESC": "Adicione atendentes ao departamento recém-criado. Isso permite que vocês colaborem como um time nos atendimentos e sejam notificados sobre novos eventos no mesmo atendimento.",
       "SELECT_ALL": "Selecionar todos os atendentes",
       "SELECTED_COUNT": "{selected} de {total} atendentes selecionados.",
       "BUTTON_TEXT": "Adicionar atendentes",
@@ -1877,7 +1877,7 @@
     },
     "FINISH": {
       "TITLE": "Seu departamento está pronto!",
-      "MESSAGE": "Agora vocês podem colaborar em equipe nos atendimentos"
+      "MESSAGE": "Agora vocês podem colaborar como um time nos atendimentos"
     },
     "DELETE": {
       "API": {
@@ -2045,18 +2045,18 @@
     "HEADER": "Usuários",
     "HEADER_BTN_TXT": "Adicionar Usuário",
     "LOADING": "Buscando lista de usuários",
-    "DESCRIPTION": "Um usuário é um membro da sua equipe de atendimento ao cliente que pode visualizar e responder às mensagens dos clientes. A lista abaixo mostra todos os usuários da sua conta.",
+    "DESCRIPTION": "Um usuário é um membro do seu time de atendimento ao cliente que pode visualizar e responder às mensagens dos clientes. A lista abaixo mostra todos os usuários da sua conta.",
     "AGENT_TYPES": {
       "AGENT": "Atendente"
     },
     "COUNT": "{n} usuário | {n} usuários",
     "LIST": {
       "404": "Não existem usuários associados a esta conta",
-      "TITLE": "Gerenciar os usuários da sua equipe",
-      "DESC": "Você pode adicionar e/ou remover usuários da sua equipe."
+      "TITLE": "Gerenciar os usuários do seu time",
+      "DESC": "Você pode adicionar e/ou remover usuários do seu time."
     },
     "ADD": {
-      "TITLE": "Adicionar usuário à sua equipe",
+      "TITLE": "Adicionar usuário ao seu time",
       "DESC": "Você pode adicionar pessoas que poderão acompanhar o suporte dos seus canais.",
       "FORM": {
         "NAME": {
@@ -2121,7 +2121,7 @@
     }
   },
   "AUTOMATION": {
-    "DESCRIPTION": "A automação pode substituir e simplificar processos existentes que requerem esforço manual, como a adição de etiquetas e a atribuição de atendimentos ao atendente mais adequado. Isso permite que a equipe se concentre em seus pontos fortes e reduza o tempo gasto em tarefas rotineiras.",
+    "DESCRIPTION": "A automação pode substituir e simplificar processos existentes que requerem esforço manual, como a adição de etiquetas e a atribuição de atendimentos ao atendente mais adequado. Isso permite que o time se concentre em seus pontos fortes e reduza o tempo gasto em tarefas rotineiras.",
     "ADD": {
       "FORM": {
         "WAIT": {
@@ -2259,7 +2259,7 @@
     }
   },
   "AGENT_BOTS": {
-    "DESCRIPTION": "Robôs agentes são como os membros mais fabulosos da sua equipe. Eles podem lidar com as pequenas coisas, assim você pode focar nas coisas que importam. Dê uma chance a eles. Você pode gerenciar seus robôs a partir desta página ou criar novos usando o botão 'Criar Robô'.",
+    "DESCRIPTION": "Robôs agentes são como os membros mais fabulosos do seu time. Eles podem lidar com as pequenas coisas, assim você pode focar nas coisas que importam. Dê uma chance a eles. Você pode gerenciar seus robôs a partir desta página ou criar novos usando o botão 'Criar Robô'.",
     "BOT_CONFIGURATION": {
       "DESC": "Atribua um Agente Robô ao seu canal. Eles podem lidar com os atendimentos iniciais e transferi-los para um atendente humano quando necessário."
     },
@@ -2335,7 +2335,7 @@
     }
   },
   "BILLING_SETTINGS": {
-    "DESCRIPTION": "Gerencie sua assinatura aqui, faça o upgrade do seu plano e obtenha mais para sua equipe."
+    "DESCRIPTION": "Gerencie sua assinatura aqui, faça o upgrade do seu plano e obtenha mais para seu time."
   },
   "LOGIN": {
     "API": {
