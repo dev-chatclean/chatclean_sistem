@@ -6,7 +6,8 @@
     },
     "CHAT_LIST": {
       "EOF": "Todas as conversas carregadas",
-      "START_CONVERSATION": "Iniciar atendimento"
+      "START_CONVERSATION": "Iniciar atendimento",
+      "CLOSED_TAB": "Fechados"
     },
     "TOP_BAR": {
       "CONVERSATIONS": "Atendimentos",

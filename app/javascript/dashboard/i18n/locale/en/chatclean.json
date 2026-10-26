@@ -6,7 +6,8 @@
     },
     "CHAT_LIST": {
       "EOF": "All conversations loaded",
-      "START_CONVERSATION": "Start conversation"
+      "START_CONVERSATION": "Start conversation",
+      "CLOSED_TAB": "Closed"
     },
     "TOP_BAR": {
       "CONVERSATIONS": "Conversations",

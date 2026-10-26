@@ -49,6 +49,20 @@ describe('QueueActions', () => {
     );
   });
 
+  it('keeps only Transfer on a closed conversation', () => {
+    const wrapper = mountActions({ status: 'resolved' });
+
+    expect(wrapper.find('[data-test="conversation-accept"]').exists()).toBe(
+      false
+    );
+    expect(wrapper.find('[data-test="conversation-queue"]').exists()).toBe(
+      false
+    );
+    expect(wrapper.find('[data-test="conversation-transfer"]').exists()).toBe(
+      true
+    );
+  });
+
   it('accepts the conversation and shows who got it first when it is taken', async () => {
     ChatcleanConversationsAPI.accept.mockResolvedValueOnce({
       data: { id: 3, name: 'Ana' },

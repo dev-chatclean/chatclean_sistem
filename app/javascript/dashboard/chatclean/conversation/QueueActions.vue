@@ -19,6 +19,8 @@ const transferDialogRef = ref(null);
 const isWorking = ref(false);
 
 const hasAssignee = computed(() => Boolean(props.chat.meta?.assignee));
+// Atendimento fechado: sem Aceitar e Fila; "Reabrir" é o botão do Chatwoot e Transferir continua.
+const isClosed = computed(() => props.chat.status === 'resolved');
 
 const run = async (action, successMessage) => {
   isWorking.value = true;
@@ -55,7 +57,7 @@ const sendToQueue = () =>
 <template>
   <div class="flex items-center gap-2">
     <Button
-      v-if="!hasAssignee"
+      v-if="!isClosed && !hasAssignee"
       :label="t('CHATCLEAN.QUEUE.ACCEPT')"
       icon="i-lucide-check"
       size="sm"
@@ -64,7 +66,7 @@ const sendToQueue = () =>
       @click="accept"
     />
     <Button
-      v-else
+      v-else-if="!isClosed"
       :label="t('CHATCLEAN.QUEUE.SEND_TO_QUEUE')"
       icon="i-lucide-list-start"
       size="sm"

@@ -54,10 +54,11 @@ useKeyboardEvents(keyboardEvents);
     <woot-tabs-item
       v-for="(item, index) in items"
       :key="item.key"
-      class="text-sm [&_a]:font-medium"
+      class="text-sm [&_a]:font-medium !mx-1 first:!ms-0 last:!me-0"
       :index="index"
       :name="item.name"
       :count="item.count"
+      :show-badge="item.showBadge !== false"
       is-compact
     />
   </woot-tabs>
