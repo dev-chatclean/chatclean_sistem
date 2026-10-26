@@ -7,6 +7,7 @@ import wootConstants from 'dashboard/constants/globals';
 import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter.vue';
 import SwitchLayout from 'dashboard/routes/dashboard/conversation/search/SwitchLayout.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 
 const props = defineProps({
   pageTitle: { type: String, required: true },
@@ -109,6 +110,20 @@ const toggleConversationLayout = () => {
       </span>
     </div>
     <div class="flex items-center gap-1">
+      <!-- ChatClean (US 15): "Iniciar atendimento" ao lado dos filtros; o formulário é o do Chatwoot. -->
+      <ComposeConversation align="end">
+        <template #trigger>
+          <NextButton
+            v-tooltip.top-end="$t('CHATCLEAN.CHAT_LIST.START_CONVERSATION')"
+            :aria-label="$t('CHATCLEAN.CHAT_LIST.START_CONVERSATION')"
+            icon="i-lucide-message-square-plus"
+            slate
+            xs
+            faded
+            data-test="start-conversation"
+          />
+        </template>
+      </ComposeConversation>
       <template v-if="hasAppliedFilters && !hasActiveFolders">
         <div class="relative">
           <NextButton

@@ -631,8 +631,8 @@
     },
     "UNATTENDED_HEADING": "Sem Resposta",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Meus",
-      "unassigned": "Não atribuídos"
+      "me": "Ativos",
+      "unassigned": "Pendentes"
     }
   },
   "FILTER": {
@@ -1609,7 +1609,7 @@
       }
     },
     "FOOTER": {
-      "MSG_INPUT": "Shift + enter para nova linha. Digite '/' para selecionar uma Mensagem Rápida.",
+      "MSG_INPUT": "Digite uma mensagem. Shift + enter para nova linha; '/' para uma mensagem rápida.",
       "PRIVATE_MSG_INPUT": "A mensagem será visível apenas para atendentes",
       "MESSAGING_RESTRICTED": "Você não pode responder este atendimento"
     },

@@ -5,11 +5,36 @@
       "EXPAND": "Expand sidebar"
     },
     "CHAT_LIST": {
-      "EOF": "All conversations loaded"
+      "EOF": "All conversations loaded",
+      "START_CONVERSATION": "Start conversation"
     },
     "TOP_BAR": {
       "CONVERSATIONS": "Conversations",
       "NOTIFICATIONS": "Notifications"
+    },
+    "QUEUE": {
+      "ACCEPT": "Accept",
+      "SEND_TO_QUEUE": "Queue",
+      "TRANSFER": "Transfer",
+      "ACCEPTED": "Conversation accepted",
+      "SENT_TO_QUEUE": "Conversation sent back to pending",
+      "ERROR": "Could not complete the action. Please try again."
+    },
+    "TRANSFER": {
+      "TITLE": "Transfer conversation",
+      "DESCRIPTION": "Choose the team, the agent or both. The note is kept as a private note.",
+      "TEAM_LABEL": "Team",
+      "AGENT_LABEL": "Agent",
+      "NO_TEAM": "Keep the team",
+      "NO_AGENT": "No agent",
+      "NOTE_LABEL": "Note (optional)",
+      "NOTE_PLACEHOLDER": "E.g. the customer wants to talk about the yearly plan",
+      "CONFIRM": "Transfer",
+      "SUCCESS": "Conversation transferred",
+      "ERROR": "Could not transfer the conversation. Please try again."
+    },
+    "REPLY_BOX": {
+      "CANNED_RESPONSES": "Canned responses"
     }
   }
 }

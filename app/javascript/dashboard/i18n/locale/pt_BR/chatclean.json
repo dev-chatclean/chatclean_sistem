@@ -5,11 +5,36 @@
       "EXPAND": "Expandir menu"
     },
     "CHAT_LIST": {
-      "EOF": "Todas as conversas carregadas"
+      "EOF": "Todas as conversas carregadas",
+      "START_CONVERSATION": "Iniciar atendimento"
     },
     "TOP_BAR": {
       "CONVERSATIONS": "Atendimentos",
       "NOTIFICATIONS": "Notificações"
+    },
+    "QUEUE": {
+      "ACCEPT": "Aceitar",
+      "SEND_TO_QUEUE": "Fila",
+      "TRANSFER": "Transferir",
+      "ACCEPTED": "Atendimento aceito",
+      "SENT_TO_QUEUE": "Atendimento devolvido para os pendentes",
+      "ERROR": "Não foi possível concluir a ação. Tente de novo."
+    },
+    "TRANSFER": {
+      "TITLE": "Transferir atendimento",
+      "DESCRIPTION": "Escolha o departamento, o atendente ou os dois. A observação fica como nota interna.",
+      "TEAM_LABEL": "Departamento",
+      "AGENT_LABEL": "Atendente",
+      "NO_TEAM": "Manter o departamento",
+      "NO_AGENT": "Sem atendente",
+      "NOTE_LABEL": "Observação (opcional)",
+      "NOTE_PLACEHOLDER": "Ex.: cliente quer falar sobre o plano anual",
+      "CONFIRM": "Transferir",
+      "SUCCESS": "Atendimento transferido",
+      "ERROR": "Não foi possível transferir. Tente de novo."
+    },
+    "REPLY_BOX": {
+      "CANNED_RESPONSES": "Mensagens rápidas"
     }
   }
 }
