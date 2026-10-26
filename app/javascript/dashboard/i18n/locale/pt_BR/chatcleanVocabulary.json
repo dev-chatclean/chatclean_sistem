@@ -2,7 +2,8 @@
   "PROFILE_SETTINGS": {
     "FORM": {
       "INTERFACE_SECTION": {
-        "NOTE": "Personalize a aparência do seu painel do ChatClean."
+        "NOTE": "Personalize a aparência do seu painel do ChatClean.",
+        "TITLE": "Interface"
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "NOTE": "Crie uma assinatura de mensagem única para aparecer no final de cada mensagem que você enviar de qualquer canal. Você também pode incluir uma imagem anexada, suportada nos canais de live-chat, e-mail e API."
@@ -40,7 +41,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Enviar notificações por email quando uma nova mensagem é criada em um atendimento de que você participa",
         "SLA_MISSED_FIRST_RESPONSE": "Enviar notificações por e-mail quando um atendimento perder o SLA de primeira resposta",
         "SLA_MISSED_NEXT_RESPONSE": "Enviar notificações por e-mail quando um atendimento perder o SLA da próxima resposta",
-        "SLA_MISSED_RESOLUTION": "Enviar notificações por e-mail quando um atendimento perder o SLA de resolução"
+        "SLA_MISSED_RESOLUTION": "Enviar notificações por e-mail quando um atendimento perder o SLA de resolução",
+        "VOICE_CALL_MISSED": "Enviar notificações por e-mail quando você perder uma ligação"
       },
       "NOTIFICATIONS": {
         "TYPES": {
@@ -50,7 +52,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Uma nova mensagem foi criada em um atendimento de que você participa",
           "SLA_MISSED_FIRST_RESPONSE": "Um atendimento perde o SLA de primeira resposta",
           "SLA_MISSED_NEXT_RESPONSE": "Um atendimento perde o SLA da próxima resposta",
-          "SLA_MISSED_RESOLUTION": "Um atendimento perde o SLA de resolução"
+          "SLA_MISSED_RESOLUTION": "Um atendimento perde o SLA de resolução",
+          "VOICE_CALL_MISSED": "Você perder uma ligação"
         }
       },
       "PUSH_NOTIFICATIONS_SECTION": {
@@ -61,13 +64,30 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Enviar notificações push quando uma nova mensagem é criada em um atendimento de que você participa",
         "SLA_MISSED_FIRST_RESPONSE": "Enviar notificações quando um atendimento perder o SLA de primeira resposta",
         "SLA_MISSED_NEXT_RESPONSE": "Enviar notificações quando um atendimento perder o SLA da próxima resposta",
-        "SLA_MISSED_RESOLUTION": "Enviar notificações quando um atendimento perder o SLA de resolução"
+        "SLA_MISSED_RESOLUTION": "Enviar notificações quando um atendimento perder o SLA de resolução",
+        "VOICE_CALL_MISSED": "Enviar notificações push quando você perder uma ligação"
       },
       "DISPLAY_NAME": {
         "PLACEHOLDER": "Por favor, insira um nome de exibição para ser exibido nos atendimentos"
       },
       "EMAIL": {
         "PLACEHOLDER": "Por favor, insira seu endereço de e-mail, que será exibido nos atendimentos"
+      },
+      "SEND_MESSAGE": {
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)"
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)"
+          }
+        }
+      },
+      "AVAILABILITY": {
+        "STATUS": {
+          "ONLINE": "Online",
+          "OFFLINE": "Offline"
+        }
       }
     }
   },
@@ -96,7 +116,13 @@
     "REAUTHORIZE": "A conexão com o seu canal expirou. Por favor, reconecte para continuar recebendo e enviando mensagens",
     "CONVERSATION_WORKFLOW": "Fluxo de Atendimento",
     "REPORTS": "Dashboards",
-    "UNATTENDED_CONVERSATIONS": "Sem resposta"
+    "UNATTENDED_CONVERSATIONS": "Sem resposta",
+    "CAPTAIN_RESPONSES": "Perguntas frequentes",
+    "CAPTAIN_PLAYGROUND": "Playground",
+    "MACROS": "Macros",
+    "CSAT": "CSAT",
+    "WHATSAPP": "WhatsApp",
+    "BETA": "Beta"
   },
   "DATA_IMPORTS": {
     "DESCRIPTION": "Importe seus contatos existentes e atendimentos anteriores de outra ferramenta de atendimento para esta conta. Cada importação é executada em segundo plano, para que você possa continuar trabalhando enquanto ela é concluída, acompanhar seu progresso e revisar tudo o que foi ignorado durante o processo.",
@@ -110,6 +136,12 @@
       "STAGES": {
         "conversations": "Importando atendimentos"
       }
+    },
+    "DRAWER": {
+      "FRESHDESK_DOMAIN_PLACEHOLDER": "acme.freshdesk.com"
+    },
+    "TABLE": {
+      "STATUS": "Status"
     }
   },
   "CAPTAIN_SETTINGS": {
@@ -131,9 +163,25 @@
   "SECURITY_SETTINGS": {
     "SAML": {
       "SP_ENTITY_ID": {
-        "TOOLTIP": "Identificador exclusivo do ChatClean como Provedor de Serviço - configure-o nas configurações do seu IdP"
+        "TOOLTIP": "Identificador exclusivo do ChatClean como Provedor de Serviço - configure-o nas configurações do seu IdP",
+        "LABEL": "SP Entity ID"
+      },
+      "TITLE": "SAML SSO",
+      "ACS_URL": {
+        "LABEL": "URL de ACS"
+      },
+      "SSO_URL": {
+        "LABEL": "URL de SSO",
+        "PLACEHOLDER": "https://sso.example.com/saml/sso"
+      },
+      "CERTIFICATE": {
+        "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
+      },
+      "IDP_ENTITY_ID": {
+        "PLACEHOLDER": "https://sso.example.com/saml"
       }
-    }
+    },
+    "NO_SETTINGS_AVAILABLE": "Nenhuma configuração de segurança está disponível nesta instalação. Configure as chaves de criptografia de MFA para ativar a exigência de autenticação em dois fatores."
   },
   "CONVERSATION_WORKFLOW": {
     "INDEX": {
@@ -235,7 +283,8 @@
           },
           "BALANCED": {
             "DESCRIPTION": "Atribuir atendimentos com base na capacidade disponível.",
-            "PREMIUM_MESSAGE": "Atualize o plano para acessar a atribuição equilibrada e o gerenciamento de capacidade dos atendentes."
+            "PREMIUM_MESSAGE": "Atualize o plano para acessar a atribuição equilibrada e o gerenciamento de capacidade dos atendentes.",
+            "PREMIUM_BADGE": "Premium"
           }
         },
         "ASSIGNMENT_PRIORITY": {
@@ -266,6 +315,9 @@
             "SUCCESS_MESSAGE": "Canal adicionado à política com sucesso",
             "ERROR_MESSAGE": "Falha ao adicionar o canal à política"
           }
+        },
+        "STATUS": {
+          "LABEL": "Status:"
         }
       }
     },
@@ -414,12 +466,21 @@
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "A continuidade dos atendimentos com e-mails está ativada para sua conta."
+      },
+      "ENFORCE_MFA": {
+        "TITLE": "Exigir autenticação de dois fatores",
+        "NOTE": "Exige que todos os membros desta conta configurem a autenticação de dois fatores. Quem ainda não tiver será solicitado a configurá-la no próximo login com senha. Logins pelo Google ou SAML ficam isentos. Os tokens de acesso à API dos membros sem autenticação de dois fatores deixam de funcionar nesta conta até que eles a configurem.",
+        "API": {
+          "SUCCESS": "Exigência de autenticação de dois fatores atualizada com sucesso",
+          "ERROR": "Não foi possível atualizar a exigência de autenticação de dois fatores"
+        }
       }
     },
     "UPDATE_CHATWOOT": "Uma atualização {latestChatwootVersion} para o ChatClean está disponível. Por favor, atualize sua instância.",
     "PAYMENT_PENDING": "Seu pagamento está pendente. Por favor, atualize suas informações de pagamento para continuar usando o ChatClean",
     "UPGRADE": "Atualize para continuar usando o ChatClean",
-    "LIMITS_UPGRADE": "Sua conta excedeu os limites de uso. Por favor, faça um upgrade do seu plano para continuar usando o ChatClean"
+    "LIMITS_UPGRADE": "Sua conta excedeu os limites de uso. Por favor, faça um upgrade do seu plano para continuar usando o ChatClean",
+    "PAYMENT_PENDING_AGENT": "O pagamento da sua conta está em atraso. Fale com o administrador para regularizar."
   },
   "COMMAND_BAR": {
     "SECTIONS": {
@@ -460,7 +521,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Não há atendimentos anteriores associados a este contato.",
-      "TITLE": "Atendimentos anteriores"
+      "TITLE": "Atendimentos anteriores",
+      "VIEW_ALL": "Ver todos os atendimentos"
     },
     "LABELS": {
       "CONVERSATION": {
@@ -471,7 +533,8 @@
       "CUSTOM_ATTRIBUTES": "Campos Customizados",
       "PREVIOUS_CONVERSATIONS": "Atendimentos anteriores"
     },
-    "MUTED_SUCCESS": "Este contato foi bloqueado com sucesso. Você não será notificado sobre nenhum atendimento futuro."
+    "MUTED_SUCCESS": "Este contato foi bloqueado com sucesso. Você não será notificado sobre nenhum atendimento futuro.",
+    "CLICK_TO_EDIT": "Clique para editar"
   },
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Iniciar atendimento",
@@ -499,7 +562,10 @@
     }
   },
   "MERGE_CONTACTS": {
-    "DESCRIPTION": "Mescle contatos para combinar dois perfis em um, incluindo todos os atributos e atendimentos. Em caso de conflito, os atributos do contato principal terão prioridade."
+    "DESCRIPTION": "Mescle contatos para combinar dois perfis em um, incluindo todos os atributos e atendimentos. Em caso de conflito, os atributos do contato principal terão prioridade.",
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
+    }
   },
   "CONTACTS_LAYOUT": {
     "SIDEBAR": {
@@ -519,7 +585,8 @@
       "ERROR_MESSAGE": "Ocorreu um erro ao criar o atendimento. Tente novamente mais tarde.",
       "NO_INBOX_ALERT": "Não há canais disponíveis para iniciar um atendimento com este contato.",
       "INBOX_SELECTOR": {
-        "BUTTON": "Mostrar Canais"
+        "BUTTON": "Mostrar Canais",
+        "LABEL": "Por:"
       }
     }
   },
@@ -547,6 +614,12 @@
       "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Tem certeza de que deseja remover a atribuição de {n} atendimento? | Tem certeza de que deseja remover a atribuição de {n} atendimentos?",
       "ASSIGN_SUCCESFUL": "Departamentos atribuídos com sucesso.",
       "ASSIGN_FAILED": "Falha ao atribuir departamento. Por favor, tente novamente."
+    },
+    "MACROS": {
+      "EXECUTE_MACRO": "Executar macro",
+      "EXECUTE_CONFIRMATION_LABEL": "Tem certeza de que deseja executar {macroName} em {n} atendimento? | Tem certeza de que deseja executar {macroName} em {n} atendimentos?",
+      "QUEUED": "Macro na fila para {count} atendimento. | Macro na fila para {count} atendimentos.",
+      "QUEUED_WITH_MISSING_ATTRIBUTES": "Macro na fila para {count} atendimento. No momento, ele não tem os campos obrigatórios e pode continuar aberto. | Macro na fila para {count} atendimentos. Pelo menos um deles não tem os campos obrigatórios no momento e pode continuar aberto."
     }
   },
   "CANNED_MGMT": {
@@ -633,6 +706,9 @@
     "ASSIGNEE_TYPE_TABS": {
       "me": "Ativos",
       "unassigned": "Pendentes"
+    },
+    "CHAT_SORT": {
+      "STATUS": "Status"
     }
   },
   "FILTER": {
@@ -644,10 +720,17 @@
       "INBOX_NAME": "Canal",
       "TEAM_NAME": "Nome do Departamento",
       "CONVERSATION_IDENTIFIER": "Identificador do atendimento",
-      "CAMPAIGN_NAME": "Nome do envio"
+      "CAMPAIGN_NAME": "Nome do envio",
+      "STATUS": "Status",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Caixa de seleção"
     },
     "GROUPS": {
       "CUSTOM_ATTRIBUTES": "Campos customizados"
+    },
+    "OPERATOR_LABELS": {
+      "detects": "Detecta",
+      "does_not_detect": "Não detecta"
     }
   },
   "INBOX_MGMT": {
@@ -711,6 +794,10 @@
             "LABEL": "Nome do Canal",
             "PLACEHOLDER": "Por favor, digite um nome para o canal"
           }
+        },
+        "PROVIDERS": {
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "Bandwidth"
         }
       },
       "WHATSAPP": {
@@ -730,10 +817,25 @@
           "ACTIONS": {
             "CONNECT": "Criar canal",
             "CONTINUE": "Continuar para adicionar atendentes"
+          },
+          "APP": {
+            "META_DEVELOPERS": "Meta Developers"
           }
         },
         "EMBEDDED_SIGNUP": {
-          "CALLING_ENABLE_FAILED": "Seu canal do WhatsApp está pronto, mas as chamadas de voz não puderam ser ativadas — este número ainda não está cadastrado na API de Chamadas do WhatsApp Business. Entre em contato com a Meta ou com seu provedor de soluções WhatsApp Business para realizar o cadastro e, depois, ative as chamadas nas configurações de Chamadas do canal."
+          "CALLING_ENABLE_FAILED": "Seu canal do WhatsApp está pronto, mas as chamadas de voz não puderam ser ativadas — este número ainda não está cadastrado na API de Chamadas do WhatsApp Business. Entre em contato com a Meta ou com seu provedor de soluções WhatsApp Business para realizar o cadastro e, depois, ative as chamadas nas configurações de Chamadas do canal.",
+          "ACCESS_REQUEST": {
+            "FORM_DESCRIPTION": "Conte sobre sua empresa e como você pretende usar o WhatsApp. Envie seu caso de uso para liberar a configuração rápida na sua conta.",
+            "USE_CASE_LABEL": "Caso de uso da empresa",
+            "USE_CASE_PLACEHOLDER": "Por exemplo: vendemos móveis e artigos para casa e usamos o WhatsApp para tirar dúvidas sobre produtos e ajudar os clientes com seus pedidos.",
+            "SUBMIT": "Enviar",
+            "ERROR": "Não foi possível liberar o acesso. Tente novamente."
+          }
+        },
+        "PROVIDERS": {
+          "WHATSAPP_EMBEDDED": "WhatsApp Business",
+          "TWILIO": "Twilio",
+          "360_DIALOG": "360Dialog"
         }
       },
       "EMAIL_CHANNEL": {
@@ -753,10 +855,39 @@
         "DESC": "Você concluiu a integração da sua página do Facebook com o ChatClean. Na próxima vez que um cliente enviar uma mensagem para sua página, o atendimento aparecerá automaticamente no seu canal. <br> Também estamos fornecendo um script de widget que você pode adicionar facilmente ao seu site. Assim que estiver disponível no seu site, os clientes poderão enviar mensagens diretamente do seu site, sem a ajuda de nenhuma ferramenta externa, e o atendimento aparecerá aqui, no ChatClean. Legal, hein? Com certeza estamos tentando ser :)"
       },
       "MICROSOFT": {
-        "DESCRIPTION": "Clique no botão Entrar com a Microsoft para começar. Você será redirecionado para o login do e-mail. Após aceitar as permissões solicitadas, você será redirecionado de volta para a etapa de criação do canal."
+        "DESCRIPTION": "Clique no botão Entrar com a Microsoft para começar. Você será redirecionado para o login do e-mail. Após aceitar as permissões solicitadas, você será redirecionado de volta para a etapa de criação do canal.",
+        "TITLE": "E-mail Microsoft"
       },
       "GOOGLE": {
         "DESCRIPTION": "Clique no botão Entrar com o Google para começar. Você será redirecionado para o login do e-mail. Depois que você aceitar as permissões solicitadas, você será redirecionado de volta para a etapa de criação do canal."
+      },
+      "TELEGRAM_CHANNEL": {
+        "BOT_TOKEN": {
+          "LABEL": "Token do bot",
+          "PLACEHOLDER": "Token do bot"
+        }
+      },
+      "AUTH": {
+        "CHANNEL": {
+          "FACEBOOK": {
+            "TITLE": "Facebook"
+          },
+          "WHATSAPP": {
+            "TITLE": "WhatsApp"
+          },
+          "TELEGRAM": {
+            "TITLE": "Telegram"
+          },
+          "LINE": {
+            "TITLE": "Line"
+          },
+          "INSTAGRAM": {
+            "TITLE": "Instagram"
+          },
+          "TIKTOK": {
+            "TITLE": "TikTok"
+          }
+        }
       }
     },
     "DETAILS": {
@@ -773,7 +904,10 @@
       "WEBSITE_SUCCESS": "Você concluiu a criação de um canal de site. Copie o código mostrado abaixo e cole-o no seu site. Na próxima vez que um cliente usar o bate-papo ao vivo, o atendimento aparecerá automaticamente neste canal.",
       "WHATSAPP_QR_INSTRUCTION": "Escaneie o código QR acima para testar rapidamente seu canal do WhatsApp",
       "MESSENGER_QR_INSTRUCTION": "Escaneie o código QR acima para testar rapidamente seu canal do Facebook Messenger",
-      "TELEGRAM_QR_INSTRUCTION": "Escaneie o código QR acima para testar rapidamente seu canal do Telegram"
+      "TELEGRAM_QR_INSTRUCTION": "Escaneie o código QR acima para testar rapidamente seu canal do Telegram",
+      "SMS_QR_INSTRUCTION": "Escaneie o QR code acima para testar rapidamente seu canal de SMS",
+      "SMS_QR_ALT": "QR code para testar o canal de SMS",
+      "TWILIO_CALLBACK_FALLBACK": "Os webhooks são configurados automaticamente. Se as mensagens recebidas não chegarem, use esta URL de callback no Twilio."
     },
     "EDIT": {
       "API": {
@@ -804,7 +938,8 @@
     },
     "TABS": {
       "COLLABORATORS": "Atendentes",
-      "CAMPAIGN": "Envios"
+      "CAMPAIGN": "Envios",
+      "CSAT": "CSAT"
     },
     "VOICE_CONFIGURATION": {
       "ENABLE_VOICE": {
@@ -834,6 +969,25 @@
           "EMBEDDED_DESCRIPTION": "A Meta não conseguiu validar a conexão deste canal. Acesse Configurações para reconfigurá-lo usando o Cadastro Incorporado.",
           "MANUAL_DESCRIPTION": "A Meta não conseguiu validar o token de acesso deste canal. Acesse Configurações para verificá-lo ou substituí-lo."
         }
+      },
+      "VALUES": {
+        "MODES": {
+          "SANDBOX": "Sandbox"
+        },
+        "QUALITY": {
+          "GREEN": "Verde",
+          "YELLOW": "Amarela",
+          "RED": "Vermelha"
+        },
+        "TIER_NAMES": {
+          "TIER_250": "Nível 250",
+          "TIER_1000": "Nível 1K",
+          "TIER_1K": "Nível 1K",
+          "TIER_2K": "Nível 2K",
+          "TIER_10K": "Nível 10K",
+          "TIER_100K": "Nível 100K",
+          "TIER_UNLIMITED": "Ilimitado"
+        }
       }
     },
     "FEATURES": {
@@ -843,7 +997,18 @@
     "SETTINGS_POPUP": {
       "IDENTITY_VALIDATION": {
         "REQUIRE_LABEL": "Exigir validação de identidade para todos os atendimentos",
-        "REQUIRE_DESCRIPTION": "Quando ativado, os usuários devem fornecer um token de identidade válido para iniciar atendimentos. Solicitações sem tokens válidos serão rejeitadas."
+        "REQUIRE_DESCRIPTION": "Quando ativado, os usuários devem fornecer um token de identidade válido para iniciar atendimentos. Solicitações sem tokens válidos serão rejeitadas.",
+        "ROTATE": {
+          "BUTTON": "Trocar chave",
+          "TITLE": "Trocar a chave secreta?",
+          "WARNING": "A chave atual é revogada no instante em que você a troca.",
+          "WARNING_DETAIL": "Não há período de transição e ela não pode ser restaurada.",
+          "IMPACT": "Seus servidores precisam assinar os usuários com a nova chave. Quem ainda estiver assinado com a antiga falha na verificação. Se a validação de identidade for obrigatória, essas pessoas não conseguem iniciar um atendimento.",
+          "CONFIRM": "Trocar chave",
+          "CANCEL": "Cancelar",
+          "SUCCESS": "Chave secreta trocada com sucesso",
+          "ERROR": "Não foi possível trocar a chave secreta. Tente novamente"
+        }
       },
       "INBOX_AGENTS": "Atendentes",
       "INBOX_AGENTS_SUB_TEXT": "Adicionar ou remover atendentes deste canal",
@@ -879,7 +1044,9 @@
           "PRESERVED_DESCRIPTION": "Atendimentos, contatos, colaboradores, roteamento, horário de atendimento e configurações do canal.",
           "PHONE_NUMBER_HELP": "ID exclusivo da Meta para o número do WhatsApp conectado a este canal.",
           "INBOX": "Canal",
-          "RECONNECT": "Reconectar canal do WhatsApp"
+          "RECONNECT": "Reconectar canal do WhatsApp",
+          "MESSAGING_PERMISSION": "whatsapp_business_messaging.",
+          "MANAGEMENT_PERMISSION": "whatsapp_business_management"
         },
         "STEPS": {
           "BEFORE_YOU_START": {
@@ -892,6 +1059,9 @@
       },
       "WHATSAPP_CALLING_ENABLED": {
         "DESCRIPTION": "Permita que os atendentes iniciem e recebam chamadas de voz do WhatsApp neste canal. Disponível apenas para canais do WhatsApp Cloud com cadastro incorporado e permissão de chamadas concedida pela Meta."
+      },
+      "ALLOWED_DOMAINS": {
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
       }
     },
     "HELP_CENTER": {
@@ -925,13 +1095,139 @@
     },
     "BUSINESS_HOURS": {
       "TOGGLE_AVAILABILITY": "Permitir a disponibilidade de negócios para este canal",
-      "TOGGLE_HELP": "Permitir a disponibilidade de negócios mostrará as horas disponíveis no widget de bate-papo ao vivo, mesmo que todos os atendentes estejam offline. Os visitantes fora do horário disponível podem ser avisados com uma mensagem e um formulário de pré-bate-papo."
+      "TOGGLE_HELP": "Permitir a disponibilidade de negócios mostrará as horas disponíveis no widget de bate-papo ao vivo, mesmo que todos os atendentes estejam offline. Os visitantes fora do horário disponível podem ser avisados com uma mensagem e um formulário de pré-bate-papo.",
+      "UNAVAILABLE_MESSAGE_LABEL": "Mensagem de indisponibilidade para visitantes",
+      "WEEKLY_TITLE": "Defina seus horários semanais"
     },
     "IMAP": {
-      "TOGGLE_AVAILABILITY": "Habilitar a configuração IMAP para este canal"
+      "TOGGLE_AVAILABILITY": "Habilitar a configuração IMAP para este canal",
+      "TITLE": "IMAP"
     },
     "SMTP": {
-      "TOGGLE_AVAILABILITY": "Ativar a configuração SMTP para este canal"
+      "TOGGLE_AVAILABILITY": "Ativar a configuração SMTP para este canal",
+      "TITLE": "SMTP",
+      "SSL_TLS": "SSL/TLS",
+      "START_TLS": "STARTTLS"
+    },
+    "TWILIO_HEALTH": {
+      "TITLE": "Gerencie seu número Twilio",
+      "DESCRIPTION": "Revise a conta Twilio, o remetente e os webhooks que sustentam este canal. Tudo o que o ChatClean não consegue receber aparece sinalizado aqui",
+      "GO_TO_SETTINGS": "Ir para o Twilio Console",
+      "NO_DATA": "Os dados de saúde não estão disponíveis",
+      "LOADING": "Buscando dados de saúde no Twilio…",
+      "ERROR_TITLE": "Não foi possível acessar o Twilio",
+      "STATUS": {
+        "HEALTHY": "Todas as verificações passaram",
+        "MISCONFIGURED": "Requer atenção"
+      },
+      "FIELDS": {
+        "ACCOUNT_NAME": {
+          "LABEL": "Conta Twilio",
+          "TOOLTIP": "A conta Twilio à qual estas credenciais pertencem"
+        },
+        "ACCOUNT_STATUS": {
+          "LABEL": "Status da conta",
+          "TOOLTIP": "Uma conta Twilio suspensa ou encerrada não consegue enviar nem receber nada"
+        },
+        "ACCOUNT_TYPE": {
+          "LABEL": "Tipo de conta",
+          "TOOLTIP": "Contas de teste só podem enviar mensagens ou ligar para números verificados no Twilio"
+        },
+        "SENDER": {
+          "LABEL": "Remetente",
+          "TOOLTIP": "O número de telefone ou serviço de mensagens usado por este canal"
+        },
+        "CAPABILITIES": {
+          "LABEL": "Recursos do número",
+          "TOOLTIP": "Recursos que o Twilio ativou neste número. Um recurso de que este canal precisa e que não está ativo nunca vai funcionar"
+        },
+        "VOICE_CALLING": {
+          "LABEL": "Chamadas de voz",
+          "TOOLTIP": "Indica se as chamadas estão ativadas neste canal"
+        }
+      },
+      "VALUES": {
+        "ACCOUNT_STATUSES": {
+          "ACTIVE": "Ativa",
+          "SUSPENDED": "Suspensa",
+          "CLOSED": "Encerrada"
+        },
+        "ACCOUNT_TYPES": {
+          "TRIAL": "Teste",
+          "FULL": "Completa"
+        },
+        "CAPABILITIES": {
+          "SMS": "SMS",
+          "VOICE": "Voz"
+        },
+        "SENDER_TYPES": {
+          "PHONE_NUMBER": "Número de telefone",
+          "MESSAGING_SERVICE": "Serviço de mensagens"
+        },
+        "ENABLED": "Ativado",
+        "DISABLED": "Desativado"
+      },
+      "WEBHOOKS": {
+        "TITLE": "Webhooks",
+        "DESCRIPTION": "O Twilio chama estas URLs quando chega uma mensagem ou chamada. Registre-as de novo depois de alterar a URL da sua instalação",
+        "REGISTER_ALL": "Registrar webhooks",
+        "MESSAGING": "Webhook de mensagens",
+        "VOICE": "Webhook de voz",
+        "VOICE_STATUS": "Callback de status de voz",
+        "VOICE_APP": "Chamadas de saída (app TwiML)"
+      },
+      "WEBHOOK": {
+        "CONFIGURED_SUCCESS": "Webhook configurado com sucesso",
+        "NOT_SET": "não configurado",
+        "EXPECTED": "Esperado",
+        "CURRENT": "Configurado atualmente como",
+        "REASONS": {
+          "NOT_SET": "Webhook não configurado",
+          "URL_MISMATCH": "URL do webhook divergente",
+          "WRONG_HTTP_METHOD": "O webhook usa o método HTTP errado",
+          "OVERRIDDEN_BY_NUMBER": "O serviço de mensagens usa o webhook do número",
+          "OVERRIDDEN_BY_APPLICATION": "Substituído por um app TwiML",
+          "OVERRIDDEN_BY_TRUNK": "Substituído por um tronco SIP",
+          "MISSING_TWIML_APP": "App TwiML não criado"
+        },
+        "HINTS": {
+          "NOT_SET": "O Twilio não tem webhook neste remetente, então nada chega ao ChatClean.",
+          "URL_MISMATCH": "O Twilio está chamando uma URL diferente, então o tráfego vai para outro lugar.",
+          "WRONG_HTTP_METHOD": "A URL está correta, mas o Twilio a chama com {method} em vez de POST, e o ChatClean só responde a POST.",
+          "OVERRIDDEN_BY_NUMBER": "Este serviço de mensagens está com \"Use webhook on number\" ativado, então o Twilio ignora o webhook do serviço.",
+          "OVERRIDDEN_BY_APPLICATION": "Há um app TwiML vinculado a este número, e o Twilio usa as URLs do app em vez das do número. Desvincule-o no Twilio Console.",
+          "OVERRIDDEN_BY_TRUNK": "Este número está vinculado a um tronco SIP, então o Twilio encaminha as chamadas para o tronco e ignora totalmente os webhooks de voz. Desvincule o tronco no Twilio Console.",
+          "MISSING_TWIML_APP": "O ChatClean não tem um app TwiML para este número, então não é possível fazer chamadas de saída."
+        }
+      }
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft"
+    },
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "WIDGET_VIEW_OPTION": {
+          "SCRIPT": "Script"
+        }
+      },
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": {
+        "TITLE": "Microsoft"
+      },
+      "GOOGLE": {
+        "TITLE": "Google"
+      }
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "TWITTER_PROFILE": "Twitter",
+      "WHATSAPP": "WhatsApp",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "INSTAGRAM": "Instagram",
+      "TIKTOK": "TikTok"
     }
   },
   "INTEGRATION_SETTINGS": {
@@ -946,7 +1242,9 @@
             "INBOX_UPDATED": "Canal atualizado"
           }
         }
-      }
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "TITLE": "Webhook"
     },
     "SLACK": {
       "DELETE_CONFIRMATION": {
@@ -962,11 +1260,17 @@
             "DESCRIPTION": "Os atendimentos são publicados no Slack apenas para discussão interna. Nada na thread é enviado ao cliente."
           }
         }
-      }
+      },
+      "HEADER": "Slack"
     },
     "OPEN_AI": {
       "REPLY_OPTIONS": {
-        "SUMMARIZE": "Resumir o atendimento"
+        "SUMMARIZE": "Resumir o atendimento",
+        "CHANGE_TONE": {
+          "OPTIONS": {
+            "CASUAL": "Casual"
+          }
+        }
       }
     },
     "DASHBOARD_APPS": {
@@ -982,12 +1286,16 @@
         "404": "Ainda não há plugins configurados nesta conta",
         "LOADING": "Buscando plugins...",
         "EDIT_TOOLTIP": "Alterar plugin",
-        "DELETE_TOOLTIP": "Excluir plugin"
+        "DELETE_TOOLTIP": "Excluir plugin",
+        "TABLE_HEADER": {
+          "ENDPOINT": "Endpoint"
+        }
       },
       "FORM": {
         "TITLE_PLACEHOLDER": "Digite um nome para o plugin",
         "TITLE_ERROR": "É necessário um nome para o plugin",
-        "URL_PLACEHOLDER": "Digite a URL do endpoint onde seu plugin está hospedado"
+        "URL_PLACEHOLDER": "Digite a URL do endpoint onde seu plugin está hospedado",
+        "URL_LABEL": "Endpoint"
       },
       "CREATE": {
         "HEADER": "Adicionar um novo plugin",
@@ -1007,11 +1315,44 @@
     },
     "LINEAR": {
       "LINK": {
-        "LINK_TITLE": "Atendimento (#{conversationId}) com {name}"
+        "LINK_TITLE": "Atendimento (#{conversationId}) com {name}",
+        "TITLE": "Vincular"
       },
       "ADD_OR_LINK": {
-        "DESCRIPTION": "Crie issues no Linear a partir de atendimentos, ou vincule-os a issues existentes para um rastreamento integrado."
+        "DESCRIPTION": "Crie issues no Linear a partir de atendimentos, ou vincule-os a issues existentes para um rastreamento integrado.",
+        "FORM": {
+          "STATUS": {
+            "LABEL": "Status"
+          }
+        }
+      },
+      "HEADER": "Linear",
+      "ISSUE": {
+        "STATUS": "Status"
       }
+    },
+    "SHOPIFY": {
+      "HEADER": "Shopify",
+      "STORE_URL": {
+        "PLACEHOLDER": "your-store.myshopify.com",
+        "INVALID_URL": "Insira uma URL de loja Shopify válida (ex.: your-store.myshopify.com)"
+      },
+      "HELP_TEXT": {
+        "TITLE": "Como usar a integração com o Shopify?",
+        "BODY": "Com esta integração, sua loja Shopify ***{storeDomain}*** fica conectada à sua conta do ChatClean. Veja o que você pode fazer:\n\n**Acompanhar pedidos nos atendimentos:** Ao abrir um atendimento, a barra lateral do Shopify exibe automaticamente os pedidos recentes do cliente com base no e-mail dele. Isso dá ao seu time de suporte contexto imediato, sem trocar de aba.\n\n**Acessar detalhes do pedido:** Veja o status do pedido, o status de entrega e o valor total diretamente no painel do atendimento."
+      },
+      "PENDING_INSTALL": {
+        "SUCCESS": "Loja Shopify conectada com sucesso.",
+        "ERROR": "Não foi possível concluir a instalação do Shopify. Tente novamente."
+      },
+      "SELECT_ACCOUNT": {
+        "TITLE": "Escolha uma conta",
+        "DESCRIPTION": "Selecione a conta que será conectada à sua loja Shopify. Para restaurar uma conexão anterior, escolha a conta original dela.",
+        "UNAVAILABLE": "Nenhuma conta elegível ou instalação válida foi encontrada. Reinicie a instalação ou entre como administrador da conta."
+      }
+    },
+    "NOTION": {
+      "HEADER": "Notion"
     }
   },
   "CAPTAIN": {
@@ -1055,7 +1396,8 @@
             "LABEL": "Economia de esforço e tempo dos atendentes"
           },
           "DURABLE": {
-            "HINT": "A proporção de atendimentos fechados pelo Captain que continuavam encerrados após sete dias."
+            "HINT": "A proporção de atendimentos fechados pelo Captain que continuavam encerrados após sete dias.",
+            "NOT_APPLICABLE_HINT": "Nenhum fechamento deste período tem sete dias de acompanhamento ainda. A durabilidade não está disponível."
           },
           "MEDIAN_RESOLUTION": {
             "HINT": "O tempo típico desde o momento em que um atendimento chegou ao Captain até ser fechado."
@@ -1074,14 +1416,52 @@
         "RESOLUTION_TREND": {
           "CONVERSATION_COUNT": "Quantidade de atendimentos",
           "RESOLVED": "Fechados pelo Captain",
-          "ARIA_LABEL": "Atendimentos realizados e fechados pelo Captain por período do relatório"
+          "ARIA_LABEL": "Atendimentos realizados e fechados pelo Captain por período do relatório",
+          "COMPARISON_LABEL": "Comparação por dia da semana",
+          "COMPARISON_HINT": "Compare as taxas de fechamento em dias da semana equivalentes, como segunda com segunda.",
+          "COMPARISON_NOTE": "Hoje é comparado até o mesmo horário do dia."
         },
         "CSAT": {
           "AUTONOMOUS": "Atendimentos fechados pelo Captain",
           "AUTONOMOUS_HINT": "A avaliação média dos clientes nos atendimentos que o Captain fechou sem a ajuda do seu time.",
           "ASSISTED": "Atendimentos assistidos pelo Captain",
           "ASSISTED_HINT": "A avaliação média dos clientes quando o Captain ajudou antes de sua equipe fechar o atendimento."
+        },
+        "DRILLDOWN": {
+          "HANDLED": "Episódios em que o Captain participou no período selecionado.",
+          "RESOLVED": "Episódios fechados pelo Captain sem transferência nem resposta humana antes do fechamento.",
+          "HANDED_OFF": "Episódios transferidos após a participação do Captain.",
+          "REOPENED": "Episódios fechados pelo Captain que foram reabertos depois.",
+          "DURABLE": "Episódios fechados pelo Captain que continuaram fechados por pelo menos sete dias.",
+          "CLOSED_WITH_TEAM": "Episódios em que o Captain participou, mas não fechou de forma autônoma nem transferiu.",
+          "REOPENED_WITHIN_7_DAYS": "Episódios fechados pelo Captain que foram reabertos em até sete dias.",
+          "STAYED_CLOSED": "Episódios fechados pelo Captain sem reabertura registrada em sete dias. Fechamentos recentes estão incluídos.",
+          "HANDOFF_REASON": "Episódios transferidos por este motivo: {reason}.",
+          "COUNT": "Nenhum episódio | 1 episódio | {count} episódios",
+          "EPISODES_HINT": "Um atendimento pode aparecer mais de uma vez se o Captain o tratou em episódios separados. Os episódios são agrupados pelo momento em que começaram.",
+          "STARTED_AT": "Episódio iniciado {time}",
+          "RETRY": "Tentar novamente"
+        },
+        "UNITS": {
+          "DAYS": "{value}d",
+          "HOURS": "{value}h",
+          "MINUTES": "{value} min"
+        },
+        "HANDOFF_REASONS": {
+          "PERCENTAGE": "({value}%)"
+        },
+        "USAGE": {
+          "CREDITS": "Créditos",
+          "VALUE": "{used}/{total}"
+        },
+        "KNOWLEDGE": {
+          "SUGGESTED": "FAQs sugeridas"
         }
+      },
+      "RANGES": {
+        "INSUFFICIENT_HISTORY": "Ainda não há histórico de relatórios suficiente",
+        "THIS_WEEK": "Esta semana",
+        "LAST_WEEK": "Semana passada"
       }
     },
     "COPILOT": {
@@ -1099,7 +1479,13 @@
           "LABEL": "Atendimentos de alta prioridade",
           "CONTENT": "Dê um resumo de todos os atendimentos abertos com prioridade alta. Inclua o ID do atendimento, o nome do cliente (se disponível), o conteúdo da última mensagem e o atendente atribuído. Agrupe por status, se relevante."
         }
-      }
+      },
+      "NEW_CHAT": "Novo chat",
+      "HISTORY": "Chats anteriores",
+      "NO_HISTORY": "Seus chats anteriores com o Copilot aparecerão aqui.",
+      "LOAD_MORE": "Carregar mais chats",
+      "LOADING_CHAT": "Carregando chat...",
+      "LOADING_HISTORY": "Carregando chats anteriores..."
     },
     "ASSISTANTS": {
       "DELETE": {
@@ -1127,7 +1513,9 @@
               "LABEL": "Permitir que o Captain revise o atendimento (recomendado)",
               "DESCRIPTION": "O Captain decide se deve fechar o atendimento ou transferi-lo para a equipe."
             }
-          }
+          },
+          "DURATION_HOURS_SHORT": "{count} h",
+          "DURATION_MINUTES_SHORT": "{count} min"
         },
         "FEATURES": {
           "ALLOW_CONVERSATION_FAQS": "Gerar perguntas frequentes a partir de atendimentos fechados"
@@ -1186,13 +1574,15 @@
       },
       "DETAILS": {
         "USED_IN_CONVERSATIONS": "Utilizado em atendimentos"
-      }
+      },
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs"
     },
     "RESPONSES": {
       "NO_USED_CONVERSATIONS": "Não foi encontrado nenhum atendimento para este FAQ.",
       "DOCUMENTABLE": {
         "CONVERSATION": "Atendimento #{id}"
-      }
+      },
+      "HEADER": "FAQs"
     },
     "FAQ_SUGGESTIONS": {
       "SOURCE_COUNT": "{count} atendimento | {count} atendimentos",
@@ -1230,6 +1620,188 @@
         "TITLE": "Canal não conectado",
         "SUBTITLE": "Conectar um canal permite ao assistente lidar com perguntas iniciais de seus clientes antes de transferi-las para você."
       }
+    },
+    "PLAYGROUND": {
+      "SEND_MESSAGE": "Enviar mensagem",
+      "CLEAR_CONVERSATION": "Limpar atendimento",
+      "RESPONSE_ERROR": "O Captain não conseguiu concluir este teste. Revise a configuração e tente novamente.",
+      "SETUP": {
+        "TITLE": "Configuração do teste",
+        "DESCRIPTION": "As alterações aqui valem apenas para esta sessão de testes, a menos que você salve um item explicitamente.",
+        "TOGGLE": "Mostrar/ocultar configuração do teste",
+        "CLOSE": "Fechar configuração do teste",
+        "RESET": "Redefinir configuração do teste",
+        "TEMPORARY": "Temporário",
+        "SESSION_ONLY": "Só nesta sessão",
+        "INCLUDE_IN_TEST": "Incluir neste teste",
+        "ADD_TO_TEST": "Adicionar ao teste (↵)",
+        "LOAD_ERROR": "Não foi possível carregar a configuração salva do assistente.",
+        "INVALID_CONFIGURATION": "Complete ou remova os cenários temporários incluídos antes de enviar uma mensagem.",
+        "SAVE_SCENARIO_SUCCESS": "O cenário foi salvo e continua incluído neste teste.",
+        "SAVE_SCENARIO_ERROR": "Não foi possível salvar o cenário.",
+        "SAVE_RULE_SUCCESS": "A regra foi salva e continua incluída neste teste.",
+        "SAVE_RULE_ERROR": "Não foi possível salvar a regra.",
+        "RULE_ALREADY_SAVED": "Essa regra exata já está salva, então nenhuma duplicata foi criada.",
+        "SCENARIOS": {
+          "TAB_TITLE": "Cenários",
+          "CREATE_TITLE": "Adicionar um cenário temporário",
+          "CREATE_HINT": "Teste um novo comportamento sem alterar a configuração do assistente.",
+          "SAVED_SUMMARY": "Cenários existentes ({count})",
+          "ADD_PERMANENTLY": "Adicionar cenário permanentemente",
+          "DISABLED": "Desativado",
+          "EMPTY": "Este assistente não tem cenários salvos.",
+          "COMPOSER_PLACEHOLDER": "Digite o título de um cenário temporário...",
+          "COLLAPSE": "Recolher cenário temporário",
+          "EXPAND": "Expandir cenário temporário",
+          "REMOVE": "Remover cenário temporário"
+        },
+        "GUIDELINES": {
+          "TAB_TITLE": "Diretrizes",
+          "CREATE_TITLE": "Adicionar uma diretriz temporária",
+          "CREATE_HINT": "Teste uma preferência de resposta antes de adicioná-la ao assistente.",
+          "SAVED_SUMMARY": "Diretrizes existentes ({count})",
+          "ADD_PERMANENTLY": "Adicionar diretriz permanentemente",
+          "EMPTY": "Este assistente não tem diretrizes de resposta salvas.",
+          "COMPOSER_PLACEHOLDER": "Digite uma diretriz temporária...",
+          "PLACEHOLDER": "Adicione uma diretriz de resposta",
+          "REMOVE": "Remover diretriz de resposta temporária"
+        },
+        "GUARDRAILS": {
+          "TAB_TITLE": "Restrições",
+          "CREATE_TITLE": "Adicionar uma restrição temporária",
+          "CREATE_HINT": "Teste um limite de segurança antes de adicioná-lo ao assistente.",
+          "SAVED_SUMMARY": "Restrições existentes ({count})",
+          "ADD_PERMANENTLY": "Adicionar restrição permanentemente",
+          "EMPTY": "Este assistente não tem restrições salvas.",
+          "COMPOSER_PLACEHOLDER": "Digite uma restrição temporária...",
+          "PLACEHOLDER": "Adicione uma restrição",
+          "REMOVE": "Remover restrição temporária"
+        },
+        "KNOWLEDGE": {
+          "TAB_TITLE": "Conhecimento",
+          "AVAILABLE_TITLE": "Conhecimento disponível para o Captain",
+          "AVAILABLE_DESCRIPTION": "As fontes salvas são resumidas aqui e gerenciadas fora da área de testes.",
+          "DOCUMENTS": "Documentos",
+          "FAQS": "FAQs",
+          "TEMPORARY_TITLE": "Conhecimento temporário",
+          "ADD_PERMANENTLY": "Adicionar documento permanentemente",
+          "LABEL": "Texto de referência",
+          "PLACEHOLDER": "Cole ou escreva um novo conhecimento para este teste",
+          "HINT": "Este texto é anexado apenas às requisições da área de testes, a menos que você o adicione como documento."
+        },
+        "SAVE_KNOWLEDGE_SUCCESS": "Conhecimento adicionado como documento.",
+        "SAVE_KNOWLEDGE_ERROR": "Não foi possível adicionar o conhecimento como documento."
+      },
+      "RUN_DETAILS": {
+        "SUMMARY": "Detalhes da execução · {duration}ms",
+        "HANDLER_VALUE": "Tratado por: {handler}",
+        "SCENARIOS": "Nenhum cenário | Um cenário | {count} cenários",
+        "RULES": "{count} regras",
+        "KNOWLEDGE_ATTACHED": "Um conhecimento temporário foi anexado a esta execução.",
+        "NO_EVENTS": "Nenhuma chamada de ferramenta ou transferência de cenário foi registrada.",
+        "HANDOFF": "{from} → {to}",
+        "STATUS": {
+          "RUNNING": "Em execução",
+          "COMPLETED": "Concluído",
+          "FAILED": "Falhou"
+        }
+      }
+    },
+    "CUSTOM_TOOLS": {
+      "CATALOG": {
+        "BUTTON": "Catálogo de ferramentas",
+        "HEADER": "Catálogo de ferramentas",
+        "DESCRIPTION": "Explore conjuntos de ferramentas do catálogo do Captain e instale-os neste assistente.",
+        "ALL": "Todos",
+        "EMPTY": "Ainda não há conjuntos de ferramentas nesta categoria.",
+        "LOAD_ERROR": "Não foi possível carregar o catálogo de ferramentas. Verifique a URL do catálogo nas configurações do Captain.",
+        "TOOL_COUNT": "{n} ferramenta | {n} ferramentas",
+        "VERSION": "v{version}",
+        "UPDATED": "Atualizado {time}",
+        "REPOSITORY": "Repositório",
+        "MANIFEST": "Manifesto",
+        "CONFIGURATION": "Configuração",
+        "REQUIRED": "Obrigatório",
+        "DETAILS_ERROR": "Não foi possível carregar os detalhes do conjunto de ferramentas.",
+        "INSTALLED": "Instalado",
+        "UPDATE_AVAILABLE": "Atualização disponível"
+      },
+      "INSTALL_LINK": {
+        "TITLE": "Escolha um assistente",
+        "DESCRIPTION": "Escolha o assistente em que este conjunto de ferramentas será instalado.",
+        "PLACEHOLDER": "Selecione um assistente",
+        "LOAD_ERROR": "Não foi possível carregar seus assistentes. Recarregue a página para tentar novamente."
+      },
+      "INSTALL_MANIFEST": {
+        "TITLE": "Instalar um conjunto de ferramentas",
+        "DESCRIPTION": "Instale um conjunto de ferramentas do catálogo do Captain.",
+        "VERSION_LABEL": "v{version} · {revision}",
+        "UPDATE_NOTE": "Uma versão diferente está instalada. A atualização substitui as ferramentas dela e mantém a ativação de cada uma. Informe os segredos novamente.",
+        "TOOLS_LABEL": "Ferramentas",
+        "CONFIGURATION_LABEL": "Configuração",
+        "CONTINUE": "Continuar",
+        "INSTALL": "Instalar",
+        "UPDATE": "Atualizar",
+        "REINSTALL": "Reinstalar",
+        "REINSTALL_NOTE": "Algumas ferramentas deste conjunto foram excluídas. A reinstalação as adiciona de volta e mantém a ativação de cada uma. Informe os segredos novamente.",
+        "ALREADY_INSTALLED": "Já instalado",
+        "SUCCESS_MESSAGE": "Conjunto de ferramentas instalado",
+        "ERROR_MESSAGE": "Não foi possível instalar o conjunto de ferramentas",
+        "PREVIEW_ERROR": "Não foi possível carregar o conjunto de ferramentas"
+      },
+      "ASSISTANT_TOOLS_BANNER": {
+        "MESSAGE": "As ferramentas customizadas agora são gerenciadas por assistente. Troque de assistente para customizar as ferramentas dele.",
+        "LEARN_MORE": "Saiba mais",
+        "DISMISS": "Dispensar aviso",
+        "MODAL_TITLE": "Seus assistentes agora têm ferramentas próprias",
+        "MODAL_DESCRIPTION": "Cada assistente agora tem uma lista separada de ferramentas customizadas. Copiamos suas ferramentas existentes para todos os assistentes, então nada está faltando.",
+        "MODAL_INSTRUCTIONS": "Quando você adiciona, edita, desativa ou exclui uma ferramenta, a alteração vale apenas para o assistente que você está vendo. Troque de assistente no topo da página para revisar ou customizar as ferramentas dele.",
+        "ACKNOWLEDGE": "Entendi"
+      },
+      "OPTIONS": {
+        "VIEW_TOOL": "Ver ferramenta"
+      },
+      "VIEW": {
+        "TITLE": "Detalhes da ferramenta customizada"
+      },
+      "FORM": {
+        "ENDPOINT_URL": {
+          "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}"
+        },
+        "AUTH_TYPES": {
+          "BEARER": "Bearer Token",
+          "BASIC": "Basic Auth"
+        },
+        "AUTH_CONFIG": {
+          "BEARER_TOKEN": "Bearer Token",
+          "API_KEY_PLACEHOLDER": "X-API-Key"
+        },
+        "SECTIONS": {
+          "TEMPLATES": "Modelos",
+          "TEMPLATES_HELP_TEXT": "Aceita sintaxe Liquid, como {'{{'} order_id {'}}'} ou {'{{'} response.status {'}}'}."
+        },
+        "HEADERS": {
+          "LABEL": "Cabeçalhos",
+          "HELP_TEXT": "Cabeçalhos fixos enviados em todas as requisições. Os valores são enviados exatamente como digitados; use Autenticação para credenciais.",
+          "NAME_PLACEHOLDER": "Nome do cabeçalho (ex.: cal-api-version)",
+          "VALUE_PLACEHOLDER": "Valor do cabeçalho",
+          "NAME_REQUIRED": "O nome do cabeçalho é obrigatório",
+          "NAME_DUPLICATE": "Os nomes dos cabeçalhos devem ser únicos",
+          "ADD": "Adicionar cabeçalho"
+        },
+        "PARAM_TYPES": {
+          "STRING": "String",
+          "BOOLEAN": "Booleano",
+          "ARRAY": "Array",
+          "OBJECT": "Objeto"
+        },
+        "REQUEST_TEMPLATE": {
+          "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
+        },
+        "RESPONSE_TEMPLATE": {
+          "PLACEHOLDER": "Status do pedido {'{{'} order_id {'}}'}: {'{{'} status {'}}'}"
+        }
+      }
     }
   },
   "INTEGRATION_APPS": {
@@ -1256,8 +1828,10 @@
       "ALL_INBOXES": "Todos os canais"
     },
     "PREVIEW": {
-      "INBOXES": "Canais"
-    }
+      "INBOXES": "Canais",
+      "STATUS": "Status"
+    },
+    "MORE_INBOXES": "+{n}"
   },
   "CALLS_PAGE": {
     "FILTERS": {
@@ -1271,7 +1845,9 @@
       "MESSAGE": "A configuração de canais do Facebook, Instagram e WhatsApp está temporariamente indisponível devido a um problema na API da Meta, e não por uma falha no ChatClean. Estamos trabalhando em conjunto com a Meta para resolver a situação o mais rápido possível."
     },
     "CHANNELS": {
-      "TITLE": "Conectar todos os seus canais de atendimento"
+      "TITLE": "Conectar todos os seus canais de atendimento",
+      "GMAIL": "Gmail",
+      "OUTLOOK": "Outlook"
     },
     "CHANNELS_DIALOG": {
       "SUBTITLE": "Gerencie todos eles em um único painel. Você também pode configurar e editar canais posteriormente dentro do aplicativo."
@@ -1280,6 +1856,131 @@
   "HELP_CENTER": {
     "NEW_PAGE": {
       "DESCRIPTION": "Crie portais centrais de ajuda de auto-serviço para seus clientes. Ajude-os a encontrar respostas rapidamente, sem esperar. Agilize dúvidas, aumente a eficiência dos atendentes e eleve o suporte ao cliente."
+    },
+    "ARTICLE_SETTINGS": {
+      "FORM": {
+        "META_TAGS": {
+          "LABEL": "Meta tags"
+        }
+      }
+    },
+    "PORTAL": {
+      "PORTAL_SETTINGS": {
+        "LIST_ITEM": {
+          "PORTAL_CONFIG": {
+            "ITEMS": {
+              "SLUG": "Slug"
+            }
+          }
+        }
+      },
+      "ADD": {
+        "SLUG": {
+          "LABEL": "Slug"
+        }
+      },
+      "ADD_LOCALE": {
+        "PORTAL": "Portal"
+      }
+    },
+    "TABLE": {
+      "HEADERS": {
+        "STATUS": "Status"
+      }
+    },
+    "CATEGORY": {
+      "ADD": {
+        "PORTAL": "Portal",
+        "SLUG": {
+          "LABEL": "Slug",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug"
+        }
+      },
+      "EDIT": {
+        "PORTAL": "Portal",
+        "SLUG": {
+          "LABEL": "Slug",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug"
+        }
+      }
+    },
+    "CATEGORY_PAGE": {
+      "CATEGORY_DIALOG": {
+        "HEADER": {
+          "PORTAL": "Portal"
+        },
+        "FORM": {
+          "SLUG": {
+            "LABEL": "Slug"
+          }
+        }
+      }
+    },
+    "LOCALES_PAGE": {
+      "ADD_LOCALE_DIALOG": {
+        "STATUS": {
+          "LABEL": "Status"
+        }
+      }
+    },
+    "EDIT_ARTICLE_PAGE": {
+      "HEADER": {
+        "CREATE_IN_PROGRESS": "O artigo ainda está sendo criado. Adicione os arquivos de novo em instantes."
+      },
+      "EDIT_ARTICLE": {
+        "EDITOR_PLACEHOLDER": "Escreva seu conteúdo aqui. Digite '/' para ver as opções de formatação."
+      },
+      "ARTICLE_PROPERTIES": {
+        "META_TAGS": "Meta tags",
+        "SLUG": "Slug",
+        "SLUG_PLACEHOLDER": "Adicionar slug",
+        "SLUG_USE_TITLE": "Usar o título como slug",
+        "SLUG_WARNING": "A URL atual vai parar de funcionar, e os links existentes para ela vão quebrar.",
+        "SLUG_UPDATE": "Atualizar",
+        "SLUG_UPDATED": "Slug atualizado. O artigo agora está disponível na nova URL.",
+        "SLUG_OPEN": "Abrir URL"
+      }
+    },
+    "CREATE_PORTAL_DIALOG": {
+      "SLUG": {
+        "LABEL": "Slug",
+        "PLACEHOLDER": "guia-do-usuario"
+      }
+    },
+    "PORTAL_SETTINGS": {
+      "FORM": {
+        "SLUG": {
+          "LABEL": "Slug"
+        }
+      },
+      "INTEGRATIONS": {
+        "GTM": {
+          "TITLE": "Google Tag Manager",
+          "PLACEHOLDER": "GTM-XXXXXXX"
+        },
+        "GA4": {
+          "TITLE": "Google Analytics 4",
+          "PLACEHOLDER": "G-XXXXXXXXXX"
+        },
+        "HOTJAR": {
+          "TITLE": "Hotjar"
+        },
+        "PLAUSIBLE": {
+          "TITLE": "Plausible",
+          "PLACEHOLDER": "example.com"
+        },
+        "AMPLITUDE": {
+          "TITLE": "Amplitude",
+          "PLACEHOLDER": "0123456789abcdef0123456789abcdef"
+        },
+        "CLARITY": {
+          "TITLE": "Microsoft Clarity",
+          "PLACEHOLDER": "abcd1234ef"
+        },
+        "META_PIXEL": {
+          "TITLE": "Meta Pixel"
+        }
+      }
     }
   },
   "CSAT": {
@@ -1290,7 +1991,8 @@
     "DOWNLOAD_CONVERSATION_REPORTS": "Baixar relatórios de atendimentos",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Atendimentos"
+        "NAME": "Atendimentos",
+        "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
         "INFO_TEXT": "Número total de atendimentos utilizados para computação:",
@@ -1304,16 +2006,28 @@
         "TOOLTIP_TEXT": "O Tempo até o Fechamento é de {metricValue} (com base em {conversationCount} atendimentos)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Contagem de Fechamentos"
+        "NAME": "Contagem de Fechamentos",
+        "DESC": "( Total )"
       },
       "BOT_RESOLUTION_COUNT": {
-        "NAME": "Contagem de Fechamentos"
+        "NAME": "Contagem de Fechamentos",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Total )"
+      },
+      "BOT_HANDOFF_COUNT": {
+        "DESC": "( Total )"
       }
     },
     "DRILLDOWN": {
       "RESULT_COUNT_CONVERSATION": "{count} atendimento | {count} atendimentos",
       "UNKNOWN_INBOX": "Canal desconhecido",
-      "UNASSIGNED_AGENT": "Não atribuídos"
+      "UNASSIGNED_AGENT": "Não atribuídos",
+      "VIEW_ALL": "Ver tudo"
     }
   },
   "AGENT_REPORTS": {
@@ -1328,7 +2042,8 @@
     },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Atendimentos"
+        "NAME": "Atendimentos",
+        "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
         "INFO_TEXT": "Número total de atendimentos utilizados para computação:",
@@ -1340,7 +2055,14 @@
         "TOOLTIP_TEXT": "O Tempo até o Fechamento é de {metricValue} (com base em {conversationCount} atendimentos)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Contagem de Fechamentos"
+        "NAME": "Contagem de Fechamentos",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Total )"
       }
     }
   },
@@ -1348,7 +2070,8 @@
     "DESCRIPTION": "Acompanhe o desempenho da sua etiqueta com métricas-chave incluindo atendimentos, tempo de resposta, tempos até o fechamento e atendimentos fechados. Clique no nome da etiqueta para obter detalhes.",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Atendimentos"
+        "NAME": "Atendimentos",
+        "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
         "INFO_TEXT": "Número total de atendimentos utilizados para computação:",
@@ -1360,7 +2083,14 @@
         "TOOLTIP_TEXT": "O Tempo até o Fechamento é de {metricValue} (com base em {conversationCount} atendimentos)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Contagem de Fechamentos"
+        "NAME": "Contagem de Fechamentos",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Total )"
       }
     }
   },
@@ -1377,7 +2107,8 @@
     },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Atendimentos"
+        "NAME": "Atendimentos",
+        "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
         "INFO_TEXT": "Número total de atendimentos utilizados para computação:",
@@ -1389,7 +2120,14 @@
         "TOOLTIP_TEXT": "O Tempo até o Fechamento é de {metricValue} (com base em {conversationCount} atendimentos)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Contagem de Fechamentos"
+        "NAME": "Contagem de Fechamentos",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Total )"
       }
     }
   },
@@ -1405,7 +2143,8 @@
     },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Atendimentos"
+        "NAME": "Atendimentos",
+        "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
         "INFO_TEXT": "Número total de atendimentos utilizados para computação:",
@@ -1417,7 +2156,14 @@
         "TOOLTIP_TEXT": "O Tempo até o Fechamento é de {metricValue} (com base em {conversationCount} atendimentos)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Contagem de Fechamentos"
+        "NAME": "Contagem de Fechamentos",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "DESC": "( Total )"
       }
     }
   },
@@ -1488,7 +2234,8 @@
       "TABLE_HEADER": {
         "AGENT": "Atendente",
         "OPEN": "Abertos",
-        "UNATTENDED": "Sem resposta"
+        "UNATTENDED": "Sem resposta",
+        "STATUS": "Status"
       }
     },
     "TEAM_CONVERSATIONS": {
@@ -1497,7 +2244,8 @@
       "LOADING_MESSAGE": "Carregando métricas de departamentos...",
       "TABLE_HEADER": {
         "TEAM": "Departamento",
-        "UNATTENDED": "Sem resposta"
+        "UNATTENDED": "Sem resposta",
+        "STATUS": "Status"
       }
     },
     "AGENT_STATUS": {
@@ -1558,7 +2306,12 @@
     "INSTAGRAM_RESTRICTION_BANNER": "As mensagens do Instagram estão sendo afetadas por um problema na API da Meta, e não por uma falha no ChatClean. Algumas mensagens ou ações podem sofrer atrasos ou ficar temporariamente indisponíveis. Estamos trabalhando em conjunto com a Meta para resolver a situação o mais rápido possível.",
     "HEADER": {
       "RESOLVE_ACTION": "Fechar",
-      "COPY_ID_SUCCESS": "ID do atendimento copiado para área de transferência"
+      "COPY_ID_SUCCESS": "ID do atendimento copiado para área de transferência",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}"
+      }
     },
     "MENTION": {
       "AGENTS": "Atendentes",
@@ -1614,7 +2367,18 @@
       "MESSAGING_RESTRICTED": "Você não pode responder este atendimento"
     },
     "REPLYBOX": {
-      "PRIVATE_NOTE": "Nota Interna"
+      "PRIVATE_NOTE": "Nota Interna",
+      "EMAIL_HEAD": {
+        "SUBJECT": {
+          "LABEL": "Assunto",
+          "PLACEHOLDER": "Digite um assunto"
+        }
+      },
+      "QUOTED_REPLY": {
+        "SHOW_TOOLTIP": "Mostrar conteúdo oculto",
+        "HIDE_TOOLTIP": "Ocultar conteúdo",
+        "REMOVE": "Remover texto citado"
+      }
     },
     "VISIBLE_TO_AGENTS": "Nota Interna: Apenas visível para você e seu time",
     "CHANGE_STATUS": "Estado do atendimento mudou",
@@ -1630,11 +2394,41 @@
       "SELECT_AGENT": "selecionar Atendente"
     },
     "CONTEXT_MENU": {
-      "CREATE_A_CANNED_RESPONSE": "Adicionar às mensagens rápidas"
+      "CREATE_A_CANNED_RESPONSE": "Adicionar às mensagens rápidas",
+      "FORWARD_EMAIL": "Encaminhar e-mail"
     },
     "VOICE_WIDGET": {
       "VIEW_CHAT_HISTORY": "Ver histórico do atendimento",
       "GO_TO_CONVERSATION": "Ir para o atendimento"
+    },
+    "CONTACT_HISTORY": {
+      "OLDER": "Atendimento anterior",
+      "NEWER": "Próximo atendimento",
+      "OLDER_WITH": "Atendimento anterior com {name} · {time}",
+      "NEWER_WITH": "Próximo atendimento com {name} · {time}",
+      "CUSTOMER": "este cliente",
+      "REPLY_TO_OLDER": "Responder neste atendimento antigo",
+      "GO_TO_LATEST": "Ir para o atendimento mais recente"
+    },
+    "REQUEST_CONTACT_INFO": {
+      "ACTION": "Pedir ao cliente que compartilhe o número de WhatsApp",
+      "PENDING_ACTION": "Pedido de dados de contato pendente",
+      "STATES": {
+        "PENDING": "Aguardando dados de contato",
+        "SHARED": "Número de telefone compartilhado",
+        "IDENTITY_CONFLICT": "Número de telefone precisa de revisão"
+      }
+    },
+    "FEEDBACK_TITLE": "Avaliação",
+    "SUGGESTIONS": {
+      "SUGGEST": "Sugerir com o Captain",
+      "EMPTY": "Nenhuma sugestão nova",
+      "ACCEPT": "Aceitar",
+      "APPLY_HINT": "Clique para aplicar",
+      "REJECT": "Dispensar",
+      "ACCEPT_ALL": "Aceitar todas",
+      "ERROR": "Não foi possível carregar as sugestões. Tente novamente.",
+      "APPLY_ERROR": "Não foi possível aplicar as etiquetas sugeridas. Tente novamente."
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -1672,7 +2466,11 @@
       "CONVERSATION_ACTIONS": "Ações do atendimento",
       "CONVERSATION_LABELS": "Etiquetas do atendimento",
       "CONVERSATION_INFO": "Informação do atendimento",
-      "PREVIOUS_CONVERSATION": "Atendimentos anteriores"
+      "PREVIOUS_CONVERSATION": "Atendimentos anteriores",
+      "MACROS": "Macros"
+    },
+    "SHARED_FILES": {
+      "MORE_COUNT": "+{count}"
     }
   },
   "CONVERSATION_PARTICIPANTS": {
@@ -1723,11 +2521,16 @@
         "TEAM_MEMBERS": "Membros do departamento",
         "INBOX_MEMBERS": "Colaboradores do canal",
         "INBOXES": "Canais",
-        "CONVERSATION_DELETIONS": "Exclusões de atendimentos"
+        "CONVERSATION_DELETIONS": "Exclusões de atendimentos",
+        "WEBHOOKS": "Webhooks",
+        "MACROS": "Macros"
       }
     },
     "LIST": {
-      "DESC": "Logs de auditoria são rastros para eventos e ações em um Sistema ChatClean."
+      "DESC": "Logs de auditoria são rastros para eventos e ações em um Sistema ChatClean.",
+      "TABLE_HEADER": {
+        "LOCATION": "Local"
+      }
     },
     "INBOX": {
       "ADD": "{agentName} criou um canal (#{id})",
@@ -1765,6 +2568,10 @@
     "LIST": {
       "RESPONSE_TYPES": {
         "RT": "Limite de tempo até o fechamento"
+      },
+      "EMPTY": {
+        "TITLE_1": "Enterprise P0",
+        "TITLE_2": "Enterprise P1"
       }
     },
     "FORM": {
@@ -1774,7 +2581,8 @@
     },
     "EVENTS": {
       "RT": "Tempo até o fechamento"
-    }
+    },
+    "COUNT": "{n} SLA | {n} SLAs"
   },
   "LABEL_MGMT": {
     "DESCRIPTION": "As etiquetas ajudam você a categorizar e priorizar atendimentos e leads. Você pode atribuir uma etiqueta a um atendimento ou contato usando o painel lateral.",
@@ -1797,14 +2605,111 @@
         "EMPTY": "Nenhum atendimento encontrado para os contatos desta empresa ainda."
       },
       "ATTRIBUTES": {
-        "EMPTY_STATE": "Não há campos customizados da empresa configurados ainda."
+        "EMPTY_STATE": "Não há campos customizados da empresa configurados ainda.",
+        "TITLE": "Campos customizados"
+      },
+      "HEADER": {
+        "EDIT": "Editar",
+        "MORE": "Mostrar mais",
+        "LESS": "Mostrar menos",
+        "OPEN_COUNT": "{count} aberto | {count} abertos",
+        "REFRESH_WITH_TIME": "Atualizar perfil (atualizado {time})"
+      },
+      "FACTS": {
+        "INDUSTRY": "Setor",
+        "SIZE": "Funcionários",
+        "LOCATION": "Sede",
+        "ADDED": "Adicionada em",
+        "UNKNOWN": "Desconhecido",
+        "YES": "Sim",
+        "NO": "Não"
+      },
+      "PEOPLE": {
+        "ADD": "Adicionar",
+        "SEARCH": "Pesquisar pessoas",
+        "EMPTY": "Ainda não há ninguém desta empresa.",
+        "NO_MATCHES": "Nenhuma pessoa corresponde à sua pesquisa.",
+        "DIALOG_TITLE": "Adicionar pessoas a {name}"
+      },
+      "TABS": {
+        "CONVERSATIONS": "Atendimentos",
+        "NOTES": "Notas",
+        "PEOPLE": "Pessoas"
+      },
+      "ACTIVITY": {
+        "TODAY": "Hoje",
+        "YESTERDAY": "Ontem",
+        "SYSTEM_AUTHOR": "Sistema",
+        "EMPTY_CONVERSATIONS": "Ainda não há atendimentos. Eles aparecerão aqui quando as pessoas desta empresa entrarem em contato.",
+        "EMPTY_NOTES": "Ainda não há notas. As notas adicionadas às pessoas desta empresa aparecem aqui.",
+        "LOAD_MORE": "Carregar mais",
+        "SEARCH_NOTES": "Pesquisar notas",
+        "NO_MATCHING_NOTES": "Nenhuma nota corresponde à sua pesquisa.",
+        "NO_MATCHING_CONVERSATIONS": "Nenhum atendimento corresponde a esses filtros."
+      },
+      "EDIT": {
+        "TITLE": "Editar empresa",
+        "SAVE": "Salvar alterações",
+        "DESCRIPTION": "Descrição",
+        "DETAILS": "Detalhes",
+        "CITY": "Cidade",
+        "COUNTRY": "País",
+        "PHONE": "Telefone",
+        "SOCIAL": {
+          "TITLE": "Redes sociais",
+          "LINKEDIN": "LinkedIn",
+          "X": "X",
+          "FACEBOOK": "Facebook",
+          "INSTAGRAM": "Instagram",
+          "GITHUB": "GitHub",
+          "YOUTUBE": "YouTube"
+        },
+        "PLACEHOLDERS": {
+          "DOMAIN": "acme.com",
+          "INDUSTRY": "Software",
+          "EMPLOYEES": "51 a 200",
+          "USERNAME": "usuario"
+        }
+      },
+      "PROFILE": {
+        "ACTIONS": {
+          "REFRESH": "Atualizar perfil"
+        },
+        "MESSAGES": {
+          "REFRESH_SUCCESS": "Perfil da empresa atualizado.",
+          "REFRESH_ERROR": "Não foi possível atualizar o perfil da empresa."
+        }
+      },
+      "CONVERSATION_FILTERS": {
+        "BUTTON": "Filtrar",
+        "BUTTON_WITH_COUNT": "Filtrar ({count})",
+        "ANY": "Qualquer"
+      },
+      "ENRICHMENT_UPGRADE": {
+        "TITLE": "Enriqueça os perfis de empresas no plano Business",
+        "DESCRIPTION": "Preencha automaticamente a descrição, o setor, o porte, a localização e as redes sociais de uma empresa a partir do domínio dela. Disponível nos planos Business e Enterprise.",
+        "UPGRADE": "Ver planos"
       }
+    },
+    "CARD": {
+      "EMPLOYEES": "{count} funcionários"
+    },
+    "PAYWALL": {
+      "TITLE": "Faça upgrade para usar Empresas",
+      "AVAILABLE_ON": "Empresas não está disponível no plano gratuito.",
+      "UPGRADE_PROMPT": "Faça upgrade do seu plano para agrupar contatos por empresa, ver todos os atendimentos de uma conta e manter os dados da empresa em um só lugar.",
+      "UPGRADE_NOW": "Fazer upgrade agora",
+      "CANCEL_ANYTIME": "Você pode alterar ou cancelar seu plano quando quiser"
     }
   },
   "CONTACTS_FILTER": {
     "SUBTITLE": "Adicione filtros abaixo e clique em 'Enviar' para filtrar contatos.",
     "GROUPS": {
       "CUSTOM_ATTRIBUTES": "Campos Customizados"
+    },
+    "ATTRIBUTES": {
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Caixa de seleção"
     }
   },
   "TEAMS_SETTINGS": {
@@ -1942,6 +2847,11 @@
             "SUCCESS_MESSAGE": "Envio de chat ao vivo atualizado com sucesso"
           }
         }
+      },
+      "CARD": {
+        "CAMPAIGN_DETAILS": {
+          "URL": "URL:"
+        }
       }
     },
     "SMS": {
@@ -2026,19 +2936,125 @@
         },
         "SENT_ON": "Enviado em {date}",
         "BREADCRUMB": {
-          "CAMPAIGNS": "Envios"
+          "CAMPAIGNS": "Envios",
+          "WHATSAPP": "WhatsApp"
         },
         "METRICS": {
           "AUDIENCE": {
             "HINT": "Contatos incluídos neste envio."
           }
+        },
+        "PROCESSING_NOTICE": "Este envio ainda está em andamento. Contagens, percentuais e registros de entrega são parciais e incluem apenas os contatos processados até agora. Mais contatos aparecerão conforme o envio continuar.",
+        "TABLE": {
+          "STATUS": "Status"
+        },
+        "PAYWALL": {
+          "TITLE": "Desbloqueie as métricas de envios",
+          "AVAILABLE_ON": "As métricas de envios estão disponíveis nos planos Business e Enterprise.",
+          "UPGRADE_PROMPT": "Faça upgrade para acompanhar a entrega dos envios, o status de leitura e as mensagens com falha.",
+          "UPGRADE_NOW": "Ver planos",
+          "CANCEL_ANYTIME": "Altere ou cancele seu plano quando quiser."
+        },
+        "ENTERPRISE_PAYWALL": {
+          "AVAILABLE_ON": "As métricas de envios estão disponíveis nos planos pagos auto-hospedados.",
+          "UPGRADE_PROMPT": "Faça upgrade da sua instalação para acompanhar a entrega dos envios, o status de leitura e as mensagens com falha.",
+          "ASK_ADMIN": "Fale com o administrador da sua instância para fazer o upgrade."
+        }
+      },
+      "FORM": {
+        "CREATE_TITLE": "Criar envio",
+        "LIVE_TEST": "Teste real",
+        "LIVE_TEST_TOOLTIP": "O teste real estará disponível em breve",
+        "SCHEDULE": "Agendar envio",
+        "SCHEDULED_FOR": "Agendado para {date}",
+        "RESCHEDULE": "Reagendar",
+        "DISCARD": "Descartar alterações",
+        "SAVE": "Salvar alterações",
+        "BASIC_SETTINGS": {
+          "TITLE": "Configurações básicas",
+          "NAME": {
+            "LABEL": "Título",
+            "PLACEHOLDER": "Digite o título do envio"
+          },
+          "INBOX": {
+            "LABEL": "Canal",
+            "PLACEHOLDER": "Selecione um canal"
+          }
+        },
+        "AUDIENCE": {
+          "TITLE": "Público",
+          "TIER_DESCRIPTION": "Sua conta do WhatsApp pode enviar mensagens para até {tier}.",
+          "TIER_UNKNOWN": "Selecione um canal para ver o limite de mensagens da sua conta do WhatsApp.",
+          "LEARN_MORE": "Saiba mais",
+          "LABELS": {
+            "LABEL": "Etiquetas",
+            "PLACEHOLDER": "Selecione as etiquetas dos clientes"
+          },
+          "SELECTED_COUNT": "{count} contatos selecionados",
+          "VIEW": "Ver",
+          "EMPTY_STATE": "Selecione pelo menos uma etiqueta para montar o público.",
+          "CONTACTS": {
+            "TITLE": "Contatos",
+            "TAGGED_WITH": "com a etiqueta",
+            "SEARCH_PLACEHOLDER": "Pesquise por nome, e-mail ou telefone",
+            "EMPTY_STATE": "Nenhum contato encontrado"
+          }
+        },
+        "TEMPLATE": {
+          "TITLE": "Modelo",
+          "SELECT": {
+            "LABEL": "Modelo",
+            "PLACEHOLDER": "Selecione um modelo"
+          },
+          "EMPTY_STATE": "Selecione um canal para carregar os modelos aprovados",
+          "NO_TEMPLATES": "Este canal não tem modelos aprovados que possam ser usados em um envio",
+          "HEADER_LABEL": "Cabeçalho",
+          "INVALID_MEDIA_URL": "Digite uma URL HTTP ou HTTPS válida.",
+          "HEADER_PLACEHOLDER": "Digite o cabeçalho de {type}",
+          "DOCUMENT_NAME_PLACEHOLDER": "Digite o nome do documento",
+          "BODY_LABEL": "Corpo",
+          "BUTTONS_LABEL": "Botões",
+          "VARIABLE_PLACEHOLDER": "Digite a variável {variable}",
+          "BUTTON_PLACEHOLDER": "Digite o parâmetro do botão {index}"
+        },
+        "ACCOUNT_INFORMATION": {
+          "TITLE": "Informações da conta",
+          "MESSAGING_TIER": "Nível de mensagens",
+          "ACCOUNT_STATUS": "Status da conta",
+          "ACCOUNT_HEALTH": "Saúde da conta",
+          "STATUS_DESCRIPTION": "Modo atual deste número de WhatsApp",
+          "HEALTH_DESCRIPTION": "Classificação de qualidade atribuída pela Meta",
+          "EMPTY_STATE": "Selecione um canal para ver as informações da conta do WhatsApp.",
+          "UNAVAILABLE": "Indisponível",
+          "OPEN": "Abrir no WhatsApp Manager"
+        },
+        "PREVIEW": {
+          "TITLE": "Prévia da mensagem",
+          "EMPTY_STATE": "Selecione um modelo para ver a prévia da mensagem.",
+          "FOOTNOTE": "A exibição pode variar um pouco conforme o sistema operacional. Faça um teste real para confirmar. Os valores padrão das variáveis destacadas serão salvos ao salvar."
+        },
+        "SCHEDULE_POPOVER": {
+          "LABEL": "Agendar",
+          "CANCEL": "Cancelar",
+          "CREATE": "Criar"
+        },
+        "API": {
+          "CREATE_SUCCESS": "Envio de WhatsApp criado com sucesso",
+          "CREATE_ERROR": "Ocorreu um erro. Tente novamente.",
+          "UPDATE_SUCCESS": "Envio de WhatsApp atualizado com sucesso",
+          "UPDATE_ERROR": "Ocorreu um erro. Tente novamente."
         }
       }
     },
     "CONFIRM_DELETE": {
       "API": {
         "SUCCESS_MESSAGE": "Envio excluído com sucesso"
-      }
+      },
+      "WHATSAPP_DESCRIPTION": "Excluir este envio também remove o histórico de mensagens salvo e os detalhes de entrega. As mensagens já enviadas no WhatsApp continuarão lá. Essa ação não pode ser desfeita."
+    },
+    "HISTORY": {
+      "LABEL": "Envio",
+      "LOAD_MORE": "Carregar envios anteriores"
     }
   },
   "AGENT_MGMT": {
@@ -2053,7 +3069,8 @@
     "LIST": {
       "404": "Não existem usuários associados a esta conta",
       "TITLE": "Gerenciar os usuários do seu time",
-      "DESC": "Você pode adicionar e/ou remover usuários do seu time."
+      "DESC": "Você pode adicionar e/ou remover usuários do seu time.",
+      "STATUS": "Status"
     },
     "ADD": {
       "TITLE": "Adicionar usuário ao seu time",
@@ -2133,12 +3150,28 @@
             "CONVERSATION_STATUS": "A contagem começa quando o atendimento entra nesse status. Se ele ainda estiver nele após {duration}, as ações abaixo serão executadas. Se o status mudar antes disso, nada acontecerá."
           },
           "FOOTNOTE": "Apenas novas atividades iniciam uma contagem. Atendimentos que já estiverem nesse estado só serão considerados na próxima vez que houver alguma atividade neles."
+        },
+        "MONITOR": {
+          "LABEL": "Monitor",
+          "PLACEHOLDER": "Selecione um monitor ativo",
+          "ERROR": "Selecione um monitor ativo",
+          "FETCH_FAILED": "Não foi possível carregar os monitores. Tente novamente mais tarde.",
+          "API_UNAVAILABLE": "Este monitor não está mais disponível. Selecione um monitor ativo e tente novamente.",
+          "EMPTY": "Ainda não há monitores ativos. Crie ou retome um monitor para usar este evento.",
+          "GO_TO_MONITORS": "Ir para monitores",
+          "RETRY": "Tentar novamente",
+          "UNAVAILABLE": "Monitor indisponível",
+          "UNAVAILABLE_HELP": "Este monitor não está disponível para automação. Selecione um monitor ativo para ativar esta regra.",
+          "HELP": "Executa uma única vez, quando o monitor identifica pela primeira vez um atendimento a partir de nova atividade ao vivo. Varreduras do histórico não disparam ações."
         }
       }
     },
     "CONDITION": {
       "CONTACT_CUSTOM_ATTR_LABEL": "Campos customizados do contato",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Campos customizados do atendimento"
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Campos customizados do atendimento",
+      "PLACEHOLDERS": {
+        "CAPTAIN": "Descreva o que procurar, ex.: cliente quer cancelar"
+      }
     },
     "ACTION": {
       "TEAM_DROPDOWN_PLACEHOLDER": "Selecione departamentos"
@@ -2148,7 +3181,8 @@
       "CONVERSATION_CREATED": "Atendimento Criado",
       "CONVERSATION_UPDATED": "Atendimento Atualizado",
       "CONVERSATION_RESOLVED": "Atendimento Fechado",
-      "CONVERSATION_OPENED": "Atendimento Aberto"
+      "CONVERSATION_OPENED": "Atendimento Aberto",
+      "MONITOR_MATCHED": "Monitor identificou"
     },
     "ACTIONS": {
       "ASSIGN_AGENT": "Atribuir ao Atendente",
@@ -2168,7 +3202,14 @@
       "INBOX": "Canal",
       "CONVERSATION_LANGUAGE": "Idioma do atendimento",
       "ASSIGNEE_NAME": "Atendente atribuído",
-      "TEAM_NAME": "Departamento"
+      "TEAM_NAME": "Departamento",
+      "STATUS": "Status",
+      "CAPTAIN": "Captain"
+    },
+    "LIST": {
+      "MONITOR_PAUSED": "Monitor pausado",
+      "MONITOR_DELETED": "Monitor excluído",
+      "MONITOR_UNAVAILABLE": "Recurso de monitor indisponível"
     }
   },
   "ATTRIBUTES_MGMT": {
@@ -2232,6 +3273,9 @@
       "REGEX_PATTERN": {
         "PLACEHOLDER": "Por favor, insira o padrão de expressão regular para o campo customizado. (Opcional)"
       }
+    },
+    "ATTRIBUTE_TYPES": {
+      "LINK": "Link"
     }
   },
   "INBOX": {
@@ -2247,10 +3291,12 @@
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nova mensagem em um atendimento do qual você participa",
       "SLA_MISSED_FIRST_RESPONSE": "Primeira resposta da meta de SLA perdida no atendimento",
       "SLA_MISSED_NEXT_RESPONSE": "Próxima resposta da meta de SLA perdida no atendimento",
-      "SLA_MISSED_RESOLUTION": "A resolução da meta de SLA foi perdida no atendimento"
+      "SLA_MISSED_RESOLUTION": "A resolução da meta de SLA foi perdida no atendimento",
+      "VOICE_CALL_MISSED": "Chamada perdida"
     },
     "TYPES_NEXT": {
-      "CONVERSATION_CREATION": "Novo atendimento"
+      "CONVERSATION_CREATION": "Novo atendimento",
+      "VOICE_CALL_MISSED": "Chamada perdida"
     },
     "DISPLAY_MENU": {
       "DISPLAY_OPTIONS": {
@@ -2265,6 +3311,11 @@
     },
     "WEBHOOK": {
       "DESCRIPTION": "Configure um robô de Webhook para integrar com seus serviços personalizados. O robô receberá e processará eventos de atendimentos e pode respondê-los."
+    },
+    "FORM": {
+      "WEBHOOK_URL": {
+        "PLACEHOLDER": "https://example.com/webhook"
+      }
     }
   },
   "CUSTOM_ROLE": {
@@ -2315,7 +3366,9 @@
       "SNOOZE_CONVERSATION": "Adiar Atendimento",
       "RESOLVE_CONVERSATION": "Fechar Atendimento",
       "ADD_PRIVATE_NOTE": "Adicionar uma Nota Interna"
-    }
+    },
+    "HEADER": "Macros",
+    "COUNT": "{n} macro | {n} macros"
   },
   "CRM": {
     "KANBAN": {
@@ -2335,11 +3388,373 @@
     }
   },
   "BILLING_SETTINGS": {
-    "DESCRIPTION": "Gerencie sua assinatura aqui, faça o upgrade do seu plano e obtenha mais para seu time."
+    "DESCRIPTION": "Gerencie sua assinatura aqui, faça o upgrade do seu plano e obtenha mais para seu time.",
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Seu pagamento está em atraso. Atualize a forma de pagamento ou pague a fatura em aberto no portal de cobrança para manter sua assinatura ativa.",
+      "ACTION": "Regularizar pagamento"
+    },
+    "CURRENT_PLAN": {
+      "CANCELS_ON": "Cancela em"
+    },
+    "SHOPIFY": {
+      "TITLE": "Cobrança pelo Shopify",
+      "DESCRIPTION": "Sua assinatura do ChatClean é cobrada e gerenciada com segurança pelo Shopify.",
+      "UNAVAILABLE": "A cobrança pelo Shopify está indisponível no momento. Fale com o suporte se o problema continuar.",
+      "LOADING": "Verificando sua assinatura do Shopify...",
+      "PLAN_TITLE": "Assinatura do Shopify",
+      "PLAN_DESCRIPTION": "Escolha ou gerencie seu plano do ChatClean com segurança no Shopify.",
+      "CURRENT_PLAN": "Plano atual",
+      "SUBSCRIPTION_STATUS": "Status",
+      "PRICE": "Preço",
+      "PER_MONTH": "{price} / mês",
+      "PER_YEAR": "{price} / ano",
+      "TRIAL_ENDS_ON": "O teste termina em",
+      "RENEWS_ON": "Renova em",
+      "ACCESS_UNTIL": "Acesso até",
+      "LAST_VERIFIED": "Última verificação",
+      "VIEW_PLANS": "Ver planos no Shopify",
+      "MANAGE_PLAN": "Gerenciar no Shopify",
+      "RETRY": "Tentar novamente",
+      "ERROR_TITLE": "Não foi possível verificar sua assinatura do Shopify",
+      "ERROR_DESCRIPTION": "Tente novamente em instantes. Seu último acesso verificado não foi alterado.",
+      "STALE_TITLE": "Exibindo sua última assinatura verificada",
+      "STALE_DESCRIPTION": "Não foi possível conectar ao Shopify. Seu acesso não foi alterado.",
+      "STATUS": {
+        "PENDING": "Pendente",
+        "ACTIVE": "Ativa",
+        "TRIALING": "Em teste",
+        "CANCELLED": "Cancelamento agendado",
+        "EXPIRED": "Expirada",
+        "MISSING": "Nenhum plano ativo"
+      }
+    }
   },
   "LOGIN": {
     "API": {
       "ERROR_MESSAGE": "Não foi possível conectar ao servidor. Por favor, tente novamente."
+    },
+    "OAUTH": {
+      "SHOPIFY_INSTALLATION_FAILED": "Não foi possível concluir sua instalação do Shopify. Reinicie a instalação pelo Shopify."
+    },
+    "SAML": {
+      "LABEL": "Entrar com SSO"
+    }
+  },
+  "FEATURE_ANNOUNCEMENT": {
+    "BADGE": "Novo",
+    "DISMISS": "Entendi",
+    "PREVIOUS": "Anterior",
+    "NEXT": "Próximo",
+    "DISMISS_HINT": "Pressione {key} para fechar",
+    "ESCAPE_KEY": "Esc",
+    "CLOSE": "Fechar"
+  },
+  "SLASH_COMMANDS": {
+    "HEADING_1": "Título 1",
+    "HEADING_2": "Título 2",
+    "HEADING_3": "Título 3",
+    "BOLD": "Negrito",
+    "ITALIC": "Itálico",
+    "STRIKETHROUGH": "Tachado",
+    "CODE": "Código",
+    "BULLET_LIST": "Lista com marcadores",
+    "ORDERED_LIST": "Lista numerada",
+    "TABLE": "Tabela"
+  },
+  "CONTACT_FORM": {
+    "FORM": {
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "LABEL": "Facebook"
+        },
+        "TWITTER": {
+          "LABEL": "Twitter"
+        },
+        "LINKEDIN": {
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "LABEL": "GitHub"
+        }
+      }
+    }
+  },
+  "CONTENT_TEMPLATES": {
+    "PARSER": {
+      "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
+    }
+  },
+  "EMAIL_HEADER": {
+    "DATE": "Data"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Mensagem encaminhada ---------",
+    "TO_LABEL": "Para:",
+    "TO_PLACEHOLDER": "Digite pelo menos 2 caracteres para buscar por e-mail",
+    "MESSAGE_PLACEHOLDER": "Adicione uma mensagem (opcional)",
+    "FORWARDED_TO": "Encaminhado para {emails}",
+    "CONTACT_CANNOT_SEE": "{name} não pode ver isto"
+  },
+  "EMOJI_ICON_PICKER": {
+    "TABS": {
+      "EMOJIS": "Emojis"
+    }
+  },
+  "GENERAL": {
+    "BETA": "Beta"
+  },
+  "STRIPE_INTEGRATION": {
+    "UNAVAILABLE": "O Stripe não está disponível para esta conta. Fale com o administrador para verificar a configuração da integração.",
+    "TITLE": "Stripe",
+    "DESCRIPTION": "Veja dados do cliente, assinaturas e faturas junto dos seus atendimentos.",
+    "CONNECT": "Conectar",
+    "DISCONNECT": "Desconectar do ChatClean",
+    "DISCONNECT_NOTE": "Desconectar remove do ChatClean as credenciais salvas. Desinstale o app no Stripe para revogar o acesso por lá.",
+    "CONNECTED": "Conectado",
+    "RECONNECT": "Reconectar Stripe",
+    "REAUTHORIZATION_REQUIRED": "É preciso reconectar",
+    "ACCOUNT": "Conta conectada",
+    "ACCOUNT_ID": "ID da conta",
+    "ENVIRONMENT": "Ambiente",
+    "SANDBOX": "Sandbox",
+    "LIVE": "Produção",
+    "CONNECTED_ON": "Conectado em",
+    "OPEN_STRIPE": "Abrir painel do Stripe",
+    "ERROR": "Não foi possível carregar o Stripe. Tente novamente ou reconecte a integração.",
+    "EMPTY": "Nenhum cliente do Stripe corresponde ao e-mail deste contato.",
+    "NO_EMAIL": "Adicione um e-mail a este contato para buscar clientes no Stripe.",
+    "SELECT": "Selecione o cliente correspondente",
+    "CUSTOMER_OPTION": "{name} — {id}",
+    "MORE": "Mostrando os primeiros 100 clientes encontrados. Ajuste o e-mail do contato se o cliente não aparecer na lista.",
+    "SUBSCRIPTIONS": "Últimas cinco assinaturas",
+    "SUBSCRIPTION": "Assinatura",
+    "VIEW_SUBSCRIPTION": "Ver detalhes da assinatura {name}",
+    "COPY_ID": "Copiar ID",
+    "COPIED": "Copiado",
+    "QUANTITY": "Quantidade: {count}",
+    "PRICE_INTERVAL": "{amount} / {interval}",
+    "INTERVAL": {
+      "day": "dia | {count} dias",
+      "week": "semana | {count} semanas",
+      "month": "mês | {count} meses",
+      "year": "ano | {count} anos"
+    },
+    "VARIABLE_PRICE": "Preço por uso ou por faixas",
+    "RENEWS": "Renova em {date}",
+    "PERIOD_START": "Período começa em {date}",
+    "PERIOD_END": "Período termina em {date}",
+    "TRIAL_ENDS": "Teste termina em {date}",
+    "CANCELS": "Cancela em {date}",
+    "CANCELS_AT_PERIOD_END": "Cancela ao fim do período de cobrança",
+    "CANCELED_ON": "Cancelada em {date}",
+    "MORE_ITEMS": "Itens adicionais da assinatura não são exibidos.",
+    "PRICE_NOTE": "Os preços são por unidade, antes de descontos e impostos. Não são uma estimativa da próxima fatura.",
+    "INVOICES": "Faturas recentes",
+    "NO_SUBSCRIPTIONS": "Nenhuma assinatura encontrada.",
+    "NO_INVOICES": "Nenhuma fatura encontrada."
+  },
+  "MFA_SETTINGS": {
+    "MANAGEMENT": {
+      "ENFORCED_TITLE": "Exigido pela sua conta",
+      "ENFORCED_NOTE": "Sua conta exige autenticação em dois fatores, por isso ela não pode ser desativada aqui. Fale com o administrador se precisar de ajuda."
+    }
+  },
+  "MFA_VERIFICATION": {
+    "EMAIL_TITLE": "Verifique seu e-mail",
+    "EMAIL_DESCRIPTION": "Você está entrando por um novo dispositivo.",
+    "ENTER_EMAIL_CODE": "Digite o código de 6 dígitos enviado para o seu e-mail",
+    "REMEMBER_DEVICE": "Não perguntar novamente neste dispositivo por 30 dias"
+  },
+  "MFA_ENFORCED_SETUP": {
+    "TITLE": "Configure a autenticação em dois fatores",
+    "DESCRIPTION": "Sua conta exige autenticação em dois fatores. Escaneie o QR code com seu app autenticador e digite o código para continuar."
+  },
+  "ONBOARDING_NEXT": {
+    "PLACEHOLDERS": {
+      "ENTER_WEBSITE": "www.exemplo.com.br"
+    }
+  },
+  "MONITORS": {
+    "TITLE": "Monitores",
+    "AUTOMATIONS": {
+      "TITLE": "Automações",
+      "DESCRIPTION": "Execute ações quando este monitor corresponder a um atendimento pela primeira vez a partir de uma nova atividade em tempo real.",
+      "CREATE": "Criar automação",
+      "EMPTY": "Nenhuma automação vinculada a este monitor ainda.",
+      "ACTIVE": "Ativa",
+      "DISABLED": "Desativada",
+      "FETCH_FAILED": "Não foi possível carregar as automações vinculadas."
+    },
+    "LIST": {
+      "CONVERSATIONS_COUNT": "{count} atendimento | {count} atendimentos",
+      "CONVERSATIONS_HELP": "Quantidade de atendimentos que correspondem a este monitor nos últimos 7 dias.",
+      "RUNNING": "Em execução",
+      "FETCH_FAILED": "Não foi possível carregar os monitores. Tente novamente.",
+      "PAGINATION": "Exibindo {startItem} – {endItem} de {totalItems} monitor | Exibindo {startItem} – {endItem} de {totalItems} monitores"
+    },
+    "DESCRIPTION": "Acompanhe os temas que importam nos atendimentos com seus clientes. Descreva um assunto em linguagem simples, e o monitor mostra em gráfico os atendimentos correspondentes à medida que chegam novas mensagens dos clientes.",
+    "CREATE": "Criar monitor",
+    "PREVIEW": "Pré-visualizar correspondências",
+    "PREVIEW_COOLDOWN": "Você poderá pré-visualizar de novo em {count} segundo. | Você poderá pré-visualizar de novo em {count} segundos.",
+    "PREVIEW_FAILED": "Não foi possível pré-visualizar as correspondências. Tente novamente.",
+    "PREVIEW_HELP": "{count} correspondência em uma amostra de {sampled} atendimentos recentes ({excluded} sem contexto utilizável). Esta amostra não representa uma verificação completa. | {count} correspondências em uma amostra de {sampled} atendimentos recentes ({excluded} sem contexto utilizável). Esta amostra não representa uma verificação completa.",
+    "NAME": "Nome",
+    "NAME_PLACEHOLDER": "Atendimentos sobre reembolso",
+    "CHOOSE_ICON": "Escolher ícone ou emoji",
+    "CONDITION": "Quais atendimentos este monitor deve encontrar?",
+    "CONDITION_PLACEHOLDER": "Todos os atendimentos que mencionam reembolso",
+    "CREATE_HELP": "Vamos verificar os atendimentos criados nos últimos sete dias e, depois, continuar verificando as novas mensagens dos clientes. As respostas públicas e os campos do cliente configurados servem de contexto. As notas internas ficam de fora.",
+    "SECTIONS": {
+      "YOUR_MONITORS": "Seus monitores",
+      "TEMPLATES": "Modelos"
+    },
+    "TEMPLATES": {
+      "TITLE": "Comece com um modelo",
+      "USE_NAMED": "Usar o modelo {name}",
+      "EDIT_HINT": "A partir do modelo {name}. Edite o que quiser antes de criar.",
+      "ADMIN_HELP": "Peça a um administrador para criar um monitor a partir de um modelo.",
+      "LOGIN_PROBLEMS": {
+        "NAME": "Problemas de login",
+        "AUDIENCE": "Para times de suporte",
+        "SUMMARY": "Veja quando as reclamações de login começam a aumentar.",
+        "CONDITION": "Um cliente diz que não consegue entrar na conta, incluindo falhas ao redefinir a senha e códigos de verificação que nunca chegam. Exclua dúvidas sobre como trocar a senha quando já está logado."
+      },
+      "MISSING_ORDER_UPDATES": {
+        "NAME": "Atualizações de pedido não recebidas",
+        "AUDIENCE": "Para times de operações",
+        "SUMMARY": "Acompanhe problemas recorrentes na comunicação de entregas.",
+        "CONDITION": "Um cliente diz que a confirmação do pedido, a atualização de envio ou o aviso de entrega não chegou, ou chegou referente ao pedido errado. Exclua clientes perguntando onde está a encomenda quando receberam o e-mail de rastreamento."
+      },
+      "COMPETITOR_MENTIONS": {
+        "NAME": "Menções a concorrentes",
+        "AUDIENCE": "Para fundadores e times de vendas",
+        "SUMMARY": "Encontre atendimentos que valem um acompanhamento.",
+        "CONDITION": "Um cliente nos compara com um produto concorrente, diz que está avaliando um ou menciona que pode trocar. Exclua clientes que vieram de um concorrente e estão perguntando como importar seus dados."
+      },
+      "FEATURE_REQUESTS": {
+        "NAME": "Pedidos de funcionalidade",
+        "AUDIENCE": "Para times de produto",
+        "SUMMARY": "Mantenha uma contagem contínua de atendimentos sobre necessidades não atendidas.",
+        "CONDITION": "Um cliente pede um recurso que o produto não oferece hoje, ou pergunta se algo é possível e não é. Exclua dúvidas sobre como usar uma funcionalidade que já existe."
+      },
+      "REFUND_REQUESTS": {
+        "NAME": "Pedidos de reembolso",
+        "AUDIENCE": "Para times financeiros",
+        "SUMMARY": "Tenha um critério consistente para a contagem semanal de pedidos de reembolso.",
+        "CONDITION": "Um cliente pede o dinheiro de volta de um pagamento já feito, incluindo cobranças duplicadas e reembolsos após o cancelamento. Exclua dúvidas sobre a política de reembolso e pedidos de desconto."
+      },
+      "CANCELLATION_INTENT": {
+        "NAME": "Intenção de cancelamento",
+        "AUDIENCE": "Para gerentes de contas",
+        "SUMMARY": "Encontre clientes que podem precisar de um contato antes de saírem.",
+        "CONDITION": "Um cliente diz que pretende cancelar, não vai renovar ou planeja parar de usar o produto. Exclua pedidos para reduzir licenças ou fazer downgrade, e cancelamentos que o cliente desiste no mesmo atendimento."
+      },
+      "PAYMENT_FAILURES": {
+        "NAME": "Falhas de pagamento",
+        "AUDIENCE": "Para times de cobrança e suporte",
+        "SUMMARY": "Identifique clientes que estão impedidos de pagar.",
+        "CONDITION": "Um cliente diz que um pagamento, a finalização da compra ou o pagamento de uma fatura falhou, ou que o cartão foi recusado. Exclua pedidos de reembolso, contestações de cobranças concluídas e dúvidas gerais sobre formas de pagamento."
+      },
+      "PRODUCT_ERRORS": {
+        "NAME": "Erros no produto",
+        "AUDIENCE": "Para times de suporte e engenharia",
+        "SUMMARY": "Veja quando erros e travamentos começam a se espalhar.",
+        "CONDITION": "Um cliente relata um erro, travamento, serviço indisponível ou lentidão grave que o impede de concluir uma tarefa. Exclua problemas de login e dúvidas sobre como usar uma funcionalidade que está funcionando."
+      },
+      "ISSUE_STILL_UNRESOLVED": {
+        "NAME": "Problema ainda não solucionado",
+        "AUDIENCE": "Para líderes de suporte",
+        "SUMMARY": "Encontre atendimentos que precisam de uma nova análise.",
+        "CONDITION": "Um cliente diz que a solução sugerida não funcionou, que o mesmo problema voltou ou que o problema continua depois de o suporte dizer que estava resolvido. Exclua primeiros relatos e pedidos que só pedem uma atualização de status."
+      },
+      "ESCALATION_REQUESTS": {
+        "NAME": "Pedidos de escalonamento",
+        "AUDIENCE": "Para líderes de suporte",
+        "SUMMARY": "Destaque pedidos que precisam de atenção rápida.",
+        "CONDITION": "Um cliente pede explicitamente um atendente humano, um gerente, um especialista ou um nível de suporte superior porque o problema não foi resolvido. Exclua transferências de rotina e pedidos comerciais."
+      }
+    },
+    "MATCHING_CONVERSATIONS": "Atendimentos correspondentes criados",
+    "LAST_DAYS": "Último {count} dia | Últimos {count} dias",
+    "LAST_DAYS_BEFORE_PAUSE": "{count} dia antes da pausa | {count} dias antes da pausa",
+    "GROUP_BY": "Agrupar por {interval}",
+    "INTERVALS": {
+      "HOUR": "1 hora",
+      "SIX_HOURS": "6 horas",
+      "DAY": "1 dia"
+    },
+    "EDIT": "Editar",
+    "UPDATE": "Atualizar",
+    "MONITOR_DESCRIPTION": "Descrição",
+    "EDIT_HELP": "A descrição define quais atendimentos correspondem. Alterá-la apaga as correspondências existentes e verifica de novo os atendimentos já verificados. Períodos ignorados continuam ignorados. Se o monitor estiver pausado, a nova verificação começa quando você retomá-lo.",
+    "DUPLICATE": "Duplicar",
+    "PAUSE": "Pausar",
+    "RESUME": "Retomar",
+    "RESUME_HELP": "Escolha a partir de onde este monitor deve continuar. Os resultados existentes continuarão disponíveis.",
+    "RESUME_CATCH_UP": "Verificar o período pausado",
+    "RESUME_CATCH_UP_HELP": "Verifica os atendimentos criados e as mensagens de clientes recebidas desde a pausa do monitor até agora e, depois, continua com as atualizações em tempo real.",
+    "RESUME_FROM_NOW": "Começar a partir de agora",
+    "RESUME_FROM_NOW_HELP": "Verifica apenas as novas mensagens de clientes e atendimentos a partir de agora. O período pausado não será analisado.",
+    "DELETE": "Excluir",
+    "DELETE_HELP": "Excluir este monitor e os resultados dele? Os atendimentos não serão excluídos.",
+    "PAUSE_HELP": "Pausar este monitor? Os resultados continuarão disponíveis, e ele deixará de verificar mensagens e atendimentos.",
+    "PAUSED_HELP": "Pausado em {time}. Os resultados históricos continuam disponíveis. Novas mensagens e atendimentos não estão sendo verificados.",
+    "COLLECTED_UNTIL": "Resultados coletados até {time}.",
+    "RETRY": "Tentar novamente",
+    "RESULTS_UPDATED": "Há novos resultados. O gráfico foi atualizado; selecione uma barra para ver os atendimentos atualizados.",
+    "TIME_BASIS_HELP": "Cada atendimento é contado uma vez, na data em que foi criado. Uma nova correspondência pode atualizar uma barra anterior.",
+    "COVERAGE_HELP": "Este intervalo inclui períodos que não foram totalmente verificados. As contagens podem estar incompletas.",
+    "REFRESHED": "Última atualização às {time}. As atualizações aparecem automaticamente.",
+    "USAGE": {
+      "LIMIT_REACHED": "Esta conta já usou as {limit} chamadas de monitor deste mês.",
+      "RESETS": "Novas avaliações e pré-visualizações estão suspensas até {time}. Os resultados existentes continuam disponíveis.",
+      "REACHED_AT": "Limite atingido em {time}."
+    },
+    "STATES": {
+      "SCANNING": "Verificando atendimentos recentes",
+      "PROCESSING": "Verificando atendimentos",
+      "RECHECKING": "Verificando de novo os atendimentos com a descrição atualizada",
+      "LIVE": "Atualizado",
+      "DELAYED": "As atualizações estão atrasadas",
+      "NEEDS_ATTENTION": "Precisa de atenção",
+      "PAUSED": "Pausado",
+      "CATCHING_UP": "Verificando o período pausado"
+    },
+    "ERRORS": {
+      "FETCH_FAILED": "Não foi possível carregar este monitor. Atualize a página para tentar novamente.",
+      "SAVE_FAILED": "Não foi possível salvar o monitor. Confira o nome e a condição e tente novamente.",
+      "NOT_CONFIGURED": "Configure a conexão com o OpenRouter e clique em Tentar novamente.",
+      "CREDENTIALS_INVALID": "A conexão com o OpenRouter precisa de atenção. Peça ao administrador da instalação para verificar as credenciais.",
+      "PROVIDER_CREDITS_EXHAUSTED": "A conta do OpenRouter não tem créditos suficientes. Peça ao administrador da instalação para verificar o saldo e tente novamente.",
+      "INVALID_REQUEST": "A solicitação de avaliação precisa de atenção. Fale com o administrador da instalação.",
+      "INVALID_RESPONSE": "O provedor de avaliação retornou um resultado incompleto. Os atendimentos afetados não foram contabilizados.",
+      "PROVIDER_BUSY": "O provedor de avaliação está ocupado. Os atendimentos pendentes precisam de uma nova avaliação.",
+      "PROVIDER_UNAVAILABLE": "O provedor de avaliação está temporariamente indisponível. As atualizações podem atrasar.",
+      "BUDGET_LIMIT": "A cota diária de avaliações foi atingida. O trabalho pendente será retomado quando ela for renovada.",
+      "MONTHLY_LIMIT": "Esta conta atingiu a cota mensal de monitores. As avaliações pendentes serão retomadas no próximo mês.",
+      "CONTEXT_LIMIT": "Alguns atendimentos são longos demais para serem avaliados por completo. Eles ficam fora dos resultados.",
+      "INVALID_PARAMETERS": "Confira o nome, a condição, o período e o intervalo.",
+      "TOO_MANY_BUCKETS": "Escolha um período menor ou um intervalo maior. Um gráfico pode exibir até 744 barras.",
+      "MONITOR_LIMIT": "Esta conta atingiu o limite de monitores ativos. Pause um monitor antes de criar outro.",
+      "MONITOR_PAUSED": "Este monitor está pausado e não verifica mais atendimentos.",
+      "MONITOR_CHANGED": "Este monitor foi alterado em outra sessão. O estado atual foi atualizado. Tente novamente."
+    }
+  },
+  "APP_GLOBAL": {
+    "IMPERSONATION": {
+      "MESSAGE": "Você está acessando como {name} ({email}). Todas as ações que você fizer aparecerão como deste usuário.",
+      "STOP": "Parar de acessar como este usuário"
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "COPY_ERROR": "Não foi possível copiar para a área de transferência. Tente novamente."
+    }
+  },
+  "REGISTER": {
+    "SHOPIFY": {
+      "TITLE": "Configure o ChatClean para sua loja Shopify",
+      "DESCRIPTION": "Crie sua conta para seguir para o Shopify App Pricing e escolher um plano."
     }
   }
 }

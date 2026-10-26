@@ -57,6 +57,15 @@ const ALLOWED = [
   'AGENT_MGMT.ADD.TITLE',
   'AUTOMATION.DESCRIPTION',
   'BILLING_SETTINGS.DESCRIPTION',
+  // "time" no sentido do time inteiro em textos traduzidos na revisão de tradução (CCV2-29).
+  'INTEGRATION_SETTINGS.SHOPIFY.HELP_TEXT.BODY',
+  'MONITORS.TEMPLATES.LOGIN_PROBLEMS.AUDIENCE',
+  'MONITORS.TEMPLATES.MISSING_ORDER_UPDATES.AUDIENCE',
+  'MONITORS.TEMPLATES.COMPETITOR_MENTIONS.AUDIENCE',
+  'MONITORS.TEMPLATES.FEATURE_REQUESTS.AUDIENCE',
+  'MONITORS.TEMPLATES.REFUND_REQUESTS.AUDIENCE',
+  'MONITORS.TEMPLATES.PAYMENT_FAILURES.AUDIENCE',
+  'MONITORS.TEMPLATES.PRODUCT_ERRORS.AUDIENCE',
 ];
 
 const texts = (node, path = []) =>
@@ -77,16 +86,20 @@ describe('ChatClean vocabulary', () => {
     expect(remaining).toEqual([]);
   });
 
-  it('only rewrites texts that still exist in the Chatwoot translations', () => {
-    const files = import.meta.glob('../../i18n/locale/pt_BR/*.json', {
-      eager: true,
-    });
-    const chatwoot = Object.assign(
-      {},
-      ...Object.entries(files)
-        .filter(([file]) => !file.endsWith('chatcleanVocabulary.json'))
-        .map(([, module]) => module.default)
-    );
+  // Vale contra os textos do Chatwoot em inglês e em português: o vocabulário também traduz frases
+  // que ainda não têm tradução em português no Chatwoot.
+  it('only rewrites texts that still exist in the Chatwoot texts', () => {
+    const files = {
+      ...import.meta.glob('../../i18n/locale/en/*.json', { eager: true }),
+      ...import.meta.glob('../../i18n/locale/pt_BR/*.json', { eager: true }),
+    };
+    // Junção profunda: um mesmo grupo de textos pode estar em mais de um arquivo.
+    const chatwoot = Object.entries(files)
+      .filter(([file]) => !file.endsWith('chatcleanVocabulary.json'))
+      .reduce(
+        (merged, [, module]) => withVocabulary(merged, module.default),
+        {}
+      );
     const missing = texts(chatcleanVocabulary)
       .map(([key]) => key.replace(/\.\d+(\..*)?$/, ''))
       .filter(
