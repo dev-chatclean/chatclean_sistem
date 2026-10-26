@@ -13,6 +13,7 @@ import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import ConversationFilter from 'next/filter/ConversationFilter.vue';
 import SaveCustomView from 'next/filter/SaveCustomView.vue';
 import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
+import { useChatTabCounts } from 'dashboard/chatclean/conversation/useChatTabCounts';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
@@ -188,28 +189,14 @@ const assigneeTabItems = computed(() => {
   }));
 });
 
-// ChatClean (US 15): aba "Fechados" ao lado de "Todos", com todos os atendimentos fechados. Ela é o
-// "Todos" com o status fechado. Os números do Chatwoot valem para o status em uso, então nenhuma aba
-// mostra contador enquanto "Fechados" está aberta, e ela própria nunca mostra.
+// ChatClean (US 15): abas Ativos, Pendentes e Fechados; a aba "Todos" do Chatwoot sai (pedido do PO).
+// Fechados é o "Todos" com o status fechado. Todas as abas mostram contador, mesmo zerado: com Fechados
+// aberta, Ativos e Pendentes contam os abertos (useChatTabCounts).
 const CLOSED_TAB = 'closed';
 const isClosedTabActive = computed(
   () =>
     activeStatus.value === wootConstants.STATUS_TYPE.RESOLVED &&
     activeAssigneeTab.value === wootConstants.ASSIGNEE_TYPE.ALL
-);
-const chatTabItems = computed(() => [
-  ...assigneeTabItems.value.map(item => ({
-    ...item,
-    showBadge: !isClosedTabActive.value,
-  })),
-  {
-    key: CLOSED_TAB,
-    name: t('CHATCLEAN.CHAT_LIST.CLOSED_TAB'),
-    showBadge: false,
-  },
-]);
-const activeChatTab = computed(() =>
-  isClosedTabActive.value ? CLOSED_TAB : activeAssigneeTab.value
 );
 
 const showAssigneeInConversationCard = computed(() => {
@@ -283,6 +270,28 @@ const conversationFilters = computed(() => {
     conversationType: props.conversationType || undefined,
   };
 });
+
+const chatTabCounts = useChatTabCounts(conversationFilters);
+const chatTabItems = computed(() => [
+  ...assigneeTabItems.value
+    .filter(item => item.key !== wootConstants.ASSIGNEE_TYPE.ALL)
+    .map(item =>
+      isClosedTabActive.value
+        ? {
+            ...item,
+            count: chatTabCounts[ASSIGNEE_TYPE_TAB_PERMISSIONS[item.key].count],
+          }
+        : item
+    ),
+  {
+    key: CLOSED_TAB,
+    name: t('CHATCLEAN.CHAT_LIST.CLOSED_TAB'),
+    count: chatTabCounts.closedCount,
+  },
+]);
+const activeChatTab = computed(() =>
+  isClosedTabActive.value ? CLOSED_TAB : activeAssigneeTab.value
+);
 
 const activeTeam = computed(() => {
   if (props.teamId) {
