@@ -3,6 +3,7 @@ import { defineAsyncComponent, ref, computed } from 'vue';
 
 import NextSidebar from 'next/sidebar/Sidebar.vue';
 import ChatcleanTopBar from 'dashboard/chatclean/TopBar.vue';
+import ChatcleanClosingReasonDialog from 'dashboard/chatclean/closing/ClosingReasonDialog.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
 import AddAccountModal from 'dashboard/components/app/AddAccountModal.vue';
 import UpgradePage from 'dashboard/routes/dashboard/upgrade/UpgradePage.vue';
@@ -32,6 +33,7 @@ export default {
   components: {
     NextSidebar,
     ChatcleanTopBar,
+    ChatcleanClosingReasonDialog,
     CommandBar,
     WootKeyShortcutModal,
     AddAccountModal,
@@ -168,6 +170,8 @@ export default {
           <FloatingCallWidget v-if="hasActiveCall || hasIncomingCall" />
         </template>
         <CommandBar :is-paywalled="isAccountPaywalled" />
+        <!-- ChatClean (US 16): janela de motivo usada por todos os pontos que fecham atendimento. -->
+        <ChatcleanClosingReasonDialog />
         <AddAccountModal
           :show="showCreateAccountModal"
           @close-account-create-modal="closeCreateAccountModal"

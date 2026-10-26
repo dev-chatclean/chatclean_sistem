@@ -36,6 +36,57 @@
     },
     "REPLY_BOX": {
       "CANNED_RESPONSES": "Canned responses"
+    },
+    "CLOSING": {
+      "TITLE": "Close conversation",
+      "DESCRIPTION": "Choose why this conversation is being closed.",
+      "BULK_DESCRIPTION": "Choose why these {count} conversations are being closed. The reason applies to all of them.",
+      "REASON_LABEL": "Closing reason",
+      "REASON_PLACEHOLDER": "Select a reason",
+      "SALE_VALUE_LABEL": "Sale value (R$)",
+      "SALE_VALUE_PLACEHOLDER": "Ex.: 1500.00",
+      "CONFIRM": "Close",
+      "NO_REASONS": "There is no active closing reason, so conversations cannot be closed. Ask an administrator to add one in Settings → Closing reasons.",
+      "LOAD_ERROR": "Could not load the closing reasons. Try again.",
+      "ERROR": "Could not close the conversation. Try again."
+    },
+    "CLOSING_REASONS": {
+      "MENU": "Closing reasons",
+      "HEADER": "Closing reasons",
+      "DESCRIPTION": "Every conversation closed by a person needs a reason. Reasons without teams are available to everyone.",
+      "NEW": "New reason",
+      "EMPTY": "There are no closing reasons yet. Without one, nobody can close a conversation.",
+      "SAVED": "Closing reason saved",
+      "DELETED": "Closing reason deleted",
+      "TABLE": {
+        "NAME": "Name",
+        "TEAMS": "Teams",
+        "SALE_VALUE": "Sale value",
+        "ACTIVE": "Active",
+        "ACTIONS": "Actions"
+      },
+      "ALL_TEAMS": "All",
+      "ASKS_SALE_VALUE": "Asks",
+      "EDIT": "Edit reason",
+      "DELETE": "Delete reason",
+      "DELETE_CONFIRM": {
+        "TITLE": "Delete closing reason",
+        "DESCRIPTION": "Delete \"{name}\"? A reason already used cannot be deleted, only deactivated.",
+        "CONFIRM": "Delete"
+      },
+      "DIALOG": {
+        "CREATE_TITLE": "New closing reason",
+        "EDIT_TITLE": "Edit closing reason",
+        "NAME": "Name",
+        "CLOSING_MESSAGE": "Closing message (optional)",
+        "CLOSING_MESSAGE_PLACEHOLDER": "Sent to the customer when the conversation is closed with this reason",
+        "ASK_SALE_VALUE": "Ask for the sale value",
+        "TEAMS": "Teams",
+        "TEAMS_PLACEHOLDER": "All teams",
+        "ACTIVE": "Active",
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      }
     }
   }
 }

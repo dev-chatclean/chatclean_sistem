@@ -29,6 +29,7 @@ import conversationWorkflow from './conversationWorkflow/conversationWorkflow.ro
 import captain from './captain/captain.routes';
 import data from './data/data.routes';
 import crm from './crm/crm.routes';
+import closingReasons from './closingReasons/closingReasons.routes';
 
 export default {
   routes: [
@@ -73,5 +74,6 @@ export default {
     ...conversationWorkflow.routes,
     ...captain.routes,
     ...crm.routes,
+    ...closingReasons.routes,
   ],
 };

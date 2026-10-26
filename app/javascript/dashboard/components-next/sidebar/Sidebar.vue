@@ -850,6 +850,12 @@ const chatwootMenuItems = computed(() => {
           to: accountScopedRoute('crm_settings_index'),
         },
         {
+          name: 'Settings Closing Reasons',
+          label: t('CHATCLEAN.CLOSING_REASONS.MENU'),
+          icon: 'i-lucide-circle-check-big',
+          to: accountScopedRoute('closing_reasons_settings_index'),
+        },
+        {
           name: 'Settings Custom Attributes',
           label: t('SIDEBAR.CUSTOM_ATTRIBUTES'),
           icon: 'i-lucide-code',

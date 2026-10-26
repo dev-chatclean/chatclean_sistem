@@ -36,6 +36,57 @@
     },
     "REPLY_BOX": {
       "CANNED_RESPONSES": "Mensagens rápidas"
+    },
+    "CLOSING": {
+      "TITLE": "Fechar atendimento",
+      "DESCRIPTION": "Escolha por que este atendimento está sendo fechado.",
+      "BULK_DESCRIPTION": "Escolha por que estes {count} atendimentos estão sendo fechados. O motivo vale para todos.",
+      "REASON_LABEL": "Motivo de fechamento",
+      "REASON_PLACEHOLDER": "Selecione um motivo",
+      "SALE_VALUE_LABEL": "Valor da venda (R$)",
+      "SALE_VALUE_PLACEHOLDER": "Ex.: 1500,00",
+      "CONFIRM": "Fechar",
+      "NO_REASONS": "Não há motivo de fechamento ativo, por isso não é possível fechar atendimentos. Peça a um administrador para cadastrar um em Configurações → Motivos de fechamento.",
+      "LOAD_ERROR": "Não foi possível carregar os motivos de fechamento. Tente de novo.",
+      "ERROR": "Não foi possível fechar o atendimento. Tente de novo."
+    },
+    "CLOSING_REASONS": {
+      "MENU": "Motivos de fechamento",
+      "HEADER": "Motivos de fechamento",
+      "DESCRIPTION": "Todo atendimento fechado por uma pessoa precisa de um motivo. Motivos sem departamento valem para todos.",
+      "NEW": "Novo motivo",
+      "EMPTY": "Ainda não há motivos de fechamento. Sem nenhum, ninguém consegue fechar atendimentos.",
+      "SAVED": "Motivo de fechamento salvo",
+      "DELETED": "Motivo de fechamento excluído",
+      "TABLE": {
+        "NAME": "Nome",
+        "TEAMS": "Departamentos",
+        "SALE_VALUE": "Valor da venda",
+        "ACTIVE": "Ativo",
+        "ACTIONS": "Ações"
+      },
+      "ALL_TEAMS": "Todos",
+      "ASKS_SALE_VALUE": "Pede",
+      "EDIT": "Editar motivo",
+      "DELETE": "Excluir motivo",
+      "DELETE_CONFIRM": {
+        "TITLE": "Excluir motivo de fechamento",
+        "DESCRIPTION": "Excluir \"{name}\"? Um motivo já usado não pode ser excluído, só desativado.",
+        "CONFIRM": "Excluir"
+      },
+      "DIALOG": {
+        "CREATE_TITLE": "Novo motivo de fechamento",
+        "EDIT_TITLE": "Editar motivo de fechamento",
+        "NAME": "Nome",
+        "CLOSING_MESSAGE": "Mensagem de fechamento (opcional)",
+        "CLOSING_MESSAGE_PLACEHOLDER": "Enviada ao cliente quando o atendimento é fechado com este motivo",
+        "ASK_SALE_VALUE": "Perguntar o valor da venda",
+        "TEAMS": "Departamentos",
+        "TEAMS_PLACEHOLDER": "Todos os departamentos",
+        "ACTIVE": "Ativo",
+        "SAVE": "Salvar",
+        "CANCEL": "Cancelar"
+      }
     }
   }
 }

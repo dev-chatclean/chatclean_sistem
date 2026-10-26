@@ -7,6 +7,7 @@ import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useConversationRequiredAttributes } from 'dashboard/composables/useConversationRequiredAttributes';
+import { closeConversation } from 'dashboard/chatclean/closing/closingRequest';
 
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
@@ -83,6 +84,13 @@ const openSnoozeModal = () => {
 
 const toggleStatus = (status, snoozedUntil, customAttributes = null) => {
   closeDropdown();
+  // ChatClean (US 16): fechar passa pela janela obrigatória de motivo.
+  if (status === wootConstants.STATUS_TYPE.RESOLVED) {
+    closeConversation(store, currentChat.value.id).then(closed => {
+      if (closed) useAlert(t('CONVERSATION.CHANGE_STATUS'));
+    });
+    return;
+  }
   isLoading.value = true;
 
   const payload = {

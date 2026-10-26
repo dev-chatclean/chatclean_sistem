@@ -1,5 +1,9 @@
 en:
   chatclean:
+    closing:
+      reason_required: Choose a closing reason. If there are none, ask an administrator to add one.
+      invalid_sale_value: Enter the sale value, with no negative amounts
+      deal_title: "%{reason} — conversation #%{id}"
     conversations:
       already_accepted: "This conversation was already accepted by %{name}"
       transfer:
