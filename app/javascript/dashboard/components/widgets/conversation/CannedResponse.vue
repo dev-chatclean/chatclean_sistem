@@ -9,6 +9,8 @@ import {
 } from 'dashboard/helper/editorHelper';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import CaretAnchoredPicker from 'dashboard/components-next/preview-picker/CaretAnchoredPicker.vue';
+import { emitter } from 'shared/helpers/mitt';
+import { CANNED_ATTACHMENTS_EVENT } from 'dashboard/chatclean/canned/cannedAttachments';
 
 const props = defineProps({
   caretPosition: {
@@ -73,16 +75,19 @@ const resolveContent = message =>
   );
 
 const records = computed(() =>
-  cannedResponses.value.map(({ id, short_code: shortCode, content }) => {
-    const resolved = resolveContent(content);
-    return {
-      id,
-      content,
-      resolved,
-      shortCode,
-      plainText: getPlainText(resolved).replace(/\s+/g, ' ').trim(),
-    };
-  })
+  cannedResponses.value.map(
+    ({ id, short_code: shortCode, content, attachments }) => {
+      const resolved = resolveContent(content);
+      return {
+        id,
+        content,
+        attachments,
+        resolved,
+        shortCode,
+        plainText: getPlainText(resolved).replace(/\s+/g, ' ').trim(),
+      };
+    }
+  )
 );
 
 const filteredRecords = computed(() => {
@@ -98,6 +103,7 @@ const items = computed(() =>
   filteredRecords.value.map(record => ({
     id: record.id,
     content: record.content,
+    attachments: record.attachments,
     resolved: record.resolved,
     label: `/${record.shortCode}`,
     title: highlightMatches(`/${record.shortCode}`),
@@ -105,7 +111,13 @@ const items = computed(() =>
   }))
 );
 
-const onSelect = item => emit('replace', item.content);
+const onSelect = item => {
+  emit('replace', item.content);
+  // ChatClean (US 17): os anexos da mensagem rápida entram na resposta.
+  if (item.attachments?.length) {
+    emitter.emit(CANNED_ATTACHMENTS_EVENT, item.attachments);
+  }
+};
 
 onMounted(() => store.dispatch('getCannedResponse'));
 </script>

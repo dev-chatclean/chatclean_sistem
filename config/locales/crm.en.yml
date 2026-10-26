@@ -1,5 +1,7 @@
 en:
   chatclean:
+    canned_responses:
+      attachments_too_large: The attachments exceed 16 MB in total
     closing:
       reason_required: Choose a closing reason. If there are none, ask an administrator to add one.
       invalid_sale_value: Enter the sale value, with no negative amounts

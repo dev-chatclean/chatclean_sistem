@@ -1,5 +1,7 @@
 pt_BR:
   chatclean:
+    canned_responses:
+      attachments_too_large: Os anexos passam de 16 MB no total
     closing:
       reason_required: Escolha um motivo de fechamento. Se não houver nenhum, peça a um administrador para cadastrar.
       invalid_sale_value: Informe o valor da venda, sem valores negativos

@@ -8,6 +8,9 @@ import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { picoSearch } from '@chatwoot/pico-search';
+import { useAdmin } from 'dashboard/composables/useAdmin';
+import ChatcleanCannedResponsesAPI from 'dashboard/api/chatclean/cannedResponses';
+import Switch from 'dashboard/components-next/switch/Switch.vue';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -38,9 +41,47 @@ const cannedResponseAPI = ref({ message: '' });
 const sortOrder = ref('asc');
 const searchQuery = ref('');
 
+// ChatClean (US 17): o administrador pode exibir também as mensagens "Só eu" dos usuários. Elas
+// vêm de uma busca à parte, para não entrarem na lista do "/" do atendimento.
+const { isAdmin } = useAdmin();
+const currentUser = computed(() => getters.getCurrentUser.value);
+const showUserResponses = ref(false);
+const allResponses = ref([]);
+
+const sortResponses = list =>
+  [...list].sort((a, b) =>
+    sortOrder.value === 'asc'
+      ? a.short_code.localeCompare(b.short_code)
+      : b.short_code.localeCompare(a.short_code)
+  );
+
 const records = computed(() =>
-  getters.getSortedCannedResponses.value(sortOrder.value)
+  showUserResponses.value
+    ? sortResponses(allResponses.value)
+    : getters.getSortedCannedResponses.value(sortOrder.value)
 );
+
+const fetchAllResponses = async () => {
+  const { data } = await ChatcleanCannedResponsesAPI.getWithUserResponses();
+  allResponses.value = data;
+};
+
+const onToggleUserResponses = value => {
+  showUserResponses.value = value;
+  if (value) fetchAllResponses();
+};
+
+const canManage = response =>
+  isAdmin.value || response.owner_id === currentUser.value.id;
+
+const visibilityLabel = response => {
+  if (response.visibility === 'personal') {
+    return response.owner_id === currentUser.value.id
+      ? t('CHATCLEAN.CANNED.VISIBILITY.PERSONAL')
+      : t('CHATCLEAN.CANNED.OWNED_BY', { name: response.owner_name });
+  }
+  return t(`CHATCLEAN.CANNED.VISIBILITY.${response.visibility.toUpperCase()}`);
+};
 
 const filteredRecords = computed(() => {
   const query = searchQuery.value.trim();
@@ -94,6 +135,7 @@ const openAddPopup = () => {
 };
 const hideAddPopup = () => {
   showAddPopup.value = false;
+  if (showUserResponses.value) fetchAllResponses();
 };
 
 const openEditPopup = response => {
@@ -102,6 +144,7 @@ const openEditPopup = response => {
 };
 const hideEditPopup = () => {
   showEditPopup.value = false;
+  if (showUserResponses.value) fetchAllResponses();
 };
 
 const openDeletePopup = response => {
@@ -116,6 +159,7 @@ const closeDeletePopup = () => {
 const deleteCannedResponse = async id => {
   try {
     await store.dispatch('deleteCannedResponse', id);
+    if (showUserResponses.value) fetchAllResponses();
     showAlertMessage(t('CANNED_MGMT.DELETE.API.SUCCESS_MESSAGE'));
   } catch (error) {
     const errorMessage =
@@ -160,6 +204,17 @@ const tableHeaders = computed(() => {
           </span>
         </template>
         <template #actions>
+          <label
+            v-if="isAdmin"
+            class="flex items-center gap-2 text-sm text-n-slate-11"
+          >
+            <Switch
+              :model-value="showUserResponses"
+              data-test="canned-show-user-responses"
+              @update:model-value="onToggleUserResponses"
+            />
+            {{ $t('CHATCLEAN.CANNED.SHOW_USER_RESPONSES') }}
+          </label>
           <Button
             :label="$t('CANNED_MGMT.HEADER_BTN_TXT')"
             size="sm"
@@ -218,11 +273,24 @@ const tableHeaders = computed(() => {
                   <p class="text-body-main text-n-slate-11 line-clamp-5">
                     {{ getPlainText(cannedItem.content) }}
                   </p>
+                  <span class="flex items-center gap-3 text-sm text-n-slate-10">
+                    <span>{{ visibilityLabel(cannedItem) }}</span>
+                    <span
+                      v-if="cannedItem.attachments?.length"
+                      class="flex items-center gap-1"
+                    >
+                      <Icon icon="i-lucide-paperclip" class="size-3.5" />
+                      {{ cannedItem.attachments.length }}
+                    </span>
+                  </span>
                 </div>
               </BaseTableCell>
 
               <BaseTableCell align="end" class="w-24">
-                <div class="flex gap-3 justify-end flex-shrink-0">
+                <div
+                  v-if="canManage(cannedItem)"
+                  class="flex gap-3 justify-end flex-shrink-0"
+                >
                   <Button
                     v-tooltip.top="$t('CANNED_MGMT.EDIT.BUTTON_TEXT')"
                     icon="i-woot-edit-pen"
@@ -256,6 +324,7 @@ const tableHeaders = computed(() => {
         :id="activeResponse.id"
         :edshort-code="activeResponse.short_code"
         :edcontent="activeResponse.content"
+        :record="activeResponse"
         :on-close="hideEditPopup"
       />
     </woot-modal>
