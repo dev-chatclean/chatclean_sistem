@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { formatNumber } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
@@ -7,7 +7,6 @@ import wootConstants from 'dashboard/constants/globals';
 import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter.vue';
 import SwitchLayout from 'dashboard/routes/dashboard/conversation/search/SwitchLayout.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
-import StartConversationDialog from 'dashboard/chatclean/conversation/StartConversationDialog.vue';
 
 const props = defineProps({
   pageTitle: { type: String, required: true },
@@ -27,8 +26,6 @@ const emit = defineEmits([
   'basicFilterChange',
   'filtersModal',
 ]);
-
-const startConversationRef = ref(null);
 
 const { uiSettings, updateUISettings } = useUISettings();
 
@@ -112,18 +109,6 @@ const toggleConversationLayout = () => {
       </span>
     </div>
     <div class="flex items-center gap-1">
-      <!-- ChatClean (US 15): "Iniciar atendimento" ao lado dos filtros, com o formulário da ChatClean. -->
-      <NextButton
-        v-tooltip.top-end="$t('CHATCLEAN.CHAT_LIST.START_CONVERSATION')"
-        :aria-label="$t('CHATCLEAN.CHAT_LIST.START_CONVERSATION')"
-        icon="i-lucide-message-square-plus"
-        slate
-        xs
-        faded
-        data-test="start-conversation"
-        @click="startConversationRef?.open()"
-      />
-      <StartConversationDialog ref="startConversationRef" />
       <template v-if="hasAppliedFilters && !hasActiveFolders">
         <div class="relative">
           <NextButton

@@ -17,8 +17,6 @@ import CustomBrandPolicyWrapper from '../../components/CustomBrandPolicyWrapper.
 
 defineProps({
   isCollapsed: { type: Boolean, default: false },
-  // ChatClean (US 14): na barra superior o menu abre para baixo, alinhado à direita.
-  dropdownBelow: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['close', 'openKeyShortcutModal']);
@@ -162,14 +160,7 @@ const allowedMenuItems = computed(() => {
         </div>
       </button>
     </template>
-    <DropdownBody
-      class="z-50 w-80"
-      :class="
-        dropdownBelow
-          ? 'top-full mt-2 ltr:right-0 rtl:left-0'
-          : 'bottom-12 mb-2 ltr:left-0 rtl:right-0'
-      "
-    >
+    <DropdownBody class="bottom-12 z-50 mb-2 w-80 ltr:left-0 rtl:right-0">
       <SidebarProfileMenuStatus />
       <DropdownSeparator />
       <template v-for="item in allowedMenuItems" :key="item.label">

@@ -4,7 +4,7 @@ name: ChatClean CI
 
 on:
   pull_request:
-    branches: [main, develop]
+    branches: [main, develop, chatclean-features]
 
 permissions:
   contents: read
@@ -55,20 +55,6 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm test
 
-  crm-namespace:
-    name: Namespace CRM
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - run: .chatclean/ci/check-crm-namespace.sh "origin/$BASE_REF" "$HEAD_REF"
-        env:
-          BASE_REF: ${{ github.base_ref }}
-          HEAD_REF: ${{ github.head_ref }}
-
-  # Os specs leem os assets do Vite já compilados; compilar uma vez evita que cada nó
-  # dispare o auto-build (que estoura a memória padrão do Node).
   vite-test-assets:
     name: Assets de teste (Vite)
     runs-on: ubuntu-24.04
@@ -93,50 +79,6 @@ jobs:
           path: public/vite-test
           include-hidden-files: true
           retention-days: 1
-
-  crm-specs:
-    name: RSpec CRM
-    needs: vite-test-assets
-    runs-on: ubuntu-24.04
-    services:
-      postgres:
-        image: pgvector/pgvector:pg16
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: ''
-          POSTGRES_DB: postgres
-          POSTGRES_HOST_AUTH_METHOD: trust
-        ports:
-          - 5432:5432
-        options: >-
-          --mount type=tmpfs,destination=/var/lib/postgresql/data
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-      redis:
-        image: redis:7-alpine
-        ports:
-          - 6379:6379
-    env:
-      RAILS_ENV: test
-      VITE_RUBY_AUTO_BUILD: 'false'
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
-      - uses: actions/download-artifact@v4
-        with:
-          name: vite-test-assets
-          path: public/vite-test
-      # Edição MIT, a que vai para produção (CCV2-18/CCV2-20): o código de enterprise/ só pode
-      # rodar em produção com licença. Mesmo passo do workflow CE do Chatwoot (run_foss_spec).
-      - name: Remove o código Enterprise
-        run: rm -rf enterprise spec/enterprise
-      - run: bundle exec rails db:create db:schema:load
-      - run: bin/rails zeitwerk:check
-      - run: bundle exec rspec spec/models/crm/ spec/controllers/api/v1/accounts/crm/ spec/jobs/crm/
 
   regression:
     name: RSpec regressão (${{ matrix.node }}/8)
@@ -209,7 +151,7 @@ jobs:
   ci-ok:
     name: CI ok
     if: always()
-    needs: [rubocop, eslint, vitest, crm-namespace, vite-test-assets, crm-specs, regression]
+    needs: [rubocop, eslint, vitest, vite-test-assets, regression]
     runs-on: ubuntu-24.04
     steps:
       # "skipped" também reprova: acontece quando um job do qual os specs dependem falha.

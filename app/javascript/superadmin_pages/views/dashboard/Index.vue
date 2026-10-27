@@ -1,5 +1,6 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
+import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import BarChart from 'shared/components/charts/BarChart.vue';
 
@@ -10,22 +11,12 @@ const props = defineProps({
   },
 });
 
-// ChatClean (CCV2-22): verde de ação da marca.
-const CHART_COLOR = '#007A2A';
+const CHART_COLOR = '#2781F6';
 const CHART_HEIGHT = 300;
 const BAR_MAX_WIDTH = 28;
 const BAR_RADIUS = 6;
 const Y_TICK_COUNT = 4;
-const AXIS_DATE_FORMAT = { day: 'numeric', month: 'short' };
-
-const labels = computed(() => props.componentData.labels);
-// Só dia e mês, sem os conectivos do idioma: "Oct 20" em inglês, "20 out." em português.
-const formatDay = day =>
-  new Intl.DateTimeFormat(props.componentData.locale, AXIS_DATE_FORMAT)
-    .formatToParts(parseISO(day))
-    .filter(({ type }) => type !== 'literal')
-    .map(({ value }) => value)
-    .join(' ');
+const AXIS_DATE_FORMAT = 'd MMM';
 
 const stats = ref(null);
 const failed = ref(false);
@@ -46,41 +37,49 @@ onMounted(async () => {
 
 const metrics = computed(() => [
   {
-    label: labels.value.accounts,
+    label: 'Accounts',
     value: stats.value?.accountsCount,
     icon: 'i-lucide-building-2',
     tone: 'bg-n-blue-3 text-n-blue-11',
     href: props.componentData.accountsPath,
   },
   {
-    label: labels.value.users,
+    label: 'Users',
     value: stats.value?.usersCount,
     icon: 'i-lucide-users',
     tone: 'bg-n-iris-3 text-n-iris-11',
     href: props.componentData.usersPath,
   },
   {
-    label: labels.value.inboxes,
+    label: 'Inboxes',
     value: stats.value?.inboxesCount,
     icon: 'i-lucide-inbox',
     tone: 'bg-n-teal-3 text-n-teal-11',
   },
   {
-    label: labels.value.conversations,
+    label: 'Conversations',
     value: stats.value?.conversationsCount,
     icon: 'i-lucide-messages-square',
     tone: 'bg-n-amber-3 text-n-amber-11',
   },
 ]);
 
+const chartTitle = 'Conversations';
+const chartCaption = 'Created per day over the last 30 days';
+const chartAriaLabel = 'Conversations created by day';
+const loadError =
+  'Could not load the dashboard stats. Reload the page to try again.';
+
 const chartData = computed(() => {
   const sourceData = stats.value?.chartData || [];
   return {
-    categories: sourceData.map(([day]) => formatDay(day)),
+    categories: sourceData.map(([label]) =>
+      format(parseISO(label), AXIS_DATE_FORMAT)
+    ),
     series: [
       {
         id: 'conversations',
-        label: labels.value.conversations,
+        label: 'Conversations',
         color: CHART_COLOR,
         data: sourceData.map(([, value]) => value),
       },
@@ -104,14 +103,14 @@ const chartSummary = computed(() => {
   );
 
   return [
-    { label: labels.value.total, value: total.toLocaleString() },
+    { label: 'Total', value: total.toLocaleString() },
     {
-      label: labels.value.daily_average,
+      label: 'Daily average',
       value: Math.round(total / sourceData.length).toLocaleString(),
     },
     {
-      label: labels.value.busiest_day,
-      value: formatDay(busiestDay),
+      label: 'Busiest day',
+      value: format(parseISO(busiestDay), AXIS_DATE_FORMAT),
     },
   ];
 });
@@ -156,12 +155,8 @@ const chartSummary = computed(() => {
     <section class="p-4 border rounded-xl border-n-weak bg-n-solid-1">
       <div class="flex flex-wrap items-start justify-between gap-x-8 gap-y-3">
         <div>
-          <h2 class="text-heading-3 text-n-slate-12">
-            {{ labels.conversations }}
-          </h2>
-          <p class="text-label-small text-n-slate-11">
-            {{ labels.chart_caption }}
-          </p>
+          <h2 class="text-heading-3 text-n-slate-12">{{ chartTitle }}</h2>
+          <p class="text-label-small text-n-slate-11">{{ chartCaption }}</p>
         </div>
         <dl class="flex flex-wrap gap-x-8 gap-y-2">
           <div v-for="item in chartSummary" :key="item.label">
@@ -186,7 +181,7 @@ const chartSummary = computed(() => {
         v-else-if="failed"
         class="py-16 text-center text-body-main text-n-slate-11"
       >
-        {{ labels.load_error }}
+        {{ loadError }}
       </p>
       <div v-else class="w-full min-w-0 mt-4">
         <BarChart
@@ -197,7 +192,7 @@ const chartSummary = computed(() => {
           :bar-radius="BAR_RADIUS"
           :y-step-size="yStepSize"
           timeseries
-          :aria-label="labels.chart_aria_label"
+          :aria-label="chartAriaLabel"
         />
       </div>
     </section>

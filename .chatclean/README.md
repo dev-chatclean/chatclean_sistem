@@ -83,33 +83,15 @@ O código de `enterprise/` tem licença própria (`enterprise/LICENSE`): **só p
 - Rode `docker compose exec rails bundle exec rails chatclean:branding` depois de preparar o banco e a cada deploy.
 - A tarefa grava nome, logos (`public/brand-assets/chatclean/`), links e `DISPLAY_MANIFEST=false`.
 
-**Cores**
-- `app/javascript/dashboard/assets/scss/_chatclean-brand.scss` troca a escala azul do Chatwoot (`--blue-*`, `--solid-blue`, `n-brand`) pelo verde da marca.
-- Fundos, textos e fontes continuam os do Chatwoot.
-- Ele é importado logo depois do `next-colors` em quatro lugares:
-  - `app.scss` (painel);
-  - `v3/App.vue` (login);
-  - `portal/application.scss` (central de ajuda);
-  - `survey/assets/scss/woot.scss` (pesquisa).
-- Os e-mails usam `#007A2A` direto nos templates.
-
-**Super Admin**
-- Marca: `ChatcleanBrand.value` (`app/services/chatclean_brand.rb`) lê nome e logos nas telas do Administrate, que não enxergam os helpers de `app/helpers`.
-- Idioma: o menu do perfil tem English/Português. A escolha fica no cookie `super_admin_locale` e é aplicada pelo `SuperAdminLocale` (`app/controllers/concerns/`). Sem cookie, vale o `DEFAULT_LOCALE`.
-- Traduções que o Chatwoot não tem em pt_BR:
-  - `config/locales/chatclean_super_admin.pt_BR.yml`: textos do Super Admin, da configuração inicial e do Administrate;
-  - `config/locales/chatclean_rails.pt_BR.yml`: datas e botões, copiados do rails-i18n, que usa o código `pt-BR`.
-- Continuam em inglês as descrições das integrações em Configurações, que vêm dos dados de configuração do Chatwoot.
-
-## Vocabulário e menu da ChatClean (US 14)
-
-- **Vocabulário:** o painel em pt_BR usa os termos da ChatClean atual (Atendimento, Canal, Departamento, Atendente, Mensagem rápida, Campo customizado, Plugins, Envios; na tela de cadastro, Usuário).
-  - As frases trocadas ficam em `app/javascript/dashboard/i18n/locale/pt_BR/chatcleanVocabulary.json`, só as que mudam, aplicadas por cima das do Chatwoot (`chatclean/vocabulary.js`).
-  - O inglês não muda.
-  - Depois de um sync com o Chatwoot, o teste `chatclean/specs/vocabulary.spec.js` lista as frases novas que ainda usam os termos antigos: reescreva-as no `chatcleanVocabulary.json`, com a concordância certa ("o atendimento", "os atendimentos abertos").
-  - Exceções permitidas ficam na lista `ALLOWED` do teste: e-mail do usuário, notificações, time do Linear, agente robô.
-- **Menu:** `chatclean/sidebarMenu.js` reorganiza os itens do `Sidebar.vue` na ordem da ChatClean e esconde Automação, Macros e SMS. A criação de canal esconde SMS e telefonia (`ChannelList.vue`).
-- **Barra superior:** `chatclean/TopBar.vue`, com o atalho de Atendimentos, as notificações e o perfil. No celular, o perfil continua no menu lateral.
+**Na main só entram logos e nome** (decisão do PO, 27/10/2026, por orientação do CTO): cores, menu e telas
+são os do Chatwoot.
+- Painel e menu lateral: o Chatwoot já usa o `LOGO`, o `LOGO_THUMBNAIL` e o `INSTALLATION_NAME` da instalação.
+- Super Admin e configuração inicial: `ChatcleanBrand.value` (`app/services/chatclean_brand.rb`) lê nome e logos
+  nas telas do Administrate, que não enxergam os helpers de `app/helpers`.
+- A configuração inicial não tem "receber novidades": marcada, ela enviava ao Chatwoot a empresa, o nome e o
+  e-mail do primeiro administrador.
+- A identidade visual completa (verde da marca, menu e Super Admin em português) está no branch
+  `chatclean-features`.
 
 ## Produção (E7)
 
@@ -121,8 +103,13 @@ O código de `enterprise/` tem licença própria (`enterprise/LICENSE`): **só p
 | Branch | Papel | Quem escreve |
 |---|---|---|
 | `develop` | Espelho exato de `upstream/develop` (Chatwoot) | só `.chatclean/bin/sync-upstream` (fast-forward) |
-| `main` | Produto ChatClean | só via Pull Request |
-| `feature/*`, `fix/*`, `chore/*` | Trabalho | criadas a partir de `main` atualizada |
+| `main` | **Produção:** Chatwoot original com logos e nome ChatClean, mais ambiente, CI e infraestrutura | só via Pull Request |
+| `chatclean-features` | Funcionalidades da ChatClean (CRM, atendimento no padrão ChatClean, vocabulário) ainda fora da produção | só via Pull Request |
+| `feature/*`, `fix/*`, `chore/*` | Trabalho | a partir de `main` (produção) ou de `chatclean-features` (funcionalidades) |
+
+Desde 27/10/2026 (decisão do PO, por orientação do CTO), a produção roda o Chatwoot original com a marca, e as
+funcionalidades novas ficam em `chatclean-features` até serem validadas. Elas voltam para a `main` por PR; como a
+retirada foi feita por um commit de reversão, a volta começa revertendo esse commit.
 
 A baseline está na tag `chatclean-v1.0` (Chatwoot 4.18.0, `fbb90f7`).
 
@@ -185,9 +172,7 @@ desativados nas configurações do Actions; os arquivos continuam intactos para 
 | RuboCop | `bundle exec rubocop --parallel` |
 | ESLint | `pnpm eslint` |
 | Vitest | `pnpm test` |
-| Namespace CRM | reprova model novo na raiz de `app/models/` (`.chatclean/ci/check-crm-namespace.sh`) |
 | Assets de teste (Vite) | compila o frontend de teste uma vez e compartilha com os jobs de RSpec |
-| RSpec CRM | `zeitwerk:check` + `bundle exec rspec spec/models/crm/` |
 | RSpec regressão (0–7/8) | suíte completa do core, dividida em 8 nós, com a quarentena ativa |
 | **CI ok** | consolida tudo; é o check obrigatório do ruleset da `main` |
 
@@ -197,89 +182,6 @@ Qualquer job vermelho deixa o `CI ok` vermelho, e o merge fica bloqueado.
 aceitos na CCV2-1. No CI (`CHATCLEAN_RSPEC_QUARANTINE=1`) eles aparecem como pendentes. A
 correspondência é por arquivo + descrição completa, então mudar a linha do teste não quebra a lista.
 Nunca adicione um teste novo do ChatClean à quarentena; remova a linha quando o upstream corrigir.
-
-## Namespace do CRM
-
-- Models: `app/models/crm/`, herdando de `Crm::ApplicationRecord`, que prefixa as tabelas com `crm_`
-  (`Crm::Deal` → `crm_deals`).
-- Controllers: `app/controllers/api/v1/accounts/crm/`, herdando de `Api::V1::Accounts::BaseController`
-  (rotas `/api/v1/accounts/:account_id/crm/...`). Use `::Crm::Deal` etc. dentro deles, porque o
-  módulo `Api::V1::Accounts::Crm` também existe.
-- Rotas: em `config/initializers/crm_routes.rb`, anexadas com `Rails.application.routes.append`. O
-  `config/routes.rb` do Chatwoot não é editado.
-- Policies: `app/policies/crm/` (`Crm::DealPolicy`), chamadas com `check_authorization(::Crm::Deal)`.
-- Mensagens de erro: `config/locales/crm.en.yml` e `crm.pt_BR.yml`.
-- Specs: `spec/models/crm/` (e equivalentes para controllers e services).
-- O namespace `Crm::` já existe no Chatwoot para a integração LeadSquared (`app/services/crm/`,
-  `app/jobs/crm/`). Não crie classes com os mesmos nomes. Use sempre definições compactas
-  (`class Crm::Deal`), como o Chatwoot faz, para que `Contact`, `Conversation` etc. resolvam para os
-  models do core.
-
-### Migrations do CRM
-
-Crie com o gerador (`docker compose run --rm rails bundle exec rails g migration CreateCrmX`), para ter
-timestamp real. Depois do `rails db:migrate`, rode:
-
-```sh
-.chatclean/bin/after-migrate
-```
-
-O `annotaterb` reescreve anotações de dezenas de models do Chatwoot, e o dump do `schema.rb` reordena
-linhas de tabelas deles. O script desfaz as mudanças que são só anotação e remonta o `schema.rb` a partir
-da `main`, trocando apenas tabelas/FKs `crm_*` e a versão. Assim o PR mexe só no que é nosso.
-
-### API de oportunidades (`/api/v1/accounts/:account_id/crm/deals`)
-
-| Método | Uso |
-|---|---|
-| `GET` | lista, com filtros `status`, `crm_stage_id`, `crm_pipeline_id`, `contact_id`, `conversation_id` e paginação (`page`) |
-| `GET /:id` | detalhe |
-| `POST` | cria: `title`, `value`, `expected_close_date`, `crm_stage_id`, `contact_id` (contato do Chatwoot), `assignee_id`, `conversation_id` |
-| `PATCH /:id` | edita e move de estágio |
-
-**Conversa de origem (`conversation_id`):**
-- Sem `contact_id`, o deal assume o contato da conversa. Se vierem os dois e forem de contatos diferentes, a API devolve 422.
-- O usuário precisa enxergar a conversa (admin, ou agente da inbox ou do time, segundo a `ConversationPolicy`); senão, a API devolve 404.
-- Depois de definida, a conversa de origem não pode ser trocada nem removida (422). Se a conversa for apagada no Chatwoot, o campo fica nulo.
-
-O status do deal vem do estágio. Para ganhar, perder ou reabrir, envie o `crm_stage_id` de um estágio
-`won`, `lost` ou `open` do pipeline. Perder exige `crm_loss_reason_id` (motivo ativo da conta) e aceita
-`loss_details`. Ganhar ou reabrir limpa os dois. IDs de outra conta devolvem 404, e erros de validação
-devolvem 422 no formato do Chatwoot (`{ message, attributes }`). O histórico de estágio, status e
-motivo fica em `deal.audits`.
-
-### API de pipelines e estágios (`/api/v1/accounts/:account_id/crm/pipelines`)
-
-| Método | Uso | Quem |
-|---|---|---|
-| `GET` | lista os pipelines com os estágios em ordem (padrão primeiro, depois por nome) | todos |
-| `GET /:id` | detalhe com estágios | todos |
-| `POST` | cria com `name`, `description`, `is_default` | administrador |
-| `PATCH /:id` | edita os mesmos campos | administrador |
-| `DELETE /:id` | exclui com os estágios; recusa (422) se houver qualquer deal | administrador |
-| `GET /:pipeline_id/stages` | estágios do pipeline em ordem | todos |
-| `POST /:pipeline_id/stages` | cria estágio aberto com `name` e `probability` (0 a 100) | administrador |
-| `PATCH /:pipeline_id/stages/:id` | edita `name` e `probability` | administrador |
-| `DELETE /:pipeline_id/stages/:id` | exclui estágio aberto sem deals | administrador |
-| `POST /:pipeline_id/stages/reorder` | `stage_ids` com **todos os estágios abertos** na nova ordem | administrador |
-
-**Regras dos estágios:**
-- Todo pipeline nasce com "Ganho" (won, 100%) e "Perdido" (lost, 0%), sempre no fim do funil.
-- Esses dois só podem ser renomeados: não mudam de status nem de probabilidade, não são excluídos sozinhos e não entram na reordenação.
-- Não existe outro estágio de ganho ou perda no mesmo pipeline.
-- Um estágio aberto novo entra no fim dos abertos.
-- Marcar um pipeline como padrão desmarca o anterior.
-
-### API de motivos de perda (`/api/v1/accounts/:account_id/crm/loss_reasons`)
-
-| Método | Uso | Quem |
-|---|---|---|
-| `GET` | lista em ordem alfabética, sem paginação; `?active=true` traz só os ativos | todos |
-| `POST` | cria com `name` e `description` (nasce ativo) | administrador |
-| `PATCH /:id` | edita `name`, `description` e `is_active` | administrador |
-
-Não há exclusão: para aposentar um motivo, envie `is_active: false`. Nome repetido na conta, mesmo com
-outra combinação de maiúsculas, devolve 422 com `attributes: ["name"]`.
 
 ## Diferenças entre a história original e o código
 

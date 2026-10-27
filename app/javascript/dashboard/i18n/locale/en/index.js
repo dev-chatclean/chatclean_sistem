@@ -13,8 +13,6 @@ import companies from './companies.json';
 import components from './components.json';
 import contact from './contact.json';
 import contactFilters from './contactFilters.json';
-import crm from './crm.json';
-import chatclean from './chatclean.json';
 import conversation from './conversation.json';
 import csatMgmt from './csatMgmt.json';
 import customRole from './customRole.json';
@@ -63,8 +61,6 @@ export default {
   ...components,
   ...contact,
   ...contactFilters,
-  ...crm,
-  ...chatclean,
   ...conversation,
   ...csatMgmt,
   ...customRole,

@@ -23,10 +23,6 @@ const props = defineProps({
 
 const emit = defineEmits(['loadMore']);
 
-// ChatClean (CCV2-18): o arquivo é servido pelo Rails (public/). Com o caminho numa
-// constante, o Vite não tenta importá-lo como módulo.
-const EOF_ISOTYPE_URL = '/brand-assets/chatclean/isotipo-dourado.png';
-
 const conversationListRef = ref(null);
 const virtualListRef = ref(null);
 const isContextMenuOpen = ref(false);
@@ -86,13 +82,8 @@ defineExpose({ conversationListRef });
     <div v-if="isLoading" class="flex justify-center my-4">
       <Spinner class="text-n-brand" />
     </div>
-    <!-- ChatClean: isotipo dourado no lugar do emoji 🎉 (CCV2-18). -->
-    <p
-      v-else-if="showEndOfListMessage"
-      class="flex items-center justify-center gap-1.5 p-4 text-n-slate-11"
-    >
-      {{ $t('CHATCLEAN.CHAT_LIST.EOF') }}
-      <img :src="EOF_ISOTYPE_URL" alt="" class="size-5" />
+    <p v-else-if="showEndOfListMessage" class="p-4 text-center text-n-slate-11">
+      {{ $t('CHAT_LIST.EOF') }}
     </p>
     <IntersectionObserver
       v-else

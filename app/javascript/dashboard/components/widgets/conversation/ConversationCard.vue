@@ -2,7 +2,9 @@
 import { computed, ref, watch } from 'vue';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import Avatar from 'next/avatar/Avatar.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import MessagePreview from './MessagePreview.vue';
+import InboxName from '../InboxName.vue';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
 import CardPriorityIcon from 'dashboard/components-next/Conversation/ConversationCard/CardPriorityIcon.vue';
@@ -10,9 +12,6 @@ import UnreadBadge from 'dashboard/components-next/Conversation/ConversationCard
 import SLACardLabel from './components/SLACardLabel.vue';
 import VoiceCallStatus from './VoiceCallStatus.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
-import ChannelIcon from 'dashboard/components-next/icon/ChannelIcon.vue';
-import CardTags from 'dashboard/chatclean/conversation/CardTags.vue';
-import { MESSAGE_TYPE } from 'shared/constants/messages';
 
 const props = defineProps({
   chat: { type: Object, required: true },
@@ -51,14 +50,16 @@ const voiceCallData = computed(() => {
   };
 });
 
-// ChatClean (US 15): canal, atendente e departamento vão nas etiquetas (CardTags); a linha de cima
-// fica só com a prioridade. A barra amarela marca atendimento cuja última mensagem é do cliente.
-const showMetaSection = computed(() => Boolean(props.chat.priority));
+const showMetaSection = computed(() => {
+  return (
+    props.showInboxName ||
+    (props.showAssignee && props.assignee.name) ||
+    props.chat.priority
+  );
+});
+
 const isAIAssignee = computed(() =>
   ['AgentBot', 'Captain::Assistant'].includes(props.chat?.meta?.assignee_type)
-);
-const isWaitingForReply = computed(
-  () => lastMessageInChat.value?.message_type === MESSAGE_TYPE.INCOMING
 );
 
 const hasSlaPolicyId = computed(
@@ -119,11 +120,6 @@ watch(
     @click="$emit('click', $event)"
     @contextmenu="$emit('contextmenu', $event)"
   >
-    <span
-      v-if="isWaitingForReply"
-      class="absolute inset-y-0 start-0 w-1 bg-n-amber-9"
-      data-test="card-waiting-bar"
-    />
     <div
       class="relative"
       @mouseenter="onThumbnailHover"
@@ -135,7 +131,7 @@ watch(
         :src="currentContact.thumbnail"
         :size="32"
         :status="currentContact.availability_status"
-        :class="!showMetaSection ? 'mt-4' : 'mt-8'"
+        :class="!showInboxName ? 'mt-4' : 'mt-8'"
         hide-offline-status
       >
         <template #overlay="{ size }">
@@ -149,12 +145,6 @@ watch(
           </label>
         </template>
       </Avatar>
-      <ChannelIcon
-        v-if="!hideThumbnail && inbox.channel_type"
-        :inbox="inbox"
-        class="absolute -bottom-1 -end-1 size-4 p-0.5 rounded-full bg-n-background text-n-slate-11 shadow-sm"
-        data-test="card-channel-icon"
-      />
     </div>
     <div class="px-0 py-3 flex-1 min-w-0 border-line">
       <div
@@ -165,9 +155,23 @@ watch(
           'mx-2': compact,
         }"
       >
+        <InboxName v-if="showInboxName" :inbox="inbox" class="flex-1 min-w-0" />
         <div
-          class="flex items-baseline gap-2 flex-shrink-0 flex-1 justify-between"
+          class="flex items-baseline gap-2 flex-shrink-0"
+          :class="{
+            'flex-1 justify-between': !showInboxName,
+          }"
         >
+          <span
+            v-if="showAssignee && assignee.name"
+            class="text-n-slate-11 text-xs font-medium leading-3 py-0.5 px-0 inline-flex items-center gap-px truncate"
+          >
+            <Icon
+              :icon="isAIAssignee ? 'i-lucide-bot' : 'i-lucide-user-round'"
+              class="size-3 text-n-slate-11 flex-shrink-0"
+            />
+            <span class="truncate">{{ assignee.name }}</span>
+          </span>
           <CardPriorityIcon
             :priority="chat.priority"
             class="flex-shrink-0 !size-3.5"
@@ -226,15 +230,6 @@ watch(
           class="ltr:ml-auto rtl:mr-auto mt-1"
         />
       </div>
-      <!-- Canal e atendente seguem as regras do Chatwoot (mais de um canal; atendente fora da aba "Ativos"). -->
-      <CardTags
-        :display-id="chat.id"
-        :inbox="showInboxName ? inbox : {}"
-        :assignee="showAssignee ? assignee : {}"
-        :assignee-is-bot="isAIAssignee"
-        :team="chat.meta?.team"
-        class="mt-1 mx-2"
-      />
       <CardLabels
         v-if="showLabelsSection"
         :conversation-labels="chat.labels"

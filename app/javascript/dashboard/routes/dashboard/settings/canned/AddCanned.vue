@@ -6,12 +6,6 @@ import { useAlert } from 'dashboard/composables';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Modal from '../../../../components/Modal.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
-import { useAdmin } from 'dashboard/composables/useAdmin';
-import CannedScopeFields from 'dashboard/chatclean/canned/CannedScopeFields.vue';
-import {
-  VISIBILITY,
-  buildCannedFormData,
-} from 'dashboard/chatclean/canned/cannedResponseForm';
 
 export default {
   name: 'AddCanned',
@@ -19,7 +13,6 @@ export default {
     NextButton,
     Modal,
     WootMessageEditor,
-    CannedScopeFields,
   },
   props: {
     responseContent: {
@@ -32,8 +25,7 @@ export default {
     },
   },
   setup() {
-    const { isAdmin } = useAdmin();
-    return { v$: useVuelidate(), isAdmin };
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -44,23 +36,7 @@ export default {
         message: '',
       },
       show: true,
-      // ChatClean (US 17): para quem fica disponível e os anexos.
-      visibility: this.isAdmin ? VISIBILITY.EVERYONE : VISIBILITY.PERSONAL,
-      teamIds: [],
-      newFiles: [],
-      isOverLimit: false,
     };
-  },
-  computed: {
-    isScopeInvalid() {
-      return (
-        this.isOverLimit ||
-        (this.visibility === VISIBILITY.TEAMS && !this.teamIds.length)
-      );
-    },
-  },
-  mounted() {
-    this.$store.dispatch('teams/get');
   },
   validations: {
     shortCode: {
@@ -83,16 +59,10 @@ export default {
       this.addCanned.showLoading = true;
       // Make API Calls
       this.$store
-        .dispatch(
-          'createCannedResponse',
-          buildCannedFormData({
-            shortCode: this.shortCode,
-            content: this.content,
-            visibility: this.visibility,
-            teamIds: this.teamIds,
-            newFiles: this.newFiles,
-          })
-        )
+        .dispatch('createCannedResponse', {
+          short_code: this.shortCode,
+          content: this.content,
+        })
         .then(() => {
           // Reset Form, Show success message
           this.addCanned.showLoading = false;
@@ -148,13 +118,6 @@ export default {
             />
           </div>
         </div>
-        <CannedScopeFields
-          v-model:visibility="visibility"
-          v-model:over-limit="isOverLimit"
-          v-model:team-ids="teamIds"
-          v-model:new-files="newFiles"
-          class="py-2"
-        />
         <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <NextButton
             faded
@@ -169,7 +132,6 @@ export default {
             :disabled="
               v$.content.$invalid ||
               v$.shortCode.$invalid ||
-              isScopeInvalid ||
               addCanned.showLoading
             "
             :is-loading="addCanned.showLoading"

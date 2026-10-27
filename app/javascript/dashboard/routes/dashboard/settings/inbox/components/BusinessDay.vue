@@ -7,24 +7,13 @@ import NextSelect from 'dashboard/components-next/select/Select.vue';
 
 const timeSlots = generateTimeSlots(30);
 
-// ChatClean (US 19): os horários aparecem no formato 24h ("09:00", "17:30"); o valor salvo continua
-// o do Chatwoot ("09:00 AM").
-const to24Hour = slot => {
-  const [time, period] = slot.split(' ');
-  const [hour, minute] = time.split(':').map(Number);
-  const hour24 = (hour % 12) + (period === 'PM' ? 12 : 0);
-  return `${String(hour24).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
-};
-
-const PERIOD_LABELS = { AM: '00:00 – 11:59', PM: '12:00 – 23:59' };
-
 const groupByPeriod = slots =>
   ['AM', 'PM']
     .map(period => ({
-      label: PERIOD_LABELS[period],
+      label: period,
       options: slots
         .filter(s => s.endsWith(period))
-        .map(s => ({ value: s, label: to24Hour(s) })),
+        .map(s => ({ value: s, label: s })),
     }))
     .filter(g => g.options.length);
 

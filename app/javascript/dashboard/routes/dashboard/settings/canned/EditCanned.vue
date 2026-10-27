@@ -6,25 +6,17 @@ import { useAlert } from 'dashboard/composables';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Modal from '../../../../components/Modal.vue';
-import CannedScopeFields from 'dashboard/chatclean/canned/CannedScopeFields.vue';
-import {
-  VISIBILITY,
-  buildCannedFormData,
-} from 'dashboard/chatclean/canned/cannedResponseForm';
 
 export default {
   components: {
     NextButton,
     Modal,
     WootMessageEditor,
-    CannedScopeFields,
   },
   props: {
     id: { type: Number, default: null },
     edcontent: { type: String, default: '' },
     edshortCode: { type: String, default: '' },
-    // ChatClean (US 17): alcance, departamentos e anexos da mensagem rápida em edição.
-    record: { type: Object, default: () => ({}) },
     onClose: { type: Function, default: () => {} },
   },
   setup() {
@@ -39,11 +31,6 @@ export default {
       shortCode: this.edshortCode,
       content: this.edcontent,
       show: true,
-      visibility: this.record.visibility || VISIBILITY.EVERYONE,
-      teamIds: this.record.team_ids || [],
-      newFiles: [],
-      removeAttachmentIds: [],
-      isOverLimit: false,
     };
   },
   validations: {
@@ -58,12 +45,6 @@ export default {
   computed: {
     pageTitle() {
       return `${this.$t('CANNED_MGMT.EDIT.TITLE')} - ${this.edshortCode}`;
-    },
-    isScopeInvalid() {
-      return (
-        this.isOverLimit ||
-        (this.visibility === VISIBILITY.TEAMS && !this.teamIds.length)
-      );
     },
   },
   methods: {
@@ -84,14 +65,8 @@ export default {
       this.$store
         .dispatch('updateCannedResponse', {
           id: this.id,
-          formData: buildCannedFormData({
-            shortCode: this.shortCode,
-            content: this.content,
-            visibility: this.visibility,
-            teamIds: this.teamIds,
-            newFiles: this.newFiles,
-            removeAttachmentIds: this.removeAttachmentIds,
-          }),
+          short_code: this.shortCode,
+          content: this.content,
         })
         .then(() => {
           // Reset Form, Show success message
@@ -147,15 +122,6 @@ export default {
             />
           </div>
         </div>
-        <CannedScopeFields
-          v-model:visibility="visibility"
-          v-model:over-limit="isOverLimit"
-          v-model:team-ids="teamIds"
-          v-model:new-files="newFiles"
-          v-model:remove-attachment-ids="removeAttachmentIds"
-          :existing-attachments="record.attachments || []"
-          class="py-2"
-        />
         <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <NextButton
             faded
@@ -170,7 +136,6 @@ export default {
             :disabled="
               v$.content.$invalid ||
               v$.shortCode.$invalid ||
-              isScopeInvalid ||
               editCanned.showLoading
             "
             :is-loading="editCanned.showLoading"

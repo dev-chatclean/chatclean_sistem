@@ -84,7 +84,6 @@ aws s3 cp s3://chatclean-backups-<conta>/database/<arquivo> . --profile ChatClea
 ```
 
 Na máquina (`aws ssm start-session`), conte as linhas do banco de produção e compare com `restaurado.txt`.
-As tabelas do CRM (`crm_*`) entram na lista.
 
 ```sh
 cd /opt/chatclean && sudo CHATCLEAN_IMAGE="$(cat .current-image)" docker compose -f docker-compose.production.yaml \

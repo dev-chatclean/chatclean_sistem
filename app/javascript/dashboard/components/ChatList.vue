@@ -13,12 +13,10 @@ import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import ConversationFilter from 'next/filter/ConversationFilter.vue';
 import SaveCustomView from 'next/filter/SaveCustomView.vue';
 import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
-import { useChatTabCounts } from 'dashboard/chatclean/conversation/useChatTabCounts';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
 import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
-import { closeConversation } from 'dashboard/chatclean/closing/closingRequest';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
@@ -189,16 +187,6 @@ const assigneeTabItems = computed(() => {
   }));
 });
 
-// ChatClean (US 15): abas Ativos, Pendentes e Fechados; a aba "Todos" do Chatwoot sai (pedido do PO).
-// Fechados é o "Todos" com o status fechado. Todas as abas mostram contador, mesmo zerado: com Fechados
-// aberta, Ativos e Pendentes contam os abertos (useChatTabCounts).
-const CLOSED_TAB = 'closed';
-const isClosedTabActive = computed(
-  () =>
-    activeStatus.value === wootConstants.STATUS_TYPE.RESOLVED &&
-    activeAssigneeTab.value === wootConstants.ASSIGNEE_TYPE.ALL
-);
-
 const showAssigneeInConversationCard = computed(() => {
   return (
     hasAppliedFiltersOrActiveFolders.value ||
@@ -270,28 +258,6 @@ const conversationFilters = computed(() => {
     conversationType: props.conversationType || undefined,
   };
 });
-
-const chatTabCounts = useChatTabCounts(conversationFilters);
-const chatTabItems = computed(() => [
-  ...assigneeTabItems.value
-    .filter(item => item.key !== wootConstants.ASSIGNEE_TYPE.ALL)
-    .map(item =>
-      isClosedTabActive.value
-        ? {
-            ...item,
-            count: chatTabCounts[ASSIGNEE_TYPE_TAB_PERMISSIONS[item.key].count],
-          }
-        : item
-    ),
-  {
-    key: CLOSED_TAB,
-    name: t('CHATCLEAN.CHAT_LIST.CLOSED_TAB'),
-    count: chatTabCounts.closedCount,
-  },
-]);
-const activeChatTab = computed(() =>
-  isClosedTabActive.value ? CLOSED_TAB : activeAssigneeTab.value
-);
 
 const activeTeam = computed(() => {
   if (props.teamId) {
@@ -703,18 +669,6 @@ function onBasicFilterChange(value, type) {
   resetAndFetchData();
 }
 
-function onChatTabChange(selectedTab) {
-  if (selectedTab === CLOSED_TAB) {
-    activeAssigneeTab.value = wootConstants.ASSIGNEE_TYPE.ALL;
-    onBasicFilterChange(wootConstants.STATUS_TYPE.RESOLVED, 'status');
-  } else if (isClosedTabActive.value) {
-    activeAssigneeTab.value = selectedTab;
-    onBasicFilterChange(wootConstants.STATUS_TYPE.OPEN, 'status');
-  } else {
-    updateAssigneeTab(selectedTab);
-  }
-}
-
 function openLastSavedItemInFolder() {
   const lastItemOfFolder = folders.value[folders.value.length - 1];
   const lastItemId = lastItemOfFolder.id;
@@ -799,14 +753,6 @@ function toggleConversationStatus(
   snoozedUntil,
   customAttributes = null
 ) {
-  // ChatClean (US 16): fechar pelo menu do card passa pela janela obrigatória de motivo.
-  if (status === wootConstants.STATUS_TYPE.RESOLVED) {
-    closeConversation(store, conversationId).then(closed => {
-      if (closed) useAlert(t('CONVERSATION.CHANGE_STATUS'));
-    });
-    return;
-  }
-
   const payload = {
     conversationId,
     status,
@@ -1005,10 +951,10 @@ watch(appliedFilters, () => resetBulkActions());
 
     <ChatTypeTabs
       v-if="!hasAppliedFiltersOrActiveFolders"
-      :items="chatTabItems"
-      :active-tab="activeChatTab"
+      :items="assigneeTabItems"
+      :active-tab="activeAssigneeTab"
       is-compact
-      @chat-tab-change="onChatTabChange"
+      @chat-tab-change="updateAssigneeTab"
     />
 
     <p
