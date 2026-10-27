@@ -15,7 +15,6 @@ import CopilotReplyBottomPanel from 'dashboard/components/widgets/WootWriter/Cop
 import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/SearchPopover.vue';
 import CopilotEditorSection from './CopilotEditorSection.vue';
 import MessageSignatureMissingAlert from './MessageSignatureMissingAlert.vue';
-import { withAgentName } from 'dashboard/chatclean/conversation/agentSignature';
 import ReplyBoxBanner from './ReplyBoxBanner.vue';
 import QuotedEmailPreview from './QuotedEmailPreview.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
@@ -59,10 +58,6 @@ import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { emitter } from 'shared/helpers/mitt';
-import {
-  CANNED_ATTACHMENTS_EVENT,
-  downloadCannedAttachments,
-} from 'dashboard/chatclean/canned/cannedAttachments';
 const EmojiIconPicker = defineAsyncComponent(
   () =>
     import('dashboard/components-next/emoji-icon-picker/EmojiIconPicker.vue')
@@ -203,7 +198,7 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
-      profileSignature: 'getMessageSignature',
+      messageSignature: 'getMessageSignature',
       currentUser: 'getCurrentUser',
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
@@ -455,13 +450,8 @@ export default {
     isSignatureEnabledForInbox() {
       return !this.isPrivate && this.sendWithSignature;
     },
-    // ChatClean (US 18): fora do e-mail, a assinatura é o nome do atendente no topo, acrescentado no
-    // envio; a assinatura do perfil só vale no e-mail e só ele a mostra no editor.
-    messageSignature() {
-      return this.isAnEmailChannel ? this.profileSignature : '';
-    },
     isSignatureAvailable() {
-      return !this.isAnEmailChannel || !!this.messageSignature;
+      return !!this.messageSignature;
     },
     sendWithSignature() {
       return this.fetchSignatureFlagFromUISettings(this.channelType);
@@ -640,7 +630,6 @@ export default {
       this.onNewConversationModalActive
     );
     emitter.on(CMD_AI_ASSIST, this.executeCopilotAction);
-    emitter.on(CANNED_ATTACHMENTS_EVENT, this.attachCannedFiles);
   },
   unmounted() {
     document.removeEventListener('paste', this.onPaste);
@@ -650,7 +639,6 @@ export default {
       this.onNewConversationModalActive
     );
     emitter.off(CMD_AI_ASSIST, this.executeCopilotAction);
-    emitter.off(CANNED_ATTACHMENTS_EVENT, this.attachCannedFiles);
   },
   methods: {
     openContactInfoTemplateModal() {
@@ -796,27 +784,6 @@ export default {
         this.isEditorHotKeyEnabled(selectedKey)
       );
     },
-    // ChatClean (US 17): anexos da mensagem rápida escolhida no "/". Em canal que não aceita
-    // arquivo, só o texto entra.
-    async attachCannedFiles(attachments) {
-      if (!this.showFileUpload) return;
-
-      const files = await downloadCannedAttachments(attachments);
-      files
-        .filter(file =>
-          isFileTypeAllowedForChannel(file, {
-            channelType: this.channelType || this.inbox?.channel_type,
-            medium: this.inbox?.medium,
-            conversationType: this.conversationType,
-            isInstagramChannel: this.isAnInstagramChannel,
-            isOnPrivateNote: this.isOnPrivateNote,
-          })
-        )
-        .forEach(file => {
-          const { name, type, size } = file;
-          this.onFileUpload({ name, type, size, file });
-        });
-    },
     onPaste(e) {
       // Don't handle paste if compose new conversation modal is open
       if (this.newConversationModalActive) return;
@@ -903,21 +870,13 @@ export default {
         // To handle both cases, text and attachments are always sent as separate messages.
         const isOnInstagram = this.isAnInstagramChannel;
         const isOnTiktok = this.isATiktokChannel;
-        // ChatClean (US 18): com a assinatura ligada, o nome do atendente vai no topo da mensagem.
-        const outgoingMessage =
-          this.isSignatureEnabledForInbox && !this.isAnEmailChannel
-            ? withAgentName(this.message, {
-                user: this.currentUser,
-                channelType: this.channelType,
-              })
-            : this.message;
         if ((isOnWhatsApp || isOnInstagram || isOnTiktok) && !this.isPrivate) {
           this.sendMessageAsMultipleMessages(
-            outgoingMessage,
+            this.message,
             copilotAcceptedMessage
           );
         } else {
-          const messagePayload = this.getMessagePayload(outgoingMessage);
+          const messagePayload = this.getMessagePayload(this.message);
           this.sendMessage(
             messagePayload,
             this.message,

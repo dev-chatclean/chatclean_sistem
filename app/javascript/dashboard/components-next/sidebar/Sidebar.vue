@@ -10,19 +10,18 @@ import { useI18n } from 'vue-i18n';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import { useWindowSize } from '@vueuse/core';
+import { useWindowSize, useEventListener } from '@vueuse/core';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
 import SidebarProfileMenu from './SidebarProfileMenu.vue';
-import { chatcleanMenu } from 'dashboard/chatclean/sidebarMenu';
 import SidebarChangelogCard from './SidebarChangelogCard.vue';
 import SidebarChangelogButton from './SidebarChangelogButton.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
 import ChannelIcon from 'next/icon/ChannelIcon.vue';
 import EmojiIcon from 'next/emoji-icon-picker/EmojiIcon.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
-import BrandLogo from 'dashboard/chatclean/BrandLogo.vue';
+import Logo from 'next/icon/Logo.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 import {
   SIDEBAR_SORT_SECTIONS,
@@ -60,6 +59,7 @@ const { t } = useI18n();
 const isACustomBrandedInstance = useMapGetter(
   'globalConfig/isACustomBrandedInstance'
 );
+const isRTL = useMapGetter('accounts/isRTL');
 
 const { width: windowWidth } = useWindowSize();
 const isMobile = computed(() => windowWidth.value < 768);
@@ -142,11 +142,13 @@ const setExpandedItem = name => {
 };
 
 const {
+  sidebarWidth,
   isCollapsed,
+  setSidebarWidth,
+  saveWidth,
   snapToCollapsed,
   snapToExpanded,
-  MIN_WIDTH,
-  DEFAULT_WIDTH,
+  COLLAPSED_THRESHOLD,
 } = useSidebarResize();
 
 // On mobile, sidebar is always expanded (flyout mode)
@@ -154,11 +156,10 @@ const isEffectivelyCollapsed = computed(
   () => !isMobile.value && isCollapsed.value
 );
 
-// ChatClean: largura fixa, sem arrastar (CCV2-18). Recolher e expandir pelo botão acima do perfil.
-const sidebarWidth = computed(() =>
-  isCollapsed.value ? MIN_WIDTH : DEFAULT_WIDTH
-);
+// Resize handle logic
 const isResizing = ref(false);
+const startX = ref(0);
+const startWidth = ref(0);
 
 provideSidebarContext({
   expandedItem,
@@ -168,10 +169,55 @@ provideSidebarContext({
   isResizing,
 });
 
-const toggleCollapsed = () => {
+// Get clientX from mouse or touch event
+const getClientX = event =>
+  event.touches ? event.touches[0].clientX : event.clientX;
+
+const onResizeStart = event => {
+  isResizing.value = true;
+  startX.value = getClientX(event);
+  startWidth.value = sidebarWidth.value;
+  Object.assign(document.body.style, {
+    cursor: 'col-resize',
+    userSelect: 'none',
+  });
+  // Prevent default to avoid scrolling on touch
+  event.preventDefault();
+};
+
+const onResizeMove = event => {
+  if (!isResizing.value) return;
+
+  const delta = isRTL.value
+    ? startX.value - getClientX(event)
+    : getClientX(event) - startX.value;
+  setSidebarWidth(startWidth.value + delta);
+};
+
+const onResizeEnd = () => {
+  if (!isResizing.value) return;
+
+  isResizing.value = false;
+  Object.assign(document.body.style, { cursor: '', userSelect: '' });
+
+  // Snap to collapsed state if below threshold
+  if (sidebarWidth.value < COLLAPSED_THRESHOLD) {
+    snapToCollapsed();
+  } else {
+    saveWidth();
+  }
+};
+
+const onResizeHandleDoubleClick = () => {
   if (isCollapsed.value) snapToExpanded();
   else snapToCollapsed();
 };
+
+// Support both mouse and touch events
+useEventListener(document, 'mousemove', onResizeMove);
+useEventListener(document, 'mouseup', onResizeEnd);
+useEventListener(document, 'touchmove', onResizeMove, { passive: false });
+useEventListener(document, 'touchend', onResizeEnd);
 
 const inboxes = useMapGetter('inboxes/getInboxes');
 const labels = useMapGetter('labels/getLabelsOnSidebar');
@@ -322,8 +368,7 @@ const newReportRoutes = () => [
 
 const reportRoutes = computed(() => newReportRoutes());
 
-// ChatClean: a lista do Chatwoot passa pelo chatcleanMenu (ordem e itens da ChatClean, US 14).
-const chatwootMenuItems = computed(() => {
+const menuItems = computed(() => {
   return [
     {
       name: 'Inbox',
@@ -641,13 +686,6 @@ const chatwootMenuItems = computed(() => {
       ],
     },
     {
-      name: 'CRM',
-      label: t('CRM.SIDEBAR.KANBAN'),
-      icon: 'i-lucide-square-kanban',
-      to: accountScopedRoute('crm_kanban'),
-      activeOn: ['crm_kanban'],
-    },
-    {
       name: 'Reports',
       label: t('SIDEBAR.REPORTS'),
       icon: 'i-lucide-chart-spline',
@@ -844,24 +882,6 @@ const chatwootMenuItems = computed(() => {
           to: accountScopedRoute('labels_list'),
         },
         {
-          name: 'Settings CRM',
-          label: t('CRM.SETTINGS.MENU'),
-          icon: 'i-lucide-square-kanban',
-          to: accountScopedRoute('crm_settings_index'),
-        },
-        {
-          name: 'Settings Closing Reasons',
-          label: t('CHATCLEAN.CLOSING_REASONS.MENU'),
-          icon: 'i-lucide-circle-check-big',
-          to: accountScopedRoute('closing_reasons_settings_index'),
-        },
-        {
-          name: 'Settings Business Hours',
-          label: t('CHATCLEAN.BUSINESS_HOURS.MENU'),
-          icon: 'i-lucide-calendar-clock',
-          to: accountScopedRoute('chatclean_business_hours_index'),
-        },
-        {
           name: 'Settings Custom Attributes',
           label: t('SIDEBAR.CUSTOM_ATTRIBUTES'),
           icon: 'i-lucide-code',
@@ -947,8 +967,6 @@ const chatwootMenuItems = computed(() => {
     },
   ];
 });
-
-const menuItems = computed(() => chatcleanMenu(chatwootMenuItems.value));
 </script>
 
 <template>
@@ -991,14 +1009,16 @@ const menuItems = computed(() => chatcleanMenu(chatwootMenuItems.value));
             @show-create-account-modal="emit('showCreateAccountModal')"
           />
         </template>
-        <!-- ChatClean: logo horizontal em cima e a escolha de conta embaixo (CCV2-18). -->
-        <div v-else class="flex flex-col gap-2 w-full min-w-0">
-          <BrandLogo class="w-auto h-7 mt-3 mb-1 self-center" />
+        <template v-else>
+          <div class="grid flex-shrink-0 place-content-center size-6">
+            <Logo class="size-4" />
+          </div>
+          <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
           <SidebarAccountSwitcher
-            class="-mx-1 min-w-0"
+            class="flex-grow -mx-1 min-w-0"
             @show-create-account-modal="emit('showCreateAccountModal')"
           />
-        </div>
+        </template>
       </div>
       <div
         class="flex gap-2"
@@ -1080,34 +1100,7 @@ const menuItems = computed(() => chatcleanMenu(chatwootMenuItems.value));
           isEffectivelyCollapsed
         "
       />
-      <button
-        v-if="!isMobile"
-        type="button"
-        class="flex items-center gap-2 w-[calc(100%-1rem)] h-8 mx-2 rounded-lg text-sm text-n-slate-11 hover:bg-n-alpha-2 hover:text-n-slate-12"
-        :class="isEffectivelyCollapsed ? 'justify-center' : 'px-3'"
-        :title="
-          isEffectivelyCollapsed
-            ? t('CHATCLEAN.SIDEBAR.EXPAND')
-            : t('CHATCLEAN.SIDEBAR.COLLAPSE')
-        "
-        data-test="sidebar-toggle"
-        @click="toggleCollapsed"
-      >
-        <span
-          class="flex-shrink-0 size-4"
-          :class="
-            isEffectivelyCollapsed
-              ? 'i-lucide-panel-left-open'
-              : 'i-lucide-panel-left-close'
-          "
-        />
-        <span v-if="!isEffectivelyCollapsed">
-          {{ t('CHATCLEAN.SIDEBAR.COLLAPSE') }}
-        </span>
-      </button>
-      <!-- ChatClean (US 14): no desktop o perfil fica na barra superior. -->
       <div
-        v-if="isMobile"
         class="px-1 py-1.5 flex-shrink-0 flex w-full z-50 gap-2 items-center border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)]"
         :class="isEffectivelyCollapsed ? 'justify-center' : 'justify-between'"
       >
@@ -1117,5 +1110,17 @@ const menuItems = computed(() => chatcleanMenu(chatwootMenuItems.value));
         />
       </div>
     </section>
+    <!-- Resize Handle (desktop only) -->
+    <div
+      class="hidden md:block absolute top-0 h-full w-1 cursor-col-resize z-40 ltr:right-0 rtl:left-0 group"
+      @mousedown="onResizeStart"
+      @touchstart="onResizeStart"
+      @dblclick="onResizeHandleDoubleClick"
+    >
+      <div
+        class="absolute top-0 h-full w-px ltr:right-0 rtl:left-0 bg-transparent group-hover:bg-n-brand transition-colors"
+        :class="{ 'bg-n-brand': isResizing }"
+      />
+    </div>
   </aside>
 </template>

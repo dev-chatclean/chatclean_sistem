@@ -2,8 +2,6 @@
 import { defineAsyncComponent, ref, computed } from 'vue';
 
 import NextSidebar from 'next/sidebar/Sidebar.vue';
-import ChatcleanTopBar from 'dashboard/chatclean/TopBar.vue';
-import ChatcleanClosingReasonDialog from 'dashboard/chatclean/closing/ClosingReasonDialog.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
 import AddAccountModal from 'dashboard/components/app/AddAccountModal.vue';
 import UpgradePage from 'dashboard/routes/dashboard/upgrade/UpgradePage.vue';
@@ -32,8 +30,6 @@ import { useCallsStore } from 'dashboard/stores/calls';
 export default {
   components: {
     NextSidebar,
-    ChatcleanTopBar,
-    ChatcleanClosingReasonDialog,
     CommandBar,
     WootKeyShortcutModal,
     AddAccountModal,
@@ -143,45 +139,39 @@ export default {
       @close-mobile-sidebar="closeMobileSidebar"
     />
 
-    <!-- ChatClean (US 14): barra superior acima do conteúdo, no desktop. -->
-    <div class="flex flex-col flex-1 min-w-0 h-full">
-      <ChatcleanTopBar @open-key-shortcut-modal="toggleKeyShortcutModal" />
-      <main
-        class="flex flex-1 w-full min-h-0 px-0 overflow-hidden bg-n-surface-1"
+    <main
+      class="flex flex-1 h-full w-full min-h-0 px-0 overflow-hidden bg-n-surface-1"
+    >
+      <UpgradePage
+        v-show="showUpgradePage"
+        ref="upgradePageRef"
+        :bypass-upgrade-page="bypassUpgradePage"
       >
-        <UpgradePage
-          v-show="showUpgradePage"
-          ref="upgradePageRef"
-          :bypass-upgrade-page="bypassUpgradePage"
-        >
-          <MobileSidebarLauncher
-            :is-mobile-sidebar-open="isMobileSidebarOpen"
-            @toggle="toggleMobileSidebar"
-          />
-        </UpgradePage>
-        <template v-if="!showUpgradePage">
-          <router-view />
-          <CopilotLauncher />
-          <MobileSidebarLauncher
-            :is-mobile-sidebar-open="isMobileSidebarOpen"
-            @toggle="toggleMobileSidebar"
-          />
-          <CopilotContainer />
-          <FloatingCallWidget v-if="hasActiveCall || hasIncomingCall" />
-        </template>
-        <CommandBar :is-paywalled="isAccountPaywalled" />
-        <!-- ChatClean (US 16): janela de motivo usada por todos os pontos que fecham atendimento. -->
-        <ChatcleanClosingReasonDialog />
-        <AddAccountModal
-          :show="showCreateAccountModal"
-          @close-account-create-modal="closeCreateAccountModal"
+        <MobileSidebarLauncher
+          :is-mobile-sidebar-open="isMobileSidebarOpen"
+          @toggle="toggleMobileSidebar"
         />
-        <WootKeyShortcutModal
-          v-model:show="showShortcutModal"
-          @close="closeKeyShortcutModal"
-          @clickaway="closeKeyShortcutModal"
+      </UpgradePage>
+      <template v-if="!showUpgradePage">
+        <router-view />
+        <CopilotLauncher />
+        <MobileSidebarLauncher
+          :is-mobile-sidebar-open="isMobileSidebarOpen"
+          @toggle="toggleMobileSidebar"
         />
-      </main>
-    </div>
+        <CopilotContainer />
+        <FloatingCallWidget v-if="hasActiveCall || hasIncomingCall" />
+      </template>
+      <CommandBar :is-paywalled="isAccountPaywalled" />
+      <AddAccountModal
+        :show="showCreateAccountModal"
+        @close-account-create-modal="closeCreateAccountModal"
+      />
+      <WootKeyShortcutModal
+        v-model:show="showShortcutModal"
+        @close="closeKeyShortcutModal"
+        @clickaway="closeKeyShortcutModal"
+      />
+    </main>
   </div>
 </template>

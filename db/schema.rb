@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_26_193544) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_14_152259) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -412,9 +412,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_193544) do
     t.text "content"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.bigint "owner_id"
-    t.integer "visibility", default: 0, null: false
-    t.index ["owner_id"], name: "index_canned_responses_on_owner_id"
   end
 
   create_table "captain_assistant_responses", force: :cascade do |t|
@@ -767,73 +764,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_193544) do
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
   end
 
-  create_table "chatclean_account_schedules", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.integer "mode", default: 0, null: false
-    t.boolean "enabled", default: false, null: false
-    t.string "timezone", default: "America/Sao_Paulo", null: false
-    t.text "out_of_office_message"
-    t.jsonb "working_hours", default: [], null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_chatclean_account_schedules_on_account_id", unique: true
-  end
-
-  create_table "chatclean_canned_response_teams", force: :cascade do |t|
-    t.integer "canned_response_id", null: false
-    t.bigint "team_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["canned_response_id", "team_id"], name: "index_chatclean_canned_response_teams_on_response_and_team", unique: true
-    t.index ["team_id"], name: "index_chatclean_canned_response_teams_on_team_id"
-  end
-
-  create_table "chatclean_closing_reason_teams", force: :cascade do |t|
-    t.bigint "closing_reason_id", null: false
-    t.bigint "team_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["closing_reason_id", "team_id"], name: "index_chatclean_closing_reason_teams_on_reason_and_team", unique: true
-    t.index ["team_id"], name: "index_chatclean_closing_reason_teams_on_team_id"
-  end
-
-  create_table "chatclean_closing_reasons", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.string "name", null: false
-    t.boolean "is_active", default: true, null: false
-    t.text "closing_message"
-    t.boolean "ask_sale_value", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index "account_id, lower((name)::text)", name: "index_chatclean_closing_reasons_on_account_id_and_lower_name", unique: true
-  end
-
-  create_table "chatclean_conversation_closures", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.bigint "conversation_id", null: false
-    t.bigint "closing_reason_id", null: false
-    t.bigint "user_id"
-    t.decimal "sale_value", precision: 12, scale: 2
-    t.bigint "crm_deal_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id", "created_at"], name: "index_chatclean_conversation_closures_on_account_and_created_at"
-    t.index ["closing_reason_id"], name: "index_chatclean_conversation_closures_on_closing_reason_id"
-    t.index ["conversation_id"], name: "index_chatclean_conversation_closures_on_conversation_id"
-    t.index ["crm_deal_id"], name: "index_chatclean_conversation_closures_on_crm_deal_id"
-    t.index ["user_id"], name: "index_chatclean_conversation_closures_on_user_id"
-  end
-
-  create_table "chatclean_holidays", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.date "date", null: false
-    t.string "name", null: false
-    t.text "message"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id", "date"], name: "index_chatclean_holidays_on_account_id_and_date", unique: true
-  end
-
   create_table "companies", force: :cascade do |t|
     t.string "name", null: false
     t.string "domain"
@@ -1123,79 +1053,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_193544) do
     t.index ["account_id"], name: "index_copilot_threads_on_account_id"
     t.index ["assistant_id"], name: "index_copilot_threads_on_assistant_id"
     t.index ["user_id"], name: "index_copilot_threads_on_user_id"
-  end
-
-  create_table "crm_contacts", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.bigint "contact_id", null: false
-    t.jsonb "additional_attributes", default: {}, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id", "contact_id"], name: "index_crm_contacts_on_account_id_and_contact_id", unique: true
-    t.index ["contact_id"], name: "index_crm_contacts_on_contact_id"
-  end
-
-  create_table "crm_deals", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.bigint "crm_contact_id", null: false
-    t.bigint "crm_stage_id", null: false
-    t.bigint "assignee_id"
-    t.string "title", null: false
-    t.decimal "value", precision: 12, scale: 2, default: "0.0", null: false
-    t.string "currency", default: "BRL", null: false
-    t.date "expected_close_date"
-    t.integer "status", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "crm_loss_reason_id"
-    t.text "loss_details"
-    t.bigint "conversation_id"
-    t.index ["account_id", "crm_stage_id"], name: "index_crm_deals_on_account_id_and_crm_stage_id"
-    t.index ["account_id", "status"], name: "index_crm_deals_on_account_id_and_status"
-    t.index ["assignee_id"], name: "index_crm_deals_on_assignee_id"
-    t.index ["conversation_id"], name: "index_crm_deals_on_conversation_id"
-    t.index ["crm_contact_id", "status"], name: "index_crm_deals_on_crm_contact_id_and_status"
-    t.index ["crm_loss_reason_id"], name: "index_crm_deals_on_crm_loss_reason_id"
-    t.check_constraint "currency::text = 'BRL'::text", name: "crm_deals_currency_brl"
-    t.check_constraint "value >= 0::numeric", name: "crm_deals_value_non_negative"
-  end
-
-  create_table "crm_loss_reasons", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.string "name", null: false
-    t.text "description"
-    t.boolean "is_active", default: true, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "system_key"
-    t.index "account_id, lower((name)::text)", name: "index_crm_loss_reasons_on_account_id_and_lower_name", unique: true
-    t.index ["account_id", "system_key"], name: "index_crm_loss_reasons_on_account_id_and_system_key", unique: true, where: "(system_key IS NOT NULL)"
-  end
-
-  create_table "crm_pipelines", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.string "name", null: false
-    t.text "description"
-    t.boolean "is_default", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_crm_pipelines_on_account_id"
-    t.index ["account_id"], name: "index_crm_pipelines_on_default_per_account", unique: true, where: "is_default"
-  end
-
-  create_table "crm_stages", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.bigint "crm_pipeline_id", null: false
-    t.string "name", null: false
-    t.integer "position", default: 0, null: false
-    t.integer "status", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "probability", default: 0, null: false
-    t.index ["account_id", "crm_pipeline_id"], name: "index_crm_stages_on_account_id_and_crm_pipeline_id"
-    t.index ["crm_pipeline_id", "position"], name: "index_crm_stages_on_crm_pipeline_id_and_position"
-    t.index ["crm_pipeline_id", "status"], name: "index_crm_stages_on_one_won_and_one_lost_per_pipeline", unique: true, where: "(status <> 0)"
-    t.check_constraint "probability >= 0 AND probability <= 100", name: "crm_stages_probability_range"
   end
 
   create_table "csat_survey_responses", force: :cascade do |t|
@@ -1871,19 +1728,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_193544) do
   add_foreign_key "campaign_recipients", "campaigns", on_delete: :cascade
   add_foreign_key "campaign_recipients", "contacts", on_delete: :cascade
   add_foreign_key "campaign_recipients", "inboxes", on_delete: :cascade
-  add_foreign_key "canned_responses", "users", column: "owner_id", on_delete: :nullify
-  add_foreign_key "chatclean_account_schedules", "accounts", on_delete: :cascade
-  add_foreign_key "chatclean_canned_response_teams", "canned_responses", on_delete: :cascade
-  add_foreign_key "chatclean_canned_response_teams", "teams", on_delete: :cascade
-  add_foreign_key "chatclean_closing_reason_teams", "chatclean_closing_reasons", column: "closing_reason_id", on_delete: :cascade
-  add_foreign_key "chatclean_closing_reason_teams", "teams", on_delete: :cascade
-  add_foreign_key "chatclean_closing_reasons", "accounts", on_delete: :cascade
-  add_foreign_key "chatclean_conversation_closures", "accounts", on_delete: :cascade
-  add_foreign_key "chatclean_conversation_closures", "chatclean_closing_reasons", column: "closing_reason_id"
-  add_foreign_key "chatclean_conversation_closures", "conversations", on_delete: :cascade
-  add_foreign_key "chatclean_conversation_closures", "crm_deals", on_delete: :nullify
-  add_foreign_key "chatclean_conversation_closures", "users", on_delete: :nullify
-  add_foreign_key "chatclean_holidays", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitor_daily_usages", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitor_evaluations", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitor_evaluations", "conversation_monitors", column: "monitor_id", on_delete: :cascade
@@ -1893,18 +1737,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_193544) do
   add_foreign_key "conversation_monitor_work_items", "conversations", on_delete: :cascade
   add_foreign_key "conversation_monitors", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitors", "users", on_delete: :nullify
-  add_foreign_key "crm_contacts", "accounts", on_delete: :cascade
-  add_foreign_key "crm_contacts", "contacts", on_delete: :cascade
-  add_foreign_key "crm_deals", "accounts", on_delete: :cascade
-  add_foreign_key "crm_deals", "conversations", on_delete: :nullify
-  add_foreign_key "crm_deals", "crm_contacts", on_delete: :cascade
-  add_foreign_key "crm_deals", "crm_loss_reasons"
-  add_foreign_key "crm_deals", "crm_stages"
-  add_foreign_key "crm_deals", "users", column: "assignee_id", on_delete: :nullify
-  add_foreign_key "crm_loss_reasons", "accounts", on_delete: :cascade
-  add_foreign_key "crm_pipelines", "accounts", on_delete: :cascade
-  add_foreign_key "crm_stages", "accounts", on_delete: :cascade
-  add_foreign_key "crm_stages", "crm_pipelines"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).

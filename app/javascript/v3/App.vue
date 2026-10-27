@@ -56,8 +56,6 @@ export default {
 @tailwind utilities;
 
 @import '../dashboard/assets/scss/next-colors';
-// ChatClean: verde da marca no lugar do azul do Chatwoot (CCV2-18).
-@import '../dashboard/assets/scss/chatclean-brand';
 
 html,
 body {

@@ -78,15 +78,11 @@ const actions = {
 
   updateCannedResponse: async function updateCannedResponse(
     { commit },
-    { id, formData, ...updateObj }
+    { id, ...updateObj }
   ) {
     commit(types.default.SET_CANNED_UI_FLAG, { updatingItem: true });
     try {
-      // ChatClean (US 17): com anexos, o formulário manda FormData.
-      const response = await CannedResponseAPI.update(
-        id,
-        formData || updateObj
-      );
+      const response = await CannedResponseAPI.update(id, updateObj);
       commit(types.default.EDIT_CANNED, response.data);
       commit(types.default.SET_CANNED_UI_FLAG, { updatingItem: false });
       return response.data;

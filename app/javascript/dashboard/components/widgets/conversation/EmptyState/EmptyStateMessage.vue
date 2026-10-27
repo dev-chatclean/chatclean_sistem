@@ -1,9 +1,7 @@
 <script>
 import FeaturePlaceholder from './FeaturePlaceholder.vue';
-import BrandLogo from 'dashboard/chatclean/BrandLogo.vue';
-
 export default {
-  components: { FeaturePlaceholder, BrandLogo },
+  components: { FeaturePlaceholder },
   props: {
     message: {
       type: String,
@@ -15,8 +13,16 @@ export default {
 
 <template>
   <div class="flex flex-col items-center justify-center h-full">
-    <!-- ChatClean: logo oficial no lugar da ilustração do Chatwoot (CCV2-18). -->
-    <BrandLogo class="w-auto h-12 m-6" />
+    <img
+      class="m-4 w-32 hidden dark:block"
+      src="dashboard/assets/images/no-chat-dark.svg"
+      alt="No Chat dark"
+    />
+    <img
+      class="m-4 w-32 block dark:hidden"
+      src="dashboard/assets/images/no-chat.svg"
+      alt="No Chat"
+    />
     <span class="text-sm text-n-slate-12 font-medium text-center">
       {{ message }}
       <br />

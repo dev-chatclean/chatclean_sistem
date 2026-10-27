@@ -66,9 +66,8 @@ describe('ConversationCard', () => {
       { showAssignee: true, assignee: { name: 'Captain' } }
     );
 
-    // ChatClean (US 15): o ícone de robô fica na etiqueta do atendente (CardTags).
-    expect(
-      wrapper.findComponent({ name: 'CardTags' }).props('assigneeIsBot')
-    ).toBe(true);
+    expect(wrapper.findComponent({ name: 'Icon' }).props('icon')).toBe(
+      'i-lucide-bot'
+    );
   });
 });

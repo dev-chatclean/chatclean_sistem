@@ -4,8 +4,7 @@ class MessageTemplates::Template::OutOfOffice
   def self.perform_if_applicable(conversation)
     inbox = conversation.inbox
     return unless inbox.out_of_office?
-    # ChatClean (US 19): no feriado, a mensagem é a do feriado.
-    return if inbox.away_message.blank?
+    return if inbox.out_of_office_message.blank?
 
     new(conversation: conversation).perform
   end
@@ -25,7 +24,7 @@ class MessageTemplates::Template::OutOfOffice
   delegate :inbox, to: :message
 
   def out_of_office_message_params
-    content = @conversation.inbox&.away_message
+    content = @conversation.inbox&.out_of_office_message
 
     {
       account_id: @conversation.account_id,

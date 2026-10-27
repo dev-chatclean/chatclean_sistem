@@ -99,8 +99,7 @@ RSpec.describe 'Canned Responses API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      # ChatClean (US 17): só o administrador mexe nas mensagens rápidas compartilhadas.
-      let(:agent) { create(:user, account: account, role: :administrator) }
+      let(:agent) { create(:user, account: account, role: :agent) }
 
       it 'updates an existing canned response' do
         params = { short_code: 'B' }
@@ -128,8 +127,7 @@ RSpec.describe 'Canned Responses API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      # ChatClean (US 17): só o administrador mexe nas mensagens rápidas compartilhadas.
-      let(:agent) { create(:user, account: account, role: :administrator) }
+      let(:agent) { create(:user, account: account, role: :agent) }
 
       it 'destroys the canned response' do
         delete "/api/v1/accounts/#{account.id}/canned_responses/#{canned_response.id}",

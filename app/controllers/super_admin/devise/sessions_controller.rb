@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class SuperAdmin::Devise::SessionsController < Devise::SessionsController
-  include SuperAdminLocale
-
   def new
     self.resource = resource_class.new(sign_in_params)
   end

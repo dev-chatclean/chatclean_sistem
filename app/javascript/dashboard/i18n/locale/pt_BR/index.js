@@ -13,10 +13,6 @@ import companies from './companies.json';
 import components from './components.json';
 import contact from './contact.json';
 import contactFilters from './contactFilters.json';
-import crm from './crm.json';
-import chatclean from './chatclean.json';
-import chatcleanVocabulary from './chatcleanVocabulary.json';
-import { withVocabulary } from 'dashboard/chatclean/vocabulary';
 import contentTemplates from './contentTemplates.json';
 import conversation from './conversation.json';
 import csatMgmt from './csatMgmt.json';
@@ -50,7 +46,7 @@ import whatsappTemplates from './whatsappTemplates.json';
 import whatsappTemplateMgmt from './whatsappTemplateMgmt.json';
 import yearInReview from './yearInReview.json';
 
-const messages = {
+export default {
   ...advancedFilters,
   ...agentBots,
   ...agentMgmt,
@@ -66,8 +62,6 @@ const messages = {
   ...components,
   ...contact,
   ...contactFilters,
-  ...crm,
-  ...chatclean,
   ...contentTemplates,
   ...conversation,
   ...csatMgmt,
@@ -101,6 +95,3 @@ const messages = {
   ...whatsappTemplateMgmt,
   ...yearInReview,
 };
-
-// ChatClean (US 14): vocabulário da ChatClean atual por cima das traduções do Chatwoot.
-export default withVocabulary(messages, chatcleanVocabulary);

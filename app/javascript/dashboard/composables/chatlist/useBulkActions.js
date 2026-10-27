@@ -7,7 +7,6 @@ import { useConversationRequiredAttributes } from 'dashboard/composables/useConv
 import { resolvesConversation } from 'dashboard/composables/useMacroExecution';
 import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import wootConstants from 'dashboard/constants/globals';
-import { askClosingReason } from 'dashboard/chatclean/closing/closingRequest';
 
 export function useBulkActions() {
   const store = useStore();
@@ -196,26 +195,6 @@ export function useBulkActions() {
         );
         return;
       }
-    }
-
-    // ChatClean (US 16): fechar em massa pede o motivo uma vez para todos.
-    if (status === wootConstants.STATUS_TYPE.RESOLVED) {
-      const closed = await askClosingReason({
-        count: conversationIds.length,
-        submit: ({ closingReasonId, saleValue }) =>
-          store.dispatch('bulkActions/process', {
-            type: 'Conversation',
-            ids: conversationIds,
-            fields: { status },
-            closing_reason_id: closingReasonId,
-            sale_value: saleValue,
-          }),
-      });
-      if (closed) {
-        store.dispatch('bulkActions/clearSelectedConversationIds');
-        useAlert(t('BULK_ACTION.UPDATE.UPDATE_SUCCESFUL'));
-      }
-      return;
     }
 
     try {
