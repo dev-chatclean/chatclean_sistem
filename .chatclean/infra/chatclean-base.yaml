@@ -5,14 +5,14 @@ Description: >-
   install.sh oficial do Chatwoot (nginx, Postgres, Redis, web e Sidekiq na máquina), IP fixo,
   firewall só com 80/443 e acesso por SSM.
   Anexos e backups no S3, snapshots diários, e-mail pelo SES, alarmes e orçamento.
-  Aplicado por .chatclean/infra/deploy-base.
+  Referência: a infraestrutura foi criada em 28/10/2026 pelo console e pela AWS CLI com esta
+  configuração e estes nomes, sem stack.
 
 Parameters:
   AmiId:
     Type: AWS::EC2::Image::Id
     Description: >-
-      Ubuntu 24.04 LTS x86. O deploy-base resolve na criação e mantém nas atualizações:
-      um AMI novo recriaria a máquina.
+      Ubuntu 24.04 LTS x86. Um AMI novo recriaria a máquina.
   AvailabilityZone:
     Type: AWS::EC2::AvailabilityZone::Name
     Default: us-east-1a
@@ -315,7 +315,7 @@ Resources:
   SnapshotPolicy:
     Type: AWS::DLM::LifecyclePolicy
     Properties:
-      Description: ChatClean - snapshot diario do disco, 7 dias
+      Description: ChatClean - snapshot diario do disco - 7 dias
       State: ENABLED
       ExecutionRoleArn: !GetAtt SnapshotRole.Arn
       PolicyDetails:
@@ -487,7 +487,7 @@ Resources:
         BudgetLimit: { Amount: !Ref MonthlyBudget, Unit: USD }
         CostTypes: { IncludeCredit: false, IncludeRefund: false }
       NotificationsWithSubscribers:
-        - Notification: { NotificationType: ACTUAL, ComparisonOperator: GREATER_THAN, Threshold: 80, ThresholdType: PERCENTAGE }
+        - Notification: { NotificationType: ACTUAL, ComparisonOperator: GREATER_THAN, Threshold: 85, ThresholdType: PERCENTAGE }
           Subscribers: [{ SubscriptionType: EMAIL, Address: !Ref AlertEmail }]
         - Notification: { NotificationType: ACTUAL, ComparisonOperator: GREATER_THAN, Threshold: 100, ThresholdType: PERCENTAGE }
           Subscribers: [{ SubscriptionType: EMAIL, Address: !Ref AlertEmail }]

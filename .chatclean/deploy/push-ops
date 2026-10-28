@@ -12,14 +12,12 @@ cd "$(dirname "$0")"
 
 export AWS_PROFILE="${AWS_PROFILE:-ChatClean}"
 export AWS_REGION=us-east-1
-STACK=chatclean-base
 
-output() {
-  aws cloudformation describe-stacks --stack-name "$STACK" \
-    --query "Stacks[0].Outputs[?OutputKey=='$1'].OutputValue" --output text
-}
-instance="$(output InstanceId)"
-bucket="$(output BackupsBucketName)"
+# A infraestrutura foi criada pelo console, com os nomes do chatclean-base.yaml.
+instance="$(aws ec2 describe-instances \
+  --filters Name=tag:Name,Values=chatclean-production Name=instance-state-name,Values=running \
+  --query 'Reservations[0].Instances[0].InstanceId' --output text)"
+bucket="chatclean-backups-$(aws sts get-caller-identity --query Account --output text)"
 
 echo "==> Enviando para s3://$bucket/ops/"
 aws s3 sync --delete --only-show-errors --exclude 'brand/*' server/ "s3://$bucket/ops/"
