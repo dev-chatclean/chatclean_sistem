@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Teste de restauração (CCV2-21): restaura um dump do backup-db.sh num Postgres temporário
+# Teste de restauração (CCV2-21): restaura um dump do server/backup-db num Postgres temporário
 # (pgvector, como o de produção) e lista as linhas de cada tabela, para comparar com o banco
 # de origem (count-rows.sql). Não toca em nenhum banco existente.
 #

@@ -100,8 +100,12 @@ são os do Chatwoot.
 
 ## Produção (E7)
 
-- Infraestrutura na AWS (máquina, IP fixo, firewall, ECR, role de deploy): `.chatclean/infra/README.md` (CCV2-19).
-- Imagem MIT e deploy: `.chatclean/deploy/README.md` (CCV2-20).
+Desde 28/10/2026 (CCV2-39, recomendação do CTO), a produção roda o **Chatwoot oficial** instalado como na
+documentação do Chatwoot, numa máquina no Norte da Virgínia (`us-east-1`). O código deste repositório não vai para
+a produção. Da ChatClean entram só a edição gratuita, anexos no S3, e-mail pelo SES, nome e logos, e o backup.
+
+- Infraestrutura na AWS (VPC numa zona, máquina, IP fixo, firewall, S3, SES, alarmes): `.chatclean/infra/README.md`.
+- Instalação e atualização do Chatwoot na máquina: `.chatclean/deploy/README.md`.
 
 ## Branches
 

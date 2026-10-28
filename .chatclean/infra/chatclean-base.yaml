@@ -1,9 +1,10 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: >-
-  ChatClean V2 em produção, máquina única em sa-east-1 (CCV2-19). EC2 com Docker e Caddy,
-  Elastic IP, firewall só com 80/443, acesso por SSM (sem SSH), ECR e a role de deploy do
-  GitHub Actions por OIDC (CCV2-20). Buckets de anexos e de backup, snapshots diários e o
-  tópico de alertas (CCV2-21). E-mail pelo SES, alarmes do CloudWatch e orçamento (CCV2-22).
+  ChatClean em produção (CCV2-39), no Norte da Virgínia (us-east-1): a arquitetura de referência
+  do Chatwoot na AWS reduzida a uma zona. VPC com uma sub-rede pública, uma EC2 instalada pelo
+  install.sh oficial do Chatwoot (nginx, Postgres, Redis, web e Sidekiq na máquina), IP fixo,
+  firewall só com 80/443 e acesso por SSM.
+  Anexos e backups no S3, snapshots diários, e-mail pelo SES, alarmes e orçamento.
   Aplicado por .chatclean/infra/deploy-base.
 
 Parameters:
@@ -12,22 +13,18 @@ Parameters:
     Description: >-
       Ubuntu 24.04 LTS x86. O deploy-base resolve na criação e mantém nas atualizações:
       um AMI novo recriaria a máquina.
+  AvailabilityZone:
+    Type: AWS::EC2::AvailabilityZone::Name
+    Default: us-east-1a
   InstanceType:
     Type: String
     Default: t3.large
-    AllowedValues: [t3.large, t3.xlarge]
+    AllowedValues: [t3.large, t3.xlarge, c5.xlarge]
   RootVolumeSize:
     Type: Number
-    Default: 50
-    MinValue: 50
-  GitHubRepository:
-    Type: String
-    Default: dev-chatclean/chatclean_sistem
-  CreateGitHubOidcProvider:
-    Type: String
-    Default: 'true'
-    AllowedValues: ['true', 'false']
-    Description: false quando a conta já tem o provedor OIDC do GitHub.
+    Default: 60
+    MinValue: 60
+    Description: A documentação do Chatwoot pede 60 GB.
   AlertEmail:
     Type: String
     Default: desenvolvimento@chatclean.com.br
@@ -41,16 +38,64 @@ Parameters:
     Default: 150
     Description: Teto mensal em dólares; alerta em 80% e 100% do gasto e na previsão de 100%.
 
-Conditions:
-  CreateOidcProvider: !Equals [!Ref CreateGitHubOidcProvider, 'true']
-
 Resources:
-  # Firewall: só HTTP e HTTPS. Sem porta 22 (o terminal é pelo SSM Session Manager) e sem as
-  # portas do Postgres e do Redis, que nem saem dos containers.
+  # Rede da documentação do Chatwoot, só com a zona A e a sub-rede pública: sem sub-rede privada,
+  # a máquina não precisa de NAT e sai para a internet pelo próprio IP fixo.
+  Vpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags: [{ Key: Name, Value: chatclean-vpc }]
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags: [{ Key: Name, Value: chatclean-igw }]
+
+  InternetGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref Vpc
+      InternetGatewayId: !Ref InternetGateway
+
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      CidrBlock: 10.0.0.0/24
+      AvailabilityZone: !Ref AvailabilityZone
+      MapPublicIpOnLaunch: true
+      Tags: [{ Key: Name, Value: chatclean-public-1 }]
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+      Tags: [{ Key: Name, Value: chatclean-public-rt }]
+
+  PublicDefaultRoute:
+    Type: AWS::EC2::Route
+    DependsOn: InternetGatewayAttachment
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  PublicSubnetRouteTable:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet
+      RouteTableId: !Ref PublicRouteTable
+
+  # Firewall: só HTTP (Let's Encrypt e redirecionamento) e HTTPS do nginx. Sem porta 22 (o terminal
+  # é pelo SSM Session Manager) e sem 3000, 5432 e 6379, que só escutam dentro da máquina.
   WebSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: ChatClean - HTTP e HTTPS publicos
+      VpcId: !Ref Vpc
       SecurityGroupIngress:
         - { IpProtocol: tcp, FromPort: 80, ToPort: 80, CidrIp: 0.0.0.0/0, Description: HTTP (redireciona para HTTPS e desafio ACME) }
         - { IpProtocol: tcp, FromPort: 443, ToPort: 443, CidrIp: 0.0.0.0/0, Description: HTTPS }
@@ -68,9 +113,9 @@ Resources:
             Action: sts:AssumeRole
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
-        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
         - arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy
       Policies:
+        # Credenciais SMTP que o setup copia para o .env do Chatwoot.
         - PolicyName: chatclean-production-parameters
           PolicyDocument:
             Version: '2012-10-17'
@@ -78,7 +123,8 @@ Resources:
               - Effect: Allow
                 Action: ssm:GetParametersByPath
                 Resource: !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/chatclean/production
-        # Anexos (Active Storage, sem chave fixa: o SDK usa esta role) e envio dos backups.
+        # Anexos (Active Storage, sem chave fixa: o SDK usa esta role), envio dos backups e leitura
+        # dos scripts e logos que o push-ops publica em ops/.
         - PolicyName: chatclean-storage
           PolicyDocument:
             Version: '2012-10-17'
@@ -92,6 +138,13 @@ Resources:
               - Effect: Allow
                 Action: s3:PutObject
                 Resource: !Sub ${BackupsBucket.Arn}/database/*
+              - Effect: Allow
+                Action: s3:ListBucket
+                Resource: !GetAtt BackupsBucket.Arn
+                Condition: { StringLike: { s3:prefix: ['ops/*'] } }
+              - Effect: Allow
+                Action: s3:GetObject
+                Resource: !Sub ${BackupsBucket.Arn}/ops/*
               - Effect: Allow
                 Action: sns:Publish
                 Resource: !Ref AlertsTopic
@@ -108,13 +161,12 @@ Resources:
     Properties:
       ImageId: !Ref AmiId
       InstanceType: !Ref InstanceType
+      SubnetId: !Ref PublicSubnet
       IamInstanceProfile: !Ref InstanceProfile
       SecurityGroupIds: [!GetAtt WebSecurityGroup.GroupId]
       DisableApiTermination: true
-      # IMDSv2 obrigatório; 2 saltos para os containers (rails e sidekiq usam a role para o S3).
       MetadataOptions:
         HttpTokens: required
-        HttpPutResponseHopLimit: 2
       BlockDeviceMappings:
         - DeviceName: /dev/sda1
           Ebs:
@@ -127,13 +179,13 @@ Resources:
       UserData:
         Fn::Base64: |
           #!/bin/bash
-          # Preparação da máquina (CCV2-19). Roda no primeiro boot de cada máquina, inclusive de uma
-          # recriada a partir de um snapshot (CCV2-21), por isso pode encontrar tudo já feito.
-          # Log em /var/log/cloud-init-output.log.
+          # Preparação da máquina antes do install.sh do Chatwoot (CCV2-39). Roda no primeiro boot de
+          # cada máquina, inclusive de uma recriada a partir de um snapshot, por isso pode encontrar
+          # tudo já feito. Log em /var/log/cloud-init-output.log.
           set -euxo pipefail
           export DEBIAN_FRONTEND=noninteractive
 
-          # Swap de 4 GB contra picos de memória.
+          # Swap de 4 GB contra picos de memória (o install.sh compila os assets com até 4 GB).
           if [ ! -f /swapfile ]; then
             fallocate -l 4G /swapfile
             chmod 600 /swapfile
@@ -146,18 +198,9 @@ Resources:
           printf 'net.core.somaxconn = 1024\nvm.overcommit_memory = 1\n' > /etc/sysctl.d/90-chatclean.conf
           sysctl --system
 
-          # Docker Engine e Compose pelo repositório oficial.
+          # AWS CLI v2 (S3, Parameter Store e SNS nos scripts de /opt/chatclean).
           apt-get update
           apt-get install -y ca-certificates curl unzip
-          install -m 0755 -d /etc/apt/keyrings
-          curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-          echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" \
-            > /etc/apt/sources.list.d/docker.list
-          apt-get update
-          apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
-          systemctl enable --now docker
-
-          # AWS CLI v2 (ECR e Parameter Store no deploy).
           curl -fsSL https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o /tmp/awscliv2.zip
           unzip -q -o /tmp/awscliv2.zip -d /tmp
           /tmp/aws/install --update
@@ -166,11 +209,11 @@ Resources:
           # O AMI Ubuntu traz o SSM Agent (snap); garante que sobe no boot.
           snap start --enable amazon-ssm-agent
 
-          # Pasta do deploy; os arquivos vêm da imagem a cada release (ver .chatclean/deploy).
+          # Scripts e logos da ChatClean, publicados pelo push-ops (ver .chatclean/deploy).
           install -m 0700 -d /opt/chatclean
 
-          # CloudWatch Agent (CCV2-22): memória e disco da máquina, e o log de acesso do Caddy
-          # (logs/caddy, montado no container) para o alarme de erros 5xx.
+          # CloudWatch Agent: memória e disco da máquina, e o log de acesso HTTPS do nginx que o
+          # install.sh configura, para o alarme de erros 5xx.
           curl -fsSL https://amazoncloudwatch-agent.s3.amazonaws.com/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb \
             -o /tmp/amazon-cloudwatch-agent.deb
           dpkg -i -E /tmp/amazon-cloudwatch-agent.deb
@@ -191,7 +234,7 @@ Resources:
               "logs_collected": {
                 "files": {
                   "collect_list": [
-                    { "file_path": "/opt/chatclean/logs/caddy/access.log", "log_group_name": "/chatclean/caddy",
+                    { "file_path": "/var/log/nginx/chatwoot_access_443.log", "log_group_name": "/chatclean/nginx",
                       "log_stream_name": "{instance_id}", "retention_in_days": 30 }
                   ]
                 }
@@ -206,6 +249,7 @@ Resources:
     Type: AWS::EC2::EIP
     DeletionPolicy: Retain
     UpdateReplacePolicy: Retain
+    DependsOn: InternetGatewayAttachment
     Properties:
       Domain: vpc
       InstanceId: !Ref Instance
@@ -229,7 +273,8 @@ Resources:
       OwnershipControls:
         Rules: [{ ObjectOwnership: BucketOwnerEnforced }]
 
-  # Dumps diários do banco (backup-db.sh), apagados depois de 30 dias.
+  # Dumps diários do banco em database/ (backup-db, apagados depois de 30 dias) e, em ops/, os
+  # scripts e logos que a máquina baixa no setup.
   BackupsBucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Retain
@@ -253,7 +298,7 @@ Resources:
             Prefix: database/
             ExpirationInDays: 30
 
-  # Snapshot diário do disco da máquina às 03:30 de Brasília, guardando os 7 últimos.
+  # Snapshot diário do disco da máquina às 06:30 UTC (03:30 de Brasília), guardando os 7 últimos.
   SnapshotRole:
     Type: AWS::IAM::Role
     Properties:
@@ -290,7 +335,7 @@ Resources:
       Subscription:
         - { Protocol: email, Endpoint: !Ref AlertEmail }
 
-  # E-mail transacional (CCV2-22). O domínio é verificado por DKIM (3 CNAMEs) e o MAIL FROM
+  # E-mail transacional. O domínio é verificado por DKIM (3 CNAMEs) e o MAIL FROM
   # bounce.<domínio> tem SPF próprio, então o SPF da raiz (e-mail da Hostinger) não muda.
   MailIdentity:
     Type: AWS::SES::EmailIdentity
@@ -316,18 +361,19 @@ Resources:
                 Action: ses:SendRawEmail
                 Resource: !Sub arn:aws:ses:${AWS::Region}:${AWS::AccountId}:identity/${MailDomain}
 
-  # Log de acesso do Caddy, enviado pelo CloudWatch Agent. Tem IP e URL de quem acessa: 30 dias.
-  CaddyLogGroup:
+  # Log de acesso HTTPS do nginx, enviado pelo CloudWatch Agent. Tem IP e URL de quem acessa: 30 dias.
+  NginxLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: /chatclean/caddy
+      LogGroupName: /chatclean/nginx
       RetentionInDays: 30
 
+  # Formato combined do nginx: ip - usuário [data] "pedido" status bytes "referer" "agente".
   Http5xxMetricFilter:
     Type: AWS::Logs::MetricFilter
     Properties:
-      LogGroupName: !Ref CaddyLogGroup
-      FilterPattern: '{ $.status >= 500 }'
+      LogGroupName: !Ref NginxLogGroup
+      FilterPattern: '[ip, ident, user, timestamp, request, status_code >= 500, ...]'
       MetricTransformations:
         - { MetricNamespace: ChatClean, MetricName: Http5xx, MetricValue: '1', DefaultValue: 0 }
 
@@ -448,83 +494,14 @@ Resources:
         - Notification: { NotificationType: FORECASTED, ComparisonOperator: GREATER_THAN, Threshold: 100, ThresholdType: PERCENTAGE }
           Subscribers: [{ SubscriptionType: EMAIL, Address: !Ref AlertEmail }]
 
-  ImageRepository:
-    Type: AWS::ECR::Repository
-    DeletionPolicy: Retain
-    UpdateReplacePolicy: Retain
-    Properties:
-      RepositoryName: chatclean
-      ImageTagMutability: IMMUTABLE
-      ImageScanningConfiguration: { ScanOnPush: true }
-      LifecyclePolicy:
-        LifecyclePolicyText: |
-          {"rules": [{"rulePriority": 1, "description": "Guarda as 20 imagens mais recentes",
-            "selection": {"tagStatus": "any", "countType": "imageCountMoreThan", "countNumber": 20},
-            "action": {"type": "expire"}}]}
-
-  GitHubOidcProvider:
-    Type: AWS::IAM::OIDCProvider
-    Condition: CreateOidcProvider
-    Properties:
-      Url: https://token.actions.githubusercontent.com
-      ClientIdList: [sts.amazonaws.com]
-
-  # Role que o workflow chatclean-deploy.yml assume, só a partir de pushes na main.
-  DeployRole:
-    Type: AWS::IAM::Role
-    Properties:
-      RoleName: chatclean-github-deploy
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Federated: !Sub arn:aws:iam::${AWS::AccountId}:oidc-provider/token.actions.githubusercontent.com
-            Action: sts:AssumeRoleWithWebIdentity
-            Condition:
-              StringEquals:
-                token.actions.githubusercontent.com:aud: sts.amazonaws.com
-                token.actions.githubusercontent.com:sub: !Sub repo:${GitHubRepository}:ref:refs/heads/main
-      Policies:
-        - PolicyName: chatclean-deploy
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: ecr:GetAuthorizationToken
-                Resource: '*'
-              - Effect: Allow
-                Action:
-                  - ecr:BatchCheckLayerAvailability
-                  - ecr:InitiateLayerUpload
-                  - ecr:UploadLayerPart
-                  - ecr:CompleteLayerUpload
-                  - ecr:PutImage
-                  - ecr:BatchGetImage
-                Resource: !GetAtt ImageRepository.Arn
-              - Effect: Allow
-                Action: ssm:SendCommand
-                Resource:
-                  - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:instance/${Instance}
-                  - !Sub arn:aws:ssm:${AWS::Region}::document/AWS-RunShellScript
-              - Effect: Allow
-                Action: ssm:GetCommandInvocation
-                Resource: '*'
-
 Outputs:
   InstanceId:
-    Description: Variável CHATCLEAN_INSTANCE_ID do GitHub
+    Description: Alvo do aws ssm start-session e do push-ops
     Value: !Ref Instance
   PublicIp:
     Description: Registro A de chat.chatclean.com.br na Hostinger
     Value: !Ref ElasticIp
-  DeployRoleArn:
-    Description: Variável AWS_DEPLOY_ROLE_ARN do GitHub
-    Value: !GetAtt DeployRole.Arn
-  ImageRepositoryUri:
-    Value: !GetAtt ImageRepository.RepositoryUri
   AttachmentsBucketName:
-    Description: Parâmetro S3_BUCKET_NAME em /chatclean/production
     Value: !Ref AttachmentsBucket
   BackupsBucketName:
     Value: !Ref BackupsBucket
