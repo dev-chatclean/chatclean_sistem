@@ -33,10 +33,10 @@ cada instalação ou atualização.
 
 ## Primeira instalação
 
-Antes: créditos da AWS liberados, a stack criada (`../infra/README.md`), o SES configurado e as credenciais SMTP
-gravadas (`../infra/ses-smtp-credentials`).
+Antes: a infraestrutura criada (`../infra/README.md`), o SES configurado e as credenciais SMTP gravadas
+(`../infra/ses-smtp-credentials`).
 
-1. **DNS na Hostinger** (com aprovação do PO): registro `A` `chat` → `PublicIp` da stack, TTL 300. O Let's Encrypt
+1. **DNS na Hostinger** (com aprovação do PO): registro `A` `chat` → `52.3.27.21`, TTL 300. O Let's Encrypt
    só emite o certificado com o DNS apontando para a máquina. Confira com `dig +short chat.chatclean.com.br`.
 2. **Entrar na máquina** (sem SSH):
 

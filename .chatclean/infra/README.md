@@ -4,10 +4,11 @@ A arquitetura de referência do Chatwoot na AWS ([documentação](https://develo
 reduzida a uma zona no Norte da Virgínia (`us-east-1`), por recomendação do CTO (CCV2-39). Diagrama:
 https://claude.ai/artifact/Y1mTfe2KL71wDesGwyJ7vL
 
-Tudo fica na stack CloudFormation `chatclean-base`, descrita em `chatclean-base.yaml` e aplicada pela AWS CLI com
-`deploy-base`. A instalação do Chatwoot nessa máquina está em `../deploy/README.md`.
+Criada em 28/10/2026, a parte de rede, máquina, S3, SNS e IAM pelo console (pelo [guia](https://claude.ai/artifact/Dr4NjB6addpd6sKPhgZuAq))
+e o resto pela AWS CLI. Não há stack: `chatclean-base.yaml` descreve a configuração e os nomes, que os scripts
+procuram. A instalação do Chatwoot nessa máquina está em `../deploy/README.md`.
 
-## O que a stack cria
+## O que existe
 
 | Recurso | Configuração |
 |---|---|
@@ -15,9 +16,9 @@ Tudo fica na stack CloudFormation `chatclean-base`, descrita em `chatclean-base.
 | Sub-rede `chatclean-public-1` | `10.0.0.0/24` na zona `us-east-1a`, pública, rota padrão para o internet gateway |
 | EC2 `chatclean-production` | `t3.large` (2 vCPU, 8 GB, x86), Ubuntu 24.04 LTS, disco gp3 de 60 GB criptografado |
 | Disco | `DeleteOnTermination: false`: banco e Redis moram nele e sobrevivem se a máquina for encerrada |
-| Proteção | proteção contra encerramento ligada; máquina, IP e buckets ficam mesmo se a stack for apagada |
+| Proteção | proteção contra encerramento ligada |
 | Preparação (primeiro boot) | AWS CLI, swap de 4 GB, `somaxconn=1024` e `overcommit_memory=1` (Redis), pasta `/opt/chatclean`, CloudWatch Agent |
-| Elastic IP | IP fixo da máquina, que vai no registro A da Hostinger |
+| Elastic IP | `52.3.27.21`, IP fixo da máquina, que vai no registro A da Hostinger |
 | Security Group `chatclean-web` | entrada só em 80 e 443. Sem porta 22 e sem 3000, 5432 e 6379 |
 | Acesso ao terminal | SSM Session Manager, sem chave SSH |
 | Role da máquina | SSM, CloudWatch, anexos no S3, envio dos backups, leitura de `ops/` e dos parâmetros em `/chatclean/production` |
@@ -29,7 +30,7 @@ Tudo fica na stack CloudFormation `chatclean-base`, descrita em `chatclean-base.
 | Usuário IAM `chatclean-ses-smtp` | só envia e-mail pelo SES; a chave dele vira a senha SMTP (`ses-smtp-credentials`) |
 | CloudWatch Agent | memória e disco da máquina, e o log de acesso HTTPS do nginx em `/chatclean/nginx` (30 dias) |
 | Alarmes (e-mail pelo `chatclean-alerts`) | CPU > 85% por 10 min, memória > 90% por 10 min, disco > 80%, mais de 20 erros 5xx em 5 min, máquina sem resposta e falha de host (a máquina é recuperada sozinha, com o mesmo disco e IP) |
-| Orçamento `chatclean-mensal` | US$ 150/mês sobre o gasto bruto (sem descontar créditos), com e-mail em 80%, 100% e na previsão de 100% |
+| Orçamento `chatclean-mensal` | US$ 150/mês, com e-mail em 85%, 100% e na previsão de 100% |
 
 **Fora desta versão**, da arquitetura de referência:
 - segunda zona;
@@ -45,29 +46,7 @@ Custo aproximado: US$ 75 a 85 por mês. A máquina custa cerca de US$ 61, o disc
 US$ 4. Snapshots, S3, CloudWatch e SES somam alguns dólares, crescendo com o uso. Confira na calculadora da AWS antes
 de criar.
 
-## Criar
-
-Antes: créditos aprovados e a sessão da AWS aberta (`aws sso login --profile ChatClean`).
-
-```sh
-.chatclean/infra/deploy-base --dry-run   # mostra o que será criado e não cria nada
-.chatclean/infra/deploy-base             # cria (ou atualiza) e mostra as saídas
-```
-
-Saídas:
-
-| Saída | Para quê |
-|---|---|
-| `PublicIp` | registro A de `chat` na Hostinger |
-| `InstanceId` | `aws ssm start-session --target` |
-| `AttachmentsBucketName`, `BackupsBucketName` | conferência dos anexos e backups |
-| `DkimRecord1` a `3` | os três CNAMEs do SES na Hostinger |
-
-A AWS manda um e-mail para o `AlertEmail` pedindo para confirmar a assinatura dos alertas. O orçamento manda direto,
-sem confirmação. **Clique no link**, senão nenhum alerta chega. Para outro endereço, crie com
-`aws cloudformation deploy ... --parameter-overrides AlertEmail=<email>` ou troque depois no console do SNS.
-
-A preparação da máquina leva alguns minutos depois que a stack termina. Para conferir:
+## Conferir a máquina
 
 ```sh
 aws ssm start-session --profile ChatClean --region us-east-1 --target <InstanceId>
@@ -75,11 +54,13 @@ aws ssm start-session --profile ChatClean --region us-east-1 --target <InstanceI
 cloud-init status --wait && aws --version && swapon --show && sysctl net.core.somaxconn vm.overcommit_memory
 ```
 
-O `start-session` precisa do plugin do Session Manager no Mac: `brew install --cask session-manager-plugin`.
+O `start-session` precisa do plugin do Session Manager no Mac: `brew install --cask session-manager-plugin`. O
+`InstanceId` aparece no console do EC2 ou em
+`aws ec2 describe-instances --filters Name=tag:Name,Values=chatclean-production`.
 
 ## DNS na Hostinger
 
-Registro `A` com nome `chat` apontando para o `PublicIp`, TTL 300. Ele pode ser criado pelo conector da Hostinger,
+Registro `A` com nome `chat` apontando para `52.3.27.21`, TTL 300. Ele pode ser criado pelo conector da Hostinger,
 **sempre com aprovação do PO antes**. Para conferir: `dig +short chat.chatclean.com.br`.
 
 ## E-mail pelo SES
@@ -92,7 +73,7 @@ DMARC sem mexer no SPF da raiz.
 
    | Tipo | Nome | Valor |
    |---|---|---|
-   | CNAME | os três `DkimRecord` das saídas (`<token>._domainkey`) | `<token>.dkim.amazonses.com` |
+   | CNAME | `<token>._domainkey`, um para cada um dos três tokens de `aws sesv2 get-email-identity` | `<token>.dkim.amazonses.com` |
    | MX | `bounce` | `10 feedback-smtp.us-east-1.amazonses.com` |
    | TXT | `bounce` | `v=spf1 include:amazonses.com ~all` |
    | TXT | `_dmarc` | `v=DMARC1; p=none; rua=mailto:desenvolvimento@chatclean.com.br` |
@@ -122,12 +103,10 @@ DMARC sem mexer no SPF da raiz.
 2. Teste de reboot: `aws ec2 reboot-instances --instance-ids <InstanceId>`. A máquina volta com o mesmo IP, e o
    Chatwoot, o Postgres, o Redis e o nginx sobem sozinhos pelo systemd.
 
-## Atualizar ou desfazer
+## Mudar ou desfazer
 
-- **Atualizar:** edite `chatclean-base.yaml` e rode `deploy-base` de novo, começando pelo `--dry-run`. O AMI fica o
-  da criação, porque um AMI novo recriaria a máquina. Se o dry-run mostrar `Replacement: True` na `Instance`, pare e
-  reveja a mudança.
-- **Desmontar tudo** (só com o PO de acordo, porque apaga o banco):
-  1. desligue a proteção contra encerramento e encerre a máquina;
-  2. apague a stack: ela remove a VPC, o Security Group e as roles;
-  3. apague à mão o que a stack mantém (`DeletionPolicy: Retain`): o disco, o Elastic IP e os dois buckets.
+- **Mudar:** pelo console ou pela AWS CLI, mantendo os nomes, e atualize `chatclean-base.yaml` para ele continuar
+  descrevendo o que existe.
+- **Desmontar tudo** (só com o PO de acordo, porque apaga o banco): desligue a proteção contra encerramento, encerre
+  a máquina e apague o disco, o Elastic IP, os buckets, os alarmes, a política de snapshots, a VPC e o resto da
+  tabela acima.
