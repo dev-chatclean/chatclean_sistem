@@ -1,0 +1,116 @@
+#!/usr/bin/env bash
+# Configuração da ChatClean sobre a instalação oficial do Chatwoot (CCV2-39). Roda como root na
+# máquina depois do install.sh e de cada atualização (cwctl --upgrade); aplicar de novo não muda nada.
+#   - completa o .env do Chatwoot: edição gratuita, anexos no S3 e e-mail pelo SES;
+#   - aplica nome e logos ChatClean sem tocar em arquivos versionados do Chatwoot, para o
+#     cwctl --upgrade continuar funcionando (ele para se houver mudança no código);
+#   - instala o backup diário do banco;
+#   - reinicia o Chatwoot.
+#
+# Uso (normalmente pelo push-ops, do Mac): sudo /opt/chatclean/setup
+set -euo pipefail
+cd "$(dirname "$0")"
+
+REGION=us-east-1
+APP=/home/chatwoot/chatwoot
+ENV_FILE="$APP/.env"
+ACCOUNT="$(aws sts get-caller-identity --query Account --output text)"
+
+if [ ! -f "$ENV_FILE" ]; then
+  echo "O Chatwoot não está instalado (falta $ENV_FILE). Rode antes o install.sh." >&2
+  exit 1
+fi
+
+# Troca ou acrescenta KEY=valor no .env. Pelo python e por variáveis de ambiente, porque a senha
+# SMTP tem caracteres que quebrariam um sed.
+set_env() {
+  KEY="$1" VALUE="$2" ENV_FILE="$ENV_FILE" python3 - <<'PY'
+import os
+path, key, value = os.environ["ENV_FILE"], os.environ["KEY"], os.environ["VALUE"]
+lines, found = [], False
+for line in open(path).read().splitlines():
+    if line.startswith(key + "="):
+        if not found:
+            lines.append(f"{key}={value}")
+        found = True
+    else:
+        lines.append(line)
+if not found:
+    lines.append(f"{key}={value}")
+open(path, "w").write("\n".join(lines) + "\n")
+PY
+}
+
+echo "==> .env"
+smtp_username=""
+smtp_password=""
+while IFS=$'\t' read -r name value; do
+  case "$name" in
+    */SMTP_USERNAME) smtp_username="$value" ;;
+    */SMTP_PASSWORD) smtp_password="$value" ;;
+  esac
+done < <(aws ssm get-parameters-by-path --region "$REGION" --path /chatclean/production --with-decryption \
+  --query 'Parameters[].[Name, Value]' --output text)
+if [ -z "$smtp_username" ] || [ -z "$smtp_password" ]; then
+  echo "Faltam SMTP_USERNAME e SMTP_PASSWORD em /chatclean/production. Rode .chatclean/infra/ses-smtp-credentials." >&2
+  exit 1
+fi
+
+# Edição gratuita (MIT): a licença de enterprise/ proíbe o uso em produção sem assinatura.
+set_env DISABLE_ENTERPRISE true
+set_env ENABLE_ACCOUNT_SIGNUP false
+set_env FORCE_SSL true
+set_env DISABLE_TELEMETRY true
+# Anexos no S3, pela role da máquina (sem chave fixa).
+set_env ACTIVE_STORAGE_SERVICE amazon
+set_env AWS_REGION "$REGION"
+set_env S3_BUCKET_NAME "chatclean-attachments-$ACCOUNT"
+# E-mail pelo SES.
+set_env MAILER_SENDER_EMAIL "ChatClean <desenvolvimento@chatclean.com.br>"
+set_env SMTP_ADDRESS "email-smtp.$REGION.amazonaws.com"
+set_env SMTP_PORT 587
+set_env SMTP_DOMAIN chatclean.com.br
+set_env SMTP_AUTHENTICATION login
+set_env SMTP_ENABLE_STARTTLS_AUTO true
+set_env SMTP_USERNAME "$smtp_username"
+set_env SMTP_PASSWORD "$smtp_password"
+unset smtp_password
+chown chatwoot:chatwoot "$ENV_FILE"
+chmod 600 "$ENV_FILE"
+
+echo "==> Marca ChatClean"
+# public/brand-assets/chatclean não existe no repositório do Chatwoot, então não conta como mudança
+# de código para o cwctl --upgrade. tmp/ também é ignorado pelo git.
+install -o chatwoot -g chatwoot -m 0755 -d "$APP/public/brand-assets/chatclean"
+install -o chatwoot -g chatwoot -m 0644 brand/*.png "$APP/public/brand-assets/chatclean/"
+install -o chatwoot -g chatwoot -m 0644 branding.rb "$APP/tmp/chatclean_branding.rb"
+sudo -i -u chatwoot bash -c 'cd chatwoot && RAILS_ENV=production bundle exec rails runner tmp/chatclean_branding.rb'
+
+echo "==> Backup diário do banco (03:00 de Brasília)"
+cat > /etc/systemd/system/chatclean-backup.service <<'UNIT'
+[Unit]
+Description=ChatClean - backup do banco para o S3
+
+[Service]
+Type=oneshot
+ExecStart=/opt/chatclean/backup-db
+StandardOutput=append:/var/log/chatclean_backup.log
+StandardError=append:/var/log/chatclean_backup.log
+UNIT
+cat > /etc/systemd/system/chatclean-backup.timer <<'UNIT'
+[Unit]
+Description=ChatClean - backup diário do banco
+
+[Timer]
+OnCalendar=*-*-* 06:00:00 UTC
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+UNIT
+systemctl daemon-reload
+systemctl enable --now chatclean-backup.timer
+
+echo "==> Reiniciando o Chatwoot"
+cwctl --restart > /dev/null
+systemctl is-active chatwoot.target

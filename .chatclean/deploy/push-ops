@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# Leva os scripts e logos da ChatClean para a máquina de produção e roda o setup (CCV2-39).
+# Rode no Mac depois do install.sh do Chatwoot e depois de cada atualização (cwctl --upgrade).
+#
+# Os arquivos de server/ e os logos de public/brand-assets/chatclean vão para
+# s3://chatclean-backups-<conta>/ops/; a máquina baixa de lá para /opt/chatclean pelo SSM.
+#
+# Uso: .chatclean/deploy/push-ops
+# Precisa da sessão AWS do projeto: aws sso login --profile ChatClean
+set -euo pipefail
+cd "$(dirname "$0")"
+
+export AWS_PROFILE="${AWS_PROFILE:-ChatClean}"
+export AWS_REGION=us-east-1
+STACK=chatclean-base
+
+output() {
+  aws cloudformation describe-stacks --stack-name "$STACK" \
+    --query "Stacks[0].Outputs[?OutputKey=='$1'].OutputValue" --output text
+}
+instance="$(output InstanceId)"
+bucket="$(output BackupsBucketName)"
+
+echo "==> Enviando para s3://$bucket/ops/"
+aws s3 sync --delete --only-show-errors --exclude 'brand/*' server/ "s3://$bucket/ops/"
+aws s3 sync --delete --only-show-errors ../../public/brand-assets/chatclean/ "s3://$bucket/ops/brand/"
+
+echo "==> Rodando o setup na máquina $instance"
+parameters="$(jq -n --arg bucket "$bucket" '{commands: [
+  "set -eu",
+  "aws s3 sync --delete --only-show-errors s3://\($bucket)/ops/ /opt/chatclean/",
+  "chmod 0700 /opt/chatclean/setup /opt/chatclean/backup-db",
+  "/opt/chatclean/setup"
+]}')"
+command_id="$(aws ssm send-command \
+  --instance-ids "$instance" \
+  --document-name AWS-RunShellScript \
+  --comment "chatclean setup" \
+  --timeout-seconds 900 \
+  --parameters "$parameters" \
+  --query 'Command.CommandId' --output text)"
+
+for _ in $(seq 1 60); do
+  status="$(aws ssm get-command-invocation --command-id "$command_id" --instance-id "$instance" \
+    --query Status --output text 2>/dev/null || echo Pending)"
+  case "$status" in Pending|InProgress|Delayed) sleep 10 ;; *) break ;; esac
+done
+
+aws ssm get-command-invocation --command-id "$command_id" --instance-id "$instance" \
+  --query '[StandardOutputContent, StandardErrorContent]' --output text
+echo "==> Status: $status"
+[ "$status" = "Success" ]

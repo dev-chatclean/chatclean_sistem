@@ -1,120 +1,141 @@
-# Deploy do ChatClean em produção
+# Instalação do ChatClean em produção
 
-Produção numa máquina única na AWS, região São Paulo (sa-east-1), em `https://chat.chatclean.com.br`
-(Epic E7, CCV2-12). A imagem é a **edição MIT**, sem a pasta `enterprise/`, que só pode rodar em
-produção com licença paga do Chatwoot (CCV2-18).
+Produção numa máquina na AWS, no Norte da Virgínia (`us-east-1`), em `https://chat.chatclean.com.br` (CCV2-39).
+A máquina roda o **Chatwoot oficial**, instalado como na documentação do Chatwoot
+([AWS](https://developers.chatwoot.com/self-hosted/deployment/aws) e
+[Linux VM](https://developers.chatwoot.com/self-hosted/deployment/linux-vm)), numa forma reduzida: uma zona,
+uma máquina, sem load balancer, RDS, ElastiCache, NAT nem bastion. Banco, Redis e HTTPS ficam na própria máquina,
+como o `install.sh` faz. A infraestrutura está em `../infra/README.md`.
+
+O código deste repositório **não** vai para a produção. Da ChatClean só entram:
+- a edição gratuita (`DISABLE_ENTERPRISE=true`);
+- anexos no S3 e e-mail pelo SES;
+- nome e logos;
+- o backup diário do banco.
+
+Tudo isso é feito por `server/setup`.
 
 ## Arquivos
 
 | Arquivo | Para quê |
 |---|---|
-| `docker-compose.production.yaml` | Caddy (HTTPS), rails, sidekiq, postgres (pgvector) e redis |
-| `Caddyfile` | HTTPS automático para `CHATCLEAN_DOMAIN` e proxy para o rails |
-| `env.production.example` | Lista das variáveis; no servidor elas vêm do SSM Parameter Store |
-| `render-env.sh` | Gera o `.env` a partir de `/chatclean/production/*` no Parameter Store |
-| `deploy.sh` | Banco + marca com a imagem nova, troca os containers, confere o `/health` e volta à imagem anterior se falhar |
-| `release.sh` | Entrada do deploy no servidor: baixa a imagem do ECR, copia dela estes arquivos, instala o cron do backup, gera o `.env` e roda o `deploy.sh` |
-| `backup-db.sh` | Backup diário do banco para o S3, com alerta por e-mail se falhar (CCV2-21) |
-| `restore-check.sh` + `count-rows.sql` | Teste de restauração: restaura um dump num Postgres temporário e conta as linhas de cada tabela |
-| `../bin/build-production-image` | Monta a imagem MIT no seu computador |
-| `../../.github/workflows/chatclean-deploy.yml` | Monta a imagem, publica no ECR e chama o `release.sh` por SSM. Desligado até `CHATCLEAN_DEPLOY_ENABLED=true` |
+| `push-ops` | No Mac: envia `server/` e os logos para a máquina (pelo S3 e pelo SSM) e roda o `setup` |
+| `server/setup` | Na máquina: completa o `.env`, aplica a marca, instala o backup e reinicia o Chatwoot |
+| `server/branding.rb` | Nome, logos e links da ChatClean nas configurações do Chatwoot |
+| `server/backup-db` | Backup diário do banco para o S3, com alerta por e-mail se falhar |
+| `restore-check.sh` + `count-rows.sql` | No Mac: restaura um dump num Postgres temporário e conta as linhas de cada tabela |
 
-## Como o deploy acontece
+## Versão do Chatwoot
 
-1. Um PR é mergeado na `main` (só com o "CI ok" verde).
-2. O workflow entra na AWS por OIDC (sem chave fixa), monta a imagem sem `enterprise/`, confere e publica no ECR.
-3. Pelo SSM Run Command (sem SSH), tira o `release.sh` da própria imagem e roda `release.sh <imagem>` em `/opt/chatclean`.
-4. O `deploy.sh` roda `db:chatwoot_prepare` (cria o banco na primeira vez, migra nas seguintes) e `chatclean:branding` com a imagem nova. Se algo falhar, nada no ar muda.
-5. Recria rails e sidekiq e espera o `/health`. Se não ficar saudável, volta para a imagem anterior.
+A instalação e as atualizações seguem a documentação: `install.sh --install` e `cwctl --upgrade` levam à última
+versão estável do Chatwoot (em 28/10/2026, a v4.19.1). Anote a versão instalada (`sudo cwctl --version`) no Jira a
+cada instalação ou atualização.
 
-Rollback não desfaz migrations: toda migration precisa funcionar com a versão anterior do código.
-Cada deploy deixa o sistema fora do ar por alguns segundos (máquina única).
+## Primeira instalação
 
-## Testar no seu computador
+Antes: créditos da AWS liberados, a stack criada (`../infra/README.md`), o SES configurado e as credenciais SMTP
+gravadas (`../infra/ses-smtp-credentials`).
 
-Monte a imagem e suba o pacote num projeto separado, em portas próprias. **Não use o nome de projeto
-`chatclean`**: é o do ambiente de desenvolvimento, e o teste mexeria nos containers e no banco dele.
+1. **DNS na Hostinger** (com aprovação do PO): registro `A` `chat` → `PublicIp` da stack, TTL 300. O Let's Encrypt
+   só emite o certificado com o DNS apontando para a máquina. Confira com `dig +short chat.chatclean.com.br`.
+2. **Entrar na máquina** (sem SSH):
+
+   ```sh
+   aws ssm start-session --profile ChatClean --region us-east-1 --target <InstanceId>
+   sudo -i
+   cloud-init status --wait     # a preparação do primeiro boot precisa ter terminado
+   ```
+
+3. **Instalar o Chatwoot**, como na documentação (cerca de 20 minutos):
+
+   ```sh
+   wget https://get.chatwoot.app/linux/install.sh
+   chmod 755 install.sh
+   ./install.sh --install
+   ```
+
+   Respostas:
+
+   | Pergunta | Resposta |
+   |---|---|
+   | Would you like to configure a domain and SSL for Chatwoot? | `yes` |
+   | Enter the domain/subdomain for Chatwoot | `chat.chatclean.com.br` |
+   | Enter an email address for LetsEncrypt | `desenvolvimento@chatclean.com.br` |
+   | Do you wish to proceed? | `yes` |
+   | Would you like to install Postgres and Redis? | `yes` |
+
+   O script instala Ruby, Node, PostgreSQL 16 com pgvector, Redis, nginx e o certificado, prepara o banco e sobe o
+   Chatwoot como serviço (`chatwoot.target`). O log fica em `/var/log/chatwoot-setup.log`.
+4. **Configuração da ChatClean**, no Mac:
+
+   ```sh
+   .chatclean/deploy/push-ops
+   ```
+
+   Ele termina com `Status: Success` e mostra `active` para o `chatwoot.target`.
+5. **Configuração inicial**, no navegador, em `https://chat.chatclean.com.br`: crie a conta e o primeiro
+   administrador. **Desmarque "receber novidades"**: marcada, ela envia ao Chatwoot a empresa, o nome e o e-mail do
+   administrador.
+6. **Conferir:**
+   - a tela de login mostra o logo e o nome ChatClean;
+   - um anexo enviado numa conversa aparece no bucket `chatclean-attachments-<conta>`;
+   - o convite de um agente chega por e-mail;
+   - `sudo systemctl start chatclean-backup` cria um arquivo em `s3://chatclean-backups-<conta>/database/`.
+
+## Atualizar o Chatwoot
+
+Como na documentação: atualiza pela `cwctl`, que leva à última versão estável e roda as migrações. Na máquina:
 
 ```sh
-.chatclean/bin/build-production-image chatclean:local
-
-mkdir -p /tmp/chatclean-prodtest && cp .chatclean/deploy/{docker-compose.production.yaml,Caddyfile,deploy.sh} /tmp/chatclean-prodtest/
-# .env de teste: CHATCLEAN_DOMAIN=localhost, CHATCLEAN_HTTP_PORT=8080, CHATCLEAN_HTTPS_PORT=8443,
-# FRONTEND_URL=https://localhost:8443, ACTIVE_STORAGE_SERVICE=local e senhas quaisquer.
-cd /tmp/chatclean-prodtest && COMPOSE_PROJECT_NAME=chatclean-prodtest ./deploy.sh chatclean:local
+sudo cwctl --upgrade
 ```
 
-Depois abra `https://localhost:8443` (certificado interno do Caddy). Para limpar:
-`COMPOSE_PROJECT_NAME=chatclean-prodtest CHATCLEAN_IMAGE=chatclean:local docker compose -f docker-compose.production.yaml down -v`.
+Depois, no Mac, `.chatclean/deploy/push-ops`, para aplicar a marca de novo e reiniciar.
 
-## Primeiro deploy (US 10 a US 13)
+A `cwctl` para se encontrar mudança nos arquivos do Chatwoot ("Custom code changes detected"). O `setup` não
+altera nenhum arquivo versionado: os logos ficam em `public/brand-assets/chatclean/` e o script da marca em
+`tmp/`, que o repositório do Chatwoot não tem.
 
-A infraestrutura é criada nas histórias CCV2-19 a CCV2-22, depois da aprovação dos créditos da AWS.
-Antes de ligar o workflow:
+## Comandos do dia a dia (na máquina)
 
-1. A stack `chatclean-base` (`../infra/README.md`, CCV2-19): máquina com Docker, AWS CLI e SSM, IP
-   fixo, firewall, ECR e a role de deploy. Os buckets (CCV2-21) e o SES (CCV2-22) vêm depois.
-2. No Parameter Store, em `/chatclean/production/`, todas as variáveis do `env.production.example`
-   (segredos como SecureString). `SMTP_USERNAME` e `SMTP_PASSWORD` são gravadas pelo
-   `../infra/ses-smtp-credentials`.
-3. No GitHub, as variáveis `AWS_DEPLOY_ROLE_ARN` e `CHATCLEAN_INSTANCE_ID` (saídas da stack) e, por último,
-   `CHATCLEAN_DEPLOY_ENABLED=true`.
-4. No primeiro acesso, o sistema abre `/installation/onboarding` para criar o primeiro administrador e
-   a conta. A tela já tem a marca ChatClean e não tem a caixa "receber novidades", que enviava ao
-   Chatwoot o nome da empresa, o nome e o e-mail do administrador (CCV2-22).
+| Para quê | Comando |
+|---|---|
+| Reiniciar | `sudo cwctl --restart` |
+| Logs do Chatwoot | `sudo cwctl --logs web` ou `sudo cwctl --logs worker` |
+| Console do Rails | `sudo cwctl --console` |
+| Versão | `sudo cwctl --version` |
+| Renovar o certificado | automático (timer do `certbot`); para conferir: `sudo certbot renew --dry-run` |
 
-## Backup e recuperação (CCV2-21)
+## Backup e recuperação
 
 | O quê | Como | Guarda |
 |---|---|---|
-| Banco | `backup-db.sh` às 03:00 de Brasília (cron instalado pelo `release.sh`) → `s3://chatclean-backups-<conta>/database/` | 30 dias |
-| Disco inteiro (banco, Redis, certificados) | snapshot diário às 03:30 pelo Data Lifecycle Manager | 7 dias |
-| Anexos | já ficam no S3 (`chatclean-attachments-<conta>`), fora da máquina | — |
-| Filas do Sidekiq | Redis com `appendonly`, no disco | — |
+| Banco | `server/backup-db` às 03:00 de Brasília (timer `chatclean-backup`) → `s3://chatclean-backups-<conta>/database/` | 30 dias |
+| Disco inteiro | snapshot diário às 03:30 de Brasília (Data Lifecycle Manager) | 7 dias |
+| Anexos | bucket `chatclean-attachments-<conta>` | sem prazo |
 
-Se o backup falhar, ou se o disco tiver menos de 10 GB livres, chega um e-mail do tópico `chatclean-alerts`.
-O log fica em `/var/log/chatclean_backup.log`. Backup manual: `sudo /opt/chatclean/backup-db.sh`.
+Se o backup falhar, ou se o disco tiver menos de 10 GB livres, chega um e-mail pelo `chatclean-alerts`. O log fica em
+`/var/log/chatclean_backup.log`. Backup manual: `sudo /opt/chatclean/backup-db`.
 
-**Teste de restauração** (faça depois do primeiro deploy e a cada mês). Ele não toca em nenhum banco:
+**Testar a restauração** (no Mac, com Docker):
 
 ```sh
-aws s3 ls s3://chatclean-backups-<conta>/database/ --profile ChatClean        # escolha o mais recente
-aws s3 cp s3://chatclean-backups-<conta>/database/<arquivo> . --profile ChatClean
+aws s3 cp --profile ChatClean s3://chatclean-backups-<conta>/database/<arquivo> .
 .chatclean/deploy/restore-check.sh <arquivo> > restaurado.txt
 ```
 
-Na máquina (`aws ssm start-session`), conte as linhas do banco de produção e compare com `restaurado.txt`.
+Na máquina, conte as linhas do banco de produção e compare com `restaurado.txt`:
 
 ```sh
-cd /opt/chatclean && sudo CHATCLEAN_IMAGE="$(cat .current-image)" docker compose -f docker-compose.production.yaml \
-  exec -T postgres sh -c 'psql -At -F" " -U "$POSTGRES_USER" "$POSTGRES_DB"' < count-rows.sql
+sudo -u postgres psql -At -F' ' chatwoot_production < count-rows.sql
 ```
 
-As contagens podem diferir nas tabelas que mudaram depois do horário do dump.
+**Recuperar a máquina inteira:** crie um volume a partir do snapshot mais recente, troque o disco da máquina por ele
+(com a máquina parada) e ligue de novo. O IP fixo continua o mesmo.
 
-**Banco perdido ou corrompido, máquina boa:** com o dump mais recente em `/opt/chatclean`:
+## Limitações conhecidas
 
-```sh
-cd /opt/chatclean
-export CHATCLEAN_IMAGE="$(cat .current-image)"
-compose="docker compose -f docker-compose.production.yaml"
-$compose stop rails sidekiq
-$compose exec -T postgres sh -c 'dropdb -U "$POSTGRES_USER" "$POSTGRES_DB" && createdb -U "$POSTGRES_USER" "$POSTGRES_DB"'
-gunzip -c <arquivo>.sql.gz | $compose exec -T postgres sh -c 'psql -q -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" "$POSTGRES_DB"'
-$compose up -d
-```
-
-**Máquina perdida:** a partir do snapshot mais recente (perde no máximo um dia):
-
-1. No console do EC2, em Snapshots, crie uma imagem (AMI) a partir do snapshot do disco.
-2. `aws cloudformation deploy --stack-name chatclean-base --template-file .chatclean/infra/chatclean-base.yaml --capabilities CAPABILITY_NAMED_IAM --parameter-overrides AmiId=<ami>`
-   cria uma máquina nova com esse disco. O Elastic IP passa para ela, então o DNS não muda. A máquina
-   antiga fica (proteção e `Retain`) e precisa ser encerrada à mão.
-3. Rode um deploy (workflow manual ou `release.sh`) para garantir a imagem atual.
-
-## Validado localmente (23/10/2026)
-
-Imagem MIT montada com `build-production-image`, pacote subido com `deploy.sh` em projeto separado:
-HTTPS pelo Caddy (200 no `/health`), HTTP redirecionado para HTTPS, WebSocket do `/cable` (101),
-logo da ChatClean servida, marca aplicada, `ChatwootApp.enterprise?` falso e sem `/app/enterprise`.
-Rodado duas vezes: banco novo (schema + seeds) e banco existente (só migrations).
+- O Super Admin e a tela da configuração inicial mostram o logo e o nome do Chatwoot, porque estão fixos no código
+  oficial. Painel, login e widget mostram os da ChatClean.
+- A tela de agentes pede os papéis personalizados, que só existem na edição paga. Na edição gratuita, esse pedido
+  devolve erro no console do navegador, e a tela funciona normalmente.
