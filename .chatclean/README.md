@@ -1,8 +1,13 @@
 # ChatClean — ambiente de desenvolvimento
 
-Fork do [Chatwoot](https://github.com/chatwoot/chatwoot). Tudo que é específico do ChatClean
+Derivado do [Chatwoot](https://github.com/chatwoot/chatwoot). Tudo que é específico do ChatClean
 fica em caminhos que não existem no upstream (`.chatclean/`, `docker-compose.override.yaml`),
 para que os merges do Chatwoot não gerem conflito.
+
+Desde 27/10/2026 (CCV2-38), o repositório é privado e fica fora da rede de fork do Chatwoot,
+no GitHub Pro da conta `dev-chatclean`. As atualizações do Chatwoot continuam pelo remote
+`upstream` (`.chatclean/bin/sync-upstream`). A cópia dos PRs #1 a #28 está em
+[`historico-prs.md`](historico-prs.md).
 
 ## Primeira configuração
 
