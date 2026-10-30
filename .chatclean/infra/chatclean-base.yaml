@@ -348,6 +348,9 @@ Resources:
 
   # Usuário só para as credenciais SMTP do SES, a única chave fixa do sistema (o Chatwoot envia
   # por SMTP). A chave é criada pelo ses-smtp-credentials direto no Parameter Store.
+  # O SES confere a permissão na identidade mais específica do remetente: se um endereço do domínio
+  # também estiver verificado (como na sandbox), é ele, e não o domínio. Por isso a política vale para
+  # qualquer identidade da conta, limitada ao remetente do domínio (CCV2-41).
   SmtpUser:
     Type: AWS::IAM::User
     Properties:
@@ -359,7 +362,10 @@ Resources:
             Statement:
               - Effect: Allow
                 Action: ses:SendRawEmail
-                Resource: !Sub arn:aws:ses:${AWS::Region}:${AWS::AccountId}:identity/${MailDomain}
+                Resource: !Sub arn:aws:ses:${AWS::Region}:${AWS::AccountId}:identity/*
+                Condition:
+                  StringLike:
+                    ses:FromAddress: !Sub '*@${MailDomain}'
 
   # Log de acesso HTTPS do nginx, enviado pelo CloudWatch Agent. Tem IP e URL de quem acessa: 30 dias.
   NginxLogGroup:

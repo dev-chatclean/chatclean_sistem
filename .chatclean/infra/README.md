@@ -85,7 +85,9 @@ DMARC sem mexer no SPF da raiz.
 3. **Credenciais SMTP:** `.chatclean/infra/ses-smtp-credentials` grava `SMTP_USERNAME` e `SMTP_PASSWORD` no Parameter
    Store, sem mostrar a senha. O `setup` copia as duas para o `.env` do Chatwoot.
 4. **Saída da sandbox:** até a AWS aprovar, o SES só entrega para endereços verificados um a um
-   (`aws sesv2 create-email-identity --email-identity <email>`). O pedido:
+   (`aws sesv2 create-email-identity --email-identity <email>`). Um endereço `@chatclean.com.br` verificado
+   passa a ser a identidade conferida no envio, por isso a política do `chatclean-ses-smtp` vale para
+   `identity/*` com remetente `*@chatclean.com.br` (CCV2-41). O pedido:
 
    ```sh
    aws sesv2 put-account-details --profile ChatClean --region us-east-1 \
