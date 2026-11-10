@@ -4,7 +4,7 @@ name: ChatClean CI
 
 on:
   pull_request:
-    branches: [main, develop, chatclean-features]
+    branches: [main, dev, develop, chatclean-features]
 
 permissions:
   contents: read
