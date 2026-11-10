@@ -1,0 +1,47 @@
+{
+  "CRM_PIPELINES": {
+    "HEADER": "Funil de vendas",
+    "DESCRIPTION": "Organize o processo comercial em pipelines. Todo pipeline começa na etapa Novo contato e termina em Ganho e Perda.",
+    "LOADING": "Carregando pipelines...",
+    "EMPTY": "Nenhum pipeline ainda. Crie o primeiro para começar a organizar suas vendas.",
+    "CREATE_BUTTON": "Criar pipeline",
+    "DEFAULT_BADGE": "Padrão",
+    "SET_DEFAULT": "Definir como padrão",
+    "EDIT": "Renomear",
+    "DELETE": "Excluir",
+    "DELETE_DEFAULT_BLOCKED": "Não é possível excluir o pipeline padrão. Defina outro pipeline como padrão antes.",
+    "AUTO_CREATE": {
+      "TITLE": "Criar oportunidades automaticamente",
+      "DESCRIPTION": "Quando a conversa for atribuída a um atendente, uma oportunidade é criada no pipeline padrão, na etapa Novo contato, para contatos sem oportunidade aberta. O atendente vira o responsável. Precisa de um pipeline padrão."
+    },
+    "FORM": {
+      "CREATE_TITLE": "Criar pipeline",
+      "CREATE_DESCRIPTION": "As etapas Novo contato, Ganho e Perda são adicionadas automaticamente.",
+      "EDIT_TITLE": "Renomear pipeline",
+      "NAME": {
+        "LABEL": "Nome do pipeline",
+        "PLACEHOLDER": "Ex.: Vendas",
+        "TOO_LONG": "Use no máximo {max} caracteres"
+      },
+      "CREATE": "Criar",
+      "SAVE": "Salvar",
+      "CANCEL": "Cancelar"
+    },
+    "DELETE_CONFIRM": {
+      "TITLE": "Excluir pipeline",
+      "MESSAGE": "Tem certeza de que deseja excluir o pipeline {name}? As etapas dele também serão excluídas.",
+      "YES": "Excluir",
+      "NO": "Cancelar"
+    },
+    "API": {
+      "FETCH_ERROR": "Não foi possível carregar os pipelines. Tente de novo.",
+      "CREATE_SUCCESS": "Pipeline criado",
+      "UPDATE_SUCCESS": "Pipeline atualizado",
+      "DEFAULT_SUCCESS": "{name} agora é o pipeline padrão",
+      "DELETE_SUCCESS": "Pipeline excluído",
+      "SETTINGS_SUCCESS": "Configuração salva",
+      "SAVE_ERROR": "Não foi possível salvar. Tente de novo.",
+      "DELETE_ERROR": "Não foi possível excluir o pipeline. Tente de novo."
+    }
+  }
+}

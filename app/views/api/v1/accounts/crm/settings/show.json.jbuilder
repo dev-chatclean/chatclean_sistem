@@ -1,0 +1,1 @@
+json.crm_auto_create_deals Current.account.crm_auto_create_deals.present?

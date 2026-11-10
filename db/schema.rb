@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_14_152259) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_10_171941) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1053,6 +1053,29 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_14_152259) do
     t.index ["account_id"], name: "index_copilot_threads_on_account_id"
     t.index ["assistant_id"], name: "index_copilot_threads_on_assistant_id"
     t.index ["user_id"], name: "index_copilot_threads_on_user_id"
+  end
+
+  create_table "crm_pipelines", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", limit: 100, null: false
+    t.boolean "is_default", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_crm_pipelines_on_account_id"
+    t.index ["account_id"], name: "index_crm_pipelines_on_account_id_default", unique: true, where: "is_default"
+  end
+
+  create_table "crm_stages", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "pipeline_id", null: false
+    t.string "name", limit: 50, null: false
+    t.integer "stage_type", default: 1, null: false
+    t.string "color", limit: 7, null: false
+    t.integer "position", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_crm_stages_on_account_id"
+    t.index ["pipeline_id", "position"], name: "index_crm_stages_on_pipeline_id_and_position"
   end
 
   create_table "csat_survey_responses", force: :cascade do |t|

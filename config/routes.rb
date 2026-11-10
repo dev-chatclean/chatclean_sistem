@@ -360,6 +360,10 @@ Rails.application.routes.draw do
             end
           end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
+          namespace :crm do
+            resources :pipelines, only: [:index, :show, :create, :update, :destroy]
+            resource :settings, only: [:show, :update]
+          end
 
           resources :notifications, only: [:index, :update, :destroy] do
             collection do

@@ -1,0 +1,47 @@
+{
+  "CRM_PIPELINES": {
+    "HEADER": "Sales pipelines",
+    "DESCRIPTION": "Organize your sales process in pipelines. Every pipeline starts with the New contact stage and ends with Won and Lost.",
+    "LOADING": "Loading pipelines...",
+    "EMPTY": "No pipelines yet. Create the first one to start organizing your sales.",
+    "CREATE_BUTTON": "Create pipeline",
+    "DEFAULT_BADGE": "Default",
+    "SET_DEFAULT": "Set as default",
+    "EDIT": "Rename",
+    "DELETE": "Delete",
+    "DELETE_DEFAULT_BLOCKED": "The default pipeline cannot be deleted. Set another pipeline as the default first.",
+    "AUTO_CREATE": {
+      "TITLE": "Create deals automatically",
+      "DESCRIPTION": "When a conversation is assigned to an agent, a deal is created in the default pipeline, in the New contact stage, for contacts without an open deal. The agent becomes the owner. Requires a default pipeline."
+    },
+    "FORM": {
+      "CREATE_TITLE": "Create pipeline",
+      "CREATE_DESCRIPTION": "The New contact, Won and Lost stages are added automatically.",
+      "EDIT_TITLE": "Rename pipeline",
+      "NAME": {
+        "LABEL": "Pipeline name",
+        "PLACEHOLDER": "E.g. Sales",
+        "TOO_LONG": "Use at most {max} characters"
+      },
+      "CREATE": "Create",
+      "SAVE": "Save",
+      "CANCEL": "Cancel"
+    },
+    "DELETE_CONFIRM": {
+      "TITLE": "Delete pipeline",
+      "MESSAGE": "Are you sure you want to delete the pipeline {name}? Its stages are deleted too.",
+      "YES": "Delete",
+      "NO": "Cancel"
+    },
+    "API": {
+      "FETCH_ERROR": "Could not load the pipelines. Try again.",
+      "CREATE_SUCCESS": "Pipeline created",
+      "UPDATE_SUCCESS": "Pipeline updated",
+      "DEFAULT_SUCCESS": "{name} is now the default pipeline",
+      "DELETE_SUCCESS": "Pipeline deleted",
+      "SETTINGS_SUCCESS": "Settings saved",
+      "SAVE_ERROR": "Could not save. Try again.",
+      "DELETE_ERROR": "Could not delete the pipeline. Try again."
+    }
+  }
+}
