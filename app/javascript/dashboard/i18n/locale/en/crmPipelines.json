@@ -1,29 +1,58 @@
 {
   "CRM_PIPELINES": {
-    "HEADER": "Sales pipelines",
-    "DESCRIPTION": "Organize your sales process in pipelines. Every pipeline starts with the New contact stage and ends with Won and Lost.",
-    "LOADING": "Loading pipelines...",
-    "EMPTY": "No pipelines yet. Create the first one to start organizing your sales.",
+    "HEADER": "Pipelines",
+    "SEARCH_PLACEHOLDER": "Search pipeline",
+    "NO_SEARCH_RESULTS": "No pipeline found",
+    "ADD_PIPELINE": "Add pipeline",
     "CREATE_BUTTON": "Create pipeline",
     "DEFAULT_BADGE": "Default",
-    "SET_DEFAULT": "Set as default",
-    "EDIT": "Rename",
-    "DELETE": "Delete",
-    "DELETE_DEFAULT_BLOCKED": "The default pipeline cannot be deleted. Set another pipeline as the default first.",
-    "AUTO_CREATE": {
-      "TITLE": "Create deals automatically",
-      "DESCRIPTION": "When a conversation is assigned to an agent, a deal is created in the default pipeline, in the New contact stage, for contacts without an open deal. The agent becomes the owner. Requires a default pipeline."
+    "EMPTY": {
+      "TITLE": "No pipelines yet",
+      "ADMIN": "Create the first pipeline to organize your sales in stages.",
+      "AGENT": "An administrator needs to create the first pipeline."
+    },
+    "BOARD": {
+      "COUNT": "{count} deals",
+      "EMPTY_STAGE": "No deals in this stage",
+      "EMPTY_WON": "Won deals show up here.",
+      "EMPTY_LOST": "Lost deals show up here."
+    },
+    "MENU": {
+      "LABEL": "Pipeline options",
+      "SETTINGS": "Pipeline settings",
+      "EDIT": "Edit pipeline",
+      "LEAD_ENTRY": "Lead entry",
+      "RENAME": "Rename",
+      "SET_DEFAULT": "Set as default",
+      "DELETE": "Delete",
+      "DELETE_DEFAULT_BLOCKED": "Delete (set another default first)"
+    },
+    "LEAD_ENTRY": {
+      "TITLE": "Lead entry",
+      "TOGGLE": "Create deals automatically",
+      "DESCRIPTION": "When a conversation is assigned to an agent, a deal is created in the default pipeline, in the first stage, for contacts without an open deal. The agent becomes the owner. This setting applies to the whole account.",
+      "NEEDS_DEFAULT": "Create a pipeline first: it becomes the default."
     },
     "FORM": {
-      "CREATE_TITLE": "Create pipeline",
-      "CREATE_DESCRIPTION": "The New contact, Won and Lost stages are added automatically.",
-      "EDIT_TITLE": "Rename pipeline",
+      "CREATE_TITLE": "New pipeline",
+      "EDIT_TITLE": "Edit pipeline",
       "NAME": {
-        "LABEL": "Pipeline name",
-        "PLACEHOLDER": "E.g. Sales",
+        "LABEL": "Name",
+        "PLACEHOLDER": "E.g. Inbound sales",
         "TOO_LONG": "Use at most {max} characters"
       },
-      "CREATE": "Create",
+      "CLOSING_STAGES": "Closing columns",
+      "CLOSING_STAGES_HINT": "The pipeline starts with the New contact stage. The won and lost columns are required and always close the board.",
+      "WON": {
+        "LABEL": "Won column name",
+        "DEFAULT_NAME": "Won"
+      },
+      "LOST": {
+        "LABEL": "Lost column name",
+        "DEFAULT_NAME": "Lost"
+      },
+      "STAGE_NAME_LENGTH": "Use between {min} and {max} characters",
+      "CREATE": "Create pipeline",
       "SAVE": "Save",
       "CANCEL": "Cancel"
     },

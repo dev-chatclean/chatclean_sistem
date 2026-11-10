@@ -1,29 +1,58 @@
 {
   "CRM_PIPELINES": {
-    "HEADER": "Funil de vendas",
-    "DESCRIPTION": "Organize o processo comercial em pipelines. Todo pipeline começa na etapa Novo contato e termina em Ganho e Perda.",
-    "LOADING": "Carregando pipelines...",
-    "EMPTY": "Nenhum pipeline ainda. Crie o primeiro para começar a organizar suas vendas.",
+    "HEADER": "Pipelines",
+    "SEARCH_PLACEHOLDER": "Buscar pipeline",
+    "NO_SEARCH_RESULTS": "Nenhum pipeline encontrado",
+    "ADD_PIPELINE": "Adicionar pipeline",
     "CREATE_BUTTON": "Criar pipeline",
     "DEFAULT_BADGE": "Padrão",
-    "SET_DEFAULT": "Definir como padrão",
-    "EDIT": "Renomear",
-    "DELETE": "Excluir",
-    "DELETE_DEFAULT_BLOCKED": "Não é possível excluir o pipeline padrão. Defina outro pipeline como padrão antes.",
-    "AUTO_CREATE": {
-      "TITLE": "Criar oportunidades automaticamente",
-      "DESCRIPTION": "Quando a conversa for atribuída a um atendente, uma oportunidade é criada no pipeline padrão, na etapa Novo contato, para contatos sem oportunidade aberta. O atendente vira o responsável. Precisa de um pipeline padrão."
+    "EMPTY": {
+      "TITLE": "Nenhum pipeline ainda",
+      "ADMIN": "Crie o primeiro pipeline para organizar suas vendas em etapas.",
+      "AGENT": "Um administrador precisa criar o primeiro pipeline."
+    },
+    "BOARD": {
+      "COUNT": "{count} oportunidades",
+      "EMPTY_STAGE": "Nenhuma oportunidade nesta etapa",
+      "EMPTY_WON": "As oportunidades ganhas aparecem aqui.",
+      "EMPTY_LOST": "As oportunidades perdidas aparecem aqui."
+    },
+    "MENU": {
+      "LABEL": "Opções do pipeline",
+      "SETTINGS": "Configurações do pipeline",
+      "EDIT": "Editar pipeline",
+      "LEAD_ENTRY": "Entrada de leads",
+      "RENAME": "Renomear",
+      "SET_DEFAULT": "Definir como padrão",
+      "DELETE": "Excluir",
+      "DELETE_DEFAULT_BLOCKED": "Excluir (defina outro padrão antes)"
+    },
+    "LEAD_ENTRY": {
+      "TITLE": "Entrada de leads",
+      "TOGGLE": "Criar oportunidades automaticamente",
+      "DESCRIPTION": "Quando a conversa for atribuída a um atendente, uma oportunidade é criada no pipeline padrão, na primeira etapa, para contatos sem oportunidade aberta. O atendente vira o responsável. A configuração vale para a conta inteira.",
+      "NEEDS_DEFAULT": "Crie um pipeline primeiro: ele vira o padrão."
     },
     "FORM": {
-      "CREATE_TITLE": "Criar pipeline",
-      "CREATE_DESCRIPTION": "As etapas Novo contato, Ganho e Perda são adicionadas automaticamente.",
-      "EDIT_TITLE": "Renomear pipeline",
+      "CREATE_TITLE": "Novo pipeline",
+      "EDIT_TITLE": "Editar pipeline",
       "NAME": {
-        "LABEL": "Nome do pipeline",
-        "PLACEHOLDER": "Ex.: Vendas",
+        "LABEL": "Nome",
+        "PLACEHOLDER": "Ex.: Vendas inbound",
         "TOO_LONG": "Use no máximo {max} caracteres"
       },
-      "CREATE": "Criar",
+      "CLOSING_STAGES": "Colunas de fechamento",
+      "CLOSING_STAGES_HINT": "O pipeline começa na etapa Novo contato. As colunas de ganho e de perda são obrigatórias e sempre fecham o quadro.",
+      "WON": {
+        "LABEL": "Nome da coluna de ganho",
+        "DEFAULT_NAME": "Ganho"
+      },
+      "LOST": {
+        "LABEL": "Nome da coluna de perda",
+        "DEFAULT_NAME": "Perda"
+      },
+      "STAGE_NAME_LENGTH": "Use entre {min} e {max} caracteres",
+      "CREATE": "Criar pipeline",
       "SAVE": "Salvar",
       "CANCEL": "Cancelar"
     },

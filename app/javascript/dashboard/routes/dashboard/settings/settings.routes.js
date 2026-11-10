@@ -17,7 +17,6 @@ import inbox from './inbox/inbox.routes';
 import templates from './templates/templates.routes';
 import integrations from './integrations/integrations.routes';
 import labels from './labels/labels.routes';
-import crmPipelines from './crmPipelines/crmPipelines.routes';
 import macros from './macros/macros.routes';
 import reports from './reports/reports.routes';
 import store from '../../../store';
@@ -63,7 +62,6 @@ export default {
     ...integrations.routes,
     ...data.routes,
     ...labels.routes,
-    ...crmPipelines.routes,
     ...macros.routes,
     ...reports.routes,
     ...sla.routes,

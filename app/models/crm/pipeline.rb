@@ -23,15 +23,16 @@ class Crm::Pipeline < ApplicationRecord
     { stage_type: :lost, color: '#E0484E' }
   ].freeze
 
+  attr_accessor :won_stage, :lost_stage
+
   belongs_to :account
   has_many :stages, -> { order(:position) }, class_name: 'Crm::Stage', inverse_of: :pipeline, dependent: :destroy
 
   validates :name, presence: true, length: { maximum: 100 }
   validate :default_cannot_be_unset, on: :update
 
-  before_validation :become_default_if_first, on: :create
+  before_validation :become_default_if_first, :build_required_stages, on: :create
   before_save :unset_other_defaults, if: -> { is_default? && will_save_change_to_is_default? }
-  before_create :build_required_stages
 
   private
 
@@ -42,7 +43,8 @@ class Crm::Pipeline < ApplicationRecord
   def build_required_stages
     I18n.with_locale(account.locale) do
       REQUIRED_STAGES.each_with_index do |stage, position|
-        stages.build(account: account, position: position, name: I18n.t("crm.stages.defaults.#{stage[:stage_type]}"), **stage)
+        custom = { won: won_stage, lost: lost_stage }[stage[:stage_type]].to_h.compact_blank
+        stages.build({ account: account, position: position, name: I18n.t("crm.stages.defaults.#{stage[:stage_type]}") }.merge(stage, custom))
       end
     end
   end

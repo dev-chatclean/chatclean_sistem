@@ -9,7 +9,7 @@ class Api::V1::Accounts::Crm::PipelinesController < Api::V1::Accounts::BaseContr
   def show; end
 
   def create
-    @pipeline = Current.account.crm_pipelines.create!(permitted_params)
+    @pipeline = Current.account.crm_pipelines.create!(create_params)
   end
 
   def update
@@ -35,5 +35,9 @@ class Api::V1::Accounts::Crm::PipelinesController < Api::V1::Accounts::BaseContr
 
   def permitted_params
     params.require(:pipeline).permit(:name, :is_default)
+  end
+
+  def create_params
+    params.require(:pipeline).permit(:name, :is_default, won_stage: [:name, :color], lost_stage: [:name, :color])
   end
 end
