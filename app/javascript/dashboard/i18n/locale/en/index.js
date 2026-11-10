@@ -27,6 +27,7 @@ import integrationApps from './integrationApps.json';
 import integrations from './integrations.json';
 import labelsMgmt from './labelsMgmt.json';
 import crmPipelines from './crmPipelines.json';
+import chatclean from './chatclean.json';
 import login from './login.json';
 import macros from './macros.json';
 import report from './report.json';
@@ -76,6 +77,7 @@ export default {
   ...integrations,
   ...labelsMgmt,
   ...crmPipelines,
+  ...chatclean,
   ...login,
   ...macros,
   ...report,

@@ -1,0 +1,555 @@
+# Textos em português que o upstream do Chatwoot ainda não traduziu (o Crowdin não roda neste fork).
+# Chaves que já existem no pt_BR.yml do upstream não entram aqui.
+pt_BR:
+  administrator_notifications:
+    captain:
+      response_usage_alert:
+        action: Ver o uso e adicionar créditos
+        balance: "%{consumed} créditos foram usados e restam %{remaining}."
+        greeting: Olá,
+        subject: Os créditos de IA estão acabando
+        usage_html: "%{account_name} já usou mais de 80% dos créditos de resposta da IA no período atual."
+  conversations:
+    messages:
+      whatsapp:
+        request_contact_info: Você gostaria de compartilhar o seu número de telefone com a gente?
+    reply:
+      attachments: 'Anexos:'
+      bot_label: Bot
+      contact_label: Você
+      greeting: Olá, %{name},
+      new_messages: Você tem mensagens novas na sua conversa.
+      rate_conversation_html: Clique %{link} para avaliar a conversa.
+      rate_conversation_link: aqui
+  errors:
+    billing:
+      provider_action_unavailable: Esta ação de cobrança não está disponível para contas cobradas pela Shopify
+      shopify_pricing_unavailable: Os preços da Shopify não estão disponíveis agora
+      shopify_verification_failed: Não foi possível verificar a cobrança da Shopify agora
+    companies:
+      enrichment:
+        domain_missing: Adicione um domínio à empresa antes de atualizar o perfil dela
+        not_configured: O enriquecimento de empresas não está configurado nesta instalação
+        not_found: Não foi possível encontrar informações de perfil para o domínio desta empresa
+        plan_required: O enriquecimento de empresas não está disponível neste plano
+      social_profiles:
+        invalid: Os links de redes sociais precisam começar com http:// ou https://
+    device_verification:
+      code_field_required: Digite o código de 6 dígitos do seu e-mail no campo do código de verificação, e não no campo do código de backup
+      expired: O código de verificação expirou. Entre de novo para receber outro
+      invalid_code: Código incorreto. Digite o código de 6 dígitos que enviamos para o seu e-mail.
+      invalid_token: Token de verificação inválido ou expirado. Entre de novo para receber um novo código
+      locked: Muitos códigos incorretos. Entre de novo para receber um novo
+      rate_limited: Muitas tentativas de verificação. Tente mais tarde ou redefina a sua senha
+      stale: A sua conta mudou depois que este código foi gerado. Entre de novo
+    mfa:
+      enforced_cannot_disable: A autenticação em dois fatores é exigida pela sua conta e não pode ser desligada.
+      enrollment_required: Esta conta exige autenticação em dois fatores. Configure no seu perfil para recuperar o acesso à API.
+      interactive_session_required: As configurações de autenticação em dois fatores não podem ser alteradas com um token de API. Entre pelo painel.
+      setup_required: A sua conta exige autenticação em dois fatores. Configure para continuar entrando.
+    notification_subscription:
+      voip_attributes_required: Uma inscrição de push VoIP precisa de um device_id e de um push_token
+    whatsapp:
+      authentication_template_requires_phone: Templates de autenticação exigem um número de WhatsApp e não podem ser enviados para um contato que só tem BSUID.
+      contact_info_request:
+        invalid_identifier: Só é possível pedir informações de contato a um usuário do WhatsApp vinculado à empresa.
+        outside_messaging_window: Só é possível pedir informações de contato dentro da janela de 24 horas de atendimento do WhatsApp.
+        pending_request: Já existe um pedido de informações de contato pendente.
+        phone_already_available: Este contato já tem um número de telefone.
+        template_not_configured: Fora da janela de 24 horas, é preciso um template aprovado do WhatsApp com o botão de pedir informações de contato.
+        unsupported_provider: Os pedidos de informações de contato estão disponíveis só para caixas de entrada do WhatsApp Cloud.
+      template_category_required_for_bsuid: Não foi possível verificar a categoria do template para este contato que só tem BSUID.
+  installation:
+    onboarding:
+      company: Nome da empresa
+      company_placeholder: 'Digite o nome da sua empresa. Ex.: ChatClean'
+      email: E-mail de trabalho
+      email_placeholder: 'Digite o seu e-mail de trabalho. Ex.: maria@empresa.com.br'
+      heading: "Olá, boas-vindas à ChatClean \U0001F44B"
+      name: Nome
+      name_placeholder: 'Digite o seu nome completo. Ex.: Maria Silva'
+      password: Senha
+      password_placeholder: Digite uma senha com 6 caracteres ou mais.
+      submit: Concluir configuração
+      subscribe: Quero receber novidades, notas de versão e pesquisas sobre o produto.
+  integration_apps:
+    stripe:
+      description: Veja os dados do cliente, assinaturas e faturas recentes da Stripe junto das conversas.
+      name: Stripe
+      short_description: Veja os dados de cobrança do cliente nas conversas.
+  messages:
+    mfa_sign_in_required: A autenticação em dois fatores é obrigatória para a sua conta. Entre para continuar.
+  notifications:
+    notification_title:
+      voice_call_missed: Ligação perdida · %{inbox_name}
+  super_admin:
+    account_suspension:
+      history:
+        suspended_by: Suspensa por
+        unknown_user: Usuário desconhecido
+    accounts:
+      add_user: Adicionar um usuário a esta conta
+      captain_models: Modelos de IA
+      conversations: Conversas
+      custom_attributes: Atributos personalizados
+      general: Geral
+      limits: Limites
+      maintenance: Manutenção
+      manually_managed_features: Recursos gerenciados manualmente
+      reset_cache: Limpar o cache do painel
+      reset_cache_button: Limpar cache do painel
+      reset_cache_description: Isto limpa do Redis as chaves de cache do IndexedDB. No próximo carregamento, os dados vêm do servidor.
+      seed_data: Gerar dados de exemplo
+      seed_data_button: Gerar dados de exemplo
+      seed_data_description: Clique no botão para gerar dados de exemplo nesta conta, para demonstrações.
+      seed_data_warning: 'Atenção: isto apaga todos os dados existentes nesta conta.'
+      suspension_history: Histórico de suspensões
+      users: Usuários
+    actions:
+      clear: Limpar
+      close: Fechar
+      copy: Copiar
+      more: Mais
+      save_changes: Salvar alterações
+      select_all: Selecionar tudo
+      toggle_secret: Mostrar ou esconder
+    collection:
+      actions: Ações
+      empty: Nenhum %{resource} encontrado.
+      showing: Mostrando %{from}–%{to} de %{total}
+    command_bar:
+      create: Criar
+      empty: Nenhum resultado encontrado.
+      go_to: Ir para
+      label: Barra de comandos
+      navigate: Navegar
+      open: Abrir
+      placeholder: Busque ou execute um comando
+      see_all: Ver todos os %{resource} encontrados
+      select: Selecionar
+      trigger: Buscar
+    dashboard:
+      description: Contas, usuários e volume de conversas desta instalação.
+      installation: Instalação
+      new_account: Nova conta
+      new_user: Novo usuário
+      plan: Plano
+      shortcuts: Atalhos
+      version: Versão
+    features:
+      disabled: Desligado
+      enabled: Ligado
+      enabled_count: "%{enabled} de %{total} ligados"
+      filter: Filtrar recursos
+      help_article: Artigo de ajuda
+      manually_managed_empty: Nenhum recurso gerenciado manualmente
+      manually_managed_hint: Recursos que continuam ligados mesmo quando o plano da conta é reduzido
+      no_match: Nenhum recurso corresponde a este filtro.
+      not_selected: Não selecionado
+      premium: Recursos premium
+      selected: Selecionado
+      selected_count: "%{selected} de %{total} selecionados"
+      title: Recursos
+    filters:
+      all: Todos
+      label: Filtrar por
+    instance_status:
+      description: Versões e status de conexão dos serviços que esta instalação usa.
+      details: Detalhes
+    login:
+      email: E-mail
+      email_placeholder: 'E-mail, ex.: alguem@empresa.com.br'
+      heading: "Olá, admin \U0001F44B"
+      password: Senha
+      password_placeholder: Senha
+      submit: Entrar
+    navigation:
+      account: Conta
+      agent_dashboard: Painel do atendente
+      back: Voltar
+      dashboard: Painel
+      groups:
+        instance: Instância
+        manage: Gerenciar
+      instance_health: Saúde da instância
+      label: Super Admin
+      logout: Sair
+      monitor: Monitorar
+      more: Mais
+      overview: Visão geral
+      profile: Perfil
+      release_notes: Notas de versão
+      settings: Configurações
+      settings_groups:
+        authentication: Autenticação
+        channels: Canais
+        integrations: Integrações
+        product: Produto
+      sidekiq_dashboard: Painel do Sidekiq
+      suffix: Console do Super Admin
+      tabs:
+        agent_bots: Bots
+        platform_apps: Apps
+        platform_banners: Banners
+      theme:
+        dark: Escuro
+        label: Tema
+        light: Claro
+        system: Igual ao sistema
+      update_available: A versão v%{version} está disponível
+      user_diagnostics: Diagnóstico de usuário
+    record:
+      created: Criado em
+      last_updated: Atualizado em
+      overview: Visão geral
+      profile: Perfil
+      time_ago: há %{time}
+    settings:
+      agents_over_limit: Você tem %{count} atendentes. Adicione mais licenças para incluir mais usuários.
+      alert: Atenção!
+      chat_support: Suporte por chat
+      community_support: Suporte
+      configure: Configurar
+      configure_title: Configurar - %{config}
+      contact_for_help: 'Fale com o suporte:'
+      current_plan: Plano atual
+      default_description: Opções da instância inteira
+      description: Atualize as configurações da instância
+      enterprise_badge: EE
+      included: Incluído
+      installation_identifier: Identificador da instalação
+      installation_identifier_description: ID único desta instalação.
+      locked: Bloqueado
+      manage: Gerenciar
+      need_help: Precisa de ajuda?
+      need_help_description: Está com algum problema? A equipe ChatClean ajuda.
+      pages:
+        general: Geral
+        internal: Interno
+        internal_description: Chaves e opções internas da instalação
+      refresh: Atualizar
+      switch_to_enterprise: Mudar de edição
+      unauthorized_changes: Foram detectadas alterações premium não autorizadas.
+      upgrade_now: Fazer upgrade
+    user_diagnostics:
+      calls:
+        account_columns:
+          account: Conta
+          inboxes: Caixas de voz
+          ringing: Ligações no celular
+          rings: Celular toca
+          status: Status
+          voice: Canal de voz
+        accounts_heading: Contas
+        assigned_only: Ligações atribuídas a ele
+        availability:
+          busy: Ocupado
+          offline: Offline
+          online: Online
+        blockers:
+          no_device: Não, nenhum celular registrado
+          no_inboxes: Não, não há caixas de voz
+          not_online: Não, não está online
+          push_unavailable: Só com o app aberto
+          ringing_off: Não, as ligações no celular estão desligadas
+          voice_off: Não, o canal de voz está desligado
+        configured: Configurado
+        credentials:
+          android: Precisa de FIREBASE_PROJECT_ID e FIREBASE_CREDENTIALS
+          apple: Precisa de APNS_VOIP_KEY, APNS_VOIP_KEY_ID e APNS_VOIP_TEAM_ID
+        description: Se uma ligação toca no celular do usuário com o app em segundo plano ou fechado. Com o app aberto, as ligações tocam pela conexão ao vivo.
+        heading: Ligações recebidas
+        invalid_environment: APNS_VOIP_ENVIRONMENT precisa ser development ou production
+        not_configured: Não configurado
+        'off': Desligado
+        'on': Ligado
+        platforms:
+          android: Android
+          apple: iPhone
+        rings: Sim
+        setup:
+          columns:
+            devices: Aparelhos registrados para ligações
+            installation: Instalação
+            platform: Plataforma
+          heading: Configuração de push
+      description: Busque um usuário para investigar um problema relatado. Cada aba cobre uma parte da configuração dele.
+      devices:
+        build_number_note: O buildNumber aqui é o número de build nativo, e não a versão do app da aba App de celular.
+        columns:
+          details: Detalhes do aparelho
+          device: Aparelho
+          id: ID
+          last_updated: Atualizado em
+          registered: Registrado em
+          token: Token
+          type: Tipo
+        empty:
+          description: Este usuário não tem aparelho registrado para receber notificações push.
+          title: Nenhum aparelho registrado.
+        heading: Aparelhos registrados
+      push:
+        body_hint: O cliente vai ver este texto como uma notificação push de verdade no aparelho.
+        body_label: Texto
+        delete_confirm: Excluir as inscrições selecionadas? O usuário não recebe push nesses aparelhos até o app se registrar de novo.
+        delete_selected: Excluir as inscrições selecionadas
+        no_subscriptions_to_delete: Selecione pelo menos uma inscrição para excluir.
+        no_subscriptions_to_test: Selecione pelo menos uma inscrição para testar.
+        real_push_warning: Isto envia um push de verdade para todos os aparelhos selecionados. Use só para investigar um problema relatado.
+        results_columns:
+          details: Detalhes
+          device: Aparelho
+          id: ID da inscrição
+          status: Status
+          token: Token de push
+          type: Tipo
+        results_heading: Resultados
+        send_test: Enviar push de teste para os selecionados
+        subscriptions_deleted:
+          one: "%{count} inscrição excluída. O aparelho do usuário se registra de novo quando o app abrir."
+          other: "%{count} inscrições excluídas. Os aparelhos se registram de novo quando o app abrir."
+        title_label: Título
+      push_settings:
+        calls_unavailable: O canal de voz e as ligações no celular não estão os dois ligados nesta conta
+        description: Definidas por conta e conferidas antes de qualquer envio. Com todos os tipos desligados, o usuário não recebe push em nenhum aparelho, mesmo que os registros abaixo estejam certos.
+        empty:
+          description: Este usuário não pertence a nenhuma conta.
+          title: Nenhuma configuração de notificação registrada.
+        heading: Configurações de notificação push
+        none_enabled:
+          one: Nenhum tipo de push está ligado para %{names}. Este usuário não recebe push dessa conta.
+          other: Nenhum tipo de push está ligado para %{names}. Este usuário não recebe push dessas contas.
+        notification_type: Tipo de notificação
+        review_link: Revisar as configurações de notificação push →
+        sla_unavailable: O SLA não está ligado nesta conta
+        unnamed_account: Conta %{id}
+      push_types:
+        assigned_conversation_new_message: Chega uma mensagem nova numa conversa atribuída
+        conversation_assignment: Uma conversa é atribuída ao usuário
+        conversation_creation: Uma conversa nova é criada
+        conversation_mention: O usuário é mencionado numa conversa
+        participating_conversation_new_message: Chega uma mensagem nova numa conversa em que ele participa
+        sla_missed_first_response: Uma conversa perde o SLA de primeira resposta
+        sla_missed_next_response: Uma conversa perde o SLA da próxima resposta
+        sla_missed_resolution: Uma conversa perde o SLA de resolução
+        voice_call_missed: Uma ligação que tocou para o usuário é perdida
+      search:
+        not_found: Nenhum usuário encontrado para "%{query}".
+        placeholder: usuario@empresa.com.br ou ID numérico do usuário
+        submit: Buscar
+        title: Buscar usuário
+      sessions:
+        columns:
+          app_version: Versão do app
+          device: Aparelho
+          first_seen: Primeiro acesso
+          last_active: Último acesso
+          os_version: Versão do sistema
+          platform: Plataforma
+        description: Vem dos cabeçalhos X-Chatwoot-* que o app envia em cada requisição, então mostra a versão instalada no aparelho.
+        empty:
+          description: Este usuário não entrou pelo app de iOS ou Android.
+          title: Nenhuma sessão no celular registrada.
+        heading: Sessões no celular
+        legacy_build: versão antiga
+        legacy_note: '"versão antiga" quer dizer que a sessão é de antes da versão 4.8.0 do app, quando ele começou a enviar a versão. A versão exata é desconhecida.'
+      tabs:
+        label: Seções do diagnóstico
+        mobile: App de celular
+        push: Entrega de push
+        web: Web
+      user:
+        accounts: Contas
+        details_link: Detalhes do usuário
+        id: ID %{id}
+      user_not_found: Usuário não encontrado.
+      web_sessions:
+        columns:
+          browser: Navegador
+          browser_version: Versão
+          first_seen: Primeiro acesso
+          last_active: Último acesso
+          os: Sistema operacional
+          os_version: Versão do sistema
+        description: Lido do navegador na hora de entrar e atualizado enquanto o usuário trabalha. Só aparecem as sessões que continuam conectadas.
+        empty:
+          description: Este usuário não está conectado por um navegador.
+          title: Nenhuma sessão na web registrada.
+        heading: Sessões na web
+    users:
+      accounts: Contas
+      add_account: Adicionar este usuário a uma conta
+      confirmed: Confirmado
+      copy_impersonation_link: Copiar link
+      email_suppression:
+        check:
+          bounce: Os e-mails para %{email} estão bloqueados desde %{since} porque o endereço retornou. Desbloqueie e peça para o usuário tentar de novo.
+          complaint: Os e-mails para %{email} estão bloqueados desde %{since} por uma reclamação de spam. Encaminhe para a equipe técnica.
+          not_suppressed: Os e-mails para %{email} não estão bloqueados.
+          unavailable: Não foi possível verificar a entrega para %{email}. Tente de novo ou encaminhe para a equipe técnica.
+        check_button: Verificar entrega de e-mail
+        check_first_hint: Verifique a entrega de e-mail primeiro.
+        clear:
+          failed: Não foi possível desbloquear %{email} (%{error}). Encaminhe para a equipe técnica.
+          success: "%{email} desbloqueado. Peça para o usuário tentar de novo ou envie um e-mail de teste para conferir a entrega."
+        clear_button: Desbloquear e-mail
+        clear_dialog:
+          body: A %{brand_name} vai voltar a enviar e-mails para este endereço. Se o próximo voltar, ele é bloqueado de novo.
+          cancel: Cancelar
+          confirm: Desbloquear
+          title: Desbloquear %{email}?
+        complaint_hint: Bloqueado depois de uma reclamação de spam. Encaminhe para a equipe técnica.
+        menu: E-mail
+        not_blocked_hint: Os e-mails para este endereço não estão bloqueados.
+        pending:
+          check: Verificando…
+          clear: Desbloqueando…
+          send: Enviando…
+        test_email:
+          queued: E-mail de teste a caminho de %{email}. Peça para o usuário olhar a caixa de entrada e o spam.
+          subject: E-mail de teste do suporte da %{brand_name}
+        test_email_blocked_hint:
+          bounce: Desbloqueie o endereço primeiro. E-mails para endereços bloqueados são descartados.
+          complaint: Bloqueado depois de uma reclamação de spam. E-mails para este endereço são descartados.
+        test_email_button: Enviar e-mail de teste
+      impersonate: Entrar como este usuário
+      impersonate_caution: Tudo o que você fizer enquanto estiver como este usuário vai aparecer como feito por %{name}.
+      impersonate_dialog:
+        private_window_hint: Isto conecta o seu navegador ao painel como este usuário e substitui a sua sessão. Para manter a sua, copie o link e abra numa janela anônima.
+        title: Entrar como %{name}?
+      impersonation_link_copied: Copiado
+      impersonation_link_failed: Não foi possível copiar
+      mfa: Dois fatores
+      mfa_disabled: Desligado
+      mfa_enabled: Ligado
+      support: Suporte
+      unconfirmed: Não confirmado
+  chatclean:
+    super_admin:
+      date_format: "%-d de %b de %Y"
+      sidebar:
+        collapse: Recolher menu
+        toggle: Recolher ou expandir o menu
+      filters:
+        active: Ativas
+        suspended: Suspensas
+        recent: Recentes
+        marked_for_deletion: Marcadas para exclusão
+        user: Usuário
+        agent_bot: Bot
+        platform_app: App da plataforma
+        info: Informação
+        warning: Aviso
+        error: Erro
+        feature_announcement: Anúncio de recurso
+        super_admin: Super Admin
+        confirmed: Confirmados
+        unconfirmed: Não confirmados
+      values:
+        active: Ativa
+        suspended: Suspensa
+        super_admin: Super Admin
+        user: Usuário
+        administrator: Administrador
+        agent: Agente
+        info: Informação
+        warning: Aviso
+        error: Erro
+        feature_announcement: Anúncio de recurso
+      language:
+        label: Idioma
+        en: English
+        pt_BR: Português (Brasil)
+      dashboard:
+        accounts: Contas
+        users: Usuários
+        inboxes: Caixas de entrada
+        conversations: Conversas
+        chart_caption: Criadas por dia nos últimos 30 dias
+        chart_aria_label: Conversas criadas por dia
+        load_error: Não foi possível carregar os números do painel. Recarregue a página para tentar de novo.
+        total: Total
+        daily_average: Média diária
+        busiest_day: Dia mais movimentado
+  activerecord:
+    models:
+      account:
+        one: Conta
+        other: Contas
+      user:
+        one: Usuário
+        other: Usuários
+      agent_bot:
+        one: Bot
+        other: Bots
+      platform_app:
+        one: App da plataforma
+        other: Apps da plataforma
+      platform_banner:
+        one: Banner
+        other: Banners
+      account_user:
+        one: Usuário da conta
+        other: Usuários da conta
+      access_token:
+        one: Token de acesso
+        other: Tokens de acesso
+      installation_config:
+        one: Configuração
+        other: Configurações
+  date:
+    abbr_day_names: [dom, seg, ter, qua, qui, sex, sáb]
+    abbr_month_names: [~, jan, fev, mar, abr, mai, jun, jul, ago, set, out, nov, dez]
+    day_names: [domingo, segunda-feira, terça-feira, quarta-feira, quinta-feira, sexta-feira, sábado]
+    month_names: [~, janeiro, fevereiro, março, abril, maio, junho, julho, agosto, setembro, outubro, novembro, dezembro]
+    order: [day, month, year]
+    formats:
+      default: "%d/%m/%Y"
+      long: "%d de %B de %Y"
+      short: "%d de %B"
+  time:
+    am: ''
+    pm: ''
+    formats:
+      default: "%a, %d de %B de %Y, %H:%M:%S %z"
+      long: "%d de %B de %Y, %H:%M"
+      short: "%d de %B, %H:%M"
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: aproximadamente 1 hora
+        other: aproximadamente %{count} horas
+      about_x_months:
+        one: aproximadamente 1 mês
+        other: aproximadamente %{count} meses
+      about_x_years:
+        one: aproximadamente 1 ano
+        other: aproximadamente %{count} anos
+      almost_x_years:
+        one: quase 1 ano
+        other: quase %{count} anos
+      half_a_minute: meio minuto
+      less_than_x_minutes:
+        one: menos de um minuto
+        other: menos de %{count} minutos
+      less_than_x_seconds:
+        one: menos de 1 segundo
+        other: menos de %{count} segundos
+      over_x_years:
+        one: mais de 1 ano
+        other: mais de %{count} anos
+      x_days:
+        one: 1 dia
+        other: "%{count} dias"
+      x_minutes:
+        one: 1 minuto
+        other: "%{count} minutos"
+      x_months:
+        one: 1 mês
+        other: "%{count} meses"
+      x_seconds:
+        one: 1 segundo
+        other: "%{count} segundos"
+      x_years:
+        one: 1 ano
+        other: "%{count} anos"

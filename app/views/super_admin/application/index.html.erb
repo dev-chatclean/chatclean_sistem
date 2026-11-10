@@ -31,10 +31,10 @@ It renders the `_collection` partial to display details about the resources.
 
 <%= render "page_header",
            title: content_for(:title),
-           description: pluralize(number_with_delimiter(resources.total_count), page.resource_name.humanize.downcase) do %>
+           description: "#{number_with_delimiter(resources.total_count)} #{display_resource_name(page.resource_name, singular: resources.total_count == 1).downcase}" do %>
   <% if accessible_action?(new_resource, :new) %>
     <%= render "button",
-               label: t("administrate.actions.new_resource", name: page.resource_name.titleize.downcase),
+               label: t("administrate.actions.new_resource", name: display_resource_name(page.resource_name, singular: true).downcase),
                icon: "i-lucide-plus size-4",
                url: [:new, namespace, page.resource_path.to_sym] %>
   <% end %>
