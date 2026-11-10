@@ -2,6 +2,9 @@ pt_BR:
   crm:
     stages:
       errors:
+        duplicate_name: Já existe uma etapa chamada %{name} neste pipeline.
+        system_stage_delete: Etapas de sistema (Inicial, Ganho e Perda) são obrigatórias e não podem ser excluídas.
+        invalid_transfer_stage: Escolha outra etapa aberta deste pipeline para receber as oportunidades.
         invalid_order: A nova ordem precisa ter todas as etapas abertas e manter Novo contato em primeiro.
       defaults:
         initial: Novo contato

@@ -6,6 +6,7 @@ import { vOnClickOutside } from '@vueuse/components';
 import { useAlert } from 'dashboard/composables';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useStore } from 'dashboard/composables/store';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import CrmPipelinesAPI from 'dashboard/api/crm/pipelines';
 import CrmSettingsAPI from 'dashboard/api/crm/settings';
@@ -16,6 +17,7 @@ import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.v
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import PipelineSettingsDialog from '../components/PipelineSettingsDialog.vue';
 import AiSettingsDialog from '../components/AiSettingsDialog.vue';
+import StageDialog from '../components/StageDialog.vue';
 import { useItemLabel } from '../useItemLabel';
 import { CLOSING_STAGE_TYPES, UI_SETTINGS_KEYS } from '../constants';
 
@@ -24,6 +26,7 @@ const router = useRouter();
 const { t } = useI18n();
 const { isAdmin } = useAdmin();
 const { uiSettings, updateUISettings } = useUISettings();
+const store = useStore();
 const { itemLabel } = useItemLabel();
 
 const pipelines = ref([]);
@@ -37,6 +40,10 @@ const autoCreateDeals = ref(true);
 const settingsDialogRef = ref(null);
 const deleteDialogRef = ref(null);
 const aiDialogRef = ref(null);
+const stageDialogRef = ref(null);
+const stageDeleteDialogRef = ref(null);
+const openStageMenuId = ref(null);
+const stageToDelete = ref(null);
 
 const isPanelCollapsed = computed(
   () => uiSettings.value[UI_SETTINGS_KEYS.PANEL_COLLAPSED] === true
@@ -186,6 +193,114 @@ const selectPipeline = pipeline => {
   });
 };
 
+const nextStage = stage => {
+  const stages = selectedPipeline.value.stages;
+  return stages[stages.findIndex(item => item.id === stage.id) + 1];
+};
+
+const stageMenuItems = stage => {
+  if (CLOSING_STAGE_TYPES.includes(stage.stage_type)) {
+    return [
+      {
+        label: t('CRM_PIPELINES.STAGE.MENU.EDIT_CLOSING'),
+        value: 'edit',
+        action: 'edit',
+        icon: 'i-lucide-pencil',
+      },
+    ];
+  }
+  const items = [
+    {
+      label: t('CRM_PIPELINES.STAGE.MENU.EDIT'),
+      value: 'edit',
+      action: 'edit',
+      icon: 'i-lucide-pencil',
+    },
+    {
+      label: t('CRM_PIPELINES.STAGE.MENU.REQUIREMENTS'),
+      value: 'requirements',
+      action: 'requirements',
+      icon: 'i-lucide-lock',
+    },
+  ];
+  if (stage.stage_type === 'custom') {
+    items.push(
+      {
+        label: t('CRM_PIPELINES.STAGE.MENU.MOVE_RIGHT'),
+        value: 'move_right',
+        action: 'move_right',
+        icon: 'i-lucide-arrow-right',
+        disabled: nextStage(stage)?.stage_type !== 'custom',
+      },
+      {
+        label: t('CRM_PIPELINES.STAGE.MENU.DELETE'),
+        value: 'delete',
+        action: 'delete',
+        icon: 'i-lucide-trash-2',
+      }
+    );
+  }
+  return items;
+};
+
+const openStageDialog = ({
+  stage = null,
+  after = null,
+  focusRequirements = false,
+}) =>
+  stageDialogRef.value?.open({
+    pipeline: selectedPipeline.value,
+    stage,
+    after,
+    focusRequirements,
+  });
+
+const askStageDelete = stage => {
+  stageToDelete.value = stage;
+  stageDeleteDialogRef.value?.open();
+};
+
+const moveStageRight = async stage => {
+  const openIds = selectedPipeline.value.stages
+    .filter(item => !CLOSING_STAGE_TYPES.includes(item.stage_type))
+    .map(item => item.id);
+  const index = openIds.indexOf(stage.id);
+  [openIds[index], openIds[index + 1]] = [openIds[index + 1], openIds[index]];
+  try {
+    await CrmPipelinesAPI.reorderStages(selectedPipeline.value.id, openIds);
+    await fetchPipelines();
+  } catch (error) {
+    showError(error, 'CRM_PIPELINES.API.SAVE_ERROR');
+  }
+};
+
+const handleStageAction = (stage, { action }) => {
+  openStageMenuId.value = null;
+  if (action === 'edit') openStageDialog({ stage });
+  if (action === 'requirements') {
+    openStageDialog({ stage, focusRequirements: true });
+  }
+  if (action === 'move_right') moveStageRight(stage);
+  if (action === 'delete') askStageDelete(stage);
+};
+
+const confirmStageDelete = async () => {
+  isSaving.value = true;
+  try {
+    await CrmPipelinesAPI.deleteStage(
+      selectedPipeline.value.id,
+      stageToDelete.value.id
+    );
+    useAlert(t('CRM_PIPELINES.STAGE.API.DELETE_SUCCESS'));
+    stageDeleteDialogRef.value?.close();
+    await fetchPipelines();
+  } catch (error) {
+    showError(error, 'CRM_PIPELINES.API.DELETE_ERROR');
+  } finally {
+    isSaving.value = false;
+  }
+};
+
 const openCreateDialog = () => settingsDialogRef.value?.open();
 
 const onPipelineSaved = async pipeline => {
@@ -251,7 +366,10 @@ watch(
   }
 );
 
-onMounted(() => Promise.all([fetchPipelines(), fetchSettings()]));
+onMounted(() => {
+  if (isAdmin.value) store.dispatch('labels/get');
+  return Promise.all([fetchPipelines(), fetchSettings()]);
+});
 </script>
 
 <template>
@@ -446,7 +564,7 @@ onMounted(() => Promise.all([fetchPipelines(), fetchSettings()]));
               class="h-0.5 mb-3 rounded-full"
               :style="{ backgroundColor: stage.color }"
             />
-            <div class="flex items-center gap-1.5 mb-1">
+            <div class="flex items-center gap-1.5 mb-1 group/stage min-h-7">
               <span
                 v-if="CLOSING_STAGE_TYPES.includes(stage.stage_type)"
                 class="size-4"
@@ -459,6 +577,46 @@ onMounted(() => Promise.all([fetchPipelines(), fetchSettings()]));
               <span class="text-heading-3 text-n-slate-12 truncate">
                 {{ stage.name }}
               </span>
+              <div v-if="isAdmin" class="flex items-center gap-1 ms-auto">
+                <Button
+                  v-if="!CLOSING_STAGE_TYPES.includes(stage.stage_type)"
+                  v-tooltip.top="t('CRM_PIPELINES.STAGE.ADD_AFTER')"
+                  icon="i-lucide-plus"
+                  slate
+                  ghost
+                  xs
+                  class="opacity-0 group-hover/stage:opacity-100 focus:opacity-100"
+                  :aria-label="t('CRM_PIPELINES.STAGE.ADD_AFTER')"
+                  @click="openStageDialog({ after: stage.id })"
+                />
+                <div
+                  v-on-click-outside="
+                    () =>
+                      openStageMenuId === stage.id && (openStageMenuId = null)
+                  "
+                  class="relative"
+                >
+                  <Button
+                    icon="i-lucide-ellipsis"
+                    slate
+                    ghost
+                    xs
+                    :aria-label="
+                      t('CRM_PIPELINES.STAGE.MENU_LABEL', { name: stage.name })
+                    "
+                    @click="
+                      openStageMenuId =
+                        openStageMenuId === stage.id ? null : stage.id
+                    "
+                  />
+                  <DropdownMenu
+                    v-if="openStageMenuId === stage.id"
+                    class="top-full end-0 mt-1 w-56"
+                    :menu-items="stageMenuItems(stage)"
+                    @action="handleStageAction(stage, $event)"
+                  />
+                </div>
+              </div>
             </div>
             <span class="mb-3 text-label-small text-n-slate-11">
               {{
@@ -511,6 +669,25 @@ onMounted(() => Promise.all([fetchPipelines(), fetchSettings()]));
       @saved="onPipelineSaved"
     />
     <AiSettingsDialog ref="aiDialogRef" />
+    <StageDialog
+      ref="stageDialogRef"
+      @saved="fetchPipelines"
+      @delete="askStageDelete"
+    />
+    <Dialog
+      ref="stageDeleteDialogRef"
+      type="alert"
+      :title="t('CRM_PIPELINES.STAGE.DELETE_CONFIRM.TITLE')"
+      :description="
+        t('CRM_PIPELINES.STAGE.DELETE_CONFIRM.MESSAGE', {
+          name: stageToDelete?.name,
+        })
+      "
+      :confirm-button-label="t('CRM_PIPELINES.DELETE_CONFIRM.YES')"
+      :cancel-button-label="t('CRM_PIPELINES.DELETE_CONFIRM.NO')"
+      :is-loading="isSaving"
+      @confirm="confirmStageDelete"
+    />
     <Dialog
       ref="deleteDialogRef"
       type="alert"

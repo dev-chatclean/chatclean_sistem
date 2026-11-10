@@ -15,4 +15,6 @@ json.stages pipeline.stages do |stage|
   json.stage_type stage.stage_type
   json.color stage.color
   json.position stage.position
+  json.stale_after_days stage.stale_after_days
+  json.requirements stage.requirements
 end

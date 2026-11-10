@@ -362,7 +362,7 @@ Rails.application.routes.draw do
           resources :labels, only: [:index, :show, :create, :update, :destroy]
           namespace :crm do
             resources :pipelines, only: [:index, :show, :create, :update, :destroy] do
-              resources :stages, only: [:update] do
+              resources :stages, only: [:create, :update, :destroy] do
                 patch :reorder, on: :collection
               end
             end

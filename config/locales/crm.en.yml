@@ -2,6 +2,9 @@ en:
   crm:
     stages:
       errors:
+        duplicate_name: There is already a stage called %{name} in this pipeline.
+        system_stage_delete: System stages (New contact, Won and Lost) are required and cannot be deleted.
+        invalid_transfer_stage: Choose another open stage of this pipeline to receive the deals.
         invalid_order: The new order must include every open stage and keep New contact first.
       defaults:
         initial: New contact

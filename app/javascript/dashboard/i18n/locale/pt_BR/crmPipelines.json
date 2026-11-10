@@ -196,6 +196,72 @@
       "SETTINGS_SUCCESS": "Configuração salva",
       "SAVE_ERROR": "Não foi possível salvar. Tente de novo.",
       "DELETE_ERROR": "Não foi possível excluir o pipeline. Tente de novo."
+    },
+    "STAGE": {
+      "ADD_AFTER": "Nova etapa depois desta",
+      "MENU_LABEL": "Ações da etapa {name}",
+      "CREATE_TITLE": "Nova etapa",
+      "EDIT_TITLE": "Editar etapa",
+      "CREATE": "Criar etapa",
+      "SAVE": "Salvar etapa",
+      "DELETE": "Excluir",
+      "NAME": {
+        "LABEL": "Nome da etapa",
+        "PLACEHOLDER": "Ex.: Proposta enviada"
+      },
+      "COLOR": "Cor",
+      "STALE_DAYS": {
+        "LABEL": "Parado depois de (dias)",
+        "HINT": "O cartão fica amarelo perto desse limite e vermelho quando passa dele."
+      },
+      "MENU": {
+        "EDIT": "Editar etapa",
+        "EDIT_CLOSING": "Editar",
+        "REQUIREMENTS": "O que esta etapa exige",
+        "MOVE_RIGHT": "Mover para a direita",
+        "DELETE": "Excluir etapa"
+      },
+      "REQUIREMENTS": {
+        "TITLE": "Ao entrar nesta etapa",
+        "OWNER": {
+          "LABEL": "Exigir responsável",
+          "HINT": "A oportunidade só entra nesta etapa com alguém responsável"
+        },
+        "CUSTOM_FIELDS": {
+          "LABEL": "Exigir campos preenchidos",
+          "EMPTY": "Nenhum campo personalizado criado."
+        },
+        "DEAL": {
+          "LABEL": "Exigir da oportunidade",
+          "REQUIRE_EXPECTED_CLOSE_DATE": "Data prevista de fechamento",
+          "REQUIRE_POSITIVE_VALUE": "Valor maior que zero",
+          "REQUIRE_PRODUCT": "Pelo menos um produto"
+        },
+        "TASKS": {
+          "LABEL": "Tarefas obrigatórias",
+          "HINT": "A oportunidade ganha estas tarefas ao entrar e só sai da etapa com elas concluídas.",
+          "PLACEHOLDER": "Ex.: Enviar proposta",
+          "ADD": "Adicionar",
+          "REMOVE": "Remover tarefa"
+        },
+        "LABELS": {
+          "LABEL": "Aplicar etiquetas",
+          "EMPTY": "Nenhuma etiqueta na conta ainda."
+        },
+        "DOCUMENT": {
+          "LABEL": "Exigir documento",
+          "HINT": "A oportunidade só entra nesta etapa com documento anexado"
+        }
+      },
+      "DELETE_CONFIRM": {
+        "TITLE": "Excluir etapa",
+        "MESSAGE": "Tem certeza de que deseja excluir a etapa {name}?"
+      },
+      "API": {
+        "CREATE_SUCCESS": "Etapa criada",
+        "UPDATE_SUCCESS": "Etapa atualizada",
+        "DELETE_SUCCESS": "Etapa excluída"
+      }
     }
   }
 }
