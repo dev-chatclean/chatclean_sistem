@@ -33,11 +33,14 @@ class Api::V1::Accounts::Crm::PipelinesController < Api::V1::Accounts::BaseContr
     authorize(@pipeline || Crm::Pipeline)
   end
 
+  EDITABLE_ATTRIBUTES = [:name, :is_default, :description, :group_name, :item_label, :item_label_custom, :stale_after_days,
+                         :one_card_per_contact, { card_fields: [] }].freeze
+
   def permitted_params
-    params.require(:pipeline).permit(:name, :is_default)
+    params.require(:pipeline).permit(*EDITABLE_ATTRIBUTES)
   end
 
   def create_params
-    params.require(:pipeline).permit(:name, :is_default, won_stage: [:name, :color], lost_stage: [:name, :color])
+    params.require(:pipeline).permit(*EDITABLE_ATTRIBUTES, :pipeline_type, won_stage: [:name, :color], lost_stage: [:name, :color])
   end
 end

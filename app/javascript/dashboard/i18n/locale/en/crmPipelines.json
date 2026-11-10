@@ -6,40 +6,168 @@
     "ADD_PIPELINE": "Add pipeline",
     "CREATE_BUTTON": "Create pipeline",
     "DEFAULT_BADGE": "Default",
+    "COLLAPSE_PANEL": "Collapse pipelines",
+    "EXPAND_PANEL": "Expand pipelines",
+    "ITEM_LABELS": {
+      "deal": "deal | deals",
+      "client": "client | clients",
+      "case": "case | cases",
+      "process": "process | processes"
+    },
     "EMPTY": {
       "TITLE": "No pipelines yet",
       "ADMIN": "Create the first pipeline to organize your sales in stages.",
       "AGENT": "An administrator needs to create the first pipeline."
     },
     "BOARD": {
-      "COUNT": "{count} deals",
-      "EMPTY_STAGE": "No deals in this stage",
-      "EMPTY_WON": "Won deals show up here.",
-      "EMPTY_LOST": "Lost deals show up here."
+      "COUNT": "{count} {item}",
+      "EMPTY_STAGE": "No {item} in this stage",
+      "EMPTY_WON": "What was won in the last 30 days shows up here.",
+      "EMPTY_LOST": "What was lost in the last 30 days shows up here."
+    },
+    "LEAD_ENTRY_HINT": {
+      "ENABLE": "Turn on lead entry",
+      "DISMISS": "Dismiss",
+      "TOOLTIP": "Every new conversation becomes a deal in the default pipeline"
     },
     "MENU": {
       "LABEL": "Pipeline options",
       "SETTINGS": "Pipeline settings",
       "EDIT": "Edit pipeline",
+      "CARD": "Customize card",
       "LEAD_ENTRY": "Lead entry",
-      "RENAME": "Rename",
+      "AI": "Pipeline AI",
       "SET_DEFAULT": "Set as default",
-      "DELETE": "Delete",
+      "DELETE": "Delete pipeline",
       "DELETE_DEFAULT_BLOCKED": "Delete (set another default first)"
     },
+    "SETTINGS_TABS": {
+      "PIPELINE": "Pipeline",
+      "LEAD_ENTRY": "Lead entry",
+      "CARD": "Card",
+      "TITLES": {
+        "PIPELINE": "Edit pipeline",
+        "LEAD_ENTRY": "Lead entry",
+        "CARD": "Customize card"
+      }
+    },
     "LEAD_ENTRY": {
-      "TITLE": "Lead entry",
-      "TOGGLE": "Create deals automatically",
-      "DESCRIPTION": "When a conversation is assigned to an agent, a deal is created in the default pipeline, in the first stage, for contacts without an open deal. The agent becomes the owner. This setting applies to the whole account.",
-      "NEEDS_DEFAULT": "Create a pipeline first: it becomes the default."
+      "TOGGLE": "Create a deal for each new conversation",
+      "DESCRIPTION": "When a conversation that matches the rules below is assigned to an agent, it becomes an open deal in the default pipeline, in the first stage, and the agent becomes the owner. This setting applies to the whole account. Turning it off keeps the deals already on the board.",
+      "NEEDS_DEFAULT": "Create a pipeline first: it becomes the default.",
+      "CHANNELS": "Channels",
+      "ALL_CHANNELS": "All channels",
+      "ORIGINS": "Origins",
+      "SOURCES": "Sources",
+      "OPTIONS": {
+        "CATALOG": "Catalog",
+        "FACEBOOK": "Facebook",
+        "AD_FORM": "Ad form",
+        "INSTAGRAM": "Instagram",
+        "SITE": "Website",
+        "MESSAGE": "Message received",
+        "AD": "Ad",
+        "FORM": "Form"
+      },
+      "LISTS_HINT": "Uncheck what should not become a lead. With everything checked in a list, channels and origins added later are included too. With more than one list unchecked, the conversation must match all of them.",
+      "ALERT_DAYS": {
+        "LABEL": "Warn when waiting more than (days)",
+        "HINT": "After this period, the lead gets an alert badge on the column and on the board header."
+      }
+    },
+    "CARD": {
+      "HINT": "Choose up to {max} fields to show under the standard card. The whole team sees the same fields on every card of this pipeline.",
+      "ITEMS": "{item} card items",
+      "ONLY_WHEN_FILLED": "only shows when filled",
+      "PREVIEW": {
+        "CONTACT": "Contact name",
+        "OWNER": "Owner",
+        "VALUE": "Value",
+        "IN_STAGE": "In stage for 3 d",
+        "NUMBER": "#12"
+      },
+      "FIELDS": {
+        "EXPECTED_CLOSE_DATE": "Expected close date",
+        "PRODUCTS": "Products",
+        "NEXT_TASK": "Next task",
+        "CONTACT_LABELS": "Contact labels",
+        "ORIGIN": "Origin",
+        "BILLING": "Billing",
+        "ATTACHMENTS": "Attachments"
+      }
+    },
+    "AI": {
+      "TITLE": "Pipeline AI",
+      "DESCRIPTION": "Uses the ChatClean AI key. You choose what it does on the deal cards and how much it may spend per month.",
+      "FEATURES": {
+        "NEXT_STEP": {
+          "TITLE": "Suggest the next step",
+          "HINT": "Shows on the card what to do next with the customer."
+        },
+        "FILL_ON_MOVE": {
+          "TITLE": "Fill fields when moving",
+          "HINT": "When a deal changes stage, fills the required fields from the conversation."
+        },
+        "TEMPERATURE": {
+          "TITLE": "Explain the temperature badge",
+          "HINT": "Shows how hot the deal is and why."
+        }
+      },
+      "MONTHLY_CAP": {
+        "LABEL": "Monthly spending cap (R$)",
+        "HINT": "Set a value above zero to turn on any of the three."
+      }
     },
     "FORM": {
       "CREATE_TITLE": "New pipeline",
-      "EDIT_TITLE": "Edit pipeline",
+      "CREATE": "Create pipeline",
+      "SAVE": "Save",
+      "CANCEL": "Cancel",
       "NAME": {
         "LABEL": "Name",
         "PLACEHOLDER": "E.g. Inbound sales",
         "TOO_LONG": "Use at most {max} characters"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Description (optional)",
+        "PLACEHOLDER": "What this pipeline is for"
+      },
+      "GROUP": {
+        "LABEL": "Group (optional)",
+        "PLACEHOLDER": "E.g. Sales"
+      },
+      "TYPE": {
+        "LABEL": "Type",
+        "SALES": "Sales",
+        "MANAGEMENT": "Management",
+        "SALES_HINT": "With value, won and lost",
+        "MANAGEMENT_HINT": "To follow processes, without value",
+        "LOCKED": "The type was set on creation and does not change"
+      },
+      "ITEM_LABEL": {
+        "LABEL": "What to call each item",
+        "OPTIONS": {
+          "DEAL": "Default (deal)",
+          "CLIENT": "Client",
+          "CASE": "Case",
+          "PROCESS": "Process",
+          "CUSTOM": "Custom"
+        },
+        "CUSTOM_PLACEHOLDER": "E.g. Ticket",
+        "HINT": "Shows on the \"New…\" button, on counters, on the card and on menus. You can change it later: it is only the text."
+      },
+      "STALE_DAYS": {
+        "LABEL": "Deal stalled after (days)",
+        "HINT": "Every new stage starts with this limit. Won and lost do not count.",
+        "INVALID": "Use a whole number between 1 and {max}"
+      },
+      "ONE_CARD": {
+        "LABEL": "One card per contact",
+        "HINT": "If the contact already has an open card in this pipeline, that card opens instead of creating another. Only this pipeline counts."
+      },
+      "STAGES": {
+        "LABEL": "Stages",
+        "HINT": "Drag to change the order. New contact always comes first."
       },
       "CLOSING_STAGES": "Closing columns",
       "CLOSING_STAGES_HINT": "The pipeline starts with the New contact stage. The won and lost columns are required and always close the board.",
@@ -51,10 +179,7 @@
         "LABEL": "Lost column name",
         "DEFAULT_NAME": "Lost"
       },
-      "STAGE_NAME_LENGTH": "Use between {min} and {max} characters",
-      "CREATE": "Create pipeline",
-      "SAVE": "Save",
-      "CANCEL": "Cancel"
+      "STAGE_NAME_LENGTH": "Use between {min} and {max} characters"
     },
     "DELETE_CONFIRM": {
       "TITLE": "Delete pipeline",

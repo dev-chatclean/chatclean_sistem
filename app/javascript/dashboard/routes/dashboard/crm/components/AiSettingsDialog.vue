@@ -6,32 +6,32 @@ import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import CrmSettingsAPI from 'dashboard/api/crm/settings';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
-
-const props = defineProps({
-  hasDefaultPipeline: { type: Boolean, default: false },
-});
+import Input from 'dashboard/components-next/input/Input.vue';
+import { AI_FEATURES } from '../constants';
 
 const { t } = useI18n();
 
 const dialogRef = ref(null);
-const autoCreateDeals = ref(false);
 const isSaving = ref(false);
+const ai = ref(null);
 
 const open = async () => {
+  ai.value = null;
   dialogRef.value?.open();
   try {
     const { data } = await CrmSettingsAPI.get();
-    autoCreateDeals.value = data.crm_auto_create_deals;
+    ai.value = { ...data.ai };
   } catch (error) {
     useAlert(t('CRM_PIPELINES.API.FETCH_ERROR'));
   }
 };
 
 const save = async () => {
+  if (!ai.value || isSaving.value) return;
   isSaving.value = true;
   try {
     await CrmSettingsAPI.update({
-      crm_auto_create_deals: autoCreateDeals.value,
+      ai: { ...ai.value, monthly_cap: Number(ai.value.monthly_cap) || 0 },
     });
     useAlert(t('CRM_PIPELINES.API.SETTINGS_SUCCESS'));
     dialogRef.value?.close();
@@ -51,32 +51,36 @@ defineExpose({ open });
 <template>
   <Dialog
     ref="dialogRef"
-    :title="t('CRM_PIPELINES.LEAD_ENTRY.TITLE')"
+    :title="t('CRM_PIPELINES.AI.TITLE')"
+    :description="t('CRM_PIPELINES.AI.DESCRIPTION')"
     :confirm-button-label="t('CRM_PIPELINES.FORM.SAVE')"
     :cancel-button-label="t('CRM_PIPELINES.FORM.CANCEL')"
     :is-loading="isSaving"
     @confirm="save"
   >
-    <div class="flex items-start gap-3 p-4 border rounded-xl border-n-weak">
-      <Switch
-        v-model="autoCreateDeals"
-        :disabled="!props.hasDefaultPipeline"
-        class="mt-0.5"
-      />
-      <div class="flex flex-col gap-1">
-        <span class="text-heading-3 text-n-slate-12">
-          {{ t('CRM_PIPELINES.LEAD_ENTRY.TOGGLE') }}
-        </span>
-        <span class="text-body-main text-n-slate-11">
-          {{ t('CRM_PIPELINES.LEAD_ENTRY.DESCRIPTION') }}
-        </span>
-        <span
-          v-if="!props.hasDefaultPipeline"
-          class="text-body-main text-n-amber-11"
-        >
-          {{ t('CRM_PIPELINES.LEAD_ENTRY.NEEDS_DEFAULT') }}
-        </span>
+    <div v-if="ai" class="flex flex-col gap-3">
+      <div
+        v-for="feature in AI_FEATURES"
+        :key="feature"
+        class="flex items-start gap-3 p-3 border rounded-xl border-n-slate-6"
+      >
+        <Switch v-model="ai[feature]" class="mt-0.5" />
+        <div class="flex flex-col gap-1">
+          <span class="text-sm font-medium text-n-slate-12">
+            {{ t(`CRM_PIPELINES.AI.FEATURES.${feature.toUpperCase()}.TITLE`) }}
+          </span>
+          <span class="text-label-small text-n-slate-11">
+            {{ t(`CRM_PIPELINES.AI.FEATURES.${feature.toUpperCase()}.HINT`) }}
+          </span>
+        </div>
       </div>
+      <Input
+        v-model="ai.monthly_cap"
+        type="number"
+        min="0"
+        :label="t('CRM_PIPELINES.AI.MONTHLY_CAP.LABEL')"
+        :message="t('CRM_PIPELINES.AI.MONTHLY_CAP.HINT')"
+      />
     </div>
   </Dialog>
 </template>
