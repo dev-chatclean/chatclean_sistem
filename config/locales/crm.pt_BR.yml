@@ -1,0 +1,14 @@
+pt_BR:
+  crm:
+    stages:
+      defaults:
+        initial: Novo contato
+        won: Ganho
+        lost: Perda
+    pipelines:
+      errors:
+        default_cannot_be_unset: O pipeline padrão não pode ser desligado. Defina outro pipeline como padrão.
+        default_cannot_be_deleted: Não é possível excluir o pipeline padrão. Defina outro pipeline como padrão antes de realizar a exclusão.
+    settings:
+      errors:
+        auto_create_requires_default_pipeline: A criação automática de oportunidades precisa de um pipeline padrão. Crie um pipeline primeiro.

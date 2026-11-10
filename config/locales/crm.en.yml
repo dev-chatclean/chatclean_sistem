@@ -1,0 +1,14 @@
+en:
+  crm:
+    stages:
+      defaults:
+        initial: New contact
+        won: Won
+        lost: Lost
+    pipelines:
+      errors:
+        default_cannot_be_unset: The default pipeline cannot be turned off. Set another pipeline as the default instead.
+        default_cannot_be_deleted: The default pipeline cannot be deleted. Set another pipeline as the default before deleting it.
+    settings:
+      errors:
+        auto_create_requires_default_pipeline: Automatic deal creation needs a default pipeline. Create a pipeline first.

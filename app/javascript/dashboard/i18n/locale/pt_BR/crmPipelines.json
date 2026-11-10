@@ -1,0 +1,76 @@
+{
+  "CRM_PIPELINES": {
+    "HEADER": "Pipelines",
+    "SEARCH_PLACEHOLDER": "Buscar pipeline",
+    "NO_SEARCH_RESULTS": "Nenhum pipeline encontrado",
+    "ADD_PIPELINE": "Adicionar pipeline",
+    "CREATE_BUTTON": "Criar pipeline",
+    "DEFAULT_BADGE": "Padrão",
+    "EMPTY": {
+      "TITLE": "Nenhum pipeline ainda",
+      "ADMIN": "Crie o primeiro pipeline para organizar suas vendas em etapas.",
+      "AGENT": "Um administrador precisa criar o primeiro pipeline."
+    },
+    "BOARD": {
+      "COUNT": "{count} oportunidades",
+      "EMPTY_STAGE": "Nenhuma oportunidade nesta etapa",
+      "EMPTY_WON": "As oportunidades ganhas aparecem aqui.",
+      "EMPTY_LOST": "As oportunidades perdidas aparecem aqui."
+    },
+    "MENU": {
+      "LABEL": "Opções do pipeline",
+      "SETTINGS": "Configurações do pipeline",
+      "EDIT": "Editar pipeline",
+      "LEAD_ENTRY": "Entrada de leads",
+      "RENAME": "Renomear",
+      "SET_DEFAULT": "Definir como padrão",
+      "DELETE": "Excluir",
+      "DELETE_DEFAULT_BLOCKED": "Excluir (defina outro padrão antes)"
+    },
+    "LEAD_ENTRY": {
+      "TITLE": "Entrada de leads",
+      "TOGGLE": "Criar oportunidades automaticamente",
+      "DESCRIPTION": "Quando a conversa for atribuída a um atendente, uma oportunidade é criada no pipeline padrão, na primeira etapa, para contatos sem oportunidade aberta. O atendente vira o responsável. A configuração vale para a conta inteira.",
+      "NEEDS_DEFAULT": "Crie um pipeline primeiro: ele vira o padrão."
+    },
+    "FORM": {
+      "CREATE_TITLE": "Novo pipeline",
+      "EDIT_TITLE": "Editar pipeline",
+      "NAME": {
+        "LABEL": "Nome",
+        "PLACEHOLDER": "Ex.: Vendas inbound",
+        "TOO_LONG": "Use no máximo {max} caracteres"
+      },
+      "CLOSING_STAGES": "Colunas de fechamento",
+      "CLOSING_STAGES_HINT": "O pipeline começa na etapa Novo contato. As colunas de ganho e de perda são obrigatórias e sempre fecham o quadro.",
+      "WON": {
+        "LABEL": "Nome da coluna de ganho",
+        "DEFAULT_NAME": "Ganho"
+      },
+      "LOST": {
+        "LABEL": "Nome da coluna de perda",
+        "DEFAULT_NAME": "Perda"
+      },
+      "STAGE_NAME_LENGTH": "Use entre {min} e {max} caracteres",
+      "CREATE": "Criar pipeline",
+      "SAVE": "Salvar",
+      "CANCEL": "Cancelar"
+    },
+    "DELETE_CONFIRM": {
+      "TITLE": "Excluir pipeline",
+      "MESSAGE": "Tem certeza de que deseja excluir o pipeline {name}? As etapas dele também serão excluídas.",
+      "YES": "Excluir",
+      "NO": "Cancelar"
+    },
+    "API": {
+      "FETCH_ERROR": "Não foi possível carregar os pipelines. Tente de novo.",
+      "CREATE_SUCCESS": "Pipeline criado",
+      "UPDATE_SUCCESS": "Pipeline atualizado",
+      "DEFAULT_SUCCESS": "{name} agora é o pipeline padrão",
+      "DELETE_SUCCESS": "Pipeline excluído",
+      "SETTINGS_SUCCESS": "Configuração salva",
+      "SAVE_ERROR": "Não foi possível salvar. Tente de novo.",
+      "DELETE_ERROR": "Não foi possível excluir o pipeline. Tente de novo."
+    }
+  }
+}

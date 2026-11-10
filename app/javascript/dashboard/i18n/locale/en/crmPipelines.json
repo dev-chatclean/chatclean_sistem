@@ -1,0 +1,76 @@
+{
+  "CRM_PIPELINES": {
+    "HEADER": "Pipelines",
+    "SEARCH_PLACEHOLDER": "Search pipeline",
+    "NO_SEARCH_RESULTS": "No pipeline found",
+    "ADD_PIPELINE": "Add pipeline",
+    "CREATE_BUTTON": "Create pipeline",
+    "DEFAULT_BADGE": "Default",
+    "EMPTY": {
+      "TITLE": "No pipelines yet",
+      "ADMIN": "Create the first pipeline to organize your sales in stages.",
+      "AGENT": "An administrator needs to create the first pipeline."
+    },
+    "BOARD": {
+      "COUNT": "{count} deals",
+      "EMPTY_STAGE": "No deals in this stage",
+      "EMPTY_WON": "Won deals show up here.",
+      "EMPTY_LOST": "Lost deals show up here."
+    },
+    "MENU": {
+      "LABEL": "Pipeline options",
+      "SETTINGS": "Pipeline settings",
+      "EDIT": "Edit pipeline",
+      "LEAD_ENTRY": "Lead entry",
+      "RENAME": "Rename",
+      "SET_DEFAULT": "Set as default",
+      "DELETE": "Delete",
+      "DELETE_DEFAULT_BLOCKED": "Delete (set another default first)"
+    },
+    "LEAD_ENTRY": {
+      "TITLE": "Lead entry",
+      "TOGGLE": "Create deals automatically",
+      "DESCRIPTION": "When a conversation is assigned to an agent, a deal is created in the default pipeline, in the first stage, for contacts without an open deal. The agent becomes the owner. This setting applies to the whole account.",
+      "NEEDS_DEFAULT": "Create a pipeline first: it becomes the default."
+    },
+    "FORM": {
+      "CREATE_TITLE": "New pipeline",
+      "EDIT_TITLE": "Edit pipeline",
+      "NAME": {
+        "LABEL": "Name",
+        "PLACEHOLDER": "E.g. Inbound sales",
+        "TOO_LONG": "Use at most {max} characters"
+      },
+      "CLOSING_STAGES": "Closing columns",
+      "CLOSING_STAGES_HINT": "The pipeline starts with the New contact stage. The won and lost columns are required and always close the board.",
+      "WON": {
+        "LABEL": "Won column name",
+        "DEFAULT_NAME": "Won"
+      },
+      "LOST": {
+        "LABEL": "Lost column name",
+        "DEFAULT_NAME": "Lost"
+      },
+      "STAGE_NAME_LENGTH": "Use between {min} and {max} characters",
+      "CREATE": "Create pipeline",
+      "SAVE": "Save",
+      "CANCEL": "Cancel"
+    },
+    "DELETE_CONFIRM": {
+      "TITLE": "Delete pipeline",
+      "MESSAGE": "Are you sure you want to delete the pipeline {name}? Its stages are deleted too.",
+      "YES": "Delete",
+      "NO": "Cancel"
+    },
+    "API": {
+      "FETCH_ERROR": "Could not load the pipelines. Try again.",
+      "CREATE_SUCCESS": "Pipeline created",
+      "UPDATE_SUCCESS": "Pipeline updated",
+      "DEFAULT_SUCCESS": "{name} is now the default pipeline",
+      "DELETE_SUCCESS": "Pipeline deleted",
+      "SETTINGS_SUCCESS": "Settings saved",
+      "SAVE_ERROR": "Could not save. Try again.",
+      "DELETE_ERROR": "Could not delete the pipeline. Try again."
+    }
+  }
+}
