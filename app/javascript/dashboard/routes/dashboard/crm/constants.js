@@ -54,3 +54,11 @@ export const UI_SETTINGS_KEYS = {
   PANEL_COLLAPSED: 'crm_pipelines_panel_collapsed',
   LEAD_ENTRY_HINT_DISMISSED: 'crm_lead_entry_hint_dismissed',
 };
+
+export const MAX_REQUIRED_TASKS = 20;
+export const TASK_TITLE_MAX_LENGTH = 120;
+export const STAGE_DEAL_REQUIREMENTS = [
+  'require_expected_close_date',
+  'require_positive_value',
+  'require_product',
+];

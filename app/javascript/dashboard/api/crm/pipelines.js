@@ -6,6 +6,17 @@ class CrmPipelinesAPI extends ApiClient {
     super('crm/pipelines', { accountScoped: true });
   }
 
+  createStage(pipelineId, stage, afterStageId) {
+    return axios.post(`${this.url}/${pipelineId}/stages`, {
+      stage,
+      after_stage_id: afterStageId,
+    });
+  }
+
+  deleteStage(pipelineId, stageId) {
+    return axios.delete(`${this.url}/${pipelineId}/stages/${stageId}`);
+  }
+
   updateStage(pipelineId, stageId, stage) {
     return axios.patch(`${this.url}/${pipelineId}/stages/${stageId}`, {
       stage,

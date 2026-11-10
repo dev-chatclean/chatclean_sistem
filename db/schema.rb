@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_10_182305) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_10_184605) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1082,6 +1082,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_10_182305) do
     t.integer "position", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "stale_after_days"
+    t.jsonb "requirements", default: {}, null: false
+    t.index "pipeline_id, lower((name)::text)", name: "index_crm_stages_on_pipeline_id_and_lower_name", unique: true
     t.index ["account_id"], name: "index_crm_stages_on_account_id"
     t.index ["pipeline_id", "position"], name: "index_crm_stages_on_pipeline_id_and_position"
   end

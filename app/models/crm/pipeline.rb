@@ -45,6 +45,36 @@ class Crm::Pipeline < ApplicationRecord
   before_validation :become_default_if_first, :build_required_stages, on: :create
   before_save :unset_other_defaults, if: -> { is_default? && will_save_change_to_is_default? }
 
+  def add_custom_stage!(attributes, after_stage_id: nil)
+    ordered = stages.to_a
+    closing_index = ordered.index(&:closing?)
+    anchor_index = ordered.index { |stage| stage.id == after_stage_id.to_i } if after_stage_id.present?
+    insert_at = anchor_index && anchor_index < closing_index ? anchor_index + 1 : closing_index
+
+    stage = stages.build(attributes.merge(account: account, stage_type: :custom, position: insert_at))
+    transaction do
+      stage.save!
+      renumber_stages!(ordered.insert(insert_at, stage))
+    end
+    stage
+  end
+
+  def remove_custom_stage!(stage, transfer_to_stage_id: nil)
+    unless stage.custom?
+      errors.add(:base, I18n.t('crm.stages.errors.system_stage_delete'))
+      raise ActiveRecord::RecordInvalid, self
+    end
+    if transfer_to_stage_id.present? && !stages.where(stage_type: %i[initial custom]).where.not(id: stage.id).exists?(id: transfer_to_stage_id)
+      errors.add(:base, I18n.t('crm.stages.errors.invalid_transfer_stage'))
+      raise ActiveRecord::RecordInvalid, self
+    end
+
+    transaction do
+      stage.destroy!
+      renumber_stages!(stages.reload.to_a)
+    end
+  end
+
   def reorder_open_stages!(stage_ids)
     open_stages = stages.where(stage_type: %i[initial custom]).index_by(&:id)
     ordered_ids = stage_ids.map(&:to_i)
@@ -53,13 +83,14 @@ class Crm::Pipeline < ApplicationRecord
       raise ActiveRecord::RecordInvalid, self
     end
 
-    ordered_stages = open_stages.values_at(*ordered_ids) + stages.where(stage_type: %i[won lost]).to_a
-    transaction do
-      ordered_stages.each_with_index { |stage, position| stage.update!(position: position) }
-    end
+    transaction { renumber_stages!(open_stages.values_at(*ordered_ids) + stages.where(stage_type: %i[won lost]).to_a) }
   end
 
   private
+
+  def renumber_stages!(ordered_stages)
+    ordered_stages.each_with_index { |stage, position| stage.update!(position: position) if stage.position != position }
+  end
 
   def become_default_if_first
     self.is_default = true unless account.crm_pipelines.exists?

@@ -196,6 +196,72 @@
       "SETTINGS_SUCCESS": "Settings saved",
       "SAVE_ERROR": "Could not save. Try again.",
       "DELETE_ERROR": "Could not delete the pipeline. Try again."
+    },
+    "STAGE": {
+      "ADD_AFTER": "New stage after this one",
+      "MENU_LABEL": "Actions for stage {name}",
+      "CREATE_TITLE": "New stage",
+      "EDIT_TITLE": "Edit stage",
+      "CREATE": "Create stage",
+      "SAVE": "Save stage",
+      "DELETE": "Delete",
+      "NAME": {
+        "LABEL": "Stage name",
+        "PLACEHOLDER": "E.g. Proposal sent"
+      },
+      "COLOR": "Color",
+      "STALE_DAYS": {
+        "LABEL": "Stalled after (days)",
+        "HINT": "The card turns yellow close to this limit and red after it."
+      },
+      "MENU": {
+        "EDIT": "Edit stage",
+        "EDIT_CLOSING": "Edit",
+        "REQUIREMENTS": "What this stage requires",
+        "MOVE_RIGHT": "Move right",
+        "DELETE": "Delete stage"
+      },
+      "REQUIREMENTS": {
+        "TITLE": "When entering this stage",
+        "OWNER": {
+          "LABEL": "Require owner",
+          "HINT": "The deal only enters this stage with an owner"
+        },
+        "CUSTOM_FIELDS": {
+          "LABEL": "Require filled fields",
+          "EMPTY": "No custom field created yet."
+        },
+        "DEAL": {
+          "LABEL": "Require from the deal",
+          "REQUIRE_EXPECTED_CLOSE_DATE": "Expected close date",
+          "REQUIRE_POSITIVE_VALUE": "Value above zero",
+          "REQUIRE_PRODUCT": "At least one product"
+        },
+        "TASKS": {
+          "LABEL": "Required tasks",
+          "HINT": "The deal gets these tasks when it enters and only leaves the stage after completing them.",
+          "PLACEHOLDER": "E.g. Send proposal",
+          "ADD": "Add",
+          "REMOVE": "Remove task"
+        },
+        "LABELS": {
+          "LABEL": "Apply labels",
+          "EMPTY": "No labels in the account yet."
+        },
+        "DOCUMENT": {
+          "LABEL": "Require document",
+          "HINT": "The deal only enters this stage with an attached document"
+        }
+      },
+      "DELETE_CONFIRM": {
+        "TITLE": "Delete stage",
+        "MESSAGE": "Are you sure you want to delete the stage {name}?"
+      },
+      "API": {
+        "CREATE_SUCCESS": "Stage created",
+        "UPDATE_SUCCESS": "Stage updated",
+        "DELETE_SUCCESS": "Stage deleted"
+      }
     }
   }
 }
