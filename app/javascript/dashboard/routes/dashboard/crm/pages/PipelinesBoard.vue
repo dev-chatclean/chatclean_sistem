@@ -5,21 +5,26 @@ import { useI18n } from 'vue-i18n';
 import { vOnClickOutside } from '@vueuse/components';
 import { useAlert } from 'dashboard/composables';
 import { useAdmin } from 'dashboard/composables/useAdmin';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import CrmPipelinesAPI from 'dashboard/api/crm/pipelines';
+import CrmSettingsAPI from 'dashboard/api/crm/settings';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-import PipelineFormDialog from '../components/PipelineFormDialog.vue';
-import LeadEntryDialog from '../components/LeadEntryDialog.vue';
-import { CLOSING_STAGE_TYPES } from '../constants';
+import PipelineSettingsDialog from '../components/PipelineSettingsDialog.vue';
+import AiSettingsDialog from '../components/AiSettingsDialog.vue';
+import { useItemLabel } from '../useItemLabel';
+import { CLOSING_STAGE_TYPES, UI_SETTINGS_KEYS } from '../constants';
 
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
 const { isAdmin } = useAdmin();
+const { uiSettings, updateUISettings } = useUISettings();
+const { itemLabel } = useItemLabel();
 
 const pipelines = ref([]);
 const isFetching = ref(true);
@@ -28,9 +33,28 @@ const searchQuery = ref('');
 const openPipelineMenuId = ref(null);
 const isSettingsMenuOpen = ref(false);
 const pipelineToDelete = ref(null);
-const formDialogRef = ref(null);
+const autoCreateDeals = ref(true);
+const settingsDialogRef = ref(null);
 const deleteDialogRef = ref(null);
-const leadEntryDialogRef = ref(null);
+const aiDialogRef = ref(null);
+
+const isPanelCollapsed = computed(
+  () => uiSettings.value[UI_SETTINGS_KEYS.PANEL_COLLAPSED] === true
+);
+const showLeadEntryHint = computed(
+  () =>
+    isAdmin.value &&
+    !autoCreateDeals.value &&
+    uiSettings.value[UI_SETTINGS_KEYS.LEAD_ENTRY_HINT_DISMISSED] !== true
+);
+
+const togglePanel = () =>
+  updateUISettings({
+    [UI_SETTINGS_KEYS.PANEL_COLLAPSED]: !isPanelCollapsed.value,
+  });
+
+const dismissLeadEntryHint = () =>
+  updateUISettings({ [UI_SETTINGS_KEYS.LEAD_ENTRY_HINT_DISMISSED]: true });
 
 const filteredPipelines = computed(() => {
   const query = searchQuery.value.trim().toLowerCase();
@@ -38,6 +62,22 @@ const filteredPipelines = computed(() => {
   return pipelines.value.filter(pipeline =>
     pipeline.name.toLowerCase().includes(query)
   );
+});
+
+const groupedPipelines = computed(() => {
+  const groups = new Map();
+  filteredPipelines.value.forEach(pipeline => {
+    const group = pipeline.group_name || '';
+    if (!groups.has(group)) groups.set(group, []);
+    groups.get(group).push(pipeline);
+  });
+  return [...groups.entries()]
+    .sort(([a], [b]) => {
+      if (a === '') return -1;
+      if (b === '') return 1;
+      return a.localeCompare(b);
+    })
+    .map(([name, items]) => ({ name, items }));
 });
 
 const hasDefaultPipeline = computed(() =>
@@ -53,13 +93,35 @@ const selectedPipeline = computed(() => {
   );
 });
 
-const pipelineMenuItems = pipeline => [
+const settingsActions = () => [
   {
-    label: t('CRM_PIPELINES.MENU.RENAME'),
-    value: 'rename',
-    action: 'rename',
+    label: t('CRM_PIPELINES.MENU.EDIT'),
+    value: 'edit',
+    action: 'edit',
     icon: 'i-lucide-pencil',
   },
+  {
+    label: t('CRM_PIPELINES.MENU.CARD'),
+    value: 'card',
+    action: 'card',
+    icon: 'i-lucide-credit-card',
+  },
+  {
+    label: t('CRM_PIPELINES.MENU.LEAD_ENTRY'),
+    value: 'lead_entry',
+    action: 'lead_entry',
+    icon: 'i-lucide-funnel',
+  },
+  {
+    label: t('CRM_PIPELINES.MENU.AI'),
+    value: 'ai',
+    action: 'ai',
+    icon: 'i-lucide-lightbulb',
+  },
+];
+
+const pipelineMenuItems = pipeline => [
+  ...settingsActions(),
   ...(pipeline.is_default
     ? []
     : [
@@ -81,30 +143,29 @@ const pipelineMenuItems = pipeline => [
   },
 ];
 
-const settingsMenuItems = computed(() => [
-  {
-    label: t('CRM_PIPELINES.MENU.EDIT'),
-    value: 'rename',
-    action: 'rename',
-    icon: 'i-lucide-pencil',
-  },
-  {
-    label: t('CRM_PIPELINES.MENU.LEAD_ENTRY'),
-    value: 'lead_entry',
-    action: 'lead_entry',
-    icon: 'i-lucide-funnel',
-  },
-]);
+const settingsMenuItems = computed(() => settingsActions());
 
 const emptyStageMessage = stage => {
   if (stage.stage_type === 'won') return t('CRM_PIPELINES.BOARD.EMPTY_WON');
   if (stage.stage_type === 'lost') return t('CRM_PIPELINES.BOARD.EMPTY_LOST');
-  return t('CRM_PIPELINES.BOARD.EMPTY_STAGE');
+  return t('CRM_PIPELINES.BOARD.EMPTY_STAGE', {
+    item: itemLabel(selectedPipeline.value, 2).toLowerCase(),
+  });
 };
 
 const showError = (error, fallbackKey) => {
   const message = parseAPIErrorResponse(error);
   useAlert(typeof message === 'string' ? message : t(fallbackKey));
+};
+
+const fetchSettings = async () => {
+  if (!isAdmin.value) return;
+  try {
+    const { data } = await CrmSettingsAPI.get();
+    autoCreateDeals.value = data.auto_create_deals;
+  } catch (error) {
+    showError(error, 'CRM_PIPELINES.API.FETCH_ERROR');
+  }
 };
 
 const fetchPipelines = async () => {
@@ -125,26 +186,11 @@ const selectPipeline = pipeline => {
   });
 };
 
-const openCreateDialog = () => formDialogRef.value?.open();
+const openCreateDialog = () => settingsDialogRef.value?.open();
 
-const savePipeline = async ({ id, payload }) => {
-  isSaving.value = true;
-  try {
-    if (id) {
-      await CrmPipelinesAPI.update(id, { pipeline: payload });
-      useAlert(t('CRM_PIPELINES.API.UPDATE_SUCCESS'));
-    } else {
-      const { data } = await CrmPipelinesAPI.create({ pipeline: payload });
-      useAlert(t('CRM_PIPELINES.API.CREATE_SUCCESS'));
-      selectPipeline(data);
-    }
-    formDialogRef.value?.close();
-    await fetchPipelines();
-  } catch (error) {
-    showError(error, 'CRM_PIPELINES.API.SAVE_ERROR');
-  } finally {
-    isSaving.value = false;
-  }
+const onPipelineSaved = async pipeline => {
+  if (pipeline) selectPipeline(pipeline);
+  await Promise.all([fetchPipelines(), fetchSettings()]);
 };
 
 const setAsDefault = async pipeline => {
@@ -179,9 +225,14 @@ const confirmDelete = async () => {
 const handlePipelineAction = (pipeline, { action }) => {
   openPipelineMenuId.value = null;
   isSettingsMenuOpen.value = false;
-  if (action === 'rename') formDialogRef.value?.open(pipeline);
+  if (['edit', 'card', 'lead_entry'].includes(action)) {
+    settingsDialogRef.value?.open(
+      pipeline,
+      action === 'edit' ? 'pipeline' : action
+    );
+  }
+  if (action === 'ai') aiDialogRef.value?.open();
   if (action === 'set_default') setAsDefault(pipeline);
-  if (action === 'lead_entry') leadEntryDialogRef.value?.open();
   if (action === 'delete') {
     pipelineToDelete.value = pipeline;
     deleteDialogRef.value?.open();
@@ -200,7 +251,7 @@ watch(
   }
 );
 
-onMounted(fetchPipelines);
+onMounted(() => Promise.all([fetchPipelines(), fetchSettings()]));
 </script>
 
 <template>
@@ -211,12 +262,36 @@ onMounted(fetchPipelines);
 
     <template v-else>
       <aside
+        v-if="isPanelCollapsed"
+        class="flex flex-col items-center w-12 h-full pt-5 border-e shrink-0 border-n-weak"
+      >
+        <Button
+          icon="i-lucide-chevron-right"
+          slate
+          ghost
+          sm
+          :aria-label="t('CRM_PIPELINES.EXPAND_PANEL')"
+          @click="togglePanel"
+        />
+      </aside>
+      <aside
+        v-else
         class="flex flex-col w-64 h-full border-e shrink-0 border-n-weak bg-n-surface-1"
       >
         <div class="flex flex-col gap-3 px-4 pt-5 pb-3">
-          <h1 class="text-heading-2 text-n-slate-12">
-            {{ t('CRM_PIPELINES.HEADER') }}
-          </h1>
+          <div class="flex items-center justify-between">
+            <h1 class="text-heading-2 text-n-slate-12">
+              {{ t('CRM_PIPELINES.HEADER') }}
+            </h1>
+            <Button
+              icon="i-lucide-chevron-left"
+              slate
+              ghost
+              xs
+              :aria-label="t('CRM_PIPELINES.COLLAPSE_PANEL')"
+              @click="togglePanel"
+            />
+          </div>
           <div class="relative">
             <span
               class="absolute i-lucide-search size-3.5 top-2.5 start-3 text-n-slate-10"
@@ -231,55 +306,63 @@ onMounted(fetchPipelines);
         </div>
 
         <ul class="flex flex-col flex-1 gap-1 px-2 overflow-y-auto">
-          <li
-            v-for="pipeline in filteredPipelines"
-            :key="pipeline.id"
-            class="relative flex items-center gap-2 px-2 rounded-lg h-9 group"
-            :class="
-              selectedPipeline?.id === pipeline.id
-                ? 'bg-n-alpha-2 text-n-slate-12'
-                : 'text-n-slate-11 hover:bg-n-alpha-1'
-            "
-          >
-            <button
-              type="button"
-              class="flex items-center flex-1 min-w-0 gap-2 text-start"
-              @click="selectPipeline(pipeline)"
+          <template v-for="group in groupedPipelines" :key="group.name">
+            <li
+              v-if="group.name"
+              class="px-2 pt-3 pb-1 text-label-small text-n-slate-10 uppercase"
             >
-              <span class="i-lucide-funnel size-4 shrink-0" />
-              <span class="text-sm truncate">{{ pipeline.name }}</span>
-              <span
-                v-if="pipeline.is_default"
-                class="px-1.5 rounded text-label-small bg-n-brand/10 text-n-blue-11 shrink-0"
-              >
-                {{ t('CRM_PIPELINES.DEFAULT_BADGE') }}
-              </span>
-            </button>
-            <div
-              v-if="isAdmin"
-              v-on-click-outside="
-                () =>
-                  openPipelineMenuId === pipeline.id &&
-                  togglePipelineMenu(pipeline)
+              {{ group.name }}
+            </li>
+            <li
+              v-for="pipeline in group.items"
+              :key="pipeline.id"
+              class="relative flex items-center gap-2 px-2 rounded-lg h-9 group"
+              :class="
+                selectedPipeline?.id === pipeline.id
+                  ? 'bg-n-alpha-2 text-n-slate-12'
+                  : 'text-n-slate-11 hover:bg-n-alpha-1'
               "
-              class="relative"
             >
-              <Button
-                icon="i-lucide-ellipsis"
-                slate
-                ghost
-                xs
-                :aria-label="t('CRM_PIPELINES.MENU.LABEL')"
-                @click="togglePipelineMenu(pipeline)"
-              />
-              <DropdownMenu
-                v-if="openPipelineMenuId === pipeline.id"
-                class="top-full end-0 mt-1 w-52"
-                :menu-items="pipelineMenuItems(pipeline)"
-                @action="handlePipelineAction(pipeline, $event)"
-              />
-            </div>
-          </li>
+              <button
+                type="button"
+                class="flex items-center flex-1 min-w-0 gap-2 text-start"
+                @click="selectPipeline(pipeline)"
+              >
+                <span class="i-lucide-funnel size-4 shrink-0" />
+                <span class="text-sm truncate">{{ pipeline.name }}</span>
+                <span
+                  v-if="pipeline.is_default"
+                  class="px-1.5 rounded text-label-small bg-n-brand/10 text-n-blue-11 shrink-0"
+                >
+                  {{ t('CRM_PIPELINES.DEFAULT_BADGE') }}
+                </span>
+              </button>
+              <div
+                v-if="isAdmin"
+                v-on-click-outside="
+                  () =>
+                    openPipelineMenuId === pipeline.id &&
+                    togglePipelineMenu(pipeline)
+                "
+                class="relative"
+              >
+                <Button
+                  icon="i-lucide-ellipsis"
+                  slate
+                  ghost
+                  xs
+                  :aria-label="t('CRM_PIPELINES.MENU.LABEL')"
+                  @click="togglePipelineMenu(pipeline)"
+                />
+                <DropdownMenu
+                  v-if="openPipelineMenuId === pipeline.id"
+                  class="top-full end-0 mt-1 w-52"
+                  :menu-items="pipelineMenuItems(pipeline)"
+                  @action="handlePipelineAction(pipeline, $event)"
+                />
+              </div>
+            </li>
+          </template>
           <li
             v-if="pipelines.length && !filteredPipelines.length"
             class="px-2 py-3 text-sm text-n-slate-11"
@@ -331,6 +414,26 @@ onMounted(fetchPipelines);
               @action="handlePipelineAction(selectedPipeline, $event)"
             />
           </div>
+          <div
+            v-if="showLeadEntryHint"
+            class="flex items-center gap-3 ms-auto text-sm"
+          >
+            <button
+              type="button"
+              class="text-n-blue-11 hover:underline"
+              :title="t('CRM_PIPELINES.LEAD_ENTRY_HINT.TOOLTIP')"
+              @click="settingsDialogRef?.open(selectedPipeline, 'lead_entry')"
+            >
+              {{ t('CRM_PIPELINES.LEAD_ENTRY_HINT.ENABLE') }}
+            </button>
+            <button
+              type="button"
+              class="text-n-slate-11 hover:text-n-slate-12"
+              @click="dismissLeadEntryHint"
+            >
+              {{ t('CRM_PIPELINES.LEAD_ENTRY_HINT.DISMISS') }}
+            </button>
+          </div>
         </header>
 
         <div class="flex flex-1 min-h-0 gap-3 px-6 pb-6 overflow-x-auto">
@@ -358,7 +461,12 @@ onMounted(fetchPipelines);
               </span>
             </div>
             <span class="mb-3 text-label-small text-n-slate-11">
-              {{ t('CRM_PIPELINES.BOARD.COUNT', { count: 0 }) }}
+              {{
+                t('CRM_PIPELINES.BOARD.COUNT', {
+                  count: 0,
+                  item: itemLabel(selectedPipeline, 0).toLowerCase(),
+                })
+              }}
             </span>
             <div
               class="flex items-center justify-center flex-1 px-6 text-center border rounded-xl border-n-weak bg-n-solid-1"
@@ -397,15 +505,12 @@ onMounted(fetchPipelines);
       </main>
     </template>
 
-    <PipelineFormDialog
-      ref="formDialogRef"
-      :is-loading="isSaving"
-      @submit="savePipeline"
-    />
-    <LeadEntryDialog
-      ref="leadEntryDialogRef"
+    <PipelineSettingsDialog
+      ref="settingsDialogRef"
       :has-default-pipeline="hasDefaultPipeline"
+      @saved="onPipelineSaved"
     />
+    <AiSettingsDialog ref="aiDialogRef" />
     <Dialog
       ref="deleteDialogRef"
       type="alert"

@@ -6,40 +6,168 @@
     "ADD_PIPELINE": "Adicionar pipeline",
     "CREATE_BUTTON": "Criar pipeline",
     "DEFAULT_BADGE": "Padrão",
+    "COLLAPSE_PANEL": "Recolher pipelines",
+    "EXPAND_PANEL": "Mostrar pipelines",
+    "ITEM_LABELS": {
+      "deal": "oportunidade | oportunidades",
+      "client": "cliente | clientes",
+      "case": "caso | casos",
+      "process": "processo | processos"
+    },
     "EMPTY": {
       "TITLE": "Nenhum pipeline ainda",
       "ADMIN": "Crie o primeiro pipeline para organizar suas vendas em etapas.",
       "AGENT": "Um administrador precisa criar o primeiro pipeline."
     },
     "BOARD": {
-      "COUNT": "{count} oportunidades",
-      "EMPTY_STAGE": "Nenhuma oportunidade nesta etapa",
-      "EMPTY_WON": "As oportunidades ganhas aparecem aqui.",
-      "EMPTY_LOST": "As oportunidades perdidas aparecem aqui."
+      "COUNT": "{count} {item}",
+      "EMPTY_STAGE": "Sem {item} nesta etapa",
+      "EMPTY_WON": "O que foi ganho nos últimos 30 dias aparece aqui.",
+      "EMPTY_LOST": "O que foi perdido nos últimos 30 dias aparece aqui."
+    },
+    "LEAD_ENTRY_HINT": {
+      "ENABLE": "Ligar entrada de leads",
+      "DISMISS": "Dispensar",
+      "TOOLTIP": "Cada conversa nova vira uma oportunidade no pipeline padrão"
     },
     "MENU": {
       "LABEL": "Opções do pipeline",
-      "SETTINGS": "Configurações do pipeline",
+      "SETTINGS": "Configurar pipeline",
       "EDIT": "Editar pipeline",
+      "CARD": "Personalizar cartão",
       "LEAD_ENTRY": "Entrada de leads",
-      "RENAME": "Renomear",
+      "AI": "IA do pipeline",
       "SET_DEFAULT": "Definir como padrão",
-      "DELETE": "Excluir",
+      "DELETE": "Excluir pipeline",
       "DELETE_DEFAULT_BLOCKED": "Excluir (defina outro padrão antes)"
     },
+    "SETTINGS_TABS": {
+      "PIPELINE": "Pipeline",
+      "LEAD_ENTRY": "Entrada de leads",
+      "CARD": "Cartão",
+      "TITLES": {
+        "PIPELINE": "Editar pipeline",
+        "LEAD_ENTRY": "Entrada de leads",
+        "CARD": "Personalizar cartão"
+      }
+    },
     "LEAD_ENTRY": {
-      "TITLE": "Entrada de leads",
-      "TOGGLE": "Criar oportunidades automaticamente",
-      "DESCRIPTION": "Quando a conversa for atribuída a um atendente, uma oportunidade é criada no pipeline padrão, na primeira etapa, para contatos sem oportunidade aberta. O atendente vira o responsável. A configuração vale para a conta inteira.",
-      "NEEDS_DEFAULT": "Crie um pipeline primeiro: ele vira o padrão."
+      "TOGGLE": "Criar uma oportunidade para cada conversa nova",
+      "DESCRIPTION": "Quando uma conversa que casar com as regras abaixo for atribuída a um atendente, ela vira uma oportunidade aberta no pipeline padrão, na primeira etapa, e o atendente vira o responsável. A configuração vale para a conta inteira. Ao desligar, as oportunidades que já estão no quadro continuam lá.",
+      "NEEDS_DEFAULT": "Crie um pipeline primeiro: ele vira o padrão.",
+      "CHANNELS": "Canais",
+      "ALL_CHANNELS": "Todos os canais",
+      "ORIGINS": "Origens",
+      "SOURCES": "Fontes",
+      "OPTIONS": {
+        "CATALOG": "Catálogo",
+        "FACEBOOK": "Facebook",
+        "AD_FORM": "Formulário do anúncio",
+        "INSTAGRAM": "Instagram",
+        "SITE": "Site",
+        "MESSAGE": "Mensagem recebida",
+        "AD": "Anúncio",
+        "FORM": "Formulário"
+      },
+      "LISTS_HINT": "Desmarque o que não deve virar lead. Com tudo marcado numa lista, o canal conectado e a origem cadastrada depois também entram. Com mais de uma lista desmarcada, a conversa precisa casar com todas.",
+      "ALERT_DAYS": {
+        "LABEL": "Avisar quando esperar mais de (dias)",
+        "HINT": "Passado esse prazo, o lead ganha um selo de alerta na coluna e no cabeçalho do quadro."
+      }
+    },
+    "CARD": {
+      "HINT": "Escolha até {max} campos para aparecer embaixo do cartão padrão. Todo o time vê os mesmos campos em todos os cartões deste pipeline.",
+      "ITEMS": "Itens do cartão de {item}",
+      "ONLY_WHEN_FILLED": "só aparece quando preenchido",
+      "PREVIEW": {
+        "CONTACT": "Nome do contato",
+        "OWNER": "Responsável",
+        "VALUE": "Valor",
+        "IN_STAGE": "Na etapa há 3 d",
+        "NUMBER": "#12"
+      },
+      "FIELDS": {
+        "EXPECTED_CLOSE_DATE": "Data prevista de fechamento",
+        "PRODUCTS": "Produtos",
+        "NEXT_TASK": "Próxima tarefa",
+        "CONTACT_LABELS": "Etiquetas do contato",
+        "ORIGIN": "Origem",
+        "BILLING": "Cobrança",
+        "ATTACHMENTS": "Anexos"
+      }
+    },
+    "AI": {
+      "TITLE": "IA do pipeline",
+      "DESCRIPTION": "Usa a chave de IA da ChatClean. Você escolhe o que ela faz nos cartões e quanto pode gastar por mês.",
+      "FEATURES": {
+        "NEXT_STEP": {
+          "TITLE": "Sugerir o próximo passo",
+          "HINT": "Mostra no cartão o que fazer em seguida com o cliente."
+        },
+        "FILL_ON_MOVE": {
+          "TITLE": "Preencher campos ao mover",
+          "HINT": "Quando a oportunidade muda de etapa, preenche os campos exigidos a partir da conversa."
+        },
+        "TEMPERATURE": {
+          "TITLE": "Explicar o selo de temperatura",
+          "HINT": "Mostra o quanto a oportunidade está quente e por quê."
+        }
+      },
+      "MONTHLY_CAP": {
+        "LABEL": "Teto de gasto por mês (R$)",
+        "HINT": "Defina um valor maior que zero para ligar qualquer uma das três."
+      }
     },
     "FORM": {
       "CREATE_TITLE": "Novo pipeline",
-      "EDIT_TITLE": "Editar pipeline",
+      "CREATE": "Criar pipeline",
+      "SAVE": "Salvar",
+      "CANCEL": "Cancelar",
       "NAME": {
         "LABEL": "Nome",
         "PLACEHOLDER": "Ex.: Vendas inbound",
         "TOO_LONG": "Use no máximo {max} caracteres"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descrição (opcional)",
+        "PLACEHOLDER": "Para que serve este pipeline"
+      },
+      "GROUP": {
+        "LABEL": "Grupo (opcional)",
+        "PLACEHOLDER": "Ex.: Comercial"
+      },
+      "TYPE": {
+        "LABEL": "Tipo",
+        "SALES": "Vendas",
+        "MANAGEMENT": "Gestão",
+        "SALES_HINT": "Com valor, ganho e perda",
+        "MANAGEMENT_HINT": "Para acompanhar processos, sem valor",
+        "LOCKED": "O tipo foi definido na criação e não muda"
+      },
+      "ITEM_LABEL": {
+        "LABEL": "Como chamar cada item",
+        "OPTIONS": {
+          "DEAL": "Padrão (oportunidade)",
+          "CLIENT": "Cliente",
+          "CASE": "Caso",
+          "PROCESS": "Processo",
+          "CUSTOM": "Personalizado"
+        },
+        "CUSTOM_PLACEHOLDER": "Ex.: Chamado",
+        "HINT": "Aparece no botão \"Novo …\", nos contadores, no cartão e nos menus. Dá para mudar depois: é só o texto."
+      },
+      "STALE_DAYS": {
+        "LABEL": "Oportunidade parada após (dias)",
+        "HINT": "Toda etapa nova nasce com esse limite. Ganhos e perdidos não contam.",
+        "INVALID": "Use um número inteiro entre 1 e {max}"
+      },
+      "ONE_CARD": {
+        "LABEL": "Um card por contato",
+        "HINT": "Se o contato já tem um card em andamento neste pipeline, abrimos esse card em vez de criar outro. Vale só para este pipeline."
+      },
+      "STAGES": {
+        "LABEL": "Etapas",
+        "HINT": "Arraste para mudar a ordem. Novo contato fica sempre em primeiro."
       },
       "CLOSING_STAGES": "Colunas de fechamento",
       "CLOSING_STAGES_HINT": "O pipeline começa na etapa Novo contato. As colunas de ganho e de perda são obrigatórias e sempre fecham o quadro.",
@@ -51,10 +179,7 @@
         "LABEL": "Nome da coluna de perda",
         "DEFAULT_NAME": "Perda"
       },
-      "STAGE_NAME_LENGTH": "Use entre {min} e {max} caracteres",
-      "CREATE": "Criar pipeline",
-      "SAVE": "Salvar",
-      "CANCEL": "Cancelar"
+      "STAGE_NAME_LENGTH": "Use entre {min} e {max} caracteres"
     },
     "DELETE_CONFIRM": {
       "TITLE": "Excluir pipeline",
