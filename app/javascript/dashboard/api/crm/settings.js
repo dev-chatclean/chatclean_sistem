@@ -6,8 +6,8 @@ class CrmSettingsAPI extends ApiClient {
     super('crm/settings', { accountScoped: true });
   }
 
-  update(data) {
-    return axios.patch(this.url, data);
+  update(crm) {
+    return axios.patch(this.url, { crm });
   }
 }
 

@@ -23,16 +23,41 @@ class Crm::Pipeline < ApplicationRecord
     { stage_type: :lost, color: '#E0484E' }
   ].freeze
 
+  ITEM_LABELS = %w[deal client case process custom].freeze
+  CARD_FIELDS = %w[expected_close_date products next_task contact_labels origin billing attachments].freeze
+  MAX_CARD_FIELDS = 4
+
   attr_accessor :won_stage, :lost_stage
+
+  enum :pipeline_type, { sales: 0, management: 1 }
 
   belongs_to :account
   has_many :stages, -> { order(:position) }, class_name: 'Crm::Stage', inverse_of: :pipeline, dependent: :destroy
 
   validates :name, presence: true, length: { maximum: 100 }
+  validates :description, length: { maximum: 500 }
+  validates :item_label, inclusion: { in: ITEM_LABELS }
+  validates :item_label_custom, presence: true, length: { maximum: 30 }, if: -> { item_label == 'custom' }
+  validates :stale_after_days, numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: 365 }
+  validate :card_fields_allowed
   validate :default_cannot_be_unset, on: :update
 
   before_validation :become_default_if_first, :build_required_stages, on: :create
   before_save :unset_other_defaults, if: -> { is_default? && will_save_change_to_is_default? }
+
+  def reorder_open_stages!(stage_ids)
+    open_stages = stages.where(stage_type: %i[initial custom]).index_by(&:id)
+    ordered_ids = stage_ids.map(&:to_i)
+    unless ordered_ids.sort == open_stages.keys.sort && open_stages[ordered_ids.first]&.initial?
+      errors.add(:base, I18n.t('crm.stages.errors.invalid_order'))
+      raise ActiveRecord::RecordInvalid, self
+    end
+
+    ordered_stages = open_stages.values_at(*ordered_ids) + stages.where(stage_type: %i[won lost]).to_a
+    transaction do
+      ordered_stages.each_with_index { |stage, position| stage.update!(position: position) }
+    end
+  end
 
   private
 
@@ -51,6 +76,12 @@ class Crm::Pipeline < ApplicationRecord
 
   def unset_other_defaults
     account.crm_pipelines.where(is_default: true).where.not(id: id).update_all(is_default: false) # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  def card_fields_allowed
+    return if card_fields.is_a?(Array) && card_fields.size <= MAX_CARD_FIELDS && (card_fields - CARD_FIELDS).empty?
+
+    errors.add(:base, I18n.t('crm.pipelines.errors.invalid_card_fields', max: MAX_CARD_FIELDS))
   end
 
   def default_cannot_be_unset

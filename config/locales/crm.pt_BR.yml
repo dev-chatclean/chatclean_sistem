@@ -1,14 +1,18 @@
 pt_BR:
   crm:
     stages:
+      errors:
+        invalid_order: A nova ordem precisa ter todas as etapas abertas e manter Novo contato em primeiro.
       defaults:
         initial: Novo contato
         won: Ganho
         lost: Perda
     pipelines:
       errors:
+        invalid_card_fields: Escolha no máximo %{max} itens válidos para o cartão.
         default_cannot_be_unset: O pipeline padrão não pode ser desligado. Defina outro pipeline como padrão.
         default_cannot_be_deleted: Não é possível excluir o pipeline padrão. Defina outro pipeline como padrão antes de realizar a exclusão.
     settings:
       errors:
+        ai_requires_monthly_cap: Defina um teto de gasto mensal maior que zero para ligar a IA do pipeline.
         auto_create_requires_default_pipeline: A criação automática de oportunidades precisa de um pipeline padrão. Crie um pipeline primeiro.

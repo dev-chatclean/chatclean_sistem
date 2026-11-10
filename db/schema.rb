@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_10_171941) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_10_182305) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1061,6 +1061,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_10_171941) do
     t.boolean "is_default", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "description"
+    t.string "group_name", limit: 60
+    t.integer "pipeline_type", default: 0, null: false
+    t.string "item_label", limit: 20, default: "deal", null: false
+    t.string "item_label_custom", limit: 30
+    t.integer "stale_after_days", default: 7, null: false
+    t.boolean "one_card_per_contact", default: true, null: false
+    t.jsonb "card_fields", default: [], null: false
     t.index ["account_id"], name: "index_crm_pipelines_on_account_id"
     t.index ["account_id"], name: "index_crm_pipelines_on_account_id_default", unique: true, where: "is_default"
   end
