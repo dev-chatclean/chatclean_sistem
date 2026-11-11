@@ -36,8 +36,8 @@ pt_BR:
     contacts:
       errors:
         has_deals:
-          one: Este contato tem 1 negócio e não pode ser excluído.
-          other: Este contato tem %{count} negócios e não pode ser excluído.
+          one: Este contato tem 1 negócio e não pode ser excluído. Use a opção de arquivar.
+          other: Este contato tem %{count} negócios e não pode ser excluído. Use a opção de arquivar.
         bulk_has_deals:
           one: 1 dos contatos selecionados tem negócio e não pode ser excluído. Tire-o da seleção.
           other: '%{count} dos contatos selecionados têm negócios e não podem ser excluídos. Tire-os da seleção.'

@@ -306,6 +306,20 @@
       "NEW": "Nova oportunidade",
       "PIPELINE": "Pipeline",
       "EMPTY": "Este contato ainda não tem oportunidades."
+    },
+    "ARCHIVE": {
+      "TITLE": "Arquivar contato",
+      "BADGE": "Arquivado",
+      "DESCRIPTION": "Tira o contato da lista e das buscas. As oportunidades dele continuam e seguem contando nos relatórios.",
+      "ARCHIVED_DESCRIPTION": "Este contato está fora da lista e das buscas. Ele volta sozinho quando mandar mensagem.",
+      "ARCHIVE": "Arquivar contato",
+      "UNARCHIVE": "Desarquivar contato",
+      "CONFIRM_TITLE": "Arquivar este contato?",
+      "CONFIRM": "O contato sai da lista e das buscas. Ele fica em Contatos → Arquivados.",
+      "CONFIRM_OPEN_DEALS": "Este contato possui {count} oportunidade em aberto. Deseja arquivá-lo mesmo assim mantendo a oportunidade registrada? | Este contato possui {count} oportunidades em aberto. Deseja arquivá-lo mesmo assim mantendo as oportunidades registradas?",
+      "ARCHIVED": "Contato arquivado",
+      "UNARCHIVED": "Contato desarquivado",
+      "ERROR": "Não foi possível alterar o contato. Tente de novo."
     }
   }
 }

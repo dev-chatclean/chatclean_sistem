@@ -16,7 +16,10 @@ class ContactAPI extends ApiClient {
 
   get(page, sortAttr = 'name', label = '', options = {}) {
     return axios.get(this.url, {
-      params: buildContactParams(page, sortAttr, label, ''),
+      params: {
+        ...buildContactParams(page, sortAttr, label, ''),
+        ...(options.archived ? { archived: true } : {}),
+      },
       signal: options.signal,
     });
   }
