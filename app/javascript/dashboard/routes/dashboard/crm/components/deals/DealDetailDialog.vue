@@ -7,13 +7,16 @@ import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useMapGetter } from 'dashboard/composables/store';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import CrmDealsAPI from 'dashboard/api/crm/deals';
-import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
-import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
-import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-import ContactPicker from './ContactPicker.vue';
-import { formatCurrency, isClosingStage } from '../../dealHelpers';
+import StagePill from './detail/StagePill.vue';
+import LinkContactCard from './detail/LinkContactCard.vue';
+import ContactLabels from './detail/ContactLabels.vue';
+import DealInfoTab from './detail/DealInfoTab.vue';
+import DealHistoryTab from './detail/DealHistoryTab.vue';
+import DealContactDealsTab from './detail/DealContactDealsTab.vue';
+import DealConversationsTab from './detail/DealConversationsTab.vue';
+import { isClosingStage } from '../../dealHelpers';
 
 const props = defineProps({
   pipeline: { type: Object, default: null },
@@ -21,12 +24,17 @@ const props = defineProps({
 
 const emit = defineEmits(['changed', 'closeRequest', 'move', 'delete']);
 
-const TABS = ['info', 'history'];
-const SECONDS_IN_MINUTE = 60;
-const SECONDS_IN_HOUR = 3600;
-const SECONDS_IN_DAY = 86400;
+const TABS = [
+  'info',
+  'history',
+  'activities',
+  'deals',
+  'files',
+  'conversations',
+];
+const UPCOMING_TABS = ['activities', 'files'];
 
-const { t, locale } = useI18n();
+const { t } = useI18n();
 const { isAdmin } = useAdmin();
 const agents = useMapGetter('agents/getAgents');
 
@@ -35,29 +43,17 @@ const deal = ref(null);
 const isLoading = ref(false);
 const activeTab = ref('info');
 const isMenuOpen = ref(false);
-const valueDraft = ref('');
 const notesDraft = ref('');
 
 const showValue = computed(
   () => props.pipeline?.pipeline_type !== 'management'
 );
-const openStages = computed(() =>
-  (props.pipeline?.stages || []).filter(stage => !isClosingStage(stage))
-);
-const tabs = computed(() =>
-  TABS.map(key => ({
-    key,
-    label: t(`CRM_DEALS.DETAIL.TABS.${key.toUpperCase()}`),
-  }))
-);
 
-const statusClass = computed(
-  () =>
-    ({
-      won: 'bg-n-teal-3 text-n-teal-11',
-      lost: 'bg-n-ruby-3 text-n-ruby-11',
-    })[deal.value?.status] || 'bg-n-blue-3 text-n-blue-11'
-);
+const STATUS_DOT = {
+  open: 'bg-n-blue-9',
+  won: 'bg-n-teal-9',
+  lost: 'bg-n-ruby-9',
+};
 
 const menuItems = computed(() => [
   ...(props.pipeline?.stages || [])
@@ -71,7 +67,9 @@ const menuItems = computed(() => [
       action: 'close',
       stage,
       icon:
-        stage.stage_type === 'won' ? 'i-lucide-trophy' : 'i-lucide-thumbs-down',
+        stage.stage_type === 'won'
+          ? 'i-lucide-hourglass'
+          : 'i-lucide-thumbs-down',
     })),
   {
     label: t('CRM_DEALS.MENU.MOVE'),
@@ -93,57 +91,11 @@ const menuItems = computed(() => [
   },
 ]);
 
-const formatDateTime = timestamp =>
-  new Intl.DateTimeFormat(locale.value.replace('_', '-'), {
-    dateStyle: 'short',
-    timeStyle: 'short',
-  }).format(new Date(timestamp * 1000));
-
-const formatDuration = seconds => {
-  if (seconds < SECONDS_IN_MINUTE)
-    return t('CRM_DEALS.DETAIL.DURATION.LESS_THAN_MINUTE');
-  if (seconds < SECONDS_IN_HOUR) {
-    return t('CRM_DEALS.DETAIL.DURATION.MINUTES', {
-      n: Math.floor(seconds / SECONDS_IN_MINUTE),
-    });
-  }
-  if (seconds < SECONDS_IN_DAY) {
-    return t('CRM_DEALS.DETAIL.DURATION.HOURS', {
-      n: Math.floor(seconds / SECONDS_IN_HOUR),
-    });
-  }
-  return t('CRM_DEALS.DETAIL.DURATION.DAYS', {
-    n: Math.floor(seconds / SECONDS_IN_DAY),
-  });
-};
-
-const entryDuration = entry =>
-  (entry.left_at || Math.floor(Date.now() / 1000)) - entry.entered_at;
-
-const timeByStage = computed(() => {
-  const totals = {};
-  (deal.value?.journey || []).forEach(entry => {
-    totals[entry.stage_name] =
-      (totals[entry.stage_name] || 0) + entryDuration(entry);
-  });
-  return totals;
-});
-
-const eventText = event => {
-  const user = event.user_name || t('CRM_DEALS.DETAIL.SYSTEM');
-  return t(`CRM_DEALS.DETAIL.EVENTS.${event.event_type.toUpperCase()}`, {
-    user,
-    from: event.from_stage_name || event.data.from,
-    to: event.to_stage_name || event.data.to,
-  });
-};
-
 const load = async id => {
   isLoading.value = true;
   try {
     const { data } = await CrmDealsAPI.show(id);
     deal.value = data;
-    valueDraft.value = String(data.value);
     notesDraft.value = data.notes || '';
   } catch (error) {
     useAlert(t('CRM_DEALS.API.FETCH_ERROR'));
@@ -155,19 +107,20 @@ const load = async id => {
 const open = target => {
   deal.value = null;
   activeTab.value = 'info';
-  dialogRef.value?.open();
+  isMenuOpen.value = false;
+  dialogRef.value?.showModal();
   load(target.id);
 };
 
+const close = () => dialogRef.value?.close();
 const reload = () => deal.value && load(deal.value.id);
 
-const update = async (changes, successKey = 'CRM_DEALS.API.UPDATE_SUCCESS') => {
+const update = async (changes, notify = true) => {
   try {
     const { data } = await CrmDealsAPI.update(deal.value.id, { deal: changes });
     deal.value = data;
-    valueDraft.value = String(data.value);
     notesDraft.value = data.notes || '';
-    if (successKey) useAlert(t(successKey));
+    if (notify) useAlert(t('CRM_DEALS.API.UPDATE_SUCCESS'));
     emit('changed');
   } catch (error) {
     const message = parseAPIErrorResponse(error);
@@ -178,26 +131,17 @@ const update = async (changes, successKey = 'CRM_DEALS.API.UPDATE_SUCCESS') => {
   }
 };
 
-const onStageChange = event => {
-  const stage = props.pipeline.stages.find(
-    item => item.id === Number(event.target.value)
-  );
+const onStageSelect = stage => {
   if (isClosingStage(stage)) {
-    event.target.value = deal.value.stage_id;
     emit('closeRequest', { deal: deal.value, stage });
     return;
   }
   update({ stage_id: stage.id });
 };
 
-const saveValue = () => {
-  const value = Number(valueDraft.value) || 0;
-  if (value !== deal.value.value) update({ value });
-};
-
 const saveNotes = () => {
   if (notesDraft.value !== (deal.value.notes || ''))
-    update({ notes: notesDraft.value }, null);
+    update({ notes: notesDraft.value }, false);
 };
 
 const handleMenu = async ({ action, stage }) => {
@@ -217,64 +161,69 @@ const handleMenu = async ({ action, stage }) => {
   }
 };
 
-const close = () => dialogRef.value?.close();
+const onBackdropClick = event => {
+  if (event.target === dialogRef.value) close();
+};
 
 defineExpose({ open, reload, close });
 </script>
 
 <template>
-  <Dialog
+  <dialog
     ref="dialogRef"
-    width="5xl"
-    :show-confirm-button="false"
-    :show-cancel-button="false"
-    overflow-y-auto
+    class="p-0 m-auto overflow-hidden border w-[min(96vw,110rem)] h-[92vh] max-w-none max-h-none rounded-3xl border-n-weak bg-n-solid-1 text-n-slate-12 backdrop:bg-n-alpha-black1 backdrop:backdrop-blur-sm"
+    @click="onBackdropClick"
   >
-    <div v-if="!deal" class="flex justify-center py-16">
+    <div v-if="!deal" class="flex items-center justify-center h-full">
       <Spinner />
     </div>
-    <div v-else class="flex flex-col gap-5">
-      <header class="flex flex-wrap items-start justify-between gap-3">
-        <div class="flex flex-col gap-1.5 min-w-0">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="text-label-small text-n-slate-10">{{
-              t('CRM_DEALS.NUMBER', { number: deal.number })
-            }}</span>
-            <h2 class="text-heading-2 text-n-slate-12 truncate">
+    <div v-else class="flex flex-col h-full">
+      <header
+        class="flex items-start justify-between gap-4 px-8 py-6 border-b border-n-weak"
+      >
+        <div class="flex flex-col gap-2 min-w-0">
+          <div class="flex items-baseline gap-2.5 min-w-0">
+            <span class="text-base text-n-slate-11">
+              {{ t('CRM_DEALS.NUMBER', { number: deal.number }) }}
+            </span>
+            <h2 class="text-2xl font-bold truncate text-n-slate-12">
               {{ deal.display_name }}
             </h2>
           </div>
           <span
-            class="self-start px-2 py-0.5 rounded-md text-label-small"
-            :class="statusClass"
+            class="flex items-center self-start gap-2 px-3 py-1 text-sm border rounded-lg border-n-slate-6 text-n-slate-12"
           >
+            <span
+              class="rounded-full size-2"
+              :class="STATUS_DOT[deal.status]"
+            />
             {{ t(`CRM_DEALS.STATUS.${deal.status.toUpperCase()}`) }}
           </span>
         </div>
-        <div class="flex items-center gap-2">
-          <select
-            :value="deal.stage_id"
-            class="reset-base h-9 px-3 text-sm rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12"
-            :aria-label="t('CRM_DEALS.FORM.STAGE')"
-            @change="onStageChange"
+        <div class="flex items-center gap-3">
+          <StagePill
+            :stages="props.pipeline?.stages || []"
+            :stage-id="deal.stage_id"
+            @select="onStageSelect"
+          />
+          <button
+            type="button"
+            disabled
+            class="flex items-center gap-2 h-11 px-4 text-base font-medium rounded-xl outline outline-1 -outline-offset-1 outline-n-slate-6 text-n-slate-12 disabled:opacity-60 disabled:cursor-not-allowed"
+            :title="t('CRM_DEALS.DETAIL.COMING_SOON')"
           >
-            <option
-              v-for="stage in props.pipeline?.stages || []"
-              :key="stage.id"
-              :value="stage.id"
-            >
-              {{ stage.name }}
-            </option>
-          </select>
+            <span class="i-lucide-plus size-4" />
+            {{ t('CRM_DEALS.DETAIL.NEW_ACTIVITY') }}
+          </button>
           <div v-on-click-outside="() => (isMenuOpen = false)" class="relative">
-            <Button
-              icon="i-lucide-ellipsis"
-              slate
-              faded
-              sm
+            <button
+              type="button"
+              class="flex items-center justify-center rounded-xl size-11 outline outline-1 -outline-offset-1 outline-n-slate-6 text-n-slate-12 hover:bg-n-alpha-1"
               :aria-label="t('CRM_DEALS.MENU.LABEL')"
               @click="isMenuOpen = !isMenuOpen"
-            />
+            >
+              <span class="i-lucide-ellipsis size-5" />
+            </button>
             <DropdownMenu
               v-if="isMenuOpen"
               class="top-full end-0 mt-1 w-52"
@@ -282,36 +231,39 @@ defineExpose({ open, reload, close });
               @action="handleMenu"
             />
           </div>
-          <Button
-            icon="i-lucide-x"
-            slate
-            ghost
-            sm
+          <button
+            type="button"
+            class="flex items-center justify-center rounded-xl size-11 text-n-slate-11 hover:bg-n-alpha-1 hover:text-n-slate-12"
             :aria-label="t('CRM_DEALS.DETAIL.CLOSE')"
             @click="close"
-          />
+          >
+            <span class="i-lucide-x size-5" />
+          </button>
         </div>
       </header>
 
-      <div class="grid gap-5 md:grid-cols-[18rem_minmax(0,1fr)]">
-        <aside class="flex flex-col gap-4">
-          <div class="flex flex-col gap-1.5">
-            <span class="text-label text-n-slate-12">{{
-              t('CRM_DEALS.FORM.CONTACT')
-            }}</span>
-            <ContactPicker
-              :model-value="deal.contact"
-              @update:model-value="update({ contact_id: $event?.id || null })"
-            />
-          </div>
-          <label class="flex flex-col gap-1.5">
-            <span class="text-label text-n-slate-12">{{
+      <div class="grid flex-1 min-h-0 grid-cols-[28rem_minmax(0,1fr)]">
+        <aside
+          class="flex flex-col gap-6 p-7 overflow-y-auto border-e border-n-weak"
+        >
+          <span class="flex items-center gap-2 text-base text-n-slate-11">
+            <span class="i-lucide-building-2 size-4" />
+            {{ deal.company?.name || t('CRM_DEALS.DETAIL.NO_COMPANY') }}
+          </span>
+          <LinkContactCard
+            :contact="deal.contact"
+            @link="update({ contact_id: $event.id })"
+            @unlink="update({ contact_id: null })"
+          />
+          <ContactLabels :contact-id="deal.contact?.id || null" />
+          <label class="flex flex-col gap-2">
+            <span class="text-sm font-medium text-n-slate-11">{{
               t('CRM_DEALS.FORM.ASSIGNEE')
             }}</span>
             <select
               :value="deal.assignee.id"
               :disabled="!isAdmin"
-              class="reset-base h-10 px-3 text-sm rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12 disabled:opacity-70"
+              class="reset-base h-12 px-4 text-base font-medium rounded-xl border border-n-slate-6 bg-transparent text-n-slate-12 disabled:opacity-80"
               @change="update({ assignee_id: Number($event.target.value) })"
             >
               <option v-if="!isAdmin" :value="deal.assignee.id">
@@ -328,34 +280,39 @@ defineExpose({ open, reload, close });
               </template>
             </select>
           </label>
-          <label class="flex flex-col gap-1.5">
-            <span class="text-label text-n-slate-12">{{
-              t('CRM_DEALS.FORM.EXPECTED_CLOSE_DATE')
-            }}</span>
-            <input
-              type="date"
-              :value="deal.expected_close_date"
-              class="reset-base h-10 px-3 text-sm rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12"
-              @change="
-                update({ expected_close_date: $event.target.value || null })
-              "
-            />
-          </label>
-          <label class="flex flex-col gap-1.5">
-            <span class="text-label text-n-slate-12">{{
+          <label class="flex flex-col gap-2">
+            <span class="text-sm font-medium text-n-slate-11">{{
               t('CRM_DEALS.DETAIL.NOTES')
             }}</span>
             <textarea
               v-model="notesDraft"
-              rows="4"
+              rows="3"
               :placeholder="t('CRM_DEALS.DETAIL.NOTES_PLACEHOLDER')"
-              class="reset-base px-3 py-2 text-sm rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12 resize-y"
+              class="reset-base px-4 py-3 text-base rounded-xl border border-n-slate-6 bg-transparent text-n-slate-12 resize-y"
               @blur="saveNotes"
             />
           </label>
+          <section class="flex flex-col gap-3">
+            <span class="text-sm font-medium text-n-slate-11">{{
+              t('CRM_DEALS.DETAIL.DEAL_FIELDS')
+            }}</span>
+            <label class="flex items-center justify-between gap-3">
+              <span class="text-base text-n-slate-11">{{
+                t('CRM_DEALS.FORM.EXPECTED_CLOSE_DATE')
+              }}</span>
+              <input
+                type="date"
+                :value="deal.expected_close_date"
+                class="reset-base h-11 px-3 text-base rounded-xl border border-n-slate-6 bg-transparent text-n-slate-12"
+                @change="
+                  update({ expected_close_date: $event.target.value || null })
+                "
+              />
+            </label>
+          </section>
           <div
             v-if="deal.close_reason"
-            class="flex flex-col gap-1 p-3 rounded-lg bg-n-alpha-1"
+            class="flex flex-col gap-1 p-4 rounded-xl bg-n-alpha-1"
           >
             <span class="text-label-small text-n-slate-11">
               {{
@@ -376,170 +333,59 @@ defineExpose({ open, reload, close });
           </div>
         </aside>
 
-        <section class="flex flex-col gap-4 min-w-0">
-          <TabBar
-            :tabs="tabs"
-            :initial-active-tab="TABS.indexOf(activeTab)"
-            @tab-changed="activeTab = $event.key"
-          />
-
-          <template v-if="activeTab === 'info'">
+        <section class="flex flex-col min-h-0">
+          <nav class="flex gap-7 px-8 border-b border-n-weak">
+            <button
+              v-for="tab in TABS"
+              :key="tab"
+              type="button"
+              class="py-4 -mb-px text-base border-b-2"
+              :class="
+                activeTab === tab
+                  ? 'border-n-blue-9 text-n-blue-11'
+                  : 'border-transparent text-n-slate-11 hover:text-n-slate-12'
+              "
+              @click="activeTab = tab"
+            >
+              {{ t(`CRM_DEALS.DETAIL.TABS.${tab.toUpperCase()}`) }}
+            </button>
+          </nav>
+          <div class="relative flex-1 min-h-0 px-8 py-7 overflow-y-auto">
+            <DealInfoTab
+              v-if="activeTab === 'info'"
+              :deal="deal"
+              :pipeline="props.pipeline"
+              :show-value="showValue"
+              @update="update"
+            />
+            <DealHistoryTab
+              v-else-if="activeTab === 'history'"
+              :events="deal.events"
+            />
+            <DealContactDealsTab
+              v-else-if="activeTab === 'deals'"
+              :deal="deal"
+              @open="load($event.id)"
+            />
+            <DealConversationsTab
+              v-else-if="activeTab === 'conversations'"
+              :contact="deal.contact"
+            />
+            <p
+              v-else-if="UPCOMING_TABS.includes(activeTab)"
+              class="py-10 text-base text-center text-n-slate-11"
+            >
+              {{ t(`CRM_DEALS.DETAIL.UPCOMING.${activeTab.toUpperCase()}`) }}
+            </p>
             <div
-              v-if="showValue"
-              class="flex items-center justify-between gap-3 p-4 border rounded-xl border-n-weak"
+              v-if="isLoading"
+              class="absolute inset-0 flex items-center justify-center bg-n-alpha-black1"
             >
-              <div class="flex flex-col gap-1">
-                <span class="text-label-small text-n-slate-11">{{
-                  t('CRM_DEALS.DETAIL.VALUE')
-                }}</span>
-                <span class="text-heading-2 text-n-slate-12">{{
-                  formatCurrency(deal.value)
-                }}</span>
-              </div>
-              <input
-                v-model="valueDraft"
-                type="number"
-                min="0"
-                step="0.01"
-                class="reset-base w-36 h-9 px-3 text-sm text-end rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12"
-                :aria-label="t('CRM_DEALS.DETAIL.VALUE')"
-                @blur="saveValue"
-                @keydown.enter="saveValue"
-              />
+              <Spinner />
             </div>
-
-            <div class="flex flex-col gap-3">
-              <span class="text-label text-n-slate-12">{{
-                t('CRM_DEALS.DETAIL.FULL_PIPELINE')
-              }}</span>
-              <ol
-                class="flex items-start gap-2 p-0 pb-1 m-0 overflow-x-auto list-none"
-              >
-                <li
-                  v-for="stage in openStages"
-                  :key="stage.id"
-                  class="flex flex-col items-center gap-1 min-w-24 text-center"
-                >
-                  <span
-                    class="rounded-full size-3 border-2"
-                    :class="
-                      stage.id === deal.stage_id
-                        ? 'border-n-brand bg-n-brand'
-                        : 'border-n-slate-7'
-                    "
-                  />
-                  <span
-                    class="text-label-small"
-                    :class="
-                      stage.id === deal.stage_id
-                        ? 'text-n-slate-12'
-                        : 'text-n-slate-11'
-                    "
-                  >
-                    {{ stage.name }}
-                  </span>
-                  <span
-                    v-if="timeByStage[stage.name]"
-                    class="text-label-small text-n-slate-10"
-                  >
-                    {{ formatDuration(timeByStage[stage.name]) }}
-                  </span>
-                </li>
-              </ol>
-            </div>
-
-            <dl
-              class="flex flex-col border rounded-xl border-n-weak divide-y divide-n-weak"
-            >
-              <div class="flex justify-between px-4 py-2.5 text-sm">
-                <dt class="text-n-slate-11">
-                  {{ t('CRM_DEALS.DETAIL.NUMBER') }}
-                </dt>
-                <dd class="text-n-slate-12">
-                  {{ t('CRM_DEALS.NUMBER', { number: deal.number }) }}
-                </dd>
-              </div>
-              <div class="flex justify-between px-4 py-2.5 text-sm">
-                <dt class="text-n-slate-11">
-                  {{ t('CRM_DEALS.DETAIL.CREATED_AT') }}
-                </dt>
-                <dd class="text-n-slate-12">
-                  {{ formatDateTime(deal.created_at) }}
-                </dd>
-              </div>
-              <div class="flex justify-between px-4 py-2.5 text-sm">
-                <dt class="text-n-slate-11">
-                  {{ t('CRM_DEALS.DETAIL.IN_STAGE_SINCE') }}
-                </dt>
-                <dd class="text-n-slate-12">
-                  {{ formatDateTime(deal.stage_entered_at) }}
-                </dd>
-              </div>
-            </dl>
-
-            <div class="flex flex-col gap-2">
-              <span class="text-label text-n-slate-12">{{
-                t('CRM_DEALS.DETAIL.JOURNEY')
-              }}</span>
-              <ol class="flex flex-col gap-2 p-0 m-0 list-none">
-                <li
-                  v-for="(entry, index) in deal.journey"
-                  :key="`${entry.entered_at}-${index}`"
-                  class="flex items-start justify-between gap-3 text-sm"
-                >
-                  <div class="flex items-start gap-2">
-                    <span
-                      class="mt-1.5 rounded-full size-2 bg-n-brand shrink-0"
-                    />
-                    <div class="flex flex-col">
-                      <span class="text-n-slate-12">{{
-                        entry.stage_name
-                      }}</span>
-                      <span class="text-label-small text-n-slate-11">
-                        {{
-                          t('CRM_DEALS.DETAIL.RANGE', {
-                            from: formatDateTime(entry.entered_at),
-                            to: entry.left_at
-                              ? formatDateTime(entry.left_at)
-                              : t('CRM_DEALS.DETAIL.NOW'),
-                          })
-                        }}
-                      </span>
-                    </div>
-                  </div>
-                  <span class="text-label-small text-n-slate-11 shrink-0">
-                    {{ formatDuration(entryDuration(entry)) }}
-                  </span>
-                </li>
-              </ol>
-            </div>
-          </template>
-
-          <ol v-else class="flex flex-col gap-3 p-0 m-0 list-none">
-            <li
-              v-for="event in [...deal.events].reverse()"
-              :key="event.id"
-              class="flex items-start justify-between gap-3 text-sm"
-            >
-              <span class="flex items-start gap-2 text-n-slate-12">
-                <span
-                  class="mt-1 i-lucide-history size-3.5 text-n-slate-10 shrink-0"
-                />
-                {{ eventText(event) }}
-              </span>
-              <span class="text-label-small text-n-slate-11 shrink-0">
-                {{ formatDateTime(event.created_at) }}
-              </span>
-            </li>
-          </ol>
+          </div>
         </section>
       </div>
-      <div
-        v-if="isLoading"
-        class="absolute inset-0 flex items-center justify-center bg-n-alpha-black1"
-      >
-        <Spinner />
-      </div>
     </div>
-  </Dialog>
+  </dialog>
 </template>

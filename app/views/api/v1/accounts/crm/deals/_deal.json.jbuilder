@@ -6,6 +6,9 @@ json.value deal.value.to_f
 json.status deal.status
 json.pipeline_id deal.pipeline_id
 json.stage_id deal.stage_id
+json.stage_name deal.stage.name
+json.stage_color deal.stage.color
+json.pipeline_name deal.pipeline.name
 json.expected_close_date deal.expected_close_date
 json.notes deal.notes
 json.close_reason deal.close_reason

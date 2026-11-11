@@ -578,10 +578,8 @@ const transferOptions = computed(() =>
 );
 
 onMounted(() => {
-  if (isAdmin.value) {
-    store.dispatch('labels/get');
-    store.dispatch('agents/get');
-  }
+  store.dispatch('labels/get');
+  if (isAdmin.value) store.dispatch('agents/get');
   return Promise.all([fetchPipelines(), fetchSettings()]);
 });
 </script>

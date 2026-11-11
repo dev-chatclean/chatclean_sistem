@@ -5,10 +5,8 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::BaseControlle
   before_action :check_authorization
 
   def index
-    pipeline = Current.account.crm_pipelines.find(params.require(:pipeline_id))
-    @deals = pipeline.deals.includes(:contact, :company, :assignee)
-    @deals = @deals.board_visible(BOARD_CLOSED_WINDOW.ago) unless params[:view] == 'all'
-    @deals = @deals.order(:stage_entered_at, :id)
+    @deals = params[:contact_id].present? ? contact_deals : pipeline_deals
+    @deals = @deals.includes(:contact, :company, :assignee, :stage, :pipeline)
   end
 
   def show; end
@@ -38,6 +36,16 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::BaseControlle
   end
 
   private
+
+  def pipeline_deals
+    deals = Current.account.crm_pipelines.find(params.require(:pipeline_id)).deals
+    deals = deals.board_visible(BOARD_CLOSED_WINDOW.ago) unless params[:view] == 'all'
+    deals.order(:stage_entered_at, :id)
+  end
+
+  def contact_deals
+    Current.account.contacts.find(params[:contact_id]).crm_deals.order(created_at: :desc)
+  end
 
   def fetch_deal
     @deal = Current.account.crm_deals.find(params[:id])

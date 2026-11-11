@@ -53,7 +53,7 @@
       "HINT": "Busque por nome ou telefone. Não achou? Digite o número para criar.",
       "CREATE": "Criar contato com {phone}",
       "CREATE_ERROR": "Não foi possível criar o contato.",
-      "REMOVE": "Desvincular contato"
+      "REMOVE": "Desvincular"
     },
     "FORM": {
       "TITLE": "Novo {item}",
@@ -82,17 +82,21 @@
     "DETAIL": {
       "TABS": {
         "INFO": "Informações",
-        "HISTORY": "Histórico"
+        "HISTORY": "Histórico",
+        "ACTIVITIES": "Atividades",
+        "DEALS": "Negócios",
+        "FILES": "Arquivos",
+        "CONVERSATIONS": "Atendimentos"
       },
       "CLOSE": "Fechar",
-      "NOTES": "Nota",
-      "NOTES_PLACEHOLDER": "Anotações internas...",
+      "NOTES": "Nota do negócio",
+      "NOTES_PLACEHOLDER": "Anotações internas sobre o negócio...",
       "VALUE": "Valor",
       "FULL_PIPELINE": "Pipeline completo",
       "NUMBER": "Número",
       "CREATED_AT": "Criado em",
       "IN_STAGE_SINCE": "Na etapa desde",
-      "JOURNEY": "Jornada",
+      "JOURNEY": "Jornada do negócio",
       "NOW": "agora",
       "SYSTEM": "Sistema",
       "DURATION": {
@@ -109,7 +113,34 @@
         "REOPENED": "{user} reabriu em {to}",
         "ASSIGNEE_CHANGED": "{user} trocou o responsável de {from} para {to}"
       },
-      "RANGE": "{from} → {to}"
+      "RANGE": "{from} → {to}",
+      "NO_COMPANY": "Sem empresa",
+      "NO_LABELS": "Sem etiquetas",
+      "ADD_LABEL": "Adicionar etiqueta",
+      "LABELS_NEED_CONTACT": "Vincule um contato para usar etiquetas",
+      "DEAL_FIELDS": "Campos do negócio",
+      "NEW_ACTIVITY": "Nova atividade",
+      "COMING_SOON": "As atividades chegam na próxima parte",
+      "DEAL_VALUE": "Valor do negócio",
+      "EDIT_VALUE": "Editar valor",
+      "PRODUCTS": "Produtos",
+      "NO_PRODUCTS": "Nenhum produto no catálogo. Cadastre em Configurações → Produtos.",
+      "DEAL_INFO": "Informações do negócio",
+      "UPCOMING": {
+        "ACTIVITIES": "As atividades deste negócio chegam na próxima parte.",
+        "FILES": "Os arquivos deste negócio chegam numa próxima parte."
+      },
+      "DEALS_NEED_CONTACT": "Vincule um contato ou uma empresa para ver os outros negócios.",
+      "NO_OTHER_DEALS": "Este contato não tem outros negócios.",
+      "NO_CONTACT_TITLE": "Sem contato neste negócio",
+      "NO_CONTACT_CONVERSATIONS": "Vincule um contato para ver e abrir atendimentos.",
+      "NO_CONVERSATIONS": "Este contato ainda não tem atendimentos.",
+      "CONVERSATION_STATUS": {
+        "OPEN": "Aberto",
+        "RESOLVED": "Resolvido",
+        "PENDING": "Pendente",
+        "SNOOZED": "Adiado"
+      }
     },
     "API": {
       "CREATE_SUCCESS": "Criado com sucesso",
@@ -178,6 +209,16 @@
         "STAGE_ENTERED_AT": "Entrou na etapa",
         "EXPECTED_CLOSE_DATE": "Data prevista de fechamento"
       }
+    },
+    "LINK": {
+      "TITLE": "Vincular contato",
+      "DESCRIPTION": "Com um contato vinculado, o chat, as métricas e os atendimentos passam a funcionar.",
+      "SEARCH": "Buscar existente",
+      "CREATE": "Criar",
+      "SEARCH_HINT": "Busque por nome ou telefone.",
+      "NAME": "Nome do contato",
+      "PHONE": "Telefone com DDD",
+      "SUBMIT": "Vincular"
     }
   }
 }

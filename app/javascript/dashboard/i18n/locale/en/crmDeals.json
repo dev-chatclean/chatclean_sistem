@@ -53,7 +53,7 @@
       "HINT": "Search by name or phone. Not found? Type the number to create it.",
       "CREATE": "Create contact with {phone}",
       "CREATE_ERROR": "Could not create the contact.",
-      "REMOVE": "Unlink contact"
+      "REMOVE": "Unlink"
     },
     "FORM": {
       "TITLE": "New {item}",
@@ -82,17 +82,21 @@
     "DETAIL": {
       "TABS": {
         "INFO": "Information",
-        "HISTORY": "History"
+        "HISTORY": "History",
+        "ACTIVITIES": "Activities",
+        "DEALS": "Deals",
+        "FILES": "Files",
+        "CONVERSATIONS": "Conversations"
       },
       "CLOSE": "Close",
-      "NOTES": "Note",
-      "NOTES_PLACEHOLDER": "Internal notes...",
+      "NOTES": "Deal note",
+      "NOTES_PLACEHOLDER": "Internal notes about the deal...",
       "VALUE": "Value",
       "FULL_PIPELINE": "Full pipeline",
       "NUMBER": "Number",
       "CREATED_AT": "Created at",
       "IN_STAGE_SINCE": "In stage since",
-      "JOURNEY": "Journey",
+      "JOURNEY": "Deal journey",
       "NOW": "now",
       "SYSTEM": "System",
       "DURATION": {
@@ -109,7 +113,34 @@
         "REOPENED": "{user} reopened it in {to}",
         "ASSIGNEE_CHANGED": "{user} changed the owner from {from} to {to}"
       },
-      "RANGE": "{from} → {to}"
+      "RANGE": "{from} → {to}",
+      "NO_COMPANY": "No company",
+      "NO_LABELS": "No labels",
+      "ADD_LABEL": "Add label",
+      "LABELS_NEED_CONTACT": "Link a contact to use labels",
+      "DEAL_FIELDS": "Deal fields",
+      "NEW_ACTIVITY": "New activity",
+      "COMING_SOON": "Activities arrive in the next part",
+      "DEAL_VALUE": "Deal value",
+      "EDIT_VALUE": "Edit value",
+      "PRODUCTS": "Products",
+      "NO_PRODUCTS": "No products in the catalog. Add them in Settings → Products.",
+      "DEAL_INFO": "Deal information",
+      "UPCOMING": {
+        "ACTIVITIES": "This deal's activities arrive in the next part.",
+        "FILES": "This deal's files arrive in a later part."
+      },
+      "DEALS_NEED_CONTACT": "Link a contact or a company to see the other deals.",
+      "NO_OTHER_DEALS": "This contact has no other deals.",
+      "NO_CONTACT_TITLE": "No contact on this deal",
+      "NO_CONTACT_CONVERSATIONS": "Link a contact to see and open conversations.",
+      "NO_CONVERSATIONS": "This contact has no conversations yet.",
+      "CONVERSATION_STATUS": {
+        "OPEN": "Open",
+        "RESOLVED": "Resolved",
+        "PENDING": "Pending",
+        "SNOOZED": "Snoozed"
+      }
     },
     "API": {
       "CREATE_SUCCESS": "Created",
@@ -178,6 +209,16 @@
         "STAGE_ENTERED_AT": "Entered stage",
         "EXPECTED_CLOSE_DATE": "Expected close date"
       }
+    },
+    "LINK": {
+      "TITLE": "Link contact",
+      "DESCRIPTION": "With a linked contact, chat, metrics and conversations start working.",
+      "SEARCH": "Search existing",
+      "CREATE": "Create",
+      "SEARCH_HINT": "Search by name or phone.",
+      "NAME": "Contact name",
+      "PHONE": "Phone with area code",
+      "SUBMIT": "Link"
     }
   }
 }

@@ -10,6 +10,10 @@ class CrmDealsAPI extends ApiClient {
     return axios.get(this.url, { params: { pipeline_id: pipelineId, view } });
   }
 
+  forContact(contactId) {
+    return axios.get(this.url, { params: { contact_id: contactId } });
+  }
+
   duplicate(id) {
     return axios.post(`${this.url}/${id}/duplicate`);
   }

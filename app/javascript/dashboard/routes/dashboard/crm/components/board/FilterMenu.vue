@@ -105,7 +105,7 @@ const apply = () => {
   <div v-on-click-outside="close" class="relative">
     <button
       type="button"
-      class="flex items-center gap-1.5 h-9 px-3 text-sm rounded-xl border border-dashed border-n-slate-7 bg-n-solid-2 text-n-slate-11 hover:text-n-slate-12"
+      class="flex items-center gap-1.5 h-9 px-3 text-sm rounded-xl outline-dashed outline-1 -outline-offset-1 outline-n-slate-7 bg-n-solid-2 text-n-slate-11 hover:text-n-slate-12"
       @click="isOpen ? close() : (isOpen = true)"
     >
       <span class="i-lucide-filter size-3.5" />

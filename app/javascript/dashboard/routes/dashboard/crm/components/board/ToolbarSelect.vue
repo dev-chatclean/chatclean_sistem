@@ -25,7 +25,7 @@ const choose = (section, item) => {
   <div v-on-click-outside="() => (isOpen = false)" class="relative">
     <button
       type="button"
-      class="flex items-center gap-1.5 h-9 px-3 text-sm rounded-xl border border-n-slate-6 bg-n-solid-2 text-n-slate-11 hover:text-n-slate-12"
+      class="flex items-center gap-1.5 h-9 px-3 text-sm rounded-xl outline outline-1 -outline-offset-1 outline-n-slate-6 bg-n-solid-2 text-n-slate-11 hover:text-n-slate-12"
       :aria-expanded="isOpen"
       @click="isOpen = !isOpen"
     >
