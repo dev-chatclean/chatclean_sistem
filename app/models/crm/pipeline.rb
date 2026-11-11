@@ -32,6 +32,7 @@ class Crm::Pipeline < ApplicationRecord
   enum :pipeline_type, { sales: 0, management: 1 }
 
   belongs_to :account
+  has_many :deals, class_name: 'Crm::Deal', dependent: :destroy
   has_many :stages, -> { order(:position) }, class_name: 'Crm::Stage', inverse_of: :pipeline, dependent: :destroy
 
   validates :name, presence: true, length: { maximum: 100 }
@@ -60,16 +61,13 @@ class Crm::Pipeline < ApplicationRecord
   end
 
   def remove_custom_stage!(stage, transfer_to_stage_id: nil)
-    unless stage.custom?
-      errors.add(:base, I18n.t('crm.stages.errors.system_stage_delete'))
-      raise ActiveRecord::RecordInvalid, self
-    end
-    if transfer_to_stage_id.present? && !stages.where(stage_type: %i[initial custom]).where.not(id: stage.id).exists?(id: transfer_to_stage_id)
-      errors.add(:base, I18n.t('crm.stages.errors.invalid_transfer_stage'))
-      raise ActiveRecord::RecordInvalid, self
-    end
+    raise_invalid!(I18n.t('crm.stages.errors.system_stage_delete')) unless stage.custom?
+    target = transfer_target(stage, transfer_to_stage_id)
+    deals_count = deals.where(stage: stage).count
+    raise_invalid!(I18n.t('crm.stages.errors.transfer_required', count: deals_count)) if deals_count.positive? && target.nil?
 
     transaction do
+      deals.where(stage: stage).find_each { |deal| deal.update!(stage: target) }
       stage.destroy!
       renumber_stages!(stages.reload.to_a)
     end
@@ -79,14 +77,25 @@ class Crm::Pipeline < ApplicationRecord
     open_stages = stages.where(stage_type: %i[initial custom]).index_by(&:id)
     ordered_ids = stage_ids.map(&:to_i)
     unless ordered_ids.sort == open_stages.keys.sort && open_stages[ordered_ids.first]&.initial?
-      errors.add(:base, I18n.t('crm.stages.errors.invalid_order'))
-      raise ActiveRecord::RecordInvalid, self
+      raise_invalid!(I18n.t('crm.stages.errors.invalid_order'))
     end
 
     transaction { renumber_stages!(open_stages.values_at(*ordered_ids) + stages.where(stage_type: %i[won lost]).to_a) }
   end
 
   private
+
+  def transfer_target(stage, transfer_to_stage_id)
+    return if transfer_to_stage_id.blank?
+
+    stages.where(stage_type: %i[initial custom]).where.not(id: stage.id).find_by(id: transfer_to_stage_id) ||
+      raise_invalid!(I18n.t('crm.stages.errors.invalid_transfer_stage'))
+  end
+
+  def raise_invalid!(message)
+    errors.add(:base, message)
+    raise ActiveRecord::RecordInvalid, self
+  end
 
   def renumber_stages!(ordered_stages)
     ordered_stages.each_with_index { |stage, position| stage.update!(position: position) if stage.position != position }

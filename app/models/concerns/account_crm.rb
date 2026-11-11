@@ -7,6 +7,7 @@ module AccountCrm
 
   included do
     has_many :crm_pipelines, class_name: 'Crm::Pipeline', dependent: :destroy_async
+    has_many :crm_deals, class_name: 'Crm::Deal', dependent: :destroy_async
     store_accessor :settings, :crm_auto_create_deals, :crm_lead_entry, :crm_ai
     validate :validate_crm_auto_create_deals, if: -> { crm_auto_create_deals && will_save_change_to_settings? }
     validate :validate_crm_ai_monthly_cap, if: -> { crm_ai.present? && will_save_change_to_settings? }

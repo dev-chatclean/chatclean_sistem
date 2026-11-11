@@ -2,6 +2,7 @@ pt_BR:
   crm:
     stages:
       errors:
+        transfer_required: Esta etapa tem %{count} oportunidade(s). Escolha outra etapa para recebê-las.
         duplicate_name: Já existe uma etapa chamada %{name} neste pipeline.
         system_stage_delete: Etapas de sistema (Inicial, Ganho e Perda) são obrigatórias e não podem ser excluídas.
         invalid_transfer_stage: Escolha outra etapa aberta deste pipeline para receber as oportunidades.
@@ -12,9 +13,23 @@ pt_BR:
         lost: Perda
     pipelines:
       errors:
+        has_deals: Este pipeline tem oportunidades. Mova ou exclua as oportunidades antes de excluir o pipeline.
         invalid_card_fields: Escolha no máximo %{max} itens válidos para o cartão.
         default_cannot_be_unset: O pipeline padrão não pode ser desligado. Defina outro pipeline como padrão.
         default_cannot_be_deleted: Não é possível excluir o pipeline padrão. Defina outro pipeline como padrão antes de realizar a exclusão.
+    deals:
+      requirements:
+        expected_close_date: data prevista de fechamento
+        positive_value: valor maior que zero
+      errors:
+        title_required: Informe um título quando a oportunidade não tem contato nem empresa.
+        loss_reason_required: Escolha o motivo da perda.
+        invalid_win_reason: Escolha um motivo de ganho válido.
+        invalid_stage: Escolha uma etapa desta conta.
+        invalid_contact: O contato não pertence a esta conta.
+        invalid_company: A empresa não pertence a esta conta.
+        invalid_assignee: O responsável precisa ser membro desta conta.
+        stage_requirements: 'A etapa %{stage} exige: %{fields}.'
     settings:
       errors:
         ai_requires_monthly_cap: Defina um teto de gasto mensal maior que zero para ligar a IA do pipeline.

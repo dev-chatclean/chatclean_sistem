@@ -28,6 +28,7 @@ import integrations from './integrations.json';
 import labelsMgmt from './labelsMgmt.json';
 import crmPipelines from './crmPipelines.json';
 import chatclean from './chatclean.json';
+import crmDeals from './crmDeals.json';
 import login from './login.json';
 import macros from './macros.json';
 import report from './report.json';
@@ -78,6 +79,7 @@ export default {
   ...labelsMgmt,
   ...crmPipelines,
   ...chatclean,
+  ...crmDeals,
   ...login,
   ...macros,
   ...report,

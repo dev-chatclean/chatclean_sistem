@@ -1,0 +1,126 @@
+{
+  "CRM_DEALS": {
+    "NEW": "Add {item}",
+    "BOARD": {
+      "SUMMARY": "{count} {item}",
+      "LAST_30_DAYS": "Last 30 days",
+      "SUMMARY_WITH_VALUE": "{summary} · {value}"
+    },
+    "CARD": {
+      "NO_CONTACT": "no contact",
+      "IN_STAGE": "In stage for {days} d"
+    },
+    "MENU": {
+      "LABEL": "Actions",
+      "MOVE": "Move",
+      "WIN": "Win",
+      "LOSE": "Lose",
+      "DUPLICATE": "Duplicate",
+      "DELETE": "Delete"
+    },
+    "CLOSE": {
+      "WIN_TITLE": "Mark as won",
+      "LOSE_TITLE": "Mark as lost",
+      "WIN_CONFIRM": "Mark as won",
+      "LOSE_CONFIRM": "Mark as lost",
+      "WIN_REASON": "Win reason (optional)",
+      "LOSE_REASON": "Loss reason",
+      "CHOOSE_REASON": "Choose the reason",
+      "NOTE": "Notes (optional)",
+      "WIN_NOTE_PLACEHOLDER": "What made the customer close?",
+      "LOSE_NOTE_PLACEHOLDER": "What led to the loss?"
+    },
+    "REASONS": {
+      "NOT_INFORMED": "Not informed",
+      "BEST_PRICE": "Best price",
+      "DELIVERY_TIME": "Delivery time",
+      "RELATIONSHIP": "Relationship",
+      "REFERRAL": "Referral",
+      "PRODUCT_FEATURES": "Product features",
+      "OTHER": "Other",
+      "PRICE": "Price",
+      "NO_INTEREST": "No interest",
+      "COMPETITOR": "Chose a competitor",
+      "NO_RESPONSE": "No response",
+      "OUT_OF_PROFILE": "Out of profile"
+    },
+    "CONTACT": {
+      "SEARCH_PLACEHOLDER": "Search by name or phone",
+      "HINT": "Search by name or phone. Not found? Type the number to create it.",
+      "CREATE": "Create contact with {phone}",
+      "CREATE_ERROR": "Could not create the contact.",
+      "REMOVE": "Unlink contact"
+    },
+    "FORM": {
+      "TITLE": "Add {item}",
+      "CREATE": "Create",
+      "CONTACT": "Contact",
+      "OPTIONAL": "optional",
+      "DEAL_TITLE": "Title",
+      "TITLE_REQUIRED": "required without a contact",
+      "TITLE_PLACEHOLDER": "E.g. Annual contract",
+      "VALUE": "Value (R$)",
+      "STAGE": "Stage",
+      "EXPECTED_CLOSE_DATE": "Expected close date",
+      "ASSIGNEE": "Owner"
+    },
+    "MOVE": {
+      "TITLE": "Move",
+      "DESCRIPTION": "Choose the target stage in {pipeline}.",
+      "CONFIRM": "Move",
+      "CHOOSE": "Choose the stage"
+    },
+    "STATUS": {
+      "OPEN": "Open",
+      "WON": "Won",
+      "LOST": "Lost"
+    },
+    "DETAIL": {
+      "TABS": {
+        "INFO": "Information",
+        "HISTORY": "History"
+      },
+      "CLOSE": "Close",
+      "NOTES": "Note",
+      "NOTES_PLACEHOLDER": "Internal notes...",
+      "VALUE": "Value",
+      "FULL_PIPELINE": "Full pipeline",
+      "NUMBER": "Number",
+      "CREATED_AT": "Created at",
+      "IN_STAGE_SINCE": "In stage since",
+      "JOURNEY": "Journey",
+      "NOW": "now",
+      "SYSTEM": "System",
+      "DURATION": {
+        "LESS_THAN_MINUTE": "less than 1 min",
+        "MINUTES": "{n} min",
+        "HOURS": "{n} h",
+        "DAYS": "{n} d"
+      },
+      "EVENTS": {
+        "CREATED": "{user} created it in {to}",
+        "STAGE_CHANGED": "{user} moved it from {from} to {to}",
+        "WON": "{user} marked it as won in {to}",
+        "LOST": "{user} marked it as lost in {to}",
+        "REOPENED": "{user} reopened it in {to}",
+        "ASSIGNEE_CHANGED": "{user} changed the owner from {from} to {to}"
+      },
+      "RANGE": "{from} → {to}"
+    },
+    "API": {
+      "CREATE_SUCCESS": "Created",
+      "UPDATE_SUCCESS": "Updated",
+      "DUPLICATE_SUCCESS": "Copy #{number} created",
+      "DELETE_SUCCESS": "Deleted",
+      "FETCH_ERROR": "Could not load. Try again."
+    },
+    "DELETE": {
+      "TITLE": "Delete",
+      "MESSAGE": "#{number} {name} will be deleted. This cannot be undone."
+    },
+    "STAGE_DELETE": {
+      "TRANSFER": "This stage has {count} item(s). Choose the stage that will receive them:"
+    },
+    "NUMBER": "#{number}"
+  }
+}

@@ -367,6 +367,9 @@ Rails.application.routes.draw do
               end
             end
             resource :settings, only: [:show, :update]
+            resources :deals, only: [:index, :show, :create, :update, :destroy] do
+              post :duplicate, on: :member
+            end
           end
 
           resources :notifications, only: [:index, :update, :destroy] do

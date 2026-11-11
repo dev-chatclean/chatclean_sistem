@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_10_184605) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_11_131212) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1053,6 +1053,50 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_10_184605) do
     t.index ["account_id"], name: "index_copilot_threads_on_account_id"
     t.index ["assistant_id"], name: "index_copilot_threads_on_assistant_id"
     t.index ["user_id"], name: "index_copilot_threads_on_user_id"
+  end
+
+  create_table "crm_deal_events", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "deal_id", null: false
+    t.bigint "user_id"
+    t.string "event_type", limit: 40, null: false
+    t.bigint "from_stage_id"
+    t.bigint "to_stage_id"
+    t.jsonb "data", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.index ["account_id"], name: "index_crm_deal_events_on_account_id"
+    t.index ["deal_id"], name: "index_crm_deal_events_on_deal_id"
+    t.index ["from_stage_id"], name: "index_crm_deal_events_on_from_stage_id"
+    t.index ["to_stage_id"], name: "index_crm_deal_events_on_to_stage_id"
+    t.index ["user_id"], name: "index_crm_deal_events_on_user_id"
+  end
+
+  create_table "crm_deals", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "pipeline_id", null: false
+    t.bigint "stage_id", null: false
+    t.bigint "contact_id"
+    t.bigint "company_id"
+    t.bigint "assignee_id", null: false
+    t.integer "number", null: false
+    t.string "title", limit: 120
+    t.decimal "value", precision: 12, scale: 2, default: "0.0", null: false
+    t.integer "status", default: 0, null: false
+    t.date "expected_close_date"
+    t.text "notes"
+    t.datetime "stage_entered_at", null: false
+    t.datetime "closed_at"
+    t.string "close_reason", limit: 40
+    t.text "close_note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "number"], name: "index_crm_deals_on_account_id_and_number", unique: true
+    t.index ["account_id", "status"], name: "index_crm_deals_on_account_id_and_status"
+    t.index ["assignee_id"], name: "index_crm_deals_on_assignee_id"
+    t.index ["company_id"], name: "index_crm_deals_on_company_id"
+    t.index ["contact_id"], name: "index_crm_deals_on_contact_id"
+    t.index ["pipeline_id"], name: "index_crm_deals_on_pipeline_id"
+    t.index ["stage_id"], name: "index_crm_deals_on_stage_id"
   end
 
   create_table "crm_pipelines", force: :cascade do |t|

@@ -1,0 +1,126 @@
+{
+  "CRM_DEALS": {
+    "NEW": "Adicionar {item}",
+    "BOARD": {
+      "SUMMARY": "{count} {item}",
+      "LAST_30_DAYS": "Últimos 30 dias",
+      "SUMMARY_WITH_VALUE": "{summary} · {value}"
+    },
+    "CARD": {
+      "NO_CONTACT": "sem contato",
+      "IN_STAGE": "Na etapa há {days} d"
+    },
+    "MENU": {
+      "LABEL": "Ações",
+      "MOVE": "Mover",
+      "WIN": "Ganhar",
+      "LOSE": "Perder",
+      "DUPLICATE": "Duplicar",
+      "DELETE": "Excluir"
+    },
+    "CLOSE": {
+      "WIN_TITLE": "Marcar como ganho",
+      "LOSE_TITLE": "Marcar como perdido",
+      "WIN_CONFIRM": "Marcar como ganho",
+      "LOSE_CONFIRM": "Marcar como perdido",
+      "WIN_REASON": "Motivo do ganho (opcional)",
+      "LOSE_REASON": "Motivo da perda",
+      "CHOOSE_REASON": "Escolha o motivo",
+      "NOTE": "Justificativa (opcional)",
+      "WIN_NOTE_PLACEHOLDER": "O que fez o cliente fechar?",
+      "LOSE_NOTE_PLACEHOLDER": "O que levou à perda?"
+    },
+    "REASONS": {
+      "NOT_INFORMED": "Não informar",
+      "BEST_PRICE": "Melhor preço",
+      "DELIVERY_TIME": "Prazo de entrega",
+      "RELATIONSHIP": "Relacionamento",
+      "REFERRAL": "Indicação",
+      "PRODUCT_FEATURES": "Recursos do produto",
+      "OTHER": "Outro",
+      "PRICE": "Preço",
+      "NO_INTEREST": "Sem interesse",
+      "COMPETITOR": "Escolheu concorrente",
+      "NO_RESPONSE": "Sem resposta",
+      "OUT_OF_PROFILE": "Fora do perfil"
+    },
+    "CONTACT": {
+      "SEARCH_PLACEHOLDER": "Buscar por nome ou telefone",
+      "HINT": "Busque por nome ou telefone. Não achou? Digite o número para criar.",
+      "CREATE": "Criar contato com {phone}",
+      "CREATE_ERROR": "Não foi possível criar o contato.",
+      "REMOVE": "Desvincular contato"
+    },
+    "FORM": {
+      "TITLE": "Adicionar {item}",
+      "CREATE": "Criar",
+      "CONTACT": "Contato",
+      "OPTIONAL": "opcional",
+      "DEAL_TITLE": "Título",
+      "TITLE_REQUIRED": "obrigatório sem contato",
+      "TITLE_PLACEHOLDER": "Ex.: Contrato anual",
+      "VALUE": "Valor (R$)",
+      "STAGE": "Etapa",
+      "EXPECTED_CLOSE_DATE": "Data prevista de fechamento",
+      "ASSIGNEE": "Responsável"
+    },
+    "MOVE": {
+      "TITLE": "Mover",
+      "DESCRIPTION": "Escolha a etapa de destino em {pipeline}.",
+      "CONFIRM": "Mover",
+      "CHOOSE": "Escolha a etapa"
+    },
+    "STATUS": {
+      "OPEN": "Aberto",
+      "WON": "Ganho",
+      "LOST": "Perdido"
+    },
+    "DETAIL": {
+      "TABS": {
+        "INFO": "Informações",
+        "HISTORY": "Histórico"
+      },
+      "CLOSE": "Fechar",
+      "NOTES": "Nota",
+      "NOTES_PLACEHOLDER": "Anotações internas...",
+      "VALUE": "Valor",
+      "FULL_PIPELINE": "Pipeline completo",
+      "NUMBER": "Número",
+      "CREATED_AT": "Criado em",
+      "IN_STAGE_SINCE": "Na etapa desde",
+      "JOURNEY": "Jornada",
+      "NOW": "agora",
+      "SYSTEM": "Sistema",
+      "DURATION": {
+        "LESS_THAN_MINUTE": "menos de 1 min",
+        "MINUTES": "{n} min",
+        "HOURS": "{n} h",
+        "DAYS": "{n} d"
+      },
+      "EVENTS": {
+        "CREATED": "{user} criou em {to}",
+        "STAGE_CHANGED": "{user} moveu de {from} para {to}",
+        "WON": "{user} marcou como ganho em {to}",
+        "LOST": "{user} marcou como perdido em {to}",
+        "REOPENED": "{user} reabriu em {to}",
+        "ASSIGNEE_CHANGED": "{user} trocou o responsável de {from} para {to}"
+      },
+      "RANGE": "{from} → {to}"
+    },
+    "API": {
+      "CREATE_SUCCESS": "Criado com sucesso",
+      "UPDATE_SUCCESS": "Atualizado",
+      "DUPLICATE_SUCCESS": "Cópia #{number} criada",
+      "DELETE_SUCCESS": "Excluído",
+      "FETCH_ERROR": "Não foi possível carregar. Tente de novo."
+    },
+    "DELETE": {
+      "TITLE": "Excluir",
+      "MESSAGE": "#{number} {name} será excluído. Isso não pode ser desfeito."
+    },
+    "STAGE_DELETE": {
+      "TRANSFER": "Esta etapa tem {count} item(ns). Escolha a etapa que vai recebê-los:"
+    },
+    "NUMBER": "#{number}"
+  }
+}

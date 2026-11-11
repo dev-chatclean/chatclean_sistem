@@ -62,3 +62,24 @@ export const STAGE_DEAL_REQUIREMENTS = [
   'require_positive_value',
   'require_product',
 ];
+
+export const WIN_REASONS = [
+  'not_informed',
+  'best_price',
+  'delivery_time',
+  'relationship',
+  'referral',
+  'product_features',
+  'other',
+];
+export const LOSS_REASONS = [
+  'price',
+  'no_interest',
+  'competitor',
+  'no_response',
+  'out_of_profile',
+  'other',
+];
+export const STALE_WARNING_RATIO = 0.75;
+export const DAY_IN_SECONDS = 86400;
+export const SEARCH_DEBOUNCE_MS = 300;
