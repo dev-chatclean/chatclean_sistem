@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_11_131212) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_11_151028) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1090,11 +1090,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_11_131212) do
     t.text "close_note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "conversation_id"
+    t.string "lead_origin"
+    t.string "lead_source"
     t.index ["account_id", "number"], name: "index_crm_deals_on_account_id_and_number", unique: true
     t.index ["account_id", "status"], name: "index_crm_deals_on_account_id_and_status"
     t.index ["assignee_id"], name: "index_crm_deals_on_assignee_id"
     t.index ["company_id"], name: "index_crm_deals_on_company_id"
     t.index ["contact_id"], name: "index_crm_deals_on_contact_id"
+    t.index ["conversation_id"], name: "index_crm_deals_on_conversation_id"
     t.index ["pipeline_id"], name: "index_crm_deals_on_pipeline_id"
     t.index ["stage_id"], name: "index_crm_deals_on_stage_id"
   end

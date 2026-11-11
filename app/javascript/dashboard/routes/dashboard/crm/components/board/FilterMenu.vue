@@ -4,7 +4,11 @@ import { useI18n } from 'vue-i18n';
 import { vOnClickOutside } from '@vueuse/components';
 import { useMapGetter } from 'dashboard/composables/store';
 import Button from 'dashboard/components-next/button/Button.vue';
-import { BOARD_FILTER_FIELDS, LOSS_REASONS } from '../../constants';
+import {
+  BOARD_FILTER_FIELDS,
+  LEAD_ORIGINS,
+  LOSS_REASONS,
+} from '../../constants';
 
 const props = defineProps({
   stages: { type: Array, default: () => [] },
@@ -14,6 +18,8 @@ const emit = defineEmits(['add']);
 
 const { t } = useI18n();
 const agents = useMapGetter('agents/getAgents');
+const labels = useMapGetter('labels/getLabels');
+const inboxes = useMapGetter('inboxes/getInboxes');
 
 const isOpen = ref(false);
 const query = ref('');
@@ -36,6 +42,21 @@ const options = computed(() => {
       value: agent.id,
       label: agent.available_name || agent.name,
     }));
+  }
+  if (field.value.type === 'label') {
+    return labels.value.map(label => ({
+      value: label.title,
+      label: label.title,
+    }));
+  }
+  if (field.value.type === 'lead_origin') {
+    return LEAD_ORIGINS.map(value => ({
+      value,
+      label: t(`CRM_PIPELINES.LEAD_ENTRY.OPTIONS.${value.toUpperCase()}`),
+    }));
+  }
+  if (field.value.type === 'inbox') {
+    return inboxes.value.map(inbox => ({ value: inbox.id, label: inbox.name }));
   }
   if (field.value.type === 'stage') {
     return props.stages.map(stage => ({ value: stage.id, label: stage.name }));
@@ -204,6 +225,9 @@ const apply = () => {
         </div>
         <span v-else-if="field.type === 'flag'" class="text-sm text-n-slate-11">
           {{ t('CRM_DEALS.FILTERS.STALE_HINT') }}
+        </span>
+        <span v-else class="text-sm text-n-slate-11">
+          {{ t('CRM_DEALS.FILTERS.NO_OPTIONS') }}
         </span>
         <Button
           :label="t('CRM_DEALS.FILTERS.APPLY')"

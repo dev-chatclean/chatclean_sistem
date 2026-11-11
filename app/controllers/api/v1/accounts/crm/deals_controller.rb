@@ -6,7 +6,7 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::BaseControlle
 
   def index
     @deals = params[:contact_id].present? ? contact_deals : pipeline_deals
-    @deals = @deals.includes(:contact, :company, :assignee, :stage, :pipeline)
+    @deals = @deals.includes({ contact: :labels }, { conversation: :inbox }, :company, :assignee, :stage, :pipeline)
   end
 
   def show; end

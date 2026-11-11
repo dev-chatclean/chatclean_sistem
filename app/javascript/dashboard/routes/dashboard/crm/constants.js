@@ -99,14 +99,17 @@ export const SERVER_CLOSED_WINDOW_DAYS = 30;
 
 export const BOARD_FILTER_FIELDS = [
   { key: 'assignee', icon: 'i-lucide-user', type: 'assignee' },
+  { key: 'label', icon: 'i-lucide-tag', type: 'label' },
   { key: 'status', icon: 'i-lucide-flag', type: 'status' },
   { key: 'loss_reason', icon: 'i-lucide-circle-x', type: 'loss_reason' },
+  { key: 'lead_origin', icon: 'i-lucide-radar', type: 'lead_origin' },
   { key: 'stage', icon: 'i-lucide-columns-3', type: 'stage' },
   { key: 'value', icon: 'i-lucide-banknote', type: 'range' },
   { key: 'stale', icon: 'i-lucide-hourglass', type: 'flag' },
   { key: 'contact', icon: 'i-lucide-contact', type: 'text' },
   { key: 'company', icon: 'i-lucide-building-2', type: 'text' },
   { key: 'title', icon: 'i-lucide-type', type: 'text' },
+  { key: 'channel', icon: 'i-lucide-inbox', type: 'inbox' },
   { key: 'created_at', icon: 'i-lucide-calendar-plus', type: 'date' },
   { key: 'stage_entered_at', icon: 'i-lucide-log-in', type: 'date' },
   { key: 'expected_close_date', icon: 'i-lucide-calendar-check', type: 'date' },

@@ -29,6 +29,9 @@ const expectedCloseSeconds = deal =>
 
 const FILTER_MATCHERS = {
   assignee: (deal, value) => deal.assignee.id === value,
+  label: (deal, value) => Boolean(deal.contact?.labels.includes(value)),
+  lead_origin: (deal, value) => deal.lead_origin === value,
+  channel: (deal, value) => deal.conversation?.inbox_id === value,
   status: (deal, value) => deal.status === value,
   loss_reason: (deal, value) =>
     deal.status === 'lost' && deal.close_reason === value,

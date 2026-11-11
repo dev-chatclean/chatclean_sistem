@@ -16,6 +16,17 @@ json.close_note deal.close_note
 json.stage_entered_at deal.stage_entered_at.to_i
 json.closed_at deal.closed_at&.to_i
 json.created_at deal.created_at.to_i
+json.lead_origin deal.lead_origin
+json.lead_source deal.lead_source
+json.conversation do
+  if deal.conversation
+    json.display_id deal.conversation.display_id
+    json.inbox_id deal.conversation.inbox_id
+    json.inbox_name deal.conversation.inbox.name
+  else
+    json.nil!
+  end
+end
 json.contact do
   if deal.contact
     json.id deal.contact.id
@@ -23,6 +34,7 @@ json.contact do
     json.phone_number deal.contact.phone_number
     json.email deal.contact.email
     json.thumbnail deal.contact.avatar_url
+    json.labels deal.contact.labels.map(&:name)
   else
     json.nil!
   end
