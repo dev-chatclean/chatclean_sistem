@@ -30,6 +30,10 @@ en:
         invalid_company: The company does not belong to this account.
         invalid_assignee: The owner must be a member of this account.
         stage_requirements: 'The stage %{stage} requires: %{fields}.'
+        required_tasks_pending: 'Finish the tasks this stage requires before moving the deal: %{tasks}.'
+    activities:
+      errors:
+        required_task_delete: This task is required by the stage and cannot be deleted. Mark it as done instead.
     settings:
       errors:
         ai_requires_monthly_cap: Set a monthly spending cap above zero to turn on the pipeline AI.

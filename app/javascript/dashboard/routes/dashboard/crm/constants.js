@@ -91,6 +91,7 @@ export const BOARD_SORTS = [
   'oldest_created',
   'highest_value',
   'lowest_value',
+  'next_activity',
 ];
 export const OPEN_PERIODS = ['any', 7, 30, 90];
 export const CLOSED_PERIODS = [7, 30, 90];
@@ -105,6 +106,7 @@ export const BOARD_FILTER_FIELDS = [
   { key: 'lead_origin', icon: 'i-lucide-radar', type: 'lead_origin' },
   { key: 'stage', icon: 'i-lucide-columns-3', type: 'stage' },
   { key: 'value', icon: 'i-lucide-banknote', type: 'range' },
+  { key: 'activities', icon: 'i-lucide-calendar-clock', type: 'activity' },
   { key: 'stale', icon: 'i-lucide-hourglass', type: 'flag' },
   { key: 'contact', icon: 'i-lucide-contact', type: 'text' },
   { key: 'company', icon: 'i-lucide-building-2', type: 'text' },
@@ -114,3 +116,19 @@ export const BOARD_FILTER_FIELDS = [
   { key: 'stage_entered_at', icon: 'i-lucide-log-in', type: 'date' },
   { key: 'expected_close_date', icon: 'i-lucide-calendar-check', type: 'date' },
 ];
+
+export const ACTIVITY_TYPES = [
+  { value: 'call', icon: 'i-lucide-phone' },
+  { value: 'follow_up', icon: 'i-lucide-reply' },
+  { value: 'meeting', icon: 'i-lucide-calendar-days' },
+  { value: 'internal', icon: 'i-lucide-clipboard-list' },
+];
+export const ACTIVITY_PRIORITIES = ['low', 'medium', 'high'];
+export const ACTIVITY_RECURRENCES = ['never', 'daily', 'weekly', 'monthly'];
+export const REMIND_BEFORE_OPTIONS = [null, 0, 5, 10, 15, 30, 60, 1440];
+export const DEFAULT_REMIND_BEFORE_MINUTES = 10;
+export const DEFAULT_ACTIVITY_HOUR = 9;
+export const ACTIVITY_TITLE_MAX_LENGTH = 120;
+export const MAX_ACTIVITY_DURATION_MINUTES = 1440;
+export const MAX_CHECKLIST_ITEMS = 30;
+export const ACTIVITY_FILTERS = ['overdue', 'today', 'upcoming', 'none'];

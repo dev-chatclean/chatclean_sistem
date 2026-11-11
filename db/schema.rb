@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_11_151028) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_11_171557) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1053,6 +1053,28 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_11_151028) do
     t.index ["account_id"], name: "index_copilot_threads_on_account_id"
     t.index ["assistant_id"], name: "index_copilot_threads_on_assistant_id"
     t.index ["user_id"], name: "index_copilot_threads_on_user_id"
+  end
+
+  create_table "crm_deal_activities", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "deal_id", null: false
+    t.bigint "assignee_id", null: false
+    t.bigint "required_by_stage_id"
+    t.string "title", limit: 120, null: false
+    t.integer "activity_type", default: 0, null: false
+    t.integer "priority", default: 1, null: false
+    t.datetime "due_at", null: false
+    t.integer "duration_minutes"
+    t.integer "remind_before_minutes"
+    t.text "description"
+    t.integer "recurrence", default: 0, null: false
+    t.jsonb "checklist", default: [], null: false
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_crm_deal_activities_on_account_id"
+    t.index ["assignee_id"], name: "index_crm_deal_activities_on_assignee_id"
+    t.index ["deal_id"], name: "index_crm_deal_activities_on_deal_id"
   end
 
   create_table "crm_deal_events", force: :cascade do |t|

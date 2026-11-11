@@ -13,6 +13,8 @@ class Crm::Deal < ApplicationRecord
   belongs_to :conversation, optional: true
   belongs_to :assignee, class_name: 'User'
   has_many :events, -> { order(:created_at, :id) }, class_name: 'Crm::DealEvent', inverse_of: :deal, dependent: :delete_all
+  has_many :activities, -> { order(:due_at, :id) }, class_name: 'Crm::DealActivity', inverse_of: :deal, dependent: :delete_all
+  has_many :pending_activities, -> { pending.order(:due_at, :id) }, class_name: 'Crm::DealActivity', inverse_of: :deal, dependent: nil
 
   enum :status, { open: 0, won: 1, lost: 2 }
 
@@ -24,12 +26,14 @@ class Crm::Deal < ApplicationRecord
   validate :close_reason_allowed
   validate :references_belong_to_account
   validate :stage_requirements_met, if: :checks_stage_requirements?
+  validate :required_tasks_completed, if: -> { persisted? && will_save_change_to_stage_id? && !stage&.lost? }
 
   before_validation :sync_with_stage
   before_create :assign_number
   after_create :record_creation
   after_update :record_changes
   after_save :apply_stage_labels, if: -> { saved_change_to_stage_id? && contact }
+  after_save :create_required_tasks, if: :saved_change_to_stage_id?
 
   scope :board_visible, lambda { |since|
     where(status: :open).or(where(status: %i[won lost]).where(closed_at: since..))
@@ -126,6 +130,21 @@ class Crm::Deal < ApplicationRecord
 
   def apply_stage_labels
     contact.add_labels(stage.requirements['apply_labels'])
+  end
+
+  # Losing a deal is always allowed; any other move waits for the tasks the current stage requires.
+  def required_tasks_completed
+    titles = pending_activities.where(required_by_stage_id: stage_id_in_database).pluck(:title)
+    return if titles.empty?
+
+    errors.add(:base, I18n.t('crm.deals.errors.required_tasks_pending', tasks: titles.to_sentence))
+  end
+
+  def create_required_tasks
+    existing = activities.where(required_by_stage: stage).pluck(:title)
+    (Array(stage.requirements['required_tasks']) - existing).each do |title|
+      activities.create!(title: title, activity_type: :internal, due_at: 1.day.from_now, assignee: assignee, required_by_stage: stage)
+    end
   end
 
   def record_changes

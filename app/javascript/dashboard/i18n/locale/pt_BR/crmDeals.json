@@ -13,7 +13,8 @@
     },
     "CARD": {
       "NO_CONTACT": "sem contato",
-      "IN_STAGE": "Na etapa há {days} d"
+      "IN_STAGE": "Na etapa há {days} d",
+      "NEXT_ACTIVITY_OVERDUE": "Atrasada"
     },
     "MENU": {
       "LABEL": "Ações",
@@ -113,7 +114,9 @@
         "LOST": "{user} marcou como perdido em {to}",
         "REOPENED": "{user} reabriu em {to}",
         "ASSIGNEE_CHANGED": "{user} trocou o responsável de {from} para {to}",
-        "CREATED_FROM_CONVERSATION": "{user} criou em {to} quando o atendimento #{conversation} foi atribuído"
+        "CREATED_FROM_CONVERSATION": "{user} criou em {to} quando o atendimento #{conversation} foi atribuído",
+        "ACTIVITY_CREATED": "{user} criou a atividade “{activity}”",
+        "ACTIVITY_COMPLETED": "{user} concluiu a atividade “{activity}”"
       },
       "RANGE": "{from} → {to}",
       "NO_COMPANY": "Sem empresa",
@@ -122,14 +125,12 @@
       "LABELS_NEED_CONTACT": "Vincule um contato para usar etiquetas",
       "DEAL_FIELDS": "Campos do negócio",
       "NEW_ACTIVITY": "Nova atividade",
-      "COMING_SOON": "As atividades chegam na próxima parte",
       "DEAL_VALUE": "Valor do negócio",
       "EDIT_VALUE": "Editar valor",
       "PRODUCTS": "Produtos",
       "NO_PRODUCTS": "Nenhum produto no catálogo. Cadastre em Configurações → Produtos.",
       "DEAL_INFO": "Informações do negócio",
       "UPCOMING": {
-        "ACTIVITIES": "As atividades deste negócio chegam na próxima parte.",
         "FILES": "Os arquivos deste negócio chegam numa próxima parte."
       },
       "DEALS_NEED_CONTACT": "Vincule um contato ou uma empresa para ver os outros negócios.",
@@ -151,7 +152,9 @@
       "UPDATE_SUCCESS": "Atualizado",
       "DUPLICATE_SUCCESS": "Cópia #{number} criada",
       "DELETE_SUCCESS": "Excluído",
-      "FETCH_ERROR": "Não foi possível carregar. Tente de novo."
+      "FETCH_ERROR": "Não foi possível carregar. Tente de novo.",
+      "ACTIVITY_SAVE_SUCCESS": "Atividade salva",
+      "ACTIVITY_DELETE_SUCCESS": "Atividade excluída"
     },
     "DELETE": {
       "TITLE": "Excluir",
@@ -175,7 +178,8 @@
         "RECENTLY_CREATED": "Criados recentemente",
         "OLDEST_CREATED": "Criados há mais tempo",
         "HIGHEST_VALUE": "Maior valor",
-        "LOWEST_VALUE": "Menor valor"
+        "LOWEST_VALUE": "Menor valor",
+        "NEXT_ACTIVITY": "Próxima atividade"
       },
       "PERIOD": {
         "LABEL": "Período",
@@ -214,9 +218,16 @@
         "EXPECTED_CLOSE_DATE": "Data prevista de fechamento",
         "LABEL": "Etiqueta",
         "LEAD_ORIGIN": "Origem do lead",
-        "CHANNEL": "Canal"
+        "CHANNEL": "Canal",
+        "ACTIVITIES": "Atividades"
       },
-      "NO_OPTIONS": "Ainda não há opções para escolher."
+      "NO_OPTIONS": "Ainda não há opções para escolher.",
+      "ACTIVITIES": {
+        "OVERDUE": "Atrasadas",
+        "TODAY": "Para hoje",
+        "UPCOMING": "Próximas",
+        "NONE": "Sem atividade"
+      }
     },
     "LINK": {
       "TITLE": "Vincular contato",
@@ -227,6 +238,69 @@
       "NAME": "Nome do contato",
       "PHONE": "Telefone com DDD",
       "SUBMIT": "Vincular"
+    },
+    "ACTIVITY": {
+      "NEW": "Nova atividade",
+      "EDIT": "Editar atividade",
+      "ADD": "Atividade",
+      "SAVE": "Salvar",
+      "CANCEL": "Cancelar",
+      "TITLE": "Título",
+      "TITLE_PLACEHOLDER": "Ex.: Ligar para confirmar a proposta",
+      "WHEN": "Quando",
+      "MORE_OPTIONS": "Mais opções",
+      "LESS_OPTIONS": "Menos opções",
+      "TYPE": "Tipo",
+      "PRIORITY": "Prioridade",
+      "ASSIGNEE": "Responsável",
+      "DURATION": "Duração (min)",
+      "REMIND_BEFORE": "Avisar antes",
+      "DESCRIPTION": "Descrição",
+      "DESCRIPTION_PLACEHOLDER": "Detalhes para quem vai fazer a atividade",
+      "RECURRENCE": "Repete",
+      "CHECKLIST": "Checklist",
+      "CHECKLIST_PLACEHOLDER": "Escreva um item e aperte Enter",
+      "CHECKLIST_ADD": "Adicionar item",
+      "CHECKLIST_REMOVE": "Remover item",
+      "TYPES": {
+        "CALL": "Ligação",
+        "FOLLOW_UP": "Retorno",
+        "MEETING": "Compromisso",
+        "INTERNAL": "Interna"
+      },
+      "PRIORITIES": {
+        "LOW": "Baixa",
+        "MEDIUM": "Média",
+        "HIGH": "Alta"
+      },
+      "RECURRENCES": {
+        "NEVER": "Não se repete",
+        "DAILY": "Todo dia",
+        "WEEKLY": "Toda semana",
+        "MONTHLY": "Todo mês"
+      },
+      "REMIND": {
+        "NONE": "Sem aviso",
+        "AT_TIME": "Na hora",
+        "MINUTES": "{n} min antes",
+        "HOUR": "1 hora antes",
+        "DAY": "1 dia antes"
+      },
+      "PENDING": "A fazer",
+      "DONE": "Concluídas",
+      "EMPTY": "Nenhuma atividade ainda. Crie uma para planejar o próximo passo.",
+      "OVERDUE": "Atrasada",
+      "REQUIRED": "Obrigatória de {stage}",
+      "REQUIRED_HINT": "Obrigatória da etapa: pode ser concluída, mas não excluída.",
+      "MARK_DONE": "Marcar como concluída",
+      "MARK_PENDING": "Marcar como a fazer",
+      "EDIT_ACTION": "Editar",
+      "DELETE_ACTION": "Excluir",
+      "DELETE_CONFIRM": "Excluir a atividade “{title}”? Isso não pode ser desfeito.",
+      "CHECKLIST_PROGRESS": "{done}/{total}",
+      "DURATION_VALUE": "{n} min",
+      "REMINDER_TOAST": "Lembrete: “{title}” às {time} ({deal})",
+      "REMINDER_OPEN": "Abrir negócio"
     }
   }
 }

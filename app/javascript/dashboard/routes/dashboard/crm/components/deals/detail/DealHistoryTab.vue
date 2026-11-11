@@ -22,6 +22,7 @@ const eventText = event =>
     from: event.from_stage_name || event.data.from,
     to: event.to_stage_name || event.data.to,
     conversation: event.data.conversation,
+    activity: event.data.activity,
   });
 </script>
 

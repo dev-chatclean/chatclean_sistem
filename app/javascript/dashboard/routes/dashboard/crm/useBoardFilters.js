@@ -24,6 +24,18 @@ const inDateRange = (seconds, { from, to }) => {
   return (start == null || seconds >= start) && (end == null || seconds <= end);
 };
 
+const isSameDay = (seconds, date) =>
+  new Date(seconds * 1000).toDateString() === date.toDateString();
+
+const ACTIVITY_MATCHERS = {
+  overdue: due => due != null && due < nowInSeconds(),
+  today: due => due != null && isSameDay(due, new Date()),
+  upcoming: due => due != null && due >= nowInSeconds(),
+  none: due => due == null,
+};
+
+const nextActivityDue = deal => deal.next_activity?.due_at ?? null;
+
 const expectedCloseSeconds = deal =>
   deal.expected_close_date ? dateToSeconds(deal.expected_close_date) : null;
 
@@ -39,6 +51,7 @@ const FILTER_MATCHERS = {
   value: (deal, { min, max }) =>
     (min === '' || min == null || deal.value >= Number(min)) &&
     (max === '' || max == null || deal.value <= Number(max)),
+  activities: (deal, value) => ACTIVITY_MATCHERS[value](nextActivityDue(deal)),
   stale: (deal, _value, stagesById) =>
     staleLevel(deal, stagesById[deal.stage_id]) === 'danger',
   contact: (deal, value) =>
@@ -65,6 +78,8 @@ const SORTERS = {
   oldest_created: (a, b) => a.created_at - b.created_at,
   highest_value: (a, b) => b.value - a.value,
   lowest_value: (a, b) => a.value - b.value,
+  next_activity: (a, b) =>
+    (nextActivityDue(a) ?? Infinity) - (nextActivityDue(b) ?? Infinity),
 };
 
 const matchesSearch = (deal, search) => {

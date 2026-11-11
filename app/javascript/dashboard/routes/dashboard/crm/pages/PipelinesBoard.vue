@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { vOnClickOutside } from '@vueuse/components';
@@ -591,6 +591,17 @@ watch(
     boardState.value = defaultBoardState();
     fetchDeals();
   }
+);
+// Reminder toasts link here with ?deal=<id> to open the deal detail.
+watch(
+  [() => route.query.deal, isFetching],
+  async ([dealId, fetching]) => {
+    if (!dealId || fetching) return;
+    await nextTick();
+    dealDetailRef.value?.open({ id: Number(dealId) });
+    router.replace({ query: {} });
+  },
+  { immediate: true }
 );
 watch(() => selectedPipeline.value?.stages, rebuildColumns);
 watch(visibleDeals, rebuildColumns);

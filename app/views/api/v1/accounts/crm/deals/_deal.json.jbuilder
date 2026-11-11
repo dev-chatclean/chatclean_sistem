@@ -18,6 +18,18 @@ json.closed_at deal.closed_at&.to_i
 json.created_at deal.created_at.to_i
 json.lead_origin deal.lead_origin
 json.lead_source deal.lead_source
+json.pending_activities_count deal.pending_activities.size
+json.next_activity do
+  next_activity = deal.pending_activities.first
+  if next_activity
+    json.id next_activity.id
+    json.title next_activity.title
+    json.activity_type next_activity.activity_type
+    json.due_at next_activity.due_at.to_i
+  else
+    json.nil!
+  end
+end
 json.conversation do
   if deal.conversation
     json.display_id deal.conversation.display_id

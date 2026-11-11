@@ -67,6 +67,8 @@ class Crm::Pipeline < ApplicationRecord
     raise_invalid!(I18n.t('crm.stages.errors.transfer_required', count: deals_count)) if deals_count.positive? && target.nil?
 
     transaction do
+      # The tasks the removed stage required become ordinary tasks, so they do not block the transfer.
+      Crm::DealActivity.where(required_by_stage: stage).update_all(required_by_stage_id: nil) # rubocop:disable Rails/SkipsModelValidations
       deals.where(stage: stage).find_each { |deal| deal.update!(stage: target) }
       stage.destroy!
       renumber_stages!(stages.reload.to_a)
