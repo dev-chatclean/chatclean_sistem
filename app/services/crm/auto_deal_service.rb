@@ -24,10 +24,11 @@ class Crm::AutoDealService
   end
 
   # A list with every option ticked (or no inbox picked) lets everything in, new channels included.
+  # Conversations with no known origin (WhatsApp, e-mail...) are limited by the inbox list only.
   def matches_lead_entry?
     settings = account.crm_lead_entry_settings
     (settings['inbox_ids'].empty? || settings['inbox_ids'].include?(inbox.id)) &&
-      (settings['origins'].sort == AccountCrm::LEAD_ORIGINS.sort || settings['origins'].include?(lead_origin)) &&
+      (lead_origin.nil? || settings['origins'].sort == AccountCrm::LEAD_ORIGINS.sort || settings['origins'].include?(lead_origin)) &&
       (settings['sources'].sort == AccountCrm::LEAD_SOURCES.sort || settings['sources'].include?(lead_source))
   end
 
