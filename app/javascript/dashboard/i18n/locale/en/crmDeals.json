@@ -301,6 +301,11 @@
       "DURATION_VALUE": "{n} min",
       "REMINDER_TOAST": "Reminder: “{title}” at {time} ({deal})",
       "REMINDER_OPEN": "Open deal"
+    },
+    "CONTACT_TAB": {
+      "NEW": "New deal",
+      "PIPELINE": "Pipeline",
+      "EMPTY": "This contact has no deals yet."
     }
   }
 }

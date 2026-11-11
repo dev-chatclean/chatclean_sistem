@@ -29,7 +29,10 @@ const deleteContact = async id => {
     await store.dispatch('contacts/delete', id);
     useAlert(t('CONTACTS_LAYOUT.DETAILS.DELETE_DIALOG.API.SUCCESS_MESSAGE'));
   } catch (error) {
-    useAlert(t('CONTACTS_LAYOUT.DETAILS.DELETE_DIALOG.API.ERROR_MESSAGE'));
+    useAlert(
+      error.message ||
+        t('CONTACTS_LAYOUT.DETAILS.DELETE_DIALOG.API.ERROR_MESSAGE')
+    );
   }
 };
 

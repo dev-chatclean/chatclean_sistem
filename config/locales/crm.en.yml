@@ -33,6 +33,19 @@ en:
     activities:
       errors:
         required_task_delete: This task is required by the stage and cannot be deleted. Mark it as done instead.
+    contacts:
+      errors:
+        has_deals:
+          one: This contact has 1 deal and cannot be deleted.
+          other: This contact has %{count} deals and cannot be deleted.
+        bulk_has_deals:
+          one: 1 of the selected contacts has deals and cannot be deleted. Remove it from the selection.
+          other: '%{count} of the selected contacts have deals and cannot be deleted. Remove them from the selection.'
+    agents:
+      errors:
+        has_deals:
+          one: '%{name} owns 1 deal. Move it to another owner in the sales pipeline before removing this agent.'
+          other: '%{name} owns %{count} deals. Move them to another owner in the sales pipeline before removing this agent.'
     settings:
       errors:
         ai_requires_monthly_cap: Set a monthly spending cap above zero to turn on the pipeline AI.

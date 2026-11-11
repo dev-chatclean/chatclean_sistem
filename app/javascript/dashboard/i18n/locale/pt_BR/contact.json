@@ -515,7 +515,8 @@
         "HISTORY": "Histórico",
         "NOTES": "Notas",
         "MEDIA": "Mídia",
-        "MERGE": "Mesclar"
+        "MERGE": "Mesclar",
+        "DEALS": "Oportunidades"
       },
       "HISTORY": {
         "EMPTY_STATE": "Não há conversas anteriores associadas a este contato"

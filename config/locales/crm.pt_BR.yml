@@ -33,6 +33,19 @@ pt_BR:
     activities:
       errors:
         required_task_delete: Esta tarefa é obrigatória da etapa e não pode ser excluída. Marque como concluída.
+    contacts:
+      errors:
+        has_deals:
+          one: Este contato tem 1 negócio e não pode ser excluído.
+          other: Este contato tem %{count} negócios e não pode ser excluído.
+        bulk_has_deals:
+          one: 1 dos contatos selecionados tem negócio e não pode ser excluído. Tire-o da seleção.
+          other: '%{count} dos contatos selecionados têm negócios e não podem ser excluídos. Tire-os da seleção.'
+    agents:
+      errors:
+        has_deals:
+          one: '%{name} é responsável por 1 negócio. Passe para outro responsável no Funil de vendas antes de remover.'
+          other: '%{name} é responsável por %{count} negócios. Passe para outro responsável no Funil de vendas antes de remover.'
     settings:
       errors:
         ai_requires_monthly_cap: Defina um teto de gasto mensal maior que zero para ligar a IA do pipeline.
