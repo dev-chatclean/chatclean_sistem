@@ -11,11 +11,17 @@ const { t, locale } = useI18n();
 
 const items = computed(() => [...props.events].reverse());
 
+const eventKey = event =>
+  event.event_type === 'created' && event.data.conversation
+    ? 'CREATED_FROM_CONVERSATION'
+    : event.event_type.toUpperCase();
+
 const eventText = event =>
-  t(`CRM_DEALS.DETAIL.EVENTS.${event.event_type.toUpperCase()}`, {
+  t(`CRM_DEALS.DETAIL.EVENTS.${eventKey(event)}`, {
     user: event.user_name || t('CRM_DEALS.DETAIL.SYSTEM'),
     from: event.from_stage_name || event.data.from,
     to: event.to_stage_name || event.data.to,
+    conversation: event.data.conversation,
   });
 </script>
 

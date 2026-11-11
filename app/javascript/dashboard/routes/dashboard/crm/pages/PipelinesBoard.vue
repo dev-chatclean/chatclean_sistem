@@ -30,7 +30,11 @@ import { formatCurrency, isClosingStage } from '../dealHelpers';
 import { applyBoardFilters, defaultBoardState } from '../useBoardFilters';
 import { SERVER_CLOSED_WINDOW_DAYS } from '../constants';
 import { useItemLabel } from '../useItemLabel';
-import { CLOSING_STAGE_TYPES, UI_SETTINGS_KEYS } from '../constants';
+import {
+  CLOSING_STAGE_TYPES,
+  DAY_IN_SECONDS,
+  UI_SETTINGS_KEYS,
+} from '../constants';
 
 const route = useRoute();
 const router = useRouter();
@@ -48,6 +52,7 @@ const openPipelineMenuId = ref(null);
 const isSettingsMenuOpen = ref(false);
 const pipelineToDelete = ref(null);
 const autoCreateDeals = ref(true);
+const leadAlertDays = ref(null);
 const settingsDialogRef = ref(null);
 const deleteDialogRef = ref(null);
 const aiDialogRef = ref(null);
@@ -237,6 +242,28 @@ const stageSummary = stage => {
       : t('CRM_DEALS.BOARD.NO_DATA');
   return t('CRM_DEALS.BOARD.STAGE_SUMMARY', { value, count });
 };
+// Leads from the lead entry land in the default pipeline's first column.
+const waitingLeadsCount = computed(() => {
+  if (!autoCreateDeals.value || !leadAlertDays.value) return 0;
+  if (!selectedPipeline.value?.is_default) return 0;
+  const limit = Date.now() / 1000 - leadAlertDays.value * DAY_IN_SECONDS;
+  const initialStage = selectedPipeline.value.stages.find(
+    stage => stage.stage_type === 'initial'
+  );
+  return deals.value.filter(
+    deal =>
+      deal.status === 'open' &&
+      deal.stage_id === initialStage?.id &&
+      deal.stage_entered_at < limit
+  ).length;
+});
+const waitingLeadsLabel = computed(() =>
+  t(
+    'CRM_DEALS.BOARD.WAITING_LEADS',
+    { count: waitingLeadsCount.value, days: leadAlertDays.value },
+    waitingLeadsCount.value
+  )
+);
 const closedWindowLabel = computed(() =>
   boardState.value.view === 'all'
     ? t('CRM_DEALS.TOOLBAR.VIEW.ALL')
@@ -359,6 +386,7 @@ const fetchSettings = async () => {
   try {
     const { data } = await CrmSettingsAPI.get();
     autoCreateDeals.value = data.auto_create_deals;
+    leadAlertDays.value = data.lead_entry.alert_after_days;
   } catch (error) {
     showError(error, 'CRM_PIPELINES.API.FETCH_ERROR');
   }
@@ -748,6 +776,13 @@ onMounted(() => {
             />
           </div>
           <div class="flex items-center gap-3 ms-auto text-sm">
+            <span
+              v-if="waitingLeadsCount"
+              class="flex items-center gap-1.5 h-7 px-2.5 rounded-lg bg-n-amber-3 text-n-amber-11"
+            >
+              <span class="i-lucide-alarm-clock size-3.5" />
+              {{ waitingLeadsLabel }}
+            </span>
             <template v-if="showLeadEntryHint">
               <button
                 type="button"
@@ -806,6 +841,14 @@ onMounted(() => {
               />
               <span class="text-sm font-medium text-n-slate-12 truncate">
                 {{ stage.name }}
+              </span>
+              <span
+                v-if="stage.stage_type === 'initial' && waitingLeadsCount"
+                v-tooltip.top="waitingLeadsLabel"
+                class="flex items-center gap-1 px-1.5 rounded-md text-label-small bg-n-amber-3 text-n-amber-11 shrink-0"
+              >
+                <span class="i-lucide-alarm-clock size-3" />
+                {{ waitingLeadsCount }}
               </span>
               <span
                 v-if="CLOSING_STAGE_TYPES.includes(stage.stage_type)"

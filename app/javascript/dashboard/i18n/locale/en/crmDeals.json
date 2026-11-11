@@ -8,7 +8,8 @@
       "NO_DATA": "No data",
       "STAGE_SUMMARY": "{value} · {count}",
       "LAST_DAYS": "Last {n} days",
-      "PERIOD_PHRASE": "in the last {n} days"
+      "PERIOD_PHRASE": "in the last {n} days",
+      "WAITING_LEADS": "{count} lead waiting for more than {days} days | {count} leads waiting for more than {days} days"
     },
     "CARD": {
       "NO_CONTACT": "no contact",
@@ -111,7 +112,8 @@
         "WON": "{user} marked it as won in {to}",
         "LOST": "{user} marked it as lost in {to}",
         "REOPENED": "{user} reopened it in {to}",
-        "ASSIGNEE_CHANGED": "{user} changed the owner from {from} to {to}"
+        "ASSIGNEE_CHANGED": "{user} changed the owner from {from} to {to}",
+        "CREATED_FROM_CONVERSATION": "{user} created it in {to} when conversation #{conversation} was assigned"
       },
       "RANGE": "{from} → {to}",
       "NO_COMPANY": "No company",
@@ -140,7 +142,9 @@
         "RESOLVED": "Resolved",
         "PENDING": "Pending",
         "SNOOZED": "Snoozed"
-      }
+      },
+      "LEAD_ORIGIN": "Lead origin",
+      "LEAD_CONVERSATION": "Conversation #{number}"
     },
     "API": {
       "CREATE_SUCCESS": "Created",
@@ -207,8 +211,12 @@
         "TITLE": "Title",
         "CREATED_AT": "Created at",
         "STAGE_ENTERED_AT": "Entered stage",
-        "EXPECTED_CLOSE_DATE": "Expected close date"
-      }
+        "EXPECTED_CLOSE_DATE": "Expected close date",
+        "LABEL": "Label",
+        "LEAD_ORIGIN": "Lead origin",
+        "CHANNEL": "Channel"
+      },
+      "NO_OPTIONS": "Nothing to choose here yet."
     },
     "LINK": {
       "TITLE": "Link contact",

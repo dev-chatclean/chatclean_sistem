@@ -1,6 +1,8 @@
 <script setup>
 import { computed, nextTick, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
+import { conversationUrl, frontendURL } from 'dashboard/helper/URLHelper';
 import { formatCurrency, isClosingStage } from '../../../dealHelpers';
 import { entryDuration, formatDateTime, formatDuration } from './dealTime';
 
@@ -13,6 +15,7 @@ const props = defineProps({
 const emit = defineEmits(['update']);
 
 const { t, locale } = useI18n();
+const route = useRoute();
 
 const isEditingValue = ref(false);
 const valueDraft = ref('');
@@ -46,6 +49,25 @@ const saveValue = () => {
   const value = Number(valueDraft.value) || 0;
   if (value !== props.deal.value) emit('update', { value });
 };
+
+const leadOriginText = computed(() => {
+  const { lead_origin: origin, lead_source: source, conversation } = props.deal;
+  const where = origin
+    ? t(`CRM_PIPELINES.LEAD_ENTRY.OPTIONS.${origin.toUpperCase()}`)
+    : conversation.inbox_name;
+  return [where, t(`CRM_PIPELINES.LEAD_ENTRY.OPTIONS.${source.toUpperCase()}`)]
+    .filter(Boolean)
+    .join(' · ');
+});
+
+const leadConversationLink = computed(() =>
+  frontendURL(
+    conversationUrl({
+      accountId: route.params.accountId,
+      id: props.deal.conversation.display_id,
+    })
+  )
+);
 
 const valueParts = computed(() => {
   const text = formatCurrency(props.deal.value);
@@ -173,6 +195,24 @@ const valueParts = computed(() => {
           </dt>
           <dd class="m-0 font-semibold text-n-slate-12">
             {{ formatDateTime(deal.stage_entered_at, locale) }}
+          </dd>
+        </div>
+        <div v-if="deal.conversation" class="flex justify-between py-3 text-sm">
+          <dt class="text-n-slate-11">
+            {{ t('CRM_DEALS.DETAIL.LEAD_ORIGIN') }}
+          </dt>
+          <dd class="flex items-center gap-2 m-0 font-semibold text-n-slate-12">
+            {{ leadOriginText }}
+            <router-link
+              :to="leadConversationLink"
+              class="font-normal text-n-brand hover:underline"
+            >
+              {{
+                t('CRM_DEALS.DETAIL.LEAD_CONVERSATION', {
+                  number: deal.conversation.display_id,
+                })
+              }}
+            </router-link>
           </dd>
         </div>
       </dl>

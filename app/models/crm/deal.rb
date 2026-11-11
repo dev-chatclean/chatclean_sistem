@@ -10,6 +10,7 @@ class Crm::Deal < ApplicationRecord
   belongs_to :stage, class_name: 'Crm::Stage'
   belongs_to :contact, optional: true
   belongs_to :company, optional: true
+  belongs_to :conversation, optional: true
   belongs_to :assignee, class_name: 'User'
   has_many :events, -> { order(:created_at, :id) }, class_name: 'Crm::DealEvent', inverse_of: :deal, dependent: :delete_all
 
@@ -17,15 +18,18 @@ class Crm::Deal < ApplicationRecord
 
   validates :title, length: { maximum: 120 }
   validates :value, numericality: { greater_than_or_equal_to: 0, less_than: MAX_VALUE }
+  validates :lead_origin, inclusion: { in: AccountCrm::LEAD_ORIGINS }, allow_nil: true
+  validates :lead_source, inclusion: { in: AccountCrm::LEAD_SOURCES }, allow_nil: true
   validate :title_or_party_present
   validate :close_reason_allowed
   validate :references_belong_to_account
-  validate :stage_requirements_met, if: -> { will_save_change_to_stage_id? || new_record? }
+  validate :stage_requirements_met, if: :checks_stage_requirements?
 
   before_validation :sync_with_stage
   before_create :assign_number
   after_create :record_creation
   after_update :record_changes
+  after_save :apply_stage_labels, if: -> { saved_change_to_stage_id? && contact }
 
   scope :board_visible, lambda { |since|
     where(status: :open).or(where(status: %i[won lost]).where(closed_at: since..))
@@ -93,6 +97,13 @@ class Crm::Deal < ApplicationRecord
     errors.add(:base, I18n.t('crm.deals.errors.invalid_assignee')) if assignee && !account.users.exists?(id: assignee_id)
   end
 
+  # Deals created from a conversation assignment have no data yet; the next stage change checks them.
+  def checks_stage_requirements?
+    return conversation.blank? if new_record?
+
+    will_save_change_to_stage_id?
+  end
+
   def stage_requirements_met
     missing = missing_requirements
     return if missing.empty?
@@ -110,7 +121,11 @@ class Crm::Deal < ApplicationRecord
   end
 
   def record_creation
-    record_event('created', to_stage: stage)
+    record_event('created', to_stage: stage, data: { 'conversation' => conversation&.display_id }.compact)
+  end
+
+  def apply_stage_labels
+    contact.add_labels(stage.requirements['apply_labels'])
   end
 
   def record_changes
