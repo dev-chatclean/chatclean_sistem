@@ -13,7 +13,8 @@
     },
     "CARD": {
       "NO_CONTACT": "no contact",
-      "IN_STAGE": "In stage for {days} d"
+      "IN_STAGE": "In stage for {days} d",
+      "NEXT_ACTIVITY_OVERDUE": "Overdue"
     },
     "MENU": {
       "LABEL": "Actions",
@@ -113,7 +114,9 @@
         "LOST": "{user} marked it as lost in {to}",
         "REOPENED": "{user} reopened it in {to}",
         "ASSIGNEE_CHANGED": "{user} changed the owner from {from} to {to}",
-        "CREATED_FROM_CONVERSATION": "{user} created it in {to} when conversation #{conversation} was assigned"
+        "CREATED_FROM_CONVERSATION": "{user} created it in {to} when conversation #{conversation} was assigned",
+        "ACTIVITY_CREATED": "{user} created the activity “{activity}”",
+        "ACTIVITY_COMPLETED": "{user} completed the activity “{activity}”"
       },
       "RANGE": "{from} → {to}",
       "NO_COMPANY": "No company",
@@ -122,14 +125,12 @@
       "LABELS_NEED_CONTACT": "Link a contact to use labels",
       "DEAL_FIELDS": "Deal fields",
       "NEW_ACTIVITY": "New activity",
-      "COMING_SOON": "Activities arrive in the next part",
       "DEAL_VALUE": "Deal value",
       "EDIT_VALUE": "Edit value",
       "PRODUCTS": "Products",
       "NO_PRODUCTS": "No products in the catalog. Add them in Settings → Products.",
       "DEAL_INFO": "Deal information",
       "UPCOMING": {
-        "ACTIVITIES": "This deal's activities arrive in the next part.",
         "FILES": "This deal's files arrive in a later part."
       },
       "DEALS_NEED_CONTACT": "Link a contact or a company to see the other deals.",
@@ -151,7 +152,9 @@
       "UPDATE_SUCCESS": "Updated",
       "DUPLICATE_SUCCESS": "Copy #{number} created",
       "DELETE_SUCCESS": "Deleted",
-      "FETCH_ERROR": "Could not load. Try again."
+      "FETCH_ERROR": "Could not load. Try again.",
+      "ACTIVITY_SAVE_SUCCESS": "Activity saved",
+      "ACTIVITY_DELETE_SUCCESS": "Activity deleted"
     },
     "DELETE": {
       "TITLE": "Delete",
@@ -175,7 +178,8 @@
         "RECENTLY_CREATED": "Recently created",
         "OLDEST_CREATED": "Oldest created",
         "HIGHEST_VALUE": "Highest value",
-        "LOWEST_VALUE": "Lowest value"
+        "LOWEST_VALUE": "Lowest value",
+        "NEXT_ACTIVITY": "Next activity"
       },
       "PERIOD": {
         "LABEL": "Period",
@@ -214,9 +218,16 @@
         "EXPECTED_CLOSE_DATE": "Expected close date",
         "LABEL": "Label",
         "LEAD_ORIGIN": "Lead origin",
-        "CHANNEL": "Channel"
+        "CHANNEL": "Channel",
+        "ACTIVITIES": "Activities"
       },
-      "NO_OPTIONS": "Nothing to choose here yet."
+      "NO_OPTIONS": "Nothing to choose here yet.",
+      "ACTIVITIES": {
+        "OVERDUE": "Overdue",
+        "TODAY": "Due today",
+        "UPCOMING": "Upcoming",
+        "NONE": "No activity"
+      }
     },
     "LINK": {
       "TITLE": "Link contact",
@@ -227,6 +238,69 @@
       "NAME": "Contact name",
       "PHONE": "Phone with area code",
       "SUBMIT": "Link"
+    },
+    "ACTIVITY": {
+      "NEW": "New activity",
+      "EDIT": "Edit activity",
+      "ADD": "Activity",
+      "SAVE": "Save",
+      "CANCEL": "Cancel",
+      "TITLE": "Title",
+      "TITLE_PLACEHOLDER": "E.g. Call to confirm the proposal",
+      "WHEN": "When",
+      "MORE_OPTIONS": "More options",
+      "LESS_OPTIONS": "Fewer options",
+      "TYPE": "Type",
+      "PRIORITY": "Priority",
+      "ASSIGNEE": "Owner",
+      "DURATION": "Duration (min)",
+      "REMIND_BEFORE": "Remind me before",
+      "DESCRIPTION": "Description",
+      "DESCRIPTION_PLACEHOLDER": "Details for whoever does this activity",
+      "RECURRENCE": "Repeats",
+      "CHECKLIST": "Checklist",
+      "CHECKLIST_PLACEHOLDER": "Add an item and press Enter",
+      "CHECKLIST_ADD": "Add item",
+      "CHECKLIST_REMOVE": "Remove item",
+      "TYPES": {
+        "CALL": "Call",
+        "FOLLOW_UP": "Follow-up",
+        "MEETING": "Meeting",
+        "INTERNAL": "Internal"
+      },
+      "PRIORITIES": {
+        "LOW": "Low",
+        "MEDIUM": "Medium",
+        "HIGH": "High"
+      },
+      "RECURRENCES": {
+        "NEVER": "Does not repeat",
+        "DAILY": "Every day",
+        "WEEKLY": "Every week",
+        "MONTHLY": "Every month"
+      },
+      "REMIND": {
+        "NONE": "No reminder",
+        "AT_TIME": "At the time",
+        "MINUTES": "{n} min before",
+        "HOUR": "1 hour before",
+        "DAY": "1 day before"
+      },
+      "PENDING": "To do",
+      "DONE": "Done",
+      "EMPTY": "No activities yet. Create one to plan the next step.",
+      "OVERDUE": "Overdue",
+      "REQUIRED": "Required by {stage}",
+      "REQUIRED_HINT": "Required by the stage: it can be completed, not deleted.",
+      "MARK_DONE": "Mark as done",
+      "MARK_PENDING": "Mark as to do",
+      "EDIT_ACTION": "Edit",
+      "DELETE_ACTION": "Delete",
+      "DELETE_CONFIRM": "Delete the activity “{title}”? This cannot be undone.",
+      "CHECKLIST_PROGRESS": "{done}/{total}",
+      "DURATION_VALUE": "{n} min",
+      "REMINDER_TOAST": "Reminder: “{title}” at {time} ({deal})",
+      "REMINDER_OPEN": "Open deal"
     }
   }
 }

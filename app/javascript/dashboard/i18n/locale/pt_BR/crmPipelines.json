@@ -239,7 +239,7 @@
         },
         "TASKS": {
           "LABEL": "Tarefas obrigatórias",
-          "HINT": "A oportunidade ganha estas tarefas ao entrar e só sai da etapa com elas concluídas.",
+          "HINT": "A oportunidade ganha estas tarefas ao entrar na etapa.",
           "PLACEHOLDER": "Ex.: Enviar proposta",
           "ADD": "Adicionar",
           "REMOVE": "Remover tarefa"

@@ -16,6 +16,8 @@ import DealInfoTab from './detail/DealInfoTab.vue';
 import DealHistoryTab from './detail/DealHistoryTab.vue';
 import DealContactDealsTab from './detail/DealContactDealsTab.vue';
 import DealConversationsTab from './detail/DealConversationsTab.vue';
+import DealActivitiesTab from './detail/DealActivitiesTab.vue';
+import ActivityFormDialog from './detail/ActivityFormDialog.vue';
 import { isClosingStage } from '../../dealHelpers';
 
 const props = defineProps({
@@ -32,13 +34,14 @@ const TABS = [
   'files',
   'conversations',
 ];
-const UPCOMING_TABS = ['activities', 'files'];
+const UPCOMING_TABS = ['files'];
 
 const { t } = useI18n();
 const { isAdmin } = useAdmin();
 const agents = useMapGetter('agents/getAgents');
 
 const dialogRef = ref(null);
+const activityFormRef = ref(null);
 const deal = ref(null);
 const isLoading = ref(false);
 const activeTab = ref('info');
@@ -114,6 +117,14 @@ const open = target => {
 
 const close = () => dialogRef.value?.close();
 const reload = () => deal.value && load(deal.value.id);
+
+const openActivityForm = activity =>
+  activityFormRef.value?.open({ deal: deal.value, activity });
+
+const onActivityChanged = async () => {
+  await reload();
+  emit('changed');
+};
 
 const update = async (changes, notify = true) => {
   try {
@@ -208,9 +219,8 @@ defineExpose({ open, reload, close });
           />
           <button
             type="button"
-            disabled
-            class="flex items-center gap-2 h-11 px-4 text-base font-medium rounded-xl outline outline-1 -outline-offset-1 outline-n-slate-6 text-n-slate-12 disabled:opacity-60 disabled:cursor-not-allowed"
-            :title="t('CRM_DEALS.DETAIL.COMING_SOON')"
+            class="flex items-center gap-2 h-11 px-4 text-base font-medium rounded-xl outline outline-1 -outline-offset-1 outline-n-slate-6 text-n-slate-12 hover:bg-n-alpha-1"
+            @click="openActivityForm(null)"
           >
             <span class="i-lucide-plus size-4" />
             {{ t('CRM_DEALS.DETAIL.NEW_ACTIVITY') }}
@@ -362,6 +372,13 @@ defineExpose({ open, reload, close });
               v-else-if="activeTab === 'history'"
               :events="deal.events"
             />
+            <DealActivitiesTab
+              v-else-if="activeTab === 'activities'"
+              :deal="deal"
+              @new="openActivityForm(null)"
+              @edit="openActivityForm"
+              @changed="onActivityChanged"
+            />
             <DealContactDealsTab
               v-else-if="activeTab === 'deals'"
               :deal="deal"
@@ -387,5 +404,6 @@ defineExpose({ open, reload, close });
         </section>
       </div>
     </div>
+    <ActivityFormDialog ref="activityFormRef" @saved="onActivityChanged" />
   </dialog>
 </template>

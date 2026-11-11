@@ -5,6 +5,7 @@ import { vOnClickOutside } from '@vueuse/components';
 import { useMapGetter } from 'dashboard/composables/store';
 import Button from 'dashboard/components-next/button/Button.vue';
 import {
+  ACTIVITY_FILTERS,
   BOARD_FILTER_FIELDS,
   LEAD_ORIGINS,
   LOSS_REASONS,
@@ -57,6 +58,12 @@ const options = computed(() => {
   }
   if (field.value.type === 'inbox') {
     return inboxes.value.map(inbox => ({ value: inbox.id, label: inbox.name }));
+  }
+  if (field.value.type === 'activity') {
+    return ACTIVITY_FILTERS.map(value => ({
+      value,
+      label: t(`CRM_DEALS.FILTERS.ACTIVITIES.${value.toUpperCase()}`),
+    }));
   }
   if (field.value.type === 'stage') {
     return props.stages.map(stage => ({ value: stage.id, label: stage.name }));

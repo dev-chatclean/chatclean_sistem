@@ -13,3 +13,6 @@ json.journey @deal.journey do |entry|
   json.entered_at entry[:entered_at].to_i
   json.left_at entry[:left_at]&.to_i
 end
+json.activities @deal.activities.includes(:assignee, :required_by_stage) do |activity|
+  json.partial! 'api/v1/accounts/crm/deal_activities/activity', activity: activity
+end

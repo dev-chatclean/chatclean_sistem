@@ -239,7 +239,7 @@
         },
         "TASKS": {
           "LABEL": "Required tasks",
-          "HINT": "The deal gets these tasks when it enters and only leaves the stage after completing them.",
+          "HINT": "The deal gets these tasks when it enters the stage.",
           "PLACEHOLDER": "E.g. Send proposal",
           "ADD": "Add",
           "REMOVE": "Remove task"

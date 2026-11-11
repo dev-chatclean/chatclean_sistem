@@ -3,6 +3,8 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Button from 'dashboard/components-next/button/Button.vue';
 import { daysInStage, formatCurrency, staleLevel } from '../../dealHelpers';
+import { ACTIVITY_TYPES } from '../../constants';
+import { formatShortDateTime } from './detail/dealTime';
 
 const props = defineProps({
   deal: { type: Object, required: true },
@@ -13,7 +15,18 @@ const props = defineProps({
 
 const emit = defineEmits(['open', 'move']);
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
+
+const nextActivity = computed(() => props.deal.next_activity);
+const nextActivityIcon = computed(
+  () =>
+    ACTIVITY_TYPES.find(
+      type => type.value === nextActivity.value?.activity_type
+    )?.icon
+);
+const nextActivityOverdue = computed(
+  () => nextActivity.value && nextActivity.value.due_at * 1000 < Date.now()
+);
 
 const showExpectedClose = computed(
   () =>
@@ -90,6 +103,20 @@ const staleClass = computed(
         {{ formatCurrency(deal.value) }}
       </span>
     </div>
+    <span
+      v-if="nextActivity"
+      class="flex items-center gap-1 min-w-0 text-label-small"
+      :class="nextActivityOverdue ? 'text-n-ruby-11' : 'text-n-slate-11'"
+    >
+      <span class="size-3.5 shrink-0" :class="nextActivityIcon" />
+      <span class="truncate">{{ nextActivity.title }}</span>
+      <span class="shrink-0">
+        · {{ formatShortDateTime(nextActivity.due_at, locale) }}
+      </span>
+      <span v-if="nextActivityOverdue" class="font-medium shrink-0">
+        · {{ t('CRM_DEALS.CARD.NEXT_ACTIVITY_OVERDUE') }}
+      </span>
+    </span>
     <span
       v-if="showExpectedClose"
       class="flex items-center gap-1 text-label-small text-n-slate-11"

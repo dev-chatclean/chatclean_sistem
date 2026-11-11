@@ -30,6 +30,9 @@ pt_BR:
         invalid_company: A empresa não pertence a esta conta.
         invalid_assignee: O responsável precisa ser membro desta conta.
         stage_requirements: 'A etapa %{stage} exige: %{fields}.'
+    activities:
+      errors:
+        required_task_delete: Esta tarefa é obrigatória da etapa e não pode ser excluída. Marque como concluída.
     settings:
       errors:
         ai_requires_monthly_cap: Defina um teto de gasto mensal maior que zero para ligar a IA do pipeline.
