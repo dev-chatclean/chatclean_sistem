@@ -25,7 +25,10 @@ import DealFormDialog from '../components/deals/DealFormDialog.vue';
 import DealDetailDialog from '../components/deals/DealDetailDialog.vue';
 import CloseDealDialog from '../components/deals/CloseDealDialog.vue';
 import MoveDealDialog from '../components/deals/MoveDealDialog.vue';
+import BoardToolbar from '../components/board/BoardToolbar.vue';
 import { formatCurrency, isClosingStage } from '../dealHelpers';
+import { applyBoardFilters, defaultBoardState } from '../useBoardFilters';
+import { SERVER_CLOSED_WINDOW_DAYS } from '../constants';
 import { useItemLabel } from '../useItemLabel';
 import { CLOSING_STAGE_TYPES, UI_SETTINGS_KEYS } from '../constants';
 
@@ -53,6 +56,7 @@ const stageDeleteDialogRef = ref(null);
 const openStageMenuId = ref(null);
 const stageToDelete = ref(null);
 const deals = ref([]);
+const boardState = ref(defaultBoardState());
 const columns = ref({});
 const isMovingDeal = ref(false);
 const dealToDelete = ref(null);
@@ -171,11 +175,23 @@ const pipelineMenuItems = pipeline => [
 const settingsMenuItems = computed(() => settingsActions());
 
 const emptyStageMessage = stage => {
-  if (stage.stage_type === 'won') return t('CRM_PIPELINES.BOARD.EMPTY_WON');
-  if (stage.stage_type === 'lost') return t('CRM_PIPELINES.BOARD.EMPTY_LOST');
-  return t('CRM_PIPELINES.BOARD.EMPTY_STAGE', {
-    item: itemLabel(selectedPipeline.value, 2).toLowerCase(),
-  });
+  const item = itemLabel(selectedPipeline.value, 2).toLowerCase();
+  if (!isClosingStage(stage)) {
+    return t('CRM_PIPELINES.BOARD.EMPTY_STAGE', {
+      item: itemLabel(selectedPipeline.value, 1).toLowerCase(),
+    });
+  }
+  const period =
+    boardState.value.view === 'all'
+      ? ''
+      : t('CRM_DEALS.BOARD.PERIOD_PHRASE', {
+          n: boardState.value.closedPeriod,
+        });
+  const key =
+    stage.stage_type === 'won'
+      ? 'CRM_PIPELINES.BOARD.EMPTY_WON'
+      : 'CRM_PIPELINES.BOARD.EMPTY_LOST';
+  return t(key, { item, period }).replace(/\s+/g, ' ');
 };
 
 const showError = (error, fallbackKey) => {
@@ -186,8 +202,15 @@ const showError = (error, fallbackKey) => {
 const showValue = computed(
   () => selectedPipeline.value?.pipeline_type !== 'management'
 );
+const visibleDeals = computed(() =>
+  applyBoardFilters(
+    deals.value,
+    boardState.value,
+    selectedPipeline.value?.stages || []
+  )
+);
 const openDeals = computed(() =>
-  deals.value.filter(deal => deal.status === 'open')
+  visibleDeals.value.filter(deal => deal.status === 'open')
 );
 const openDealsCount = computed(() => openDeals.value.length);
 const openDealsTotal = computed(() =>
@@ -198,21 +221,39 @@ const headerSummary = computed(() => {
     count: openDealsCount.value,
     item: itemLabel(selectedPipeline.value, openDealsCount.value).toLowerCase(),
   });
-  if (!showValue.value) return count;
-  return t('CRM_DEALS.BOARD.SUMMARY_WITH_VALUE', {
-    summary: count,
-    value: formatCurrency(openDealsTotal.value),
-  });
+  const value =
+    showValue.value && openDealsCount.value
+      ? formatCurrency(openDealsTotal.value)
+      : t('CRM_DEALS.BOARD.NO_DATA');
+  return t('CRM_DEALS.BOARD.SUMMARY_WITH_VALUE', { summary: count, value });
 });
 const stageTotal = stage =>
   (columns.value[stage.id] || []).reduce((sum, deal) => sum + deal.value, 0);
+const stageSummary = stage => {
+  const count = (columns.value[stage.id] || []).length;
+  const value =
+    showValue.value && count
+      ? formatCurrency(stageTotal(stage))
+      : t('CRM_DEALS.BOARD.NO_DATA');
+  return t('CRM_DEALS.BOARD.STAGE_SUMMARY', { value, count });
+};
+const closedWindowLabel = computed(() =>
+  boardState.value.view === 'all'
+    ? t('CRM_DEALS.TOOLBAR.VIEW.ALL')
+    : t('CRM_DEALS.BOARD.LAST_DAYS', { n: boardState.value.closedPeriod })
+);
+const needsAllDeals = computed(
+  () =>
+    boardState.value.view === 'all' ||
+    boardState.value.closedPeriod > SERVER_CLOSED_WINDOW_DAYS
+);
 
 const rebuildColumns = () => {
   const grouped = {};
   (selectedPipeline.value?.stages || []).forEach(stage => {
     grouped[stage.id] = [];
   });
-  deals.value.forEach(deal => {
+  visibleDeals.value.forEach(deal => {
     if (grouped[deal.stage_id]) grouped[deal.stage_id].push(deal);
   });
   columns.value = grouped;
@@ -221,9 +262,14 @@ const rebuildColumns = () => {
 const fetchDeals = async () => {
   if (!selectedPipeline.value) return;
   try {
-    const { data } = await CrmDealsAPI.list(selectedPipeline.value.id);
+    const { data } = await CrmDealsAPI.list(
+      selectedPipeline.value.id,
+      needsAllDeals.value ? 'all' : 'open'
+    );
     deals.value = data.payload;
-    selectedPipeline.value.open_deals_count = openDealsCount.value;
+    selectedPipeline.value.open_deals_count = data.payload.filter(
+      deal => deal.status === 'open'
+    ).length;
   } catch (error) {
     deals.value = [];
     useAlert(t('CRM_DEALS.API.FETCH_ERROR'));
@@ -511,8 +557,16 @@ watch(
   }
 );
 
-watch(() => selectedPipeline.value?.id, fetchDeals);
+watch(
+  () => selectedPipeline.value?.id,
+  () => {
+    boardState.value = defaultBoardState();
+    fetchDeals();
+  }
+);
 watch(() => selectedPipeline.value?.stages, rebuildColumns);
+watch(visibleDeals, rebuildColumns);
+watch(needsAllDeals, fetchDeals);
 
 const stageDealsCount = computed(
   () => (columns.value[stageToDelete.value?.id] || []).length
@@ -665,8 +719,8 @@ onMounted(() => {
       </aside>
 
       <main v-if="selectedPipeline" class="flex flex-col flex-1 min-w-0 h-full">
-        <header class="flex items-center gap-2 px-6 py-5">
-          <h2 class="text-heading-1 text-n-slate-12 truncate">
+        <header class="flex items-center gap-2 px-6 pt-5 pb-4">
+          <h2 class="text-2xl font-bold text-n-slate-12 truncate">
             {{ selectedPipeline.name }}
           </h2>
           <span
@@ -695,14 +749,8 @@ onMounted(() => {
               @action="handlePipelineAction(selectedPipeline, $event)"
             />
           </div>
-          <span class="text-sm text-n-slate-11">
-            {{ headerSummary }}
-          </span>
           <div class="flex items-center gap-3 ms-auto text-sm">
-            <div
-              v-if="showLeadEntryHint"
-              class="flex items-center gap-3 text-sm"
-            >
+            <template v-if="showLeadEntryHint">
               <button
                 type="button"
                 class="text-n-blue-11 hover:underline"
@@ -718,42 +766,62 @@ onMounted(() => {
               >
                 {{ t('CRM_PIPELINES.LEAD_ENTRY_HINT.DISMISS') }}
               </button>
-            </div>
-            <Button
-              :label="
-                t('CRM_DEALS.NEW', { item: itemLabel(selectedPipeline, 1) })
-              "
-              icon="i-lucide-plus"
-              sm
+            </template>
+            <button
+              type="button"
+              class="flex items-center gap-1.5 h-9 px-4 text-sm font-medium text-white rounded-xl bg-n-brand hover:bg-n-brand/90"
               @click="openNewDeal()"
-            />
+            >
+              <span class="i-lucide-plus size-4" />
+              {{ t('CRM_DEALS.NEW', { item: itemLabel(selectedPipeline, 1) }) }}
+            </button>
           </div>
         </header>
 
-        <div class="flex flex-1 min-h-0 gap-3 px-6 pb-6 overflow-x-auto">
+        <div class="px-6 py-3 border-y border-n-weak">
+          <BoardToolbar
+            v-model="boardState"
+            :stages="selectedPipeline.stages"
+            :summary="headerSummary"
+          />
+        </div>
+
+        <div class="flex flex-1 min-h-0 gap-3.5 px-6 py-4 overflow-x-auto">
           <div
             v-for="stage in selectedPipeline.stages"
             :key="stage.id"
-            class="flex flex-col w-72 shrink-0"
+            class="flex flex-col w-[17rem] shrink-0"
           >
             <div
               class="h-0.5 mb-3 rounded-full"
               :style="{ backgroundColor: stage.color }"
             />
-            <div class="flex items-center gap-1.5 mb-1 group/stage min-h-7">
+            <div class="flex items-center gap-1.5 group/stage min-h-7">
               <span
                 v-if="CLOSING_STAGE_TYPES.includes(stage.stage_type)"
-                class="size-4"
+                class="size-4 shrink-0"
                 :class="
                   stage.stage_type === 'won'
-                    ? 'i-lucide-trophy text-n-teal-11'
+                    ? 'i-lucide-hourglass text-n-teal-11'
                     : 'i-lucide-circle-x text-n-ruby-11'
                 "
               />
-              <span class="text-heading-3 text-n-slate-12 truncate">
+              <span class="text-sm font-medium text-n-slate-12 truncate">
                 {{ stage.name }}
               </span>
-              <div v-if="isAdmin" class="flex items-center gap-1 ms-auto">
+              <span
+                v-if="CLOSING_STAGE_TYPES.includes(stage.stage_type)"
+                class="ms-auto text-label-small text-n-slate-11 shrink-0"
+              >
+                {{ closedWindowLabel }}
+              </span>
+              <div
+                v-if="isAdmin"
+                class="flex items-center gap-0.5 shrink-0"
+                :class="{
+                  'ms-auto': !CLOSING_STAGE_TYPES.includes(stage.stage_type),
+                }"
+              >
                 <Button
                   v-if="!CLOSING_STAGE_TYPES.includes(stage.stage_type)"
                   v-tooltip.top="t('CRM_PIPELINES.STAGE.ADD_AFTER')"
@@ -794,25 +862,11 @@ onMounted(() => {
                 </div>
               </div>
             </div>
-            <span
-              class="flex items-center gap-1 mb-3 text-label-small text-n-slate-11"
-            >
-              <template v-if="showValue">
-                <span class="font-medium text-n-slate-12">
-                  {{ formatCurrency(stageTotal(stage)) }}
-                </span>
-                ·
-              </template>
-              {{ (columns[stage.id] || []).length }}
-              <span
-                v-if="CLOSING_STAGE_TYPES.includes(stage.stage_type)"
-                class="ms-auto"
-              >
-                {{ t('CRM_DEALS.BOARD.LAST_30_DAYS') }}
-              </span>
+            <span class="mb-3 text-xs font-medium text-n-slate-11">
+              {{ stageSummary(stage) }}
             </span>
             <div
-              class="relative flex flex-col flex-1 min-h-0 border rounded-xl border-n-weak bg-n-solid-1"
+              class="relative flex flex-col flex-1 min-h-0 border rounded-2xl border-n-weak bg-n-solid-1"
             >
               <Draggable
                 :list="columns[stage.id] || []"
@@ -826,6 +880,7 @@ onMounted(() => {
                   <DealCard
                     :deal="element"
                     :stage="stage"
+                    :pipeline="selectedPipeline"
                     :show-value="showValue"
                     @open="openDeal"
                     @move="moveDialogRef?.open($event)"
@@ -834,14 +889,14 @@ onMounted(() => {
               </Draggable>
               <span
                 v-if="!(columns[stage.id] || []).length"
-                class="absolute inset-0 flex items-center justify-center px-6 text-center pointer-events-none text-body-main text-n-slate-11"
+                class="absolute inset-0 flex items-center justify-center px-6 text-sm text-center pointer-events-none text-n-slate-10"
               >
                 {{ emptyStageMessage(stage) }}
               </span>
               <button
                 v-if="!CLOSING_STAGE_TYPES.includes(stage.stage_type)"
                 type="button"
-                class="flex items-center justify-center gap-1.5 py-2.5 text-sm border-t border-n-weak text-n-slate-11 hover:text-n-slate-12 hover:bg-n-alpha-1 rounded-b-xl"
+                class="flex items-center justify-center gap-1.5 py-3 text-sm border-t border-n-weak text-n-slate-11 hover:text-n-slate-12 hover:bg-n-alpha-1 rounded-b-2xl"
                 @click="openNewDeal(stage.id)"
               >
                 <span class="i-lucide-plus size-4" />

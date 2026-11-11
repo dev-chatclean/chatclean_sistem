@@ -83,3 +83,31 @@ export const LOSS_REASONS = [
 export const STALE_WARNING_RATIO = 0.75;
 export const DAY_IN_SECONDS = 86400;
 export const SEARCH_DEBOUNCE_MS = 300;
+
+export const BOARD_SORTS = [
+  'longest_in_stage',
+  'recently_moved',
+  'recently_created',
+  'oldest_created',
+  'highest_value',
+  'lowest_value',
+];
+export const OPEN_PERIODS = ['any', 7, 30, 90];
+export const CLOSED_PERIODS = [7, 30, 90];
+export const DEFAULT_CLOSED_PERIOD = 30;
+export const SERVER_CLOSED_WINDOW_DAYS = 30;
+
+export const BOARD_FILTER_FIELDS = [
+  { key: 'assignee', icon: 'i-lucide-user', type: 'assignee' },
+  { key: 'status', icon: 'i-lucide-flag', type: 'status' },
+  { key: 'loss_reason', icon: 'i-lucide-circle-x', type: 'loss_reason' },
+  { key: 'stage', icon: 'i-lucide-columns-3', type: 'stage' },
+  { key: 'value', icon: 'i-lucide-banknote', type: 'range' },
+  { key: 'stale', icon: 'i-lucide-hourglass', type: 'flag' },
+  { key: 'contact', icon: 'i-lucide-contact', type: 'text' },
+  { key: 'company', icon: 'i-lucide-building-2', type: 'text' },
+  { key: 'title', icon: 'i-lucide-type', type: 'text' },
+  { key: 'created_at', icon: 'i-lucide-calendar-plus', type: 'date' },
+  { key: 'stage_entered_at', icon: 'i-lucide-log-in', type: 'date' },
+  { key: 'expected_close_date', icon: 'i-lucide-calendar-check', type: 'date' },
+];

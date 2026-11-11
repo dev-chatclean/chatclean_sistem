@@ -7,12 +7,24 @@ import { daysInStage, formatCurrency, staleLevel } from '../../dealHelpers';
 const props = defineProps({
   deal: { type: Object, required: true },
   stage: { type: Object, default: null },
+  pipeline: { type: Object, default: null },
   showValue: { type: Boolean, default: true },
 });
 
 const emit = defineEmits(['open', 'move']);
 
 const { t } = useI18n();
+
+const showExpectedClose = computed(
+  () =>
+    props.deal.expected_close_date &&
+    props.pipeline?.card_fields?.includes('expected_close_date')
+);
+const expectedCloseText = computed(() => {
+  if (!props.deal.expected_close_date) return '';
+  const [year, month, day] = props.deal.expected_close_date.split('-');
+  return `${day}/${month}/${year}`;
+});
 
 const stale = computed(() => staleLevel(props.deal, props.stage));
 const staleClass = computed(
@@ -28,19 +40,19 @@ const staleClass = computed(
   <div
     role="button"
     tabindex="0"
-    class="relative flex flex-col gap-2 p-3 border rounded-xl cursor-grab bg-n-solid-2 hover:bg-n-solid-3 group/card"
+    class="relative flex flex-col gap-2.5 p-3 border rounded-xl cursor-grab bg-n-solid-2 hover:bg-n-solid-3 group/card"
     :class="staleClass"
     @click="emit('open', deal)"
     @keydown.enter="emit('open', deal)"
   >
     <div class="flex items-start gap-2">
       <span
-        class="flex items-center justify-center rounded-lg size-8 shrink-0 bg-n-alpha-2 text-n-slate-11"
+        class="flex items-center justify-center rounded-lg size-9 shrink-0 bg-n-alpha-2 text-n-slate-11"
       >
         <span class="i-lucide-briefcase size-4" />
       </span>
       <div class="flex flex-col flex-1 min-w-0 gap-1">
-        <span class="text-sm font-medium text-n-slate-12 truncate">
+        <span class="text-sm font-semibold text-n-slate-12 truncate">
           {{ deal.display_name }}
         </span>
         <span
@@ -78,6 +90,13 @@ const staleClass = computed(
         {{ formatCurrency(deal.value) }}
       </span>
     </div>
+    <span
+      v-if="showExpectedClose"
+      class="flex items-center gap-1 text-label-small text-n-slate-11"
+    >
+      <span class="i-lucide-calendar-check size-3.5" />
+      {{ expectedCloseText }}
+    </span>
     <span
       class="flex items-center gap-1 text-label-small"
       :class="{

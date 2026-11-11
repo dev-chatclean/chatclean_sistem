@@ -1,11 +1,21 @@
 import { DAY_IN_SECONDS, STALE_WARNING_RATIO } from './constants';
 
-const currencyFormatter = new Intl.NumberFormat('pt-BR', {
+const wholeCurrencyFormatter = new Intl.NumberFormat('pt-BR', {
+  style: 'currency',
+  currency: 'BRL',
+  maximumFractionDigits: 0,
+});
+const centsCurrencyFormatter = new Intl.NumberFormat('pt-BR', {
   style: 'currency',
   currency: 'BRL',
 });
 
-export const formatCurrency = value => currencyFormatter.format(value || 0);
+export const formatCurrency = value => {
+  const amount = value || 0;
+  return Number.isInteger(amount)
+    ? wholeCurrencyFormatter.format(amount)
+    : centsCurrencyFormatter.format(amount);
+};
 
 export const daysInStage = deal =>
   Math.max(

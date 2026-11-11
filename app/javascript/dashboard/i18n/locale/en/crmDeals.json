@@ -1,10 +1,14 @@
 {
   "CRM_DEALS": {
-    "NEW": "Add {item}",
+    "NEW": "New {item}",
     "BOARD": {
       "SUMMARY": "{count} {item}",
       "LAST_30_DAYS": "Last 30 days",
-      "SUMMARY_WITH_VALUE": "{summary} · {value}"
+      "SUMMARY_WITH_VALUE": "{summary} · {value}",
+      "NO_DATA": "No data",
+      "STAGE_SUMMARY": "{value} · {count}",
+      "LAST_DAYS": "Last {n} days",
+      "PERIOD_PHRASE": "in the last {n} days"
     },
     "CARD": {
       "NO_CONTACT": "no contact",
@@ -52,8 +56,8 @@
       "REMOVE": "Unlink contact"
     },
     "FORM": {
-      "TITLE": "Add {item}",
-      "CREATE": "Create",
+      "TITLE": "New {item}",
+      "CREATE": "Create {item}",
       "CONTACT": "Contact",
       "OPTIONAL": "optional",
       "DEAL_TITLE": "Title",
@@ -121,6 +125,59 @@
     "STAGE_DELETE": {
       "TRANSFER": "This stage has {count} item(s). Choose the stage that will receive them:"
     },
-    "NUMBER": "#{number}"
+    "NUMBER": "#{number}",
+    "TOOLBAR": {
+      "SEARCH": "Search by name, phone or number",
+      "VIEW": {
+        "LABEL": "Show:",
+        "OPEN": "Open",
+        "ALL": "All"
+      },
+      "SORT": {
+        "LABEL": "Sort:",
+        "LONGEST_IN_STAGE": "Longest in stage",
+        "RECENTLY_MOVED": "Recently moved",
+        "RECENTLY_CREATED": "Recently created",
+        "OLDEST_CREATED": "Oldest created",
+        "HIGHEST_VALUE": "Highest value",
+        "LOWEST_VALUE": "Lowest value"
+      },
+      "PERIOD": {
+        "LABEL": "Period",
+        "OPEN_TITLE": "Open, created",
+        "CLOSED_TITLE": "Closed, won or lost",
+        "ANY": "Any date",
+        "DAYS": "{n} days",
+        "CUSTOM": "Custom"
+      }
+    },
+    "FILTERS": {
+      "BUTTON": "Filter",
+      "SEARCH": "Search...",
+      "CHOOSE": "Choose",
+      "CONTAINS": "Contains...",
+      "MIN": "Minimum",
+      "MAX": "Maximum",
+      "FROM": "From",
+      "TO": "To",
+      "APPLY": "Apply filter",
+      "REMOVE": "Remove filter",
+      "YES": "Yes",
+      "STALE_HINT": "Only shows cards past the stage days limit.",
+      "FIELDS": {
+        "ASSIGNEE": "Owner",
+        "STATUS": "Status",
+        "LOSS_REASON": "Loss reason",
+        "STAGE": "Stage",
+        "VALUE": "Value (R$)",
+        "STALE": "Stalled in stage",
+        "CONTACT": "Contact",
+        "COMPANY": "Company",
+        "TITLE": "Title",
+        "CREATED_AT": "Created at",
+        "STAGE_ENTERED_AT": "Entered stage",
+        "EXPECTED_CLOSE_DATE": "Expected close date"
+      }
+    }
   }
 }

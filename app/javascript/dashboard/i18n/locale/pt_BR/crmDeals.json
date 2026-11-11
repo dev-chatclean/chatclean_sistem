@@ -1,10 +1,14 @@
 {
   "CRM_DEALS": {
-    "NEW": "Adicionar {item}",
+    "NEW": "Novo {item}",
     "BOARD": {
       "SUMMARY": "{count} {item}",
       "LAST_30_DAYS": "Últimos 30 dias",
-      "SUMMARY_WITH_VALUE": "{summary} · {value}"
+      "SUMMARY_WITH_VALUE": "{summary} · {value}",
+      "NO_DATA": "Sem dados",
+      "STAGE_SUMMARY": "{value} · {count}",
+      "LAST_DAYS": "Últimos {n} dias",
+      "PERIOD_PHRASE": "nos últimos {n} dias"
     },
     "CARD": {
       "NO_CONTACT": "sem contato",
@@ -52,8 +56,8 @@
       "REMOVE": "Desvincular contato"
     },
     "FORM": {
-      "TITLE": "Adicionar {item}",
-      "CREATE": "Criar",
+      "TITLE": "Novo {item}",
+      "CREATE": "Criar {item}",
       "CONTACT": "Contato",
       "OPTIONAL": "opcional",
       "DEAL_TITLE": "Título",
@@ -121,6 +125,59 @@
     "STAGE_DELETE": {
       "TRANSFER": "Esta etapa tem {count} item(ns). Escolha a etapa que vai recebê-los:"
     },
-    "NUMBER": "#{number}"
+    "NUMBER": "#{number}",
+    "TOOLBAR": {
+      "SEARCH": "Buscar por nome, telefone ou número",
+      "VIEW": {
+        "LABEL": "Mostrar:",
+        "OPEN": "Em aberto",
+        "ALL": "Tudo"
+      },
+      "SORT": {
+        "LABEL": "Ordenar:",
+        "LONGEST_IN_STAGE": "Mais tempo na etapa",
+        "RECENTLY_MOVED": "Movidos recentemente",
+        "RECENTLY_CREATED": "Criados recentemente",
+        "OLDEST_CREATED": "Criados há mais tempo",
+        "HIGHEST_VALUE": "Maior valor",
+        "LOWEST_VALUE": "Menor valor"
+      },
+      "PERIOD": {
+        "LABEL": "Período",
+        "OPEN_TITLE": "Abertos, criados",
+        "CLOSED_TITLE": "Fechados, ganhos ou perdidos",
+        "ANY": "Qualquer data",
+        "DAYS": "{n} dias",
+        "CUSTOM": "Personalizado"
+      }
+    },
+    "FILTERS": {
+      "BUTTON": "Filtrar",
+      "SEARCH": "Buscar...",
+      "CHOOSE": "Escolha",
+      "CONTAINS": "Contém...",
+      "MIN": "Mínimo",
+      "MAX": "Máximo",
+      "FROM": "De",
+      "TO": "Até",
+      "APPLY": "Aplicar filtro",
+      "REMOVE": "Remover filtro",
+      "YES": "Sim",
+      "STALE_HINT": "Mostra só os cartões que passaram do limite de dias da etapa.",
+      "FIELDS": {
+        "ASSIGNEE": "Responsável",
+        "STATUS": "Status",
+        "LOSS_REASON": "Motivo de perda",
+        "STAGE": "Etapa",
+        "VALUE": "Valor (R$)",
+        "STALE": "Parado na etapa",
+        "CONTACT": "Contato",
+        "COMPANY": "Empresa",
+        "TITLE": "Título",
+        "CREATED_AT": "Criado em",
+        "STAGE_ENTERED_AT": "Entrou na etapa",
+        "EXPECTED_CLOSE_DATE": "Data prevista de fechamento"
+      }
+    }
   }
 }
