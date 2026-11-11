@@ -9,6 +9,7 @@ json.item_label_custom pipeline.item_label_custom
 json.stale_after_days pipeline.stale_after_days
 json.one_card_per_contact pipeline.one_card_per_contact
 json.card_fields pipeline.card_fields
+json.open_deals_count pipeline.deals.open.count
 json.stages pipeline.stages do |stage|
   json.id stage.id
   json.name stage.name

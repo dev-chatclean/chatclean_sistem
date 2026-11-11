@@ -9,7 +9,7 @@
     "COLLAPSE_PANEL": "Recolher pipelines",
     "EXPAND_PANEL": "Mostrar pipelines",
     "ITEM_LABELS": {
-      "deal": "oportunidade | oportunidades",
+      "deal": "negócio | negócios",
       "client": "cliente | clientes",
       "case": "caso | casos",
       "process": "processo | processos"
@@ -21,14 +21,14 @@
     },
     "BOARD": {
       "COUNT": "{count} {item}",
-      "EMPTY_STAGE": "Sem {item} nesta etapa",
-      "EMPTY_WON": "O que foi ganho nos últimos 30 dias aparece aqui.",
-      "EMPTY_LOST": "O que foi perdido nos últimos 30 dias aparece aqui."
+      "EMPTY_STAGE": "Nenhum {item} nesta etapa",
+      "EMPTY_WON": "Os {item} ganhos {period} aparecem aqui.",
+      "EMPTY_LOST": "Os {item} perdidos {period} aparecem aqui."
     },
     "LEAD_ENTRY_HINT": {
       "ENABLE": "Ligar entrada de leads",
       "DISMISS": "Dispensar",
-      "TOOLTIP": "Cada conversa nova vira uma oportunidade no pipeline padrão"
+      "TOOLTIP": "Cada conversa nova vira um negócio no pipeline padrão"
     },
     "MENU": {
       "LABEL": "Opções do pipeline",
@@ -52,7 +52,7 @@
       }
     },
     "LEAD_ENTRY": {
-      "TOGGLE": "Criar uma oportunidade para cada conversa nova",
+      "TOGGLE": "Criar um negócio para cada conversa nova",
       "DESCRIPTION": "Quando uma conversa que casar com as regras abaixo for atribuída a um atendente, ela vira uma oportunidade aberta no pipeline padrão, na primeira etapa, e o atendente vira o responsável. A configuração vale para a conta inteira. Ao desligar, as oportunidades que já estão no quadro continuam lá.",
       "NEEDS_DEFAULT": "Crie um pipeline primeiro: ele vira o padrão.",
       "CHANNELS": "Canais",
@@ -147,7 +147,7 @@
       "ITEM_LABEL": {
         "LABEL": "Como chamar cada item",
         "OPTIONS": {
-          "DEAL": "Padrão (oportunidade)",
+          "DEAL": "Padrão (negócio)",
           "CLIENT": "Cliente",
           "CASE": "Caso",
           "PROCESS": "Processo",
@@ -157,7 +157,7 @@
         "HINT": "Aparece no botão \"Novo …\", nos contadores, no cartão e nos menus. Dá para mudar depois: é só o texto."
       },
       "STALE_DAYS": {
-        "LABEL": "Oportunidade parada após (dias)",
+        "LABEL": "Negócio parado após (dias)",
         "HINT": "Toda etapa nova nasce com esse limite. Ganhos e perdidos não contam.",
         "INVALID": "Use um número inteiro entre 1 e {max}"
       },

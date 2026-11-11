@@ -1,0 +1,224 @@
+{
+  "CRM_DEALS": {
+    "NEW": "New {item}",
+    "BOARD": {
+      "SUMMARY": "{count} {item}",
+      "LAST_30_DAYS": "Last 30 days",
+      "SUMMARY_WITH_VALUE": "{summary} · {value}",
+      "NO_DATA": "No data",
+      "STAGE_SUMMARY": "{value} · {count}",
+      "LAST_DAYS": "Last {n} days",
+      "PERIOD_PHRASE": "in the last {n} days"
+    },
+    "CARD": {
+      "NO_CONTACT": "no contact",
+      "IN_STAGE": "In stage for {days} d"
+    },
+    "MENU": {
+      "LABEL": "Actions",
+      "MOVE": "Move",
+      "WIN": "Win",
+      "LOSE": "Lose",
+      "DUPLICATE": "Duplicate",
+      "DELETE": "Delete"
+    },
+    "CLOSE": {
+      "WIN_TITLE": "Mark as won",
+      "LOSE_TITLE": "Mark as lost",
+      "WIN_CONFIRM": "Mark as won",
+      "LOSE_CONFIRM": "Mark as lost",
+      "WIN_REASON": "Win reason (optional)",
+      "LOSE_REASON": "Loss reason",
+      "CHOOSE_REASON": "Choose the reason",
+      "NOTE": "Notes (optional)",
+      "WIN_NOTE_PLACEHOLDER": "What made the customer close?",
+      "LOSE_NOTE_PLACEHOLDER": "What led to the loss?"
+    },
+    "REASONS": {
+      "NOT_INFORMED": "Not informed",
+      "BEST_PRICE": "Best price",
+      "DELIVERY_TIME": "Delivery time",
+      "RELATIONSHIP": "Relationship",
+      "REFERRAL": "Referral",
+      "PRODUCT_FEATURES": "Product features",
+      "OTHER": "Other",
+      "PRICE": "Price",
+      "NO_INTEREST": "No interest",
+      "COMPETITOR": "Chose a competitor",
+      "NO_RESPONSE": "No response",
+      "OUT_OF_PROFILE": "Out of profile"
+    },
+    "CONTACT": {
+      "SEARCH_PLACEHOLDER": "Search by name or phone",
+      "HINT": "Search by name or phone. Not found? Type the number to create it.",
+      "CREATE": "Create contact with {phone}",
+      "CREATE_ERROR": "Could not create the contact.",
+      "REMOVE": "Unlink"
+    },
+    "FORM": {
+      "TITLE": "New {item}",
+      "CREATE": "Create {item}",
+      "CONTACT": "Contact",
+      "OPTIONAL": "optional",
+      "DEAL_TITLE": "Title",
+      "TITLE_REQUIRED": "required without a contact",
+      "TITLE_PLACEHOLDER": "E.g. Annual contract",
+      "VALUE": "Value (R$)",
+      "STAGE": "Stage",
+      "EXPECTED_CLOSE_DATE": "Expected close date",
+      "ASSIGNEE": "Owner"
+    },
+    "MOVE": {
+      "TITLE": "Move",
+      "DESCRIPTION": "Choose the target stage in {pipeline}.",
+      "CONFIRM": "Move",
+      "CHOOSE": "Choose the stage"
+    },
+    "STATUS": {
+      "OPEN": "Open",
+      "WON": "Won",
+      "LOST": "Lost"
+    },
+    "DETAIL": {
+      "TABS": {
+        "INFO": "Information",
+        "HISTORY": "History",
+        "ACTIVITIES": "Activities",
+        "DEALS": "Deals",
+        "FILES": "Files",
+        "CONVERSATIONS": "Conversations"
+      },
+      "CLOSE": "Close",
+      "NOTES": "Deal note",
+      "NOTES_PLACEHOLDER": "Internal notes about the deal...",
+      "VALUE": "Value",
+      "FULL_PIPELINE": "Full pipeline",
+      "NUMBER": "Number",
+      "CREATED_AT": "Created at",
+      "IN_STAGE_SINCE": "In stage since",
+      "JOURNEY": "Deal journey",
+      "NOW": "now",
+      "SYSTEM": "System",
+      "DURATION": {
+        "LESS_THAN_MINUTE": "less than 1 min",
+        "MINUTES": "{n} min",
+        "HOURS": "{n} h",
+        "DAYS": "{n} d"
+      },
+      "EVENTS": {
+        "CREATED": "{user} created it in {to}",
+        "STAGE_CHANGED": "{user} moved it from {from} to {to}",
+        "WON": "{user} marked it as won in {to}",
+        "LOST": "{user} marked it as lost in {to}",
+        "REOPENED": "{user} reopened it in {to}",
+        "ASSIGNEE_CHANGED": "{user} changed the owner from {from} to {to}"
+      },
+      "RANGE": "{from} → {to}",
+      "NO_COMPANY": "No company",
+      "NO_LABELS": "No labels",
+      "ADD_LABEL": "Add label",
+      "LABELS_NEED_CONTACT": "Link a contact to use labels",
+      "DEAL_FIELDS": "Deal fields",
+      "NEW_ACTIVITY": "New activity",
+      "COMING_SOON": "Activities arrive in the next part",
+      "DEAL_VALUE": "Deal value",
+      "EDIT_VALUE": "Edit value",
+      "PRODUCTS": "Products",
+      "NO_PRODUCTS": "No products in the catalog. Add them in Settings → Products.",
+      "DEAL_INFO": "Deal information",
+      "UPCOMING": {
+        "ACTIVITIES": "This deal's activities arrive in the next part.",
+        "FILES": "This deal's files arrive in a later part."
+      },
+      "DEALS_NEED_CONTACT": "Link a contact or a company to see the other deals.",
+      "NO_OTHER_DEALS": "This contact has no other deals.",
+      "NO_CONTACT_TITLE": "No contact on this deal",
+      "NO_CONTACT_CONVERSATIONS": "Link a contact to see and open conversations.",
+      "NO_CONVERSATIONS": "This contact has no conversations yet.",
+      "CONVERSATION_STATUS": {
+        "OPEN": "Open",
+        "RESOLVED": "Resolved",
+        "PENDING": "Pending",
+        "SNOOZED": "Snoozed"
+      }
+    },
+    "API": {
+      "CREATE_SUCCESS": "Created",
+      "UPDATE_SUCCESS": "Updated",
+      "DUPLICATE_SUCCESS": "Copy #{number} created",
+      "DELETE_SUCCESS": "Deleted",
+      "FETCH_ERROR": "Could not load. Try again."
+    },
+    "DELETE": {
+      "TITLE": "Delete",
+      "MESSAGE": "#{number} {name} will be deleted. This cannot be undone."
+    },
+    "STAGE_DELETE": {
+      "TRANSFER": "This stage has {count} item(s). Choose the stage that will receive them:"
+    },
+    "NUMBER": "#{number}",
+    "TOOLBAR": {
+      "SEARCH": "Search by name, phone or number",
+      "VIEW": {
+        "LABEL": "Show:",
+        "OPEN": "Open",
+        "ALL": "All"
+      },
+      "SORT": {
+        "LABEL": "Sort:",
+        "LONGEST_IN_STAGE": "Longest in stage",
+        "RECENTLY_MOVED": "Recently moved",
+        "RECENTLY_CREATED": "Recently created",
+        "OLDEST_CREATED": "Oldest created",
+        "HIGHEST_VALUE": "Highest value",
+        "LOWEST_VALUE": "Lowest value"
+      },
+      "PERIOD": {
+        "LABEL": "Period",
+        "OPEN_TITLE": "Open, created",
+        "CLOSED_TITLE": "Closed, won or lost",
+        "ANY": "Any date",
+        "DAYS": "{n} days",
+        "CUSTOM": "Custom"
+      }
+    },
+    "FILTERS": {
+      "BUTTON": "Filter",
+      "SEARCH": "Search...",
+      "CHOOSE": "Choose",
+      "CONTAINS": "Contains...",
+      "MIN": "Minimum",
+      "MAX": "Maximum",
+      "FROM": "From",
+      "TO": "To",
+      "APPLY": "Apply filter",
+      "REMOVE": "Remove filter",
+      "YES": "Yes",
+      "STALE_HINT": "Only shows cards past the stage days limit.",
+      "FIELDS": {
+        "ASSIGNEE": "Owner",
+        "STATUS": "Status",
+        "LOSS_REASON": "Loss reason",
+        "STAGE": "Stage",
+        "VALUE": "Value (R$)",
+        "STALE": "Stalled in stage",
+        "CONTACT": "Contact",
+        "COMPANY": "Company",
+        "TITLE": "Title",
+        "CREATED_AT": "Created at",
+        "STAGE_ENTERED_AT": "Entered stage",
+        "EXPECTED_CLOSE_DATE": "Expected close date"
+      }
+    },
+    "LINK": {
+      "TITLE": "Link contact",
+      "DESCRIPTION": "With a linked contact, chat, metrics and conversations start working.",
+      "SEARCH": "Search existing",
+      "CREATE": "Create",
+      "SEARCH_HINT": "Search by name or phone.",
+      "NAME": "Contact name",
+      "PHONE": "Phone with area code",
+      "SUBMIT": "Link"
+    }
+  }
+}

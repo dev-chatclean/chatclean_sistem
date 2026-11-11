@@ -22,8 +22,8 @@
     "BOARD": {
       "COUNT": "{count} {item}",
       "EMPTY_STAGE": "No {item} in this stage",
-      "EMPTY_WON": "What was won in the last 30 days shows up here.",
-      "EMPTY_LOST": "What was lost in the last 30 days shows up here."
+      "EMPTY_WON": "{item} won {period} show up here.",
+      "EMPTY_LOST": "{item} lost {period} show up here."
     },
     "LEAD_ENTRY_HINT": {
       "ENABLE": "Turn on lead entry",

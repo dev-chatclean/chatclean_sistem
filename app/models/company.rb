@@ -35,6 +35,8 @@ class Company < ApplicationRecord
   validates :description, length: { maximum: Limits::COMPANY_DESCRIPTION_LENGTH_LIMIT }
   validates :custom_attributes, jsonb_attributes_length: true
 
+  include CrmDealable
+
   belongs_to :account
   has_many :contacts, dependent: :nullify
   before_validation :prepare_jsonb_attributes

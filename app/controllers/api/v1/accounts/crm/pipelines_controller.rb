@@ -18,6 +18,7 @@ class Api::V1::Accounts::Crm::PipelinesController < Api::V1::Accounts::BaseContr
 
   def destroy
     return render_could_not_create_error(I18n.t('crm.pipelines.errors.default_cannot_be_deleted')) if @pipeline.is_default?
+    return render_could_not_create_error(I18n.t('crm.pipelines.errors.has_deals')) if @pipeline.deals.exists?
 
     @pipeline.destroy!
     head :ok

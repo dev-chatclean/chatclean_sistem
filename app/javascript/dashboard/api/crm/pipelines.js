@@ -13,8 +13,10 @@ class CrmPipelinesAPI extends ApiClient {
     });
   }
 
-  deleteStage(pipelineId, stageId) {
-    return axios.delete(`${this.url}/${pipelineId}/stages/${stageId}`);
+  deleteStage(pipelineId, stageId, transferToStageId = null) {
+    return axios.delete(`${this.url}/${pipelineId}/stages/${stageId}`, {
+      data: { transfer_to_stage_id: transferToStageId },
+    });
   }
 
   updateStage(pipelineId, stageId, stage) {

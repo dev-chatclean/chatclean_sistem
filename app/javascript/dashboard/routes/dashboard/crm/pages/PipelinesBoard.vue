@@ -18,6 +18,17 @@ import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import PipelineSettingsDialog from '../components/PipelineSettingsDialog.vue';
 import AiSettingsDialog from '../components/AiSettingsDialog.vue';
 import StageDialog from '../components/StageDialog.vue';
+import Draggable from 'vuedraggable';
+import CrmDealsAPI from 'dashboard/api/crm/deals';
+import DealCard from '../components/deals/DealCard.vue';
+import DealFormDialog from '../components/deals/DealFormDialog.vue';
+import DealDetailDialog from '../components/deals/DealDetailDialog.vue';
+import CloseDealDialog from '../components/deals/CloseDealDialog.vue';
+import MoveDealDialog from '../components/deals/MoveDealDialog.vue';
+import BoardToolbar from '../components/board/BoardToolbar.vue';
+import { formatCurrency, isClosingStage } from '../dealHelpers';
+import { applyBoardFilters, defaultBoardState } from '../useBoardFilters';
+import { SERVER_CLOSED_WINDOW_DAYS } from '../constants';
 import { useItemLabel } from '../useItemLabel';
 import { CLOSING_STAGE_TYPES, UI_SETTINGS_KEYS } from '../constants';
 
@@ -44,6 +55,17 @@ const stageDialogRef = ref(null);
 const stageDeleteDialogRef = ref(null);
 const openStageMenuId = ref(null);
 const stageToDelete = ref(null);
+const deals = ref([]);
+const boardState = ref(defaultBoardState());
+const columns = ref({});
+const isMovingDeal = ref(false);
+const dealToDelete = ref(null);
+const stageTransferTarget = ref(null);
+const dealFormRef = ref(null);
+const dealDetailRef = ref(null);
+const closeDialogRef = ref(null);
+const moveDialogRef = ref(null);
+const dealDeleteDialogRef = ref(null);
 
 const isPanelCollapsed = computed(
   () => uiSettings.value[UI_SETTINGS_KEYS.PANEL_COLLAPSED] === true
@@ -153,16 +175,183 @@ const pipelineMenuItems = pipeline => [
 const settingsMenuItems = computed(() => settingsActions());
 
 const emptyStageMessage = stage => {
-  if (stage.stage_type === 'won') return t('CRM_PIPELINES.BOARD.EMPTY_WON');
-  if (stage.stage_type === 'lost') return t('CRM_PIPELINES.BOARD.EMPTY_LOST');
-  return t('CRM_PIPELINES.BOARD.EMPTY_STAGE', {
-    item: itemLabel(selectedPipeline.value, 2).toLowerCase(),
-  });
+  const item = itemLabel(selectedPipeline.value, 2).toLowerCase();
+  if (!isClosingStage(stage)) {
+    return t('CRM_PIPELINES.BOARD.EMPTY_STAGE', {
+      item: itemLabel(selectedPipeline.value, 1).toLowerCase(),
+    });
+  }
+  const period =
+    boardState.value.view === 'all'
+      ? ''
+      : t('CRM_DEALS.BOARD.PERIOD_PHRASE', {
+          n: boardState.value.closedPeriod,
+        });
+  const key =
+    stage.stage_type === 'won'
+      ? 'CRM_PIPELINES.BOARD.EMPTY_WON'
+      : 'CRM_PIPELINES.BOARD.EMPTY_LOST';
+  return t(key, { item, period }).replace(/\s+/g, ' ');
 };
 
 const showError = (error, fallbackKey) => {
   const message = parseAPIErrorResponse(error);
   useAlert(typeof message === 'string' ? message : t(fallbackKey));
+};
+
+const showValue = computed(
+  () => selectedPipeline.value?.pipeline_type !== 'management'
+);
+const visibleDeals = computed(() =>
+  applyBoardFilters(
+    deals.value,
+    boardState.value,
+    selectedPipeline.value?.stages || []
+  )
+);
+const openDeals = computed(() =>
+  visibleDeals.value.filter(deal => deal.status === 'open')
+);
+const openDealsCount = computed(() => openDeals.value.length);
+const openDealsTotal = computed(() =>
+  openDeals.value.reduce((sum, deal) => sum + deal.value, 0)
+);
+const headerSummary = computed(() => {
+  const count = t('CRM_DEALS.BOARD.SUMMARY', {
+    count: openDealsCount.value,
+    item: itemLabel(selectedPipeline.value, openDealsCount.value).toLowerCase(),
+  });
+  const value =
+    showValue.value && openDealsCount.value
+      ? formatCurrency(openDealsTotal.value)
+      : t('CRM_DEALS.BOARD.NO_DATA');
+  return t('CRM_DEALS.BOARD.SUMMARY_WITH_VALUE', { summary: count, value });
+});
+const stageTotal = stage =>
+  (columns.value[stage.id] || []).reduce((sum, deal) => sum + deal.value, 0);
+const stageSummary = stage => {
+  const count = (columns.value[stage.id] || []).length;
+  const value =
+    showValue.value && count
+      ? formatCurrency(stageTotal(stage))
+      : t('CRM_DEALS.BOARD.NO_DATA');
+  return t('CRM_DEALS.BOARD.STAGE_SUMMARY', { value, count });
+};
+const closedWindowLabel = computed(() =>
+  boardState.value.view === 'all'
+    ? t('CRM_DEALS.TOOLBAR.VIEW.ALL')
+    : t('CRM_DEALS.BOARD.LAST_DAYS', { n: boardState.value.closedPeriod })
+);
+const needsAllDeals = computed(
+  () =>
+    boardState.value.view === 'all' ||
+    boardState.value.closedPeriod > SERVER_CLOSED_WINDOW_DAYS
+);
+
+const rebuildColumns = () => {
+  const grouped = {};
+  (selectedPipeline.value?.stages || []).forEach(stage => {
+    grouped[stage.id] = [];
+  });
+  visibleDeals.value.forEach(deal => {
+    if (grouped[deal.stage_id]) grouped[deal.stage_id].push(deal);
+  });
+  columns.value = grouped;
+};
+
+const fetchDeals = async () => {
+  if (!selectedPipeline.value) return;
+  try {
+    const { data } = await CrmDealsAPI.list(
+      selectedPipeline.value.id,
+      needsAllDeals.value ? 'all' : 'open'
+    );
+    deals.value = data.payload;
+    selectedPipeline.value.open_deals_count = data.payload.filter(
+      deal => deal.status === 'open'
+    ).length;
+  } catch (error) {
+    deals.value = [];
+    useAlert(t('CRM_DEALS.API.FETCH_ERROR'));
+  } finally {
+    rebuildColumns();
+  }
+};
+
+const moveDeal = async (deal, changes) => {
+  isMovingDeal.value = true;
+  try {
+    await CrmDealsAPI.update(deal.id, { deal: changes });
+    return true;
+  } catch (error) {
+    const message = parseAPIErrorResponse(error);
+    useAlert(
+      typeof message === 'string' ? message : t('CRM_PIPELINES.API.SAVE_ERROR')
+    );
+    return false;
+  } finally {
+    isMovingDeal.value = false;
+    await fetchDeals();
+    dealDetailRef.value?.reload();
+  }
+};
+
+const onColumnChange = (stage, event) => {
+  if (!event.added) return;
+  const deal = event.added.element;
+  if (isClosingStage(stage)) {
+    closeDialogRef.value?.open({ deal, stage });
+    return;
+  }
+  moveDeal(deal, { stage_id: stage.id });
+};
+
+const confirmCloseDeal = async ({ deal, stage, ...reason }) => {
+  const moved = await moveDeal(deal, { stage_id: stage.id, ...reason });
+  if (moved) closeDialogRef.value?.close();
+};
+
+const onMoveDialog = ({ deal, stageId }) => {
+  const stage = selectedPipeline.value.stages.find(item => item.id === stageId);
+  moveDialogRef.value?.close();
+  if (isClosingStage(stage)) {
+    closeDialogRef.value?.open({ deal, stage });
+    return;
+  }
+  moveDeal(deal, { stage_id: stageId });
+};
+
+const openNewDeal = stageId => dealFormRef.value?.open({ stageId });
+const openDeal = deal => dealDetailRef.value?.open(deal);
+
+const onDealCreated = async deal => {
+  await fetchDeals();
+  openDeal(deal);
+};
+
+const askDealDelete = deal => {
+  dealToDelete.value = deal;
+  dealDeleteDialogRef.value?.open();
+};
+
+const confirmDealDelete = async () => {
+  isMovingDeal.value = true;
+  try {
+    await CrmDealsAPI.delete(dealToDelete.value.id);
+    useAlert(t('CRM_DEALS.API.DELETE_SUCCESS'));
+    dealDeleteDialogRef.value?.close();
+    dealDetailRef.value?.close();
+    await fetchDeals();
+  } catch (error) {
+    const message = parseAPIErrorResponse(error);
+    useAlert(
+      typeof message === 'string'
+        ? message
+        : t('CRM_PIPELINES.API.DELETE_ERROR')
+    );
+  } finally {
+    isMovingDeal.value = false;
+  }
 };
 
 const fetchSettings = async () => {
@@ -257,6 +446,7 @@ const openStageDialog = ({
 
 const askStageDelete = stage => {
   stageToDelete.value = stage;
+  stageTransferTarget.value = null;
   stageDeleteDialogRef.value?.open();
 };
 
@@ -289,7 +479,8 @@ const confirmStageDelete = async () => {
   try {
     await CrmPipelinesAPI.deleteStage(
       selectedPipeline.value.id,
-      stageToDelete.value.id
+      stageToDelete.value.id,
+      stageTransferTarget.value
     );
     useAlert(t('CRM_PIPELINES.STAGE.API.DELETE_SUCCESS'));
     stageDeleteDialogRef.value?.close();
@@ -366,8 +557,29 @@ watch(
   }
 );
 
+watch(
+  () => selectedPipeline.value?.id,
+  () => {
+    boardState.value = defaultBoardState();
+    fetchDeals();
+  }
+);
+watch(() => selectedPipeline.value?.stages, rebuildColumns);
+watch(visibleDeals, rebuildColumns);
+watch(needsAllDeals, fetchDeals);
+
+const stageDealsCount = computed(
+  () => (columns.value[stageToDelete.value?.id] || []).length
+);
+const transferOptions = computed(() =>
+  (selectedPipeline.value?.stages || []).filter(
+    stage => !isClosingStage(stage) && stage.id !== stageToDelete.value?.id
+  )
+);
+
 onMounted(() => {
-  if (isAdmin.value) store.dispatch('labels/get');
+  store.dispatch('labels/get');
+  if (isAdmin.value) store.dispatch('agents/get');
   return Promise.all([fetchPipelines(), fetchSettings()]);
 });
 </script>
@@ -448,6 +660,9 @@ onMounted(() => {
               >
                 <span class="i-lucide-funnel size-4 shrink-0" />
                 <span class="text-sm truncate">{{ pipeline.name }}</span>
+                <span class="text-label-small text-n-slate-10 shrink-0">
+                  {{ pipeline.open_deals_count }}
+                </span>
                 <span
                   v-if="pipeline.is_default"
                   class="px-1.5 rounded text-label-small bg-n-brand/10 text-n-blue-11 shrink-0"
@@ -502,8 +717,8 @@ onMounted(() => {
       </aside>
 
       <main v-if="selectedPipeline" class="flex flex-col flex-1 min-w-0 h-full">
-        <header class="flex items-center gap-2 px-6 py-5">
-          <h2 class="text-heading-1 text-n-slate-12 truncate">
+        <header class="flex items-center gap-2 px-6 pt-5 pb-4">
+          <h2 class="text-2xl font-bold text-n-slate-12 truncate">
             {{ selectedPipeline.name }}
           </h2>
           <span
@@ -532,52 +747,79 @@ onMounted(() => {
               @action="handlePipelineAction(selectedPipeline, $event)"
             />
           </div>
-          <div
-            v-if="showLeadEntryHint"
-            class="flex items-center gap-3 ms-auto text-sm"
-          >
+          <div class="flex items-center gap-3 ms-auto text-sm">
+            <template v-if="showLeadEntryHint">
+              <button
+                type="button"
+                class="text-n-blue-11 hover:underline"
+                :title="t('CRM_PIPELINES.LEAD_ENTRY_HINT.TOOLTIP')"
+                @click="settingsDialogRef?.open(selectedPipeline, 'lead_entry')"
+              >
+                {{ t('CRM_PIPELINES.LEAD_ENTRY_HINT.ENABLE') }}
+              </button>
+              <button
+                type="button"
+                class="text-n-slate-11 hover:text-n-slate-12"
+                @click="dismissLeadEntryHint"
+              >
+                {{ t('CRM_PIPELINES.LEAD_ENTRY_HINT.DISMISS') }}
+              </button>
+            </template>
             <button
               type="button"
-              class="text-n-blue-11 hover:underline"
-              :title="t('CRM_PIPELINES.LEAD_ENTRY_HINT.TOOLTIP')"
-              @click="settingsDialogRef?.open(selectedPipeline, 'lead_entry')"
+              class="flex items-center gap-1.5 h-9 px-4 text-sm font-medium text-white rounded-xl bg-n-brand hover:bg-n-brand/90"
+              @click="openNewDeal()"
             >
-              {{ t('CRM_PIPELINES.LEAD_ENTRY_HINT.ENABLE') }}
-            </button>
-            <button
-              type="button"
-              class="text-n-slate-11 hover:text-n-slate-12"
-              @click="dismissLeadEntryHint"
-            >
-              {{ t('CRM_PIPELINES.LEAD_ENTRY_HINT.DISMISS') }}
+              <span class="i-lucide-plus size-4" />
+              {{ t('CRM_DEALS.NEW', { item: itemLabel(selectedPipeline, 1) }) }}
             </button>
           </div>
         </header>
 
-        <div class="flex flex-1 min-h-0 gap-3 px-6 pb-6 overflow-x-auto">
+        <div class="px-6 py-3 border-y border-n-weak">
+          <BoardToolbar
+            v-model="boardState"
+            :stages="selectedPipeline.stages"
+            :summary="headerSummary"
+          />
+        </div>
+
+        <div class="flex flex-1 min-h-0 gap-3.5 px-6 py-4 overflow-x-auto">
           <div
             v-for="stage in selectedPipeline.stages"
             :key="stage.id"
-            class="flex flex-col w-72 shrink-0"
+            class="flex flex-col w-[17rem] shrink-0"
           >
             <div
               class="h-0.5 mb-3 rounded-full"
               :style="{ backgroundColor: stage.color }"
             />
-            <div class="flex items-center gap-1.5 mb-1 group/stage min-h-7">
+            <div class="flex items-center gap-1.5 group/stage min-h-7">
               <span
                 v-if="CLOSING_STAGE_TYPES.includes(stage.stage_type)"
-                class="size-4"
+                class="size-4 shrink-0"
                 :class="
                   stage.stage_type === 'won'
-                    ? 'i-lucide-trophy text-n-teal-11'
+                    ? 'i-lucide-hourglass text-n-teal-11'
                     : 'i-lucide-circle-x text-n-ruby-11'
                 "
               />
-              <span class="text-heading-3 text-n-slate-12 truncate">
+              <span class="text-sm font-medium text-n-slate-12 truncate">
                 {{ stage.name }}
               </span>
-              <div v-if="isAdmin" class="flex items-center gap-1 ms-auto">
+              <span
+                v-if="CLOSING_STAGE_TYPES.includes(stage.stage_type)"
+                class="ms-auto text-label-small text-n-slate-11 shrink-0"
+              >
+                {{ closedWindowLabel }}
+              </span>
+              <div
+                v-if="isAdmin"
+                class="flex items-center gap-0.5 shrink-0"
+                :class="{
+                  'ms-auto': !CLOSING_STAGE_TYPES.includes(stage.stage_type),
+                }"
+              >
                 <Button
                   v-if="!CLOSING_STAGE_TYPES.includes(stage.stage_type)"
                   v-tooltip.top="t('CRM_PIPELINES.STAGE.ADD_AFTER')"
@@ -618,20 +860,48 @@ onMounted(() => {
                 </div>
               </div>
             </div>
-            <span class="mb-3 text-label-small text-n-slate-11">
-              {{
-                t('CRM_PIPELINES.BOARD.COUNT', {
-                  count: 0,
-                  item: itemLabel(selectedPipeline, 0).toLowerCase(),
-                })
-              }}
+            <span class="mb-3 text-xs font-medium text-n-slate-11">
+              {{ stageSummary(stage) }}
             </span>
             <div
-              class="flex items-center justify-center flex-1 px-6 text-center border rounded-xl border-n-weak bg-n-solid-1"
+              class="relative flex flex-col flex-1 min-h-0 border rounded-2xl border-n-weak bg-n-solid-1"
             >
-              <span class="text-body-main text-n-slate-11">
+              <Draggable
+                :list="columns[stage.id] || []"
+                group="deals"
+                item-key="id"
+                class="flex flex-col flex-1 gap-2 p-2 overflow-y-auto"
+                ghost-class="opacity-40"
+                @change="onColumnChange(stage, $event)"
+              >
+                <template #item="{ element }">
+                  <DealCard
+                    :deal="element"
+                    :stage="stage"
+                    :pipeline="selectedPipeline"
+                    :show-value="showValue"
+                    @open="openDeal"
+                    @move="moveDialogRef?.open($event)"
+                  />
+                </template>
+              </Draggable>
+              <span
+                v-if="!(columns[stage.id] || []).length"
+                class="absolute inset-0 flex items-center justify-center px-6 text-sm text-center pointer-events-none text-n-slate-10"
+              >
                 {{ emptyStageMessage(stage) }}
               </span>
+              <button
+                v-if="!CLOSING_STAGE_TYPES.includes(stage.stage_type)"
+                type="button"
+                class="flex items-center justify-center gap-1.5 py-3 text-sm border-t border-n-weak text-n-slate-11 hover:text-n-slate-12 hover:bg-n-alpha-1 rounded-b-2xl"
+                @click="openNewDeal(stage.id)"
+              >
+                <span class="i-lucide-plus size-4" />
+                {{
+                  t('CRM_DEALS.NEW', { item: itemLabel(selectedPipeline, 1) })
+                }}
+              </button>
             </div>
           </div>
         </div>
@@ -669,6 +939,46 @@ onMounted(() => {
       @saved="onPipelineSaved"
     />
     <AiSettingsDialog ref="aiDialogRef" />
+    <DealFormDialog
+      ref="dealFormRef"
+      :pipeline="selectedPipeline"
+      :item-label="itemLabel(selectedPipeline, 1)"
+      @created="onDealCreated"
+    />
+    <DealDetailDialog
+      ref="dealDetailRef"
+      :pipeline="selectedPipeline"
+      @changed="fetchDeals"
+      @close-request="closeDialogRef?.open($event)"
+      @move="moveDialogRef?.open($event)"
+      @delete="askDealDelete"
+    />
+    <CloseDealDialog
+      ref="closeDialogRef"
+      :is-loading="isMovingDeal"
+      @confirm="confirmCloseDeal"
+      @cancel="rebuildColumns"
+    />
+    <MoveDealDialog
+      ref="moveDialogRef"
+      :pipeline="selectedPipeline"
+      @move="onMoveDialog"
+    />
+    <Dialog
+      ref="dealDeleteDialogRef"
+      type="alert"
+      :title="t('CRM_DEALS.DELETE.TITLE')"
+      :description="
+        t('CRM_DEALS.DELETE.MESSAGE', {
+          number: dealToDelete?.number,
+          name: dealToDelete?.display_name,
+        })
+      "
+      :confirm-button-label="t('CRM_PIPELINES.DELETE_CONFIRM.YES')"
+      :cancel-button-label="t('CRM_PIPELINES.DELETE_CONFIRM.NO')"
+      :is-loading="isMovingDeal"
+      @confirm="confirmDealDelete"
+    />
     <StageDialog
       ref="stageDialogRef"
       @saved="fetchPipelines"
@@ -685,9 +995,31 @@ onMounted(() => {
       "
       :confirm-button-label="t('CRM_PIPELINES.DELETE_CONFIRM.YES')"
       :cancel-button-label="t('CRM_PIPELINES.DELETE_CONFIRM.NO')"
+      :disable-confirm-button="stageDealsCount > 0 && !stageTransferTarget"
       :is-loading="isSaving"
       @confirm="confirmStageDelete"
-    />
+    >
+      <label v-if="stageDealsCount > 0" class="flex flex-col gap-1.5">
+        <span class="text-sm text-n-slate-12">
+          {{ t('CRM_DEALS.STAGE_DELETE.TRANSFER', { count: stageDealsCount }) }}
+        </span>
+        <select
+          v-model="stageTransferTarget"
+          class="reset-base h-10 px-3 text-sm rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12"
+        >
+          <option :value="null" disabled>
+            {{ t('CRM_DEALS.MOVE.CHOOSE') }}
+          </option>
+          <option
+            v-for="stage in transferOptions"
+            :key="stage.id"
+            :value="stage.id"
+          >
+            {{ stage.name }}
+          </option>
+        </select>
+      </label>
+    </Dialog>
     <Dialog
       ref="deleteDialogRef"
       type="alert"

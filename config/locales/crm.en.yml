@@ -2,6 +2,7 @@ en:
   crm:
     stages:
       errors:
+        transfer_required: This stage has %{count} deal(s). Choose another stage to receive them.
         duplicate_name: There is already a stage called %{name} in this pipeline.
         system_stage_delete: System stages (New contact, Won and Lost) are required and cannot be deleted.
         invalid_transfer_stage: Choose another open stage of this pipeline to receive the deals.
@@ -12,9 +13,23 @@ en:
         lost: Lost
     pipelines:
       errors:
+        has_deals: This pipeline has deals. Move or delete them before deleting the pipeline.
         invalid_card_fields: Choose at most %{max} valid card items.
         default_cannot_be_unset: The default pipeline cannot be turned off. Set another pipeline as the default instead.
         default_cannot_be_deleted: The default pipeline cannot be deleted. Set another pipeline as the default before deleting it.
+    deals:
+      requirements:
+        expected_close_date: expected close date
+        positive_value: value above zero
+      errors:
+        title_required: Add a title when the deal has no contact or company.
+        loss_reason_required: Choose the reason the deal was lost.
+        invalid_win_reason: Choose a valid win reason.
+        invalid_stage: Choose a stage of this account.
+        invalid_contact: The contact does not belong to this account.
+        invalid_company: The company does not belong to this account.
+        invalid_assignee: The owner must be a member of this account.
+        stage_requirements: 'The stage %{stage} requires: %{fields}.'
     settings:
       errors:
         ai_requires_monthly_cap: Set a monthly spending cap above zero to turn on the pipeline AI.
