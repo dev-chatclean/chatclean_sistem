@@ -63,7 +63,7 @@
       "CONTACT": "Contact",
       "OPTIONAL": "optional",
       "DEAL_TITLE": "Title",
-      "TITLE_REQUIRED": "required without a contact",
+      "TITLE_REQUIRED": "required without contact or company",
       "TITLE_PLACEHOLDER": "E.g. Annual contract",
       "VALUE": "Value (R$)",
       "STAGE": "Stage",
@@ -119,7 +119,6 @@
         "ACTIVITY_COMPLETED": "{user} completed the activity “{activity}”"
       },
       "RANGE": "{from} → {to}",
-      "NO_COMPANY": "No company",
       "NO_LABELS": "No labels",
       "ADD_LABEL": "Add label",
       "LABELS_NEED_CONTACT": "Link a contact to use labels",
@@ -133,7 +132,7 @@
       "UPCOMING": {
         "FILES": "This deal's files arrive in a later part."
       },
-      "DEALS_NEED_CONTACT": "Link a contact or a company to see the other deals.",
+      "DEALS_NEED_CONTACT": "Link a contact or a company to see their other deals.",
       "NO_OTHER_DEALS": "This contact has no other deals.",
       "NO_CONTACT_TITLE": "No contact on this deal",
       "NO_CONTACT_CONVERSATIONS": "Link a contact to see and open conversations.",
@@ -219,7 +218,8 @@
         "LABEL": "Label",
         "LEAD_ORIGIN": "Lead origin",
         "CHANNEL": "Channel",
-        "ACTIVITIES": "Activities"
+        "ACTIVITIES": "Activities",
+        "PRODUCT": "Product"
       },
       "NO_OPTIONS": "Nothing to choose here yet.",
       "ACTIVITIES": {
@@ -320,6 +320,61 @@
       "ARCHIVED": "Contact archived",
       "UNARCHIVED": "Contact unarchived",
       "ERROR": "Could not change the contact. Try again."
+    },
+    "COMPANY": {
+      "LABEL": "Company",
+      "SEARCH_PLACEHOLDER": "Search company",
+      "REMOVE": "Remove company",
+      "NO_RESULTS": "No company found"
+    },
+    "PRODUCTS": {
+      "ADD": "Add product",
+      "QUANTITY": "Quantity",
+      "UNIT_PRICE": "Unit price",
+      "REMOVE": "Remove product",
+      "TOTAL": "Products total",
+      "VALUE_FROM_PRODUCTS": "Sum of the products"
+    }
+  },
+  "CRM_PRODUCTS": {
+    "HEADER": "Products",
+    "DESCRIPTION": "What the company sells. Deals use this list for products and value.",
+    "SEARCH_PLACEHOLDER": "Search products",
+    "COUNT": "{n} products",
+    "NEW": "New product",
+    "EDIT": "Edit",
+    "DELETE": "Delete product",
+    "DELETE_CONFIRM": "Delete the product “{name}”? This cannot be undone.",
+    "LOADING": "Loading products",
+    "EMPTY": "No products yet. Add what the company sells.",
+    "NO_RESULTS": "No products match the search.",
+    "ACTIVE": "Active",
+    "INACTIVE": "Off",
+    "TABLE": {
+      "NAME": "Name",
+      "PRICE": "Price",
+      "STATUS": "Status",
+      "ACTIONS": "Actions"
+    },
+    "FORM": {
+      "NEW": "New product",
+      "EDIT": "Edit product",
+      "SAVE": "Save",
+      "CANCEL": "Cancel",
+      "NAME": "Name",
+      "NAME_PLACEHOLDER": "E.g. Monthly plan",
+      "DESCRIPTION": "Description (optional)",
+      "DESCRIPTION_PLACEHOLDER": "What it includes",
+      "PRICE": "Price (R$)",
+      "SKU": "Product code (optional)",
+      "SKU_PLACEHOLDER": "E.g. PLAN-01",
+      "ACTIVE": "Active: can be added to deals"
+    },
+    "API": {
+      "SAVE_SUCCESS": "Product saved",
+      "SAVE_ERROR": "Could not save the product. Try again.",
+      "DELETE_SUCCESS": "Product deleted",
+      "FETCH_ERROR": "Could not load the products."
     }
   }
 }

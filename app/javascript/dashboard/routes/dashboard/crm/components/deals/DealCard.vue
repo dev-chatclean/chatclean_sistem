@@ -28,6 +28,21 @@ const nextActivityOverdue = computed(
   () => nextActivity.value && nextActivity.value.due_at * 1000 < Date.now()
 );
 
+const showsField = field => props.pipeline?.card_fields?.includes(field);
+const productNames = computed(() =>
+  props.deal.products.map(item => item.name).join(', ')
+);
+const originText = computed(() => {
+  const { lead_origin: origin, conversation } = props.deal;
+  if (origin)
+    return t(`CRM_PIPELINES.LEAD_ENTRY.OPTIONS.${origin.toUpperCase()}`);
+  return conversation?.inbox_name || '';
+});
+const MAX_CARD_LABELS = 3;
+const cardLabels = computed(() =>
+  (props.deal.contact?.labels || []).slice(0, MAX_CARD_LABELS)
+);
+
 const showExpectedClose = computed(
   () =>
     props.deal.expected_close_date &&
@@ -115,6 +130,32 @@ const staleClass = computed(
       </span>
       <span v-if="nextActivityOverdue" class="font-medium shrink-0">
         · {{ t('CRM_DEALS.CARD.NEXT_ACTIVITY_OVERDUE') }}
+      </span>
+    </span>
+    <span
+      v-if="showsField('products') && deal.products.length"
+      class="flex items-center gap-1 min-w-0 text-label-small text-n-slate-11"
+    >
+      <span class="i-lucide-package size-3.5 shrink-0" />
+      <span class="truncate">{{ productNames }}</span>
+    </span>
+    <span
+      v-if="showsField('origin') && originText"
+      class="flex items-center gap-1 text-label-small text-n-slate-11"
+    >
+      <span class="i-lucide-radar size-3.5 shrink-0" />
+      {{ originText }}
+    </span>
+    <span
+      v-if="showsField('contact_labels') && cardLabels.length"
+      class="flex flex-wrap gap-1"
+    >
+      <span
+        v-for="label in cardLabels"
+        :key="label"
+        class="px-1.5 py-0.5 rounded-md text-label-small bg-n-alpha-2 text-n-slate-11"
+      >
+        {{ label }}
       </span>
     </span>
     <span

@@ -11,6 +11,7 @@ import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.v
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import StagePill from './detail/StagePill.vue';
 import LinkContactCard from './detail/LinkContactCard.vue';
+import CompanyPicker from './CompanyPicker.vue';
 import ContactLabels from './detail/ContactLabels.vue';
 import DealInfoTab from './detail/DealInfoTab.vue';
 import DealHistoryTab from './detail/DealHistoryTab.vue';
@@ -256,10 +257,15 @@ defineExpose({ open, reload, close });
         <aside
           class="flex flex-col gap-6 p-7 overflow-y-auto border-e border-n-weak"
         >
-          <span class="flex items-center gap-2 text-base text-n-slate-11">
-            <span class="i-lucide-building-2 size-4" />
-            {{ deal.company?.name || t('CRM_DEALS.DETAIL.NO_COMPANY') }}
-          </span>
+          <div class="flex flex-col gap-2">
+            <span class="text-sm font-medium text-n-slate-11">
+              {{ t('CRM_DEALS.COMPANY.LABEL') }}
+            </span>
+            <CompanyPicker
+              :model-value="deal.company"
+              @update:model-value="update({ company_id: $event?.id || null })"
+            />
+          </div>
           <LinkContactCard
             :contact="deal.contact"
             @link="update({ contact_id: $event.id })"

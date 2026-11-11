@@ -9,6 +9,8 @@ import CrmDealsAPI from 'dashboard/api/crm/deals';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import ContactPicker from './ContactPicker.vue';
+import CompanyPicker from './CompanyPicker.vue';
+import ProductsEditor from './ProductsEditor.vue';
 import { isClosingStage } from '../../dealHelpers';
 
 const props = defineProps({
@@ -28,6 +30,8 @@ const agents = useMapGetter('agents/getAgents');
 const dialogRef = ref(null);
 const isSaving = ref(false);
 const contact = ref(null);
+const company = ref(null);
+const products = ref([]);
 const form = ref({});
 
 const openStages = computed(() =>
@@ -36,7 +40,10 @@ const openStages = computed(() =>
 const showValue = computed(
   () => props.pipeline?.pipeline_type !== 'management'
 );
-const titleRequired = computed(() => !contact.value);
+const titleRequired = computed(() => !contact.value && !company.value);
+const productsTotal = computed(() =>
+  products.value.reduce((sum, item) => sum + item.quantity * item.unit_price, 0)
+);
 const isInvalid = computed(
   () =>
     !form.value.stage_id ||
@@ -47,6 +54,8 @@ const isInvalid = computed(
 
 const open = ({ stageId = null, contact: initialContact = null } = {}) => {
   contact.value = initialContact;
+  company.value = null;
+  products.value = [];
   form.value = {
     title: '',
     value: '',
@@ -57,6 +66,21 @@ const open = ({ stageId = null, contact: initialContact = null } = {}) => {
   dialogRef.value?.open();
 };
 
+const addProduct = product => {
+  products.value.push({
+    product_id: product.id,
+    name: product.name,
+    quantity: 1,
+    unit_price: product.price,
+  });
+};
+
+const changeProduct = (item, changes) => Object.assign(item, changes);
+
+const removeProduct = item => {
+  products.value = products.value.filter(entry => entry !== item);
+};
+
 const save = async () => {
   if (isSaving.value || isInvalid.value) return;
   isSaving.value = true;
@@ -65,8 +89,14 @@ const save = async () => {
       deal: {
         stage_id: form.value.stage_id,
         contact_id: contact.value?.id || null,
+        company_id: company.value?.id || null,
         title: form.value.title.trim() || null,
         value: Number(form.value.value) || 0,
+        deal_products_attributes: products.value.map(item => ({
+          product_id: item.product_id,
+          quantity: item.quantity,
+          unit_price: item.unit_price,
+        })),
         expected_close_date: form.value.expected_close_date || null,
         assignee_id: form.value.assignee_id,
       },
@@ -114,6 +144,18 @@ defineExpose({ open });
       <div class="flex flex-col gap-1.5">
         <div class="flex items-center justify-between">
           <span class="text-label text-n-slate-12">
+            {{ t('CRM_DEALS.COMPANY.LABEL') }}
+          </span>
+          <span class="text-label-small text-n-slate-10">
+            {{ t('CRM_DEALS.FORM.OPTIONAL') }}
+          </span>
+        </div>
+        <CompanyPicker v-model="company" />
+      </div>
+
+      <div class="flex flex-col gap-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-label text-n-slate-12">
             {{ t('CRM_DEALS.FORM.DEAL_TITLE') }}
           </span>
           <span
@@ -136,11 +178,13 @@ defineExpose({ open });
       <div class="grid grid-cols-2 gap-3">
         <Input
           v-if="showValue"
-          v-model="form.value"
+          :model-value="products.length ? String(productsTotal) : form.value"
           type="number"
           min="0"
+          :disabled="products.length > 0"
           :label="t('CRM_DEALS.FORM.VALUE')"
           placeholder="0,00"
+          @update:model-value="form.value = $event"
         />
         <label
           class="flex flex-col gap-1.5"
@@ -169,6 +213,18 @@ defineExpose({ open });
         type="date"
         :label="t('CRM_DEALS.FORM.EXPECTED_CLOSE_DATE')"
       />
+
+      <div class="flex flex-col gap-1.5">
+        <span class="text-label text-n-slate-12">
+          {{ t('CRM_DEALS.DETAIL.PRODUCTS') }}
+        </span>
+        <ProductsEditor
+          :items="products"
+          @add="addProduct"
+          @change="changeProduct"
+          @remove="removeProduct"
+        />
+      </div>
 
       <label class="flex flex-col gap-1.5">
         <span class="text-label text-n-slate-12">

@@ -19,6 +19,14 @@ json.created_at deal.created_at.to_i
 json.lead_origin deal.lead_origin
 json.lead_source deal.lead_source
 json.pending_activities_count deal.pending_activities.size
+json.products deal.deal_products do |item|
+  json.id item.id
+  json.product_id item.product_id
+  json.name item.product.name
+  json.quantity item.quantity
+  json.unit_price item.unit_price.to_f
+  json.total item.total.to_f
+end
 json.next_activity do
   next_activity = deal.pending_activities.first
   if next_activity

@@ -63,7 +63,7 @@
       "CONTACT": "Contato",
       "OPTIONAL": "opcional",
       "DEAL_TITLE": "Título",
-      "TITLE_REQUIRED": "obrigatório sem contato",
+      "TITLE_REQUIRED": "obrigatório sem contato nem empresa",
       "TITLE_PLACEHOLDER": "Ex.: Contrato anual",
       "VALUE": "Valor (R$)",
       "STAGE": "Etapa",
@@ -119,7 +119,6 @@
         "ACTIVITY_COMPLETED": "{user} concluiu a atividade “{activity}”"
       },
       "RANGE": "{from} → {to}",
-      "NO_COMPANY": "Sem empresa",
       "NO_LABELS": "Sem etiquetas",
       "ADD_LABEL": "Adicionar etiqueta",
       "LABELS_NEED_CONTACT": "Vincule um contato para usar etiquetas",
@@ -219,7 +218,8 @@
         "LABEL": "Etiqueta",
         "LEAD_ORIGIN": "Origem do lead",
         "CHANNEL": "Canal",
-        "ACTIVITIES": "Atividades"
+        "ACTIVITIES": "Atividades",
+        "PRODUCT": "Produto"
       },
       "NO_OPTIONS": "Ainda não há opções para escolher.",
       "ACTIVITIES": {
@@ -320,6 +320,61 @@
       "ARCHIVED": "Contato arquivado",
       "UNARCHIVED": "Contato desarquivado",
       "ERROR": "Não foi possível alterar o contato. Tente de novo."
+    },
+    "COMPANY": {
+      "LABEL": "Empresa",
+      "SEARCH_PLACEHOLDER": "Buscar empresa",
+      "REMOVE": "Remover empresa",
+      "NO_RESULTS": "Nenhuma empresa encontrada"
+    },
+    "PRODUCTS": {
+      "ADD": "Adicionar produto",
+      "QUANTITY": "Quantidade",
+      "UNIT_PRICE": "Preço unitário",
+      "REMOVE": "Remover produto",
+      "TOTAL": "Total dos produtos",
+      "VALUE_FROM_PRODUCTS": "Soma dos produtos"
+    }
+  },
+  "CRM_PRODUCTS": {
+    "HEADER": "Produtos",
+    "DESCRIPTION": "O que a empresa vende. Os negócios usam esta lista nos produtos e no valor.",
+    "SEARCH_PLACEHOLDER": "Buscar produtos",
+    "COUNT": "{n} produtos",
+    "NEW": "Novo produto",
+    "EDIT": "Editar",
+    "DELETE": "Excluir produto",
+    "DELETE_CONFIRM": "Excluir o produto “{name}”? Isso não pode ser desfeito.",
+    "LOADING": "Carregando produtos",
+    "EMPTY": "Nenhum produto ainda. Cadastre o que a empresa vende.",
+    "NO_RESULTS": "Nenhum produto corresponde à busca.",
+    "ACTIVE": "Ativo",
+    "INACTIVE": "Desativado",
+    "TABLE": {
+      "NAME": "Nome",
+      "PRICE": "Preço",
+      "STATUS": "Situação",
+      "ACTIONS": "Ações"
+    },
+    "FORM": {
+      "NEW": "Novo produto",
+      "EDIT": "Editar produto",
+      "SAVE": "Salvar",
+      "CANCEL": "Cancelar",
+      "NAME": "Nome",
+      "NAME_PLACEHOLDER": "Ex.: Plano mensal",
+      "DESCRIPTION": "Descrição (opcional)",
+      "DESCRIPTION_PLACEHOLDER": "O que vem incluído",
+      "PRICE": "Preço (R$)",
+      "SKU": "Código do produto (opcional)",
+      "SKU_PLACEHOLDER": "Ex.: PLANO-01",
+      "ACTIVE": "Ativo: pode ser adicionado aos negócios"
+    },
+    "API": {
+      "SAVE_SUCCESS": "Produto salvo",
+      "SAVE_ERROR": "Não foi possível salvar o produto. Tente de novo.",
+      "DELETE_SUCCESS": "Produto excluído",
+      "FETCH_ERROR": "Não foi possível carregar os produtos."
     }
   }
 }

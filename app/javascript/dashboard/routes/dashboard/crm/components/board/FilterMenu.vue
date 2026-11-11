@@ -1,5 +1,6 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
+import CrmProductsAPI from 'dashboard/api/crm/products';
 import { useI18n } from 'vue-i18n';
 import { vOnClickOutside } from '@vueuse/components';
 import { useMapGetter } from 'dashboard/composables/store';
@@ -26,6 +27,13 @@ const isOpen = ref(false);
 const query = ref('');
 const field = ref(null);
 const draft = ref(null);
+const products = ref([]);
+
+watch(isOpen, async open => {
+  if (!open || products.value.length) return;
+  const { data } = await CrmProductsAPI.get();
+  products.value = data.payload;
+});
 
 const fieldLabel = key => t(`CRM_DEALS.FILTERS.FIELDS.${key.toUpperCase()}`);
 
@@ -58,6 +66,12 @@ const options = computed(() => {
   }
   if (field.value.type === 'inbox') {
     return inboxes.value.map(inbox => ({ value: inbox.id, label: inbox.name }));
+  }
+  if (field.value.type === 'product') {
+    return products.value.map(product => ({
+      value: product.id,
+      label: product.name,
+    }));
   }
   if (field.value.type === 'activity') {
     return ACTIVITY_FILTERS.map(value => ({
