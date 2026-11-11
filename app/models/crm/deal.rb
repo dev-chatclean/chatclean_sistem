@@ -26,7 +26,6 @@ class Crm::Deal < ApplicationRecord
   validate :close_reason_allowed
   validate :references_belong_to_account
   validate :stage_requirements_met, if: :checks_stage_requirements?
-  validate :required_tasks_completed, if: -> { persisted? && will_save_change_to_stage_id? && !stage&.lost? }
 
   before_validation :sync_with_stage
   before_create :assign_number
@@ -130,14 +129,6 @@ class Crm::Deal < ApplicationRecord
 
   def apply_stage_labels
     contact.add_labels(stage.requirements['apply_labels'])
-  end
-
-  # Losing a deal is always allowed; any other move waits for the tasks the current stage requires.
-  def required_tasks_completed
-    titles = pending_activities.where(required_by_stage_id: stage_id_in_database).pluck(:title)
-    return if titles.empty?
-
-    errors.add(:base, I18n.t('crm.deals.errors.required_tasks_pending', tasks: titles.to_sentence))
   end
 
   def create_required_tasks
