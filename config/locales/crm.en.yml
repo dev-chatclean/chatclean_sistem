@@ -36,8 +36,8 @@ en:
     contacts:
       errors:
         has_deals:
-          one: This contact has 1 deal and cannot be deleted.
-          other: This contact has %{count} deals and cannot be deleted.
+          one: This contact has 1 deal and cannot be deleted. Archive it instead.
+          other: This contact has %{count} deals and cannot be deleted. Archive it instead.
         bulk_has_deals:
           one: 1 of the selected contacts has deals and cannot be deleted. Remove it from the selection.
           other: '%{count} of the selected contacts have deals and cannot be deleted. Remove them from the selection.'

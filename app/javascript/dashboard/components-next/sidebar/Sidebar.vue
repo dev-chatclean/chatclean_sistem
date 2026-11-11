@@ -623,6 +623,12 @@ const menuItems = computed(() => {
           activeOn: ['contacts_dashboard_active'],
         },
         {
+          name: 'Archived',
+          label: t('SIDEBAR.ARCHIVED_CONTACTS'),
+          to: accountScopedRoute('contacts_dashboard_archived'),
+          activeOn: ['contacts_dashboard_archived'],
+        },
+        {
           name: 'Segments',
           icon: 'i-lucide-group',
           label: t('SIDEBAR.CUSTOM_VIEWS_SEGMENTS'),

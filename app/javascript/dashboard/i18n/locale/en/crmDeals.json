@@ -306,6 +306,20 @@
       "NEW": "New deal",
       "PIPELINE": "Pipeline",
       "EMPTY": "This contact has no deals yet."
+    },
+    "ARCHIVE": {
+      "TITLE": "Archive contact",
+      "BADGE": "Archived",
+      "DESCRIPTION": "Hide this contact from the contact list and searches. Their deals stay and keep counting in reports.",
+      "ARCHIVED_DESCRIPTION": "This contact is hidden from the list and searches. It comes back on its own when the contact sends a message.",
+      "ARCHIVE": "Archive contact",
+      "UNARCHIVE": "Unarchive contact",
+      "CONFIRM_TITLE": "Archive this contact?",
+      "CONFIRM": "The contact leaves the list and searches. You can find it under Contacts → Archived.",
+      "CONFIRM_OPEN_DEALS": "This contact has {count} open deal. Archive anyway and keep the deal? | This contact has {count} open deals. Archive anyway and keep the deals?",
+      "ARCHIVED": "Contact archived",
+      "UNARCHIVED": "Contact unarchived",
+      "ERROR": "Could not change the contact. Try again."
     }
   }
 }
