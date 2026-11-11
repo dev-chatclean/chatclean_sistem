@@ -301,6 +301,11 @@
       "DURATION_VALUE": "{n} min",
       "REMINDER_TOAST": "Lembrete: “{title}” às {time} ({deal})",
       "REMINDER_OPEN": "Abrir negócio"
+    },
+    "CONTACT_TAB": {
+      "NEW": "Nova oportunidade",
+      "PIPELINE": "Pipeline",
+      "EMPTY": "Este contato ainda não tem oportunidades."
     }
   }
 }

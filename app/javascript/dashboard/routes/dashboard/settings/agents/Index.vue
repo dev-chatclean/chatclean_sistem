@@ -137,7 +137,7 @@ const deleteAgent = async id => {
     await store.dispatch('agents/delete', id);
     showAlertMessage(t('AGENT_MGMT.DELETE.API.SUCCESS_MESSAGE'));
   } catch (error) {
-    showAlertMessage(t('AGENT_MGMT.DELETE.API.ERROR_MESSAGE'));
+    showAlertMessage(error.message || t('AGENT_MGMT.DELETE.API.ERROR_MESSAGE'));
   }
 };
 const confirmDeletion = () => {

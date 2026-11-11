@@ -14,6 +14,7 @@ import ContactHistory from 'dashboard/components-next/Contacts/ContactsSidebar/C
 import ContactMedia from 'dashboard/components-next/Contacts/ContactsSidebar/ContactMedia.vue';
 import ContactMerge from 'dashboard/components-next/Contacts/ContactsSidebar/ContactMerge.vue';
 import ContactCustomAttributes from 'dashboard/components-next/Contacts/ContactsSidebar/ContactCustomAttributes.vue';
+import ContactDealsPanel from 'dashboard/routes/dashboard/crm/components/contact/ContactDealsPanel.vue';
 
 const store = useStore();
 const route = useRoute();
@@ -39,6 +40,7 @@ const { t } = useI18n();
 
 const CONTACT_TABS_OPTIONS = [
   { key: 'ATTRIBUTES', value: 'attributes' },
+  { key: 'DEALS', value: 'deals' },
   { key: 'HISTORY', value: 'history' },
   { key: 'NOTES', value: 'notes' },
   { key: 'MEDIA', value: 'media' },
@@ -172,6 +174,10 @@ onMounted(() => {
           <ContactCustomAttributes
             v-if="activeTab === 'attributes'"
             :selected-contact="selectedContact"
+          />
+          <ContactDealsPanel
+            v-if="activeTab === 'deals' && selectedContact"
+            :contact="selectedContact"
           />
           <ContactNotes v-if="activeTab === 'notes'" />
           <ContactHistory v-if="activeTab === 'history'" />

@@ -45,8 +45,8 @@ const isInvalid = computed(
     Number(form.value.value) < 0
 );
 
-const open = ({ stageId = null } = {}) => {
-  contact.value = null;
+const open = ({ stageId = null, contact: initialContact = null } = {}) => {
+  contact.value = initialContact;
   form.value = {
     title: '',
     value: '',

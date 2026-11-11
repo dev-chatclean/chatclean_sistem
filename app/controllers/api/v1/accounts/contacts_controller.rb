@@ -108,6 +108,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
                           :unprocessable_entity)
     end
 
+    return render_error({ message: @contact.crm_deals_deletion_error }, :unprocessable_entity) if @contact.crm_deals.exists?
+
     @contact.destroy!
     head :ok
   end

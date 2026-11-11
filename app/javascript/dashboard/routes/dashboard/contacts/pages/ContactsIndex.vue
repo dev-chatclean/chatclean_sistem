@@ -15,6 +15,7 @@ import ContactsList from 'dashboard/components-next/Contacts/Pages/ContactsList.
 import ContactsBulkActionBar from '../components/ContactsBulkActionBar.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import BulkActionsAPI from 'dashboard/api/bulkActions';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 
 // Only order backed by index_contacts_on_account_id_and_last_activity_at
 const DEFAULT_SORT = '-last_activity_at';
@@ -391,7 +392,12 @@ const deleteContacts = async () => {
     await fetchContactsBasedOnContext(pageNumber.value);
     bulkDeleteDialogRef.value?.close?.();
   } catch (error) {
-    useAlert(t('CONTACTS_BULK_ACTIONS.DELETE_FAILED'));
+    const message = parseAPIErrorResponse(error);
+    useAlert(
+      typeof message === 'string'
+        ? message
+        : t('CONTACTS_BULK_ACTIONS.DELETE_FAILED')
+    );
   } finally {
     isBulkActionLoading.value = false;
   }

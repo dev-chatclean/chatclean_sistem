@@ -28,6 +28,11 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def destroy
+    deals_count = Current.account.crm_deals.where(assignee_id: @agent.id).count
+    if deals_count.positive?
+      return render_could_not_create_error(I18n.t('crm.agents.errors.has_deals', name: @agent.available_name, count: deals_count))
+    end
+
     @agent.current_account_user.destroy!
     delete_user_record(@agent)
     head :ok
