@@ -1,26 +1,28 @@
 class Crm::AutoDealService
   pattr_initialize [:conversation!]
 
-  # The account lock keeps two near-simultaneous assignments (auto-assignment plus automation) from creating two deals.
+  # Only accounts with automatic deals pay for the account lock, which keeps two near-simultaneous
+  # assignments (auto-assignment plus automation) from creating two deals.
   def perform
-    account.with_lock do
-      next unless eligible?
+    return unless account.crm_auto_create_deals && conversation.assignee.present?
 
-      account.crm_deals.create!(
-        stage: account.crm_pipelines.find_by!(is_default: true).stages.initial.first!,
-        contact: conversation.contact, assignee: conversation.assignee, conversation: conversation,
-        lead_origin: lead_origin, lead_source: lead_source
-      )
-    end
+    account.with_lock { create_deal if new_lead? && matches_lead_entry? }
   end
 
   private
 
   delegate :account, :inbox, to: :conversation
 
-  def eligible?
-    account.crm_auto_create_deals && conversation.assignee.present? &&
-      !account.crm_deals.open.exists?(contact_id: conversation.contact_id) && matches_lead_entry?
+  def create_deal
+    account.crm_deals.create!(
+      stage: account.crm_pipelines.find_by!(is_default: true).stages.initial.first!,
+      contact: conversation.contact, assignee: conversation.assignee, conversation: conversation,
+      lead_origin: lead_origin, lead_source: lead_source
+    )
+  end
+
+  def new_lead?
+    !account.crm_deals.open.exists?(contact_id: conversation.contact_id)
   end
 
   # A list with every option ticked (or no inbox picked) lets everything in, new channels included.
