@@ -92,7 +92,6 @@
         "NEXT_TASK": "Próxima tarefa",
         "CONTACT_LABELS": "Etiquetas do contato",
         "ORIGIN": "Origem",
-        "BILLING": "Cobrança",
         "ATTACHMENTS": "Anexos"
       }
     },
@@ -229,7 +228,7 @@
         },
         "CUSTOM_FIELDS": {
           "LABEL": "Exigir campos preenchidos",
-          "EMPTY": "Nenhum campo personalizado criado."
+          "EMPTY": "Nenhum campo de negócio ainda. Crie em Configurações → Atributos personalizados → Negócio."
         },
         "DEAL": {
           "LABEL": "Exigir da oportunidade",

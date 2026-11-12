@@ -1,4 +1,6 @@
 class Crm::Deal < ApplicationRecord
+  include CrmDealCustomFields
+
   self.table_name = 'crm_deals'
 
   WIN_REASONS = %w[not_informed best_price delivery_time relationship referral product_features other].freeze
@@ -119,10 +121,11 @@ class Crm::Deal < ApplicationRecord
   end
 
   def stage_requirements_met
-    missing = missing_requirements
+    missing = missing_requirements.map { |key| I18n.t("crm.deals.requirements.#{key}") } +
+              missing_custom_fields.map { |name| I18n.t('crm.deals.requirements.custom_field', name: name) }
     return if missing.empty?
 
-    fields = missing.map { |key| I18n.t("crm.deals.requirements.#{key}") }.to_sentence
+    fields = missing.to_sentence
     errors.add(:base, I18n.t('crm.deals.errors.stage_requirements', stage: stage.name, fields: fields))
   end
 
@@ -174,8 +177,11 @@ class Crm::Deal < ApplicationRecord
       from_stage = Crm::Stage.find_by(id: stage_id_before_last_save)
       record_event(stage_event_type, from_stage: from_stage, to_stage: stage)
     end
-    return unless saved_change_to_assignee_id?
+    record_assignee_change if saved_change_to_assignee_id?
+    record_custom_field_events if saved_change_to_custom_attributes?
+  end
 
+  def record_assignee_change
     record_event('assignee_changed', data: { 'from' => User.find_by(id: assignee_id_before_last_save)&.name, 'to' => assignee.name })
   end
 

@@ -1,4 +1,9 @@
 pt_BR:
+  support:
+    array:
+      words_connector: ', '
+      two_words_connector: ' e '
+      last_word_connector: ' e '
   crm:
     stages:
       errors:
@@ -23,6 +28,7 @@ pt_BR:
         positive_value: valor maior que zero
         product: pelo menos um produto
         document: um documento anexado
+        custom_field: o campo %{name}
       errors:
         title_required: Informe um título quando a oportunidade não tem contato nem empresa.
         loss_reason_required: Escolha o motivo da perda.
@@ -32,6 +38,7 @@ pt_BR:
         invalid_company: A empresa não pertence a esta conta.
         invalid_assignee: O responsável precisa ser membro desta conta.
         stage_requirements: 'A etapa %{stage} exige: %{fields}.'
+        invalid_custom_fields: 'Confira o valor de: %{fields}.'
     activities:
       errors:
         required_task_delete: Esta tarefa é obrigatória da etapa e não pode ser excluída. Marque como concluída.

@@ -37,6 +37,7 @@ const attributeModels = [
   'conversation_attribute',
   'contact_attribute',
   'company_attribute',
+  'deal_attribute',
 ];
 
 const openAddPopup = () => {
@@ -67,6 +68,7 @@ const tabs = computed(() => {
     ...(isCloudFeatureEnabled(FEATURE_FLAGS.COMPANIES)
       ? [{ key: 2, name: t('ATTRIBUTES_MGMT.TABS.COMPANY') }]
       : []),
+    { key: 3, name: t('ATTRIBUTES_MGMT.TABS.DEAL') },
   ];
 });
 

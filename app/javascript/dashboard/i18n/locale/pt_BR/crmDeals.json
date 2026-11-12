@@ -120,7 +120,10 @@
         "ACTIVITY_CREATED": "{user} criou a atividade “{activity}”",
         "ACTIVITY_COMPLETED": "{user} concluiu a atividade “{activity}”",
         "FILE_ADDED": "{user} anexou o arquivo “{file}” ({category})",
-        "FILE_REMOVED": "{user} removeu o arquivo “{file}” ({category})"
+        "FILE_REMOVED": "{user} removeu o arquivo “{file}” ({category})",
+        "CUSTOM_FIELD_CHANGED": "{user} alterou {field} de “{from}” para “{to}”",
+        "CUSTOM_FIELD_SET": "{user} preencheu {field} com “{to}”",
+        "CUSTOM_FIELD_CLEARED": "{user} limpou {field}"
       },
       "RANGE": "{from} → {to}",
       "NO_LABELS": "Sem etiquetas",
@@ -352,6 +355,9 @@
         "RECEIPT": "Comprovante",
         "OTHER": "Outro"
       }
+    },
+    "CUSTOM_FIELDS": {
+      "CHOOSE": "Escolha"
     }
   },
   "CRM_PRODUCTS": {

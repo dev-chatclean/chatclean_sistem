@@ -21,7 +21,7 @@ export default {
       type: Function,
       default: () => {},
     },
-    // Passes 0, 1 or 2 (the attribute_model enum) based on the selected tab
+    // Passes 0, 1, 2 or 3 (the attribute_model enum) based on the selected tab
     // Needs a better data type, todo: refactor this component later
     selectedAttributeModelTab: {
       type: Number,

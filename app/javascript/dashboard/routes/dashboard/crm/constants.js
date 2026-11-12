@@ -32,7 +32,6 @@ export const CARD_FIELDS = [
   'next_task',
   'contact_labels',
   'origin',
-  'billing',
   'attachments',
 ];
 export const MAX_CARD_FIELDS = 4;

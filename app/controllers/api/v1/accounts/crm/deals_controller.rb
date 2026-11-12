@@ -21,7 +21,9 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::BaseControlle
 
   def update
     authorize(@deal, :reassign?) if deal_params.key?(:assignee_id) && deal_params[:assignee_id].to_i != @deal.assignee_id
-    @deal.update!(deal_params)
+    @deal.assign_attributes(deal_params.except(:custom_attributes))
+    @deal.merge_custom_attributes(deal_params[:custom_attributes].to_h) if deal_params.key?(:custom_attributes)
+    @deal.save!
     render :show
   end
 
@@ -65,6 +67,7 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::BaseControlle
 
   def deal_params
     params.require(:deal).permit(:stage_id, :contact_id, :company_id, :title, :value, :expected_close_date, :notes, :assignee_id,
-                                 :close_reason, :close_note, deal_products_attributes: [:id, :product_id, :quantity, :unit_price, :_destroy])
+                                 :close_reason, :close_note,
+                                 custom_attributes: {}, deal_products_attributes: [:id, :product_id, :quantity, :unit_price, :_destroy])
   end
 end

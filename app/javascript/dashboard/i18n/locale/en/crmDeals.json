@@ -120,7 +120,10 @@
         "ACTIVITY_CREATED": "{user} created the activity “{activity}”",
         "ACTIVITY_COMPLETED": "{user} completed the activity “{activity}”",
         "FILE_ADDED": "{user} attached the file “{file}” ({category})",
-        "FILE_REMOVED": "{user} removed the file “{file}” ({category})"
+        "FILE_REMOVED": "{user} removed the file “{file}” ({category})",
+        "CUSTOM_FIELD_CHANGED": "{user} changed {field} from “{from}” to “{to}”",
+        "CUSTOM_FIELD_SET": "{user} filled {field} with “{to}”",
+        "CUSTOM_FIELD_CLEARED": "{user} cleared {field}"
       },
       "RANGE": "{from} → {to}",
       "NO_LABELS": "No labels",
@@ -352,6 +355,9 @@
         "RECEIPT": "Receipt",
         "OTHER": "Other"
       }
+    },
+    "CUSTOM_FIELDS": {
+      "CHOOSE": "Choose"
     }
   },
   "CRM_PRODUCTS": {

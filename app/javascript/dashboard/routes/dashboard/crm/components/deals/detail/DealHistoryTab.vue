@@ -11,10 +11,15 @@ const { t, locale } = useI18n();
 
 const items = computed(() => [...props.events].reverse());
 
-const eventKey = event =>
-  event.event_type === 'created' && event.data.conversation
-    ? 'CREATED_FROM_CONVERSATION'
-    : event.event_type.toUpperCase();
+const eventKey = event => {
+  if (event.event_type === 'created' && event.data.conversation)
+    return 'CREATED_FROM_CONVERSATION';
+  if (event.event_type === 'custom_field_changed') {
+    if (event.data.from === undefined) return 'CUSTOM_FIELD_SET';
+    if (event.data.to === undefined) return 'CUSTOM_FIELD_CLEARED';
+  }
+  return event.event_type.toUpperCase();
+};
 
 const eventText = event =>
   t(`CRM_DEALS.DETAIL.EVENTS.${eventKey(event)}`, {
@@ -24,6 +29,7 @@ const eventText = event =>
     conversation: event.data.conversation,
     activity: event.data.activity,
     file: event.data.file,
+    field: event.data.field,
     category: event.data.category
       ? t(`CRM_DEALS.FILES.CATEGORIES.${event.data.category.toUpperCase()}`)
       : '',
