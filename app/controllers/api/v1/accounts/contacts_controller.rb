@@ -108,6 +108,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
                           :unprocessable_entity)
     end
 
+    return render_error({ message: @contact.crm_deals_deletion_error }, :unprocessable_entity) if @contact.crm_deals.exists?
+
     @contact.destroy!
     head :ok
   end
@@ -138,7 +140,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     includes_hash = { avatar_attachment: [:blob] }
     includes_hash[:contact_inboxes] = { inbox: :channel } if @include_contact_inboxes
 
-    filtrate(contacts)
+    filtrate(contacts.archive_filter(params[:archived] == 'true'))
       .includes(includes_hash)
       .page(@current_page)
       .per(RESULTS_PER_PAGE)
@@ -150,7 +152,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
     # Calculate offset manually to fetch one extra record for has_more check
     offset = (@current_page.to_i - 1) * RESULTS_PER_PAGE
-    results = filtrate(contacts)
+    results = filtrate(contacts.archive_filter(params[:archived] == 'true'))
               .includes(includes_hash)
               .offset(offset)
               .limit(RESULTS_PER_PAGE + 1)

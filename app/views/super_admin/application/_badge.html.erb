@@ -1,4 +1,4 @@
-<%# locals: (label:, tone: nil) -%>
+<%# locals: (label:, tone: nil, value: nil) -%>
 <%
   dot = "before:size-1.5 before:rounded-full before:bg-current before:content-['']"
   tones = {
@@ -10,10 +10,11 @@
     accent: "border-n-violet-6 bg-n-violet-3 text-n-violet-11"
   }
   # Without a tone the label picks it: these are the values select fields show (account status, role, user type, banner type).
+  # ChatClean (CCV2-22): translated labels pass the English value, which keeps picking the tone.
   value_tones = {
     "Active" => :success, "Suspended" => :danger, "Error" => :danger, "Warning" => :warning,
     "Info" => :info, "Administrator" => :info, "Super Admin" => :accent, "Feature Announcement" => :accent
   }
-  tone ||= value_tones.fetch(label.to_s, :neutral)
+  tone ||= value_tones.fetch((value || label).to_s, :neutral)
 %>
 <span class="<%= class_names("inline-flex h-5 items-center gap-1 whitespace-nowrap rounded-md border px-1.5 text-label-small", tones.fetch(tone)) %>"><%= label %></span>

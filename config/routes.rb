@@ -279,6 +279,7 @@ Rails.application.routes.draw do
             scope module: :contacts do
               resources :conversations, only: [:index]
               resources :contact_inboxes, only: [:create]
+              resource :archive, only: [:create, :destroy]
               resources :labels, only: [:create, :index]
               resources :notes
               get :attachments, to: 'attachments#index'
@@ -368,6 +369,29 @@ Rails.application.routes.draw do
             end
           end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
+          namespace :crm do
+            resources :pipelines, only: [:index, :show, :create, :update, :destroy] do
+              resources :stages, only: [:create, :update, :destroy] do
+                patch :reorder, on: :collection
+                resources :impulses, only: [:index, :create, :update, :destroy]
+                resources :campaigns, only: [:index, :create], controller: 'stage_campaigns' do
+                  post :preview, on: :collection
+                  post :cancel, on: :member
+                end
+              end
+            end
+            resource :settings, only: [:show, :update]
+            resources :deals, only: [:index, :show, :create, :update, :destroy] do
+              post :duplicate, on: :member
+              post :ai_analyze, on: :member
+              resources :activities, only: [:create, :update, :destroy], controller: 'deal_activities'
+              resources :files, only: [:create, :destroy], controller: 'deal_files'
+              resources :impulse_executions, only: [:destroy], controller: 'deal_impulse_executions'
+            end
+            resources :products, only: [:index, :create, :update, :destroy]
+            get 'reports/sales', to: 'reports#sales'
+            get 'reports/overview', to: 'overview_reports#show'
+          end
 
           resources :notifications, only: [:index, :update, :destroy] do
             collection do

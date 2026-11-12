@@ -424,6 +424,12 @@ const menuItems = computed(() => {
           to: accountScopedRoute('conversation_unattended'),
         },
         {
+          name: 'Live View',
+          label: t('SIDEBAR.LIVE_VIEW'),
+          icon: 'i-lucide-radio',
+          to: accountScopedRoute('account_overview_reports'),
+        },
+        {
           name: 'Folders',
           label: t('SIDEBAR.CUSTOM_VIEWS_FOLDER'),
           icon: 'i-lucide-folder',
@@ -623,6 +629,12 @@ const menuItems = computed(() => {
           activeOn: ['contacts_dashboard_active'],
         },
         {
+          name: 'Archived',
+          label: t('SIDEBAR.ARCHIVED_CONTACTS'),
+          to: accountScopedRoute('contacts_dashboard_archived'),
+          activeOn: ['contacts_dashboard_archived'],
+        },
+        {
           name: 'Segments',
           icon: 'i-lucide-group',
           label: t('SIDEBAR.CUSTOM_VIEWS_SEGMENTS'),
@@ -686,14 +698,26 @@ const menuItems = computed(() => {
       ],
     },
     {
+      name: 'Sales Pipelines',
+      label: t('SIDEBAR.SALES_PIPELINES'),
+      icon: 'i-lucide-funnel',
+      to: accountScopedRoute('crm_pipelines_index'),
+      activeOn: ['crm_pipelines_index', 'crm_pipelines_show'],
+    },
+    {
       name: 'Reports',
       label: t('SIDEBAR.REPORTS'),
       icon: 'i-lucide-chart-spline',
       children: [
         {
-          name: 'Report Overview',
-          label: t('SIDEBAR.REPORTS_OVERVIEW'),
-          to: accountScopedRoute('account_overview_reports'),
+          name: 'Reports Summary',
+          label: t('SIDEBAR.REPORTS_SUMMARY'),
+          to: accountScopedRoute('crm_overview_reports'),
+        },
+        {
+          name: 'Reports Sales',
+          label: t('SIDEBAR.REPORTS_SALES'),
+          to: accountScopedRoute('crm_sales_reports'),
         },
         {
           name: 'Report Conversation',
@@ -880,6 +904,12 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.LABELS'),
           icon: 'i-lucide-tags',
           to: accountScopedRoute('labels_list'),
+        },
+        {
+          name: 'Settings Products',
+          label: t('SIDEBAR.PRODUCTS'),
+          icon: 'i-lucide-package',
+          to: accountScopedRoute('crm_products_list'),
         },
         {
           name: 'Settings Custom Attributes',

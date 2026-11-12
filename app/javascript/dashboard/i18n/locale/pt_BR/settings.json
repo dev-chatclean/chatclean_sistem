@@ -357,6 +357,7 @@
     "ACCOUNT_SETTINGS": "Conta",
     "APPLICATIONS": "Aplicações",
     "LABELS": "Etiquetas",
+    "SALES_PIPELINES": "Funil de vendas",
     "CUSTOM_ATTRIBUTES": "Atributos Personalizados",
     "AUTOMATION": "Automação",
     "MACROS": "Macros",
@@ -365,6 +366,8 @@
     "CUSTOM_VIEWS_FOLDER": "Pastas",
     "CUSTOM_VIEWS_SEGMENTS": "Segmentos",
     "ALL_CONTACTS": "Todos os Contatos",
+    "PRODUCTS": "Produtos",
+    "ARCHIVED_CONTACTS": "Arquivados",
     "TAGGED_WITH": "Marcado com",
     "NEW_LABEL": "Nova etiqueta",
     "NEW_TEAM": "Novo time",
@@ -422,7 +425,10 @@
     "DOCS": "Ler documentos",
     "SECURITY": "Segurança",
     "CAPTAIN_AI": "Captain",
-    "CONVERSATION_WORKFLOW": "Fluxo de Conversa"
+    "CONVERSATION_WORKFLOW": "Fluxo de Conversa",
+    "REPORTS_SALES": "Vendas & Pipeline",
+    "REPORTS_SUMMARY": "Visão geral",
+    "LIVE_VIEW": "Ao vivo"
   },
   "DATA_IMPORTS": {
     "HEADER": "Dados",

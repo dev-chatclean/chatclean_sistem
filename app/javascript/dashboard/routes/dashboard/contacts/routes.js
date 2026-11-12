@@ -38,6 +38,12 @@ export const routes = [
         component: ContactsIndex,
         meta: commonMeta,
       },
+      {
+        path: 'archived',
+        name: 'contacts_dashboard_archived',
+        component: ContactsIndex,
+        meta: commonMeta,
+      },
     ],
   },
   {

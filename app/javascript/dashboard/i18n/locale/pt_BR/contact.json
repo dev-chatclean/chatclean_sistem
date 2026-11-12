@@ -297,6 +297,7 @@
       "TITLE": "Contatos",
       "SEARCH_TITLE": "Pesquisar contatos",
       "ACTIVE_TITLE": "Contatos ativos",
+      "ARCHIVED_TITLE": "Contatos arquivados",
       "SEARCH_PLACEHOLDER": "Pesquisar...",
       "MESSAGE_BUTTON": "Enviar Mensagem",
       "SEND_MESSAGE": "Enviar mensagem",
@@ -516,7 +517,8 @@
         "HISTORY": "Histórico",
         "NOTES": "Notas",
         "MEDIA": "Mídia",
-        "MERGE": "Mesclar"
+        "MERGE": "Mesclar",
+        "DEALS": "Oportunidades"
       },
       "HISTORY": {
         "EMPTY_STATE": "Não há conversas anteriores associadas a este contato"
@@ -585,7 +587,8 @@
       "BUTTON_LABEL": "Adicionar contato",
       "SEARCH_EMPTY_STATE_TITLE": "Nenhum contato corresponde à sua pesquisa 🔍",
       "LIST_EMPTY_STATE_TITLE": "Não há contatos disponíveis nesta visualização 📋",
-      "ACTIVE_EMPTY_STATE_TITLE": "Nenhum contato está ativo no momento 🌙"
+      "ACTIVE_EMPTY_STATE_TITLE": "Nenhum contato está ativo no momento 🌙",
+      "ARCHIVED_EMPTY_STATE_TITLE": "Nenhum contato arquivado"
     },
     "LOAD_MORE": "Carregar mais"
   },

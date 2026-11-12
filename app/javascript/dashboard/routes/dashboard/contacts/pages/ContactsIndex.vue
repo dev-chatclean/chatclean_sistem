@@ -15,6 +15,7 @@ import ContactsList from 'dashboard/components-next/Contacts/Pages/ContactsList.
 import ContactsBulkActionBar from '../components/ContactsBulkActionBar.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import BulkActionsAPI from 'dashboard/api/bulkActions';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 
 // Only order backed by index_contacts_on_account_id_and_last_activity_at
 const DEFAULT_SORT = '-last_activity_at';
@@ -101,6 +102,9 @@ const isContactIndexView = computed(
   () => route.name === 'contacts_dashboard_index' && pageNumber.value === 1
 );
 const isActiveView = computed(() => route.name === 'contacts_dashboard_active');
+const isArchivedView = computed(
+  () => route.name === 'contacts_dashboard_archived'
+);
 const hasAppliedFilters = computed(() => {
   return appliedFilters.value.length > 0;
 });
@@ -125,6 +129,7 @@ const showEmptyText = computed(() => {
 const headerTitle = computed(() => {
   if (searchQuery.value) return t('CONTACTS_LAYOUT.HEADER.SEARCH_TITLE');
   if (isActiveView.value) return t('CONTACTS_LAYOUT.HEADER.ACTIVE_TITLE');
+  if (isArchivedView.value) return t('CONTACTS_LAYOUT.HEADER.ARCHIVED_TITLE');
   if (activeSegmentId.value) return activeSegment.value?.name;
   if (activeLabel.value) return `#${activeLabel.value}`;
   return t('CONTACTS_LAYOUT.HEADER.TITLE');
@@ -133,6 +138,8 @@ const headerTitle = computed(() => {
 const emptyStateMessage = computed(() => {
   if (isActiveView.value)
     return t('CONTACTS_LAYOUT.EMPTY_STATE.ACTIVE_EMPTY_STATE_TITLE');
+  if (isArchivedView.value)
+    return t('CONTACTS_LAYOUT.EMPTY_STATE.ARCHIVED_EMPTY_STATE_TITLE');
   if (!searchQuery.value || hasAppliedFilters.value)
     return t('CONTACTS_LAYOUT.EMPTY_STATE.LIST_EMPTY_STATE_TITLE');
   return t('CONTACTS_LAYOUT.EMPTY_STATE.SEARCH_EMPTY_STATE_TITLE');
@@ -203,7 +210,10 @@ const fetchContacts = async (page = 1, options = {}) => {
     clearSelection();
   }
   await store.dispatch('contacts/clearContactFilters');
-  await store.dispatch('contacts/get', getCommonFetchParams(page));
+  await store.dispatch('contacts/get', {
+    ...getCommonFetchParams(page),
+    archived: isArchivedView.value,
+  });
   updatePageParam(page);
 };
 
@@ -391,7 +401,12 @@ const deleteContacts = async () => {
     await fetchContactsBasedOnContext(pageNumber.value);
     bulkDeleteDialogRef.value?.close?.();
   } catch (error) {
-    useAlert(t('CONTACTS_BULK_ACTIONS.DELETE_FAILED'));
+    const message = parseAPIErrorResponse(error);
+    useAlert(
+      typeof message === 'string'
+        ? message
+        : t('CONTACTS_BULK_ACTIONS.DELETE_FAILED')
+    );
   } finally {
     isBulkActionLoading.value = false;
   }
@@ -448,7 +463,7 @@ watch(
 );
 
 watch(
-  [activeLabel, activeSegment, isActiveView],
+  [activeLabel, activeSegment, isActiveView, isArchivedView],
   () => {
     fetchContactsBasedOnContext(pageNumber.value);
   },

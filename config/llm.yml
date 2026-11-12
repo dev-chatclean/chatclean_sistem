@@ -213,3 +213,12 @@ features:
   help_center_search:
     models: [text-embedding-3-small]
     default: text-embedding-3-small
+  # ChatClean pipeline AI (CRM): temperature + next step, and filling the fields a stage requires.
+  crm_deal_insights:
+    models: [gpt-6-luna, gpt-6.1-sol]
+    default: gpt-6-luna
+    internal: true
+  crm_deal_fields:
+    models: [gpt-6-luna, gpt-6.1-sol]
+    default: gpt-6-luna
+    internal: true

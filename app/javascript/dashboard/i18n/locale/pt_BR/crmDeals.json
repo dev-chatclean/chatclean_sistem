@@ -1,0 +1,495 @@
+{
+  "CRM_DEALS": {
+    "NEW": "Novo {item}",
+    "BOARD": {
+      "SUMMARY": "{count} {item}",
+      "LAST_30_DAYS": "Últimos 30 dias",
+      "SUMMARY_WITH_VALUE": "{summary} · {value}",
+      "NO_DATA": "Sem dados",
+      "STAGE_SUMMARY": "{value} · {count}",
+      "LAST_DAYS": "Últimos {n} dias",
+      "PERIOD_PHRASE": "nos últimos {n} dias",
+      "WAITING_LEADS": "{count} lead esperando há mais de {days} dias | {count} leads esperando há mais de {days} dias"
+    },
+    "CARD": {
+      "NO_CONTACT": "sem contato",
+      "IN_STAGE": "Na etapa há {days} d",
+      "NEXT_ACTIVITY_OVERDUE": "Atrasada",
+      "CONTACT_ARCHIVED": "contato arquivado",
+      "ATTACHMENTS": "{count} anexo | {count} anexos"
+    },
+    "MENU": {
+      "LABEL": "Ações",
+      "MOVE": "Mover",
+      "WIN": "Ganhar",
+      "LOSE": "Perder",
+      "DUPLICATE": "Duplicar",
+      "DELETE": "Excluir"
+    },
+    "CLOSE": {
+      "WIN_TITLE": "Marcar como ganho",
+      "LOSE_TITLE": "Marcar como perdido",
+      "WIN_CONFIRM": "Marcar como ganho",
+      "LOSE_CONFIRM": "Marcar como perdido",
+      "WIN_REASON": "Motivo do ganho (opcional)",
+      "LOSE_REASON": "Motivo da perda",
+      "CHOOSE_REASON": "Escolha o motivo",
+      "NOTE": "Justificativa (opcional)",
+      "WIN_NOTE_PLACEHOLDER": "O que fez o cliente fechar?",
+      "LOSE_NOTE_PLACEHOLDER": "O que levou à perda?"
+    },
+    "REASONS": {
+      "NOT_INFORMED": "Não informar",
+      "BEST_PRICE": "Melhor preço",
+      "DELIVERY_TIME": "Prazo de entrega",
+      "RELATIONSHIP": "Relacionamento",
+      "REFERRAL": "Indicação",
+      "PRODUCT_FEATURES": "Recursos do produto",
+      "OTHER": "Outro",
+      "PRICE": "Preço",
+      "NO_INTEREST": "Sem interesse",
+      "COMPETITOR": "Escolheu concorrente",
+      "NO_RESPONSE": "Sem resposta",
+      "OUT_OF_PROFILE": "Fora do perfil"
+    },
+    "CONTACT": {
+      "SEARCH_PLACEHOLDER": "Buscar por nome ou telefone",
+      "HINT": "Busque por nome ou telefone. Não achou? Digite o número para criar.",
+      "CREATE": "Criar contato com {phone}",
+      "CREATE_ERROR": "Não foi possível criar o contato.",
+      "REMOVE": "Desvincular"
+    },
+    "FORM": {
+      "TITLE": "Novo {item}",
+      "CREATE": "Criar {item}",
+      "CONTACT": "Contato",
+      "OPTIONAL": "opcional",
+      "DEAL_TITLE": "Título",
+      "TITLE_REQUIRED": "obrigatório sem contato nem empresa",
+      "TITLE_PLACEHOLDER": "Ex.: Contrato anual",
+      "VALUE": "Valor (R$)",
+      "STAGE": "Etapa",
+      "EXPECTED_CLOSE_DATE": "Data prevista de fechamento",
+      "ASSIGNEE": "Responsável"
+    },
+    "MOVE": {
+      "TITLE": "Mover",
+      "DESCRIPTION": "Escolha a etapa de destino em {pipeline}.",
+      "CONFIRM": "Mover",
+      "CHOOSE": "Escolha a etapa"
+    },
+    "STATUS": {
+      "OPEN": "Aberto",
+      "WON": "Ganho",
+      "LOST": "Perdido"
+    },
+    "DETAIL": {
+      "TABS": {
+        "INFO": "Informações",
+        "HISTORY": "Histórico",
+        "ACTIVITIES": "Atividades",
+        "IMPULSES": "Impulsos",
+        "DEALS": "Negócios",
+        "FILES": "Arquivos",
+        "CONVERSATIONS": "Atendimentos"
+      },
+      "CLOSE": "Fechar",
+      "NOTES": "Nota do negócio",
+      "NOTES_PLACEHOLDER": "Anotações internas sobre o negócio...",
+      "VALUE": "Valor",
+      "FULL_PIPELINE": "Pipeline completo",
+      "NUMBER": "Número",
+      "CREATED_AT": "Criado em",
+      "IN_STAGE_SINCE": "Na etapa desde",
+      "JOURNEY": "Jornada do negócio",
+      "NOW": "agora",
+      "SYSTEM": "Sistema",
+      "DURATION": {
+        "LESS_THAN_MINUTE": "menos de 1 min",
+        "MINUTES": "{n} min",
+        "HOURS": "{n} h",
+        "DAYS": "{n} d"
+      },
+      "EVENTS": {
+        "CREATED": "{user} criou em {to}",
+        "STAGE_CHANGED": "{user} moveu de {from} para {to}",
+        "WON": "{user} marcou como ganho em {to}",
+        "LOST": "{user} marcou como perdido em {to}",
+        "REOPENED": "{user} reabriu em {to}",
+        "ASSIGNEE_CHANGED": "{user} trocou o responsável de {from} para {to}",
+        "CREATED_FROM_CONVERSATION": "{user} criou em {to} quando o atendimento #{conversation} foi atribuído",
+        "ACTIVITY_CREATED": "{user} criou a atividade “{activity}”",
+        "ACTIVITY_COMPLETED": "{user} concluiu a atividade “{activity}”",
+        "FILE_ADDED": "{user} anexou o arquivo “{file}” ({category})",
+        "FILE_REMOVED": "{user} removeu o arquivo “{file}” ({category})",
+        "CUSTOM_FIELD_CHANGED": "{user} alterou {field} de “{from}” para “{to}”",
+        "CUSTOM_FIELD_SET": "{user} preencheu {field} com “{to}”",
+        "CUSTOM_FIELD_CLEARED": "{user} limpou {field}",
+        "IMPULSE_SENT": "Impulso “{impulse}” enviou o passo {step}",
+        "IMPULSE_FAILED": "Impulso “{impulse}” falhou: {reason}",
+        "IMPULSE_CANCELED": "Impulso “{impulse}” cancelado: {reason}",
+        "CLIENT_REMINDER_SENT": "Lembrete ao cliente de “{activity}” enviado",
+        "CLIENT_REMINDER_FAILED": "Lembrete ao cliente de “{activity}” falhou: {reason}",
+        "CLIENT_REMINDER_CANCELED": "{user} cancelou o lembrete ao cliente de “{activity}”",
+        "CAMPAIGN_SENT": "Campanha “{campaign}” enviada",
+        "CAMPAIGN_FAILED": "Campanha “{campaign}” falhou: {reason}",
+        "CAMPAIGN_CANCELED": "Campanha “{campaign}” cancelada: {reason}",
+        "CUSTOM_FIELD_AI": "IA preencheu {field} com “{to}”"
+      },
+      "RANGE": "{from} → {to}",
+      "NO_LABELS": "Sem etiquetas",
+      "ADD_LABEL": "Adicionar etiqueta",
+      "LABELS_NEED_CONTACT": "Vincule um contato para usar etiquetas",
+      "DEAL_FIELDS": "Campos do negócio",
+      "NEW_ACTIVITY": "Nova atividade",
+      "DEAL_VALUE": "Valor do negócio",
+      "EDIT_VALUE": "Editar valor",
+      "PRODUCTS": "Produtos",
+      "NO_PRODUCTS": "Nenhum produto no catálogo. Cadastre em Configurações → Produtos.",
+      "DEAL_INFO": "Informações do negócio",
+      "DEALS_NEED_CONTACT": "Vincule um contato ou uma empresa para ver os outros negócios.",
+      "NO_OTHER_DEALS": "Este contato não tem outros negócios.",
+      "NO_CONTACT_TITLE": "Sem contato neste negócio",
+      "NO_CONTACT_CONVERSATIONS": "Vincule um contato para ver e abrir atendimentos.",
+      "NO_CONVERSATIONS": "Este contato ainda não tem atendimentos.",
+      "CONVERSATION_STATUS": {
+        "OPEN": "Aberto",
+        "RESOLVED": "Resolvido",
+        "PENDING": "Pendente",
+        "SNOOZED": "Adiado"
+      },
+      "LEAD_ORIGIN": "Origem do lead",
+      "LEAD_CONVERSATION": "Atendimento #{number}"
+    },
+    "API": {
+      "CREATE_SUCCESS": "Criado com sucesso",
+      "UPDATE_SUCCESS": "Atualizado",
+      "DUPLICATE_SUCCESS": "Cópia #{number} criada",
+      "DELETE_SUCCESS": "Excluído",
+      "FETCH_ERROR": "Não foi possível carregar. Tente de novo.",
+      "ACTIVITY_SAVE_SUCCESS": "Atividade salva",
+      "ACTIVITY_DELETE_SUCCESS": "Atividade excluída"
+    },
+    "DELETE": {
+      "TITLE": "Excluir",
+      "MESSAGE": "#{number} {name} será excluído. Isso não pode ser desfeito."
+    },
+    "STAGE_DELETE": {
+      "TRANSFER": "Esta etapa tem {count} item(ns). Escolha a etapa que vai recebê-los:"
+    },
+    "NUMBER": "#{number}",
+    "TOOLBAR": {
+      "SEARCH": "Buscar por nome, telefone ou número",
+      "VIEW": {
+        "LABEL": "Mostrar:",
+        "OPEN": "Em aberto",
+        "ALL": "Tudo"
+      },
+      "SORT": {
+        "LABEL": "Ordenar:",
+        "LONGEST_IN_STAGE": "Mais tempo na etapa",
+        "RECENTLY_MOVED": "Movidos recentemente",
+        "RECENTLY_CREATED": "Criados recentemente",
+        "OLDEST_CREATED": "Criados há mais tempo",
+        "HIGHEST_VALUE": "Maior valor",
+        "LOWEST_VALUE": "Menor valor",
+        "NEXT_ACTIVITY": "Próxima atividade"
+      },
+      "PERIOD": {
+        "LABEL": "Período",
+        "OPEN_TITLE": "Abertos, criados",
+        "CLOSED_TITLE": "Fechados, ganhos ou perdidos",
+        "ANY": "Qualquer data",
+        "DAYS": "{n} dias",
+        "CUSTOM": "Personalizado"
+      }
+    },
+    "FILTERS": {
+      "BUTTON": "Filtrar",
+      "SEARCH": "Buscar...",
+      "CHOOSE": "Escolha",
+      "CONTAINS": "Contém...",
+      "MIN": "Mínimo",
+      "MAX": "Máximo",
+      "FROM": "De",
+      "TO": "Até",
+      "APPLY": "Aplicar filtro",
+      "REMOVE": "Remover filtro",
+      "YES": "Sim",
+      "STALE_HINT": "Mostra só os cartões que passaram do limite de dias da etapa.",
+      "FIELDS": {
+        "TEAM": "Departamento",
+        "CONVERSATION_STATUS": "Status",
+        "CONTACT_LABEL": "Etiqueta do contato",
+        "CONTACT_TYPE": "Tipo de contato",
+        "UNREAD": "Mensagens não lidas",
+        "LAST_ACTIVITY_AT": "Última mensagem em",
+        "ASSIGNEE": "Responsável",
+        "STATUS": "Status",
+        "LOSS_REASON": "Motivo de perda",
+        "STAGE": "Etapa",
+        "VALUE": "Valor (R$)",
+        "STALE": "Parado na etapa",
+        "CONTACT": "Contato",
+        "COMPANY": "Empresa",
+        "TITLE": "Título",
+        "CREATED_AT": "Criado em",
+        "STAGE_ENTERED_AT": "Entrou na etapa",
+        "EXPECTED_CLOSE_DATE": "Data prevista de fechamento",
+        "LABEL": "Etiqueta",
+        "LEAD_ORIGIN": "Origem do lead",
+        "CHANNEL": "Canal",
+        "ACTIVITIES": "Atividades",
+        "PRODUCT": "Produto",
+        "PIPELINE": "Pipeline",
+        "CLOSED_AT": "Fechado em"
+      },
+      "NO_OPTIONS": "Ainda não há opções para escolher.",
+      "ACTIVITIES": {
+        "OVERDUE": "Atrasadas",
+        "TODAY": "Para hoje",
+        "UPCOMING": "Próximas",
+        "NONE": "Sem atividade"
+      }
+    },
+    "LINK": {
+      "TITLE": "Vincular contato",
+      "DESCRIPTION": "Com um contato vinculado, o chat, as métricas e os atendimentos passam a funcionar.",
+      "SEARCH": "Buscar existente",
+      "CREATE": "Criar",
+      "SEARCH_HINT": "Busque por nome ou telefone.",
+      "NAME": "Nome do contato",
+      "PHONE": "Telefone com DDD",
+      "SUBMIT": "Vincular"
+    },
+    "ACTIVITY": {
+      "NEW": "Nova atividade",
+      "EDIT": "Editar atividade",
+      "ADD": "Atividade",
+      "SAVE": "Salvar",
+      "CANCEL": "Cancelar",
+      "TITLE": "Título",
+      "TITLE_PLACEHOLDER": "Ex.: Ligar para confirmar a proposta",
+      "WHEN": "Quando",
+      "MORE_OPTIONS": "Mais opções",
+      "LESS_OPTIONS": "Menos opções",
+      "TYPE": "Tipo",
+      "PRIORITY": "Prioridade",
+      "ASSIGNEE": "Responsável",
+      "DURATION": "Duração (min)",
+      "REMIND_BEFORE": "Avisar antes",
+      "DESCRIPTION": "Descrição",
+      "DESCRIPTION_PLACEHOLDER": "Detalhes para quem vai fazer a atividade",
+      "RECURRENCE": "Repete",
+      "CHECKLIST": "Checklist",
+      "CHECKLIST_PLACEHOLDER": "Escreva um item e aperte Enter",
+      "CHECKLIST_ADD": "Adicionar item",
+      "CHECKLIST_REMOVE": "Remover item",
+      "TYPES": {
+        "CALL": "Ligação",
+        "FOLLOW_UP": "Retorno",
+        "MEETING": "Compromisso",
+        "INTERNAL": "Interna"
+      },
+      "PRIORITIES": {
+        "LOW": "Baixa",
+        "MEDIUM": "Média",
+        "HIGH": "Alta"
+      },
+      "RECURRENCES": {
+        "NEVER": "Não se repete",
+        "DAILY": "Todo dia",
+        "WEEKLY": "Toda semana",
+        "MONTHLY": "Todo mês"
+      },
+      "REMIND": {
+        "NONE": "Sem aviso",
+        "AT_TIME": "Na hora",
+        "MINUTES": "{n} min antes",
+        "HOUR": "1 hora antes",
+        "DAY": "1 dia antes"
+      },
+      "PENDING": "A fazer",
+      "DONE": "Concluídas",
+      "EMPTY": "Nenhuma atividade ainda. Crie uma para planejar o próximo passo.",
+      "OVERDUE": "Atrasada",
+      "REQUIRED": "Obrigatória de {stage}",
+      "REQUIRED_HINT": "Obrigatória da etapa: pode ser concluída, mas não excluída.",
+      "MARK_DONE": "Marcar como concluída",
+      "MARK_PENDING": "Marcar como a fazer",
+      "EDIT_ACTION": "Editar",
+      "DELETE_ACTION": "Excluir",
+      "DELETE_CONFIRM": "Excluir a atividade “{title}”? Isso não pode ser desfeito.",
+      "CHECKLIST_PROGRESS": "{done}/{total}",
+      "DURATION_VALUE": "{n} min",
+      "REMINDER_TOAST": "Lembrete: “{title}” às {time} ({deal})",
+      "REMINDER_OPEN": "Abrir negócio",
+      "CLIENT_REMINDER": {
+        "LABEL": "Lembrar o cliente antes",
+        "HINT": "Envia uma mensagem ao contato do negócio antes da atividade.",
+        "NO_CONTACT": "Vincule um contato ao negócio para lembrar o cliente.",
+        "OFF": "Não lembrar",
+        "SENT": "Lembrete enviado ao cliente em {date}"
+      }
+    },
+    "CONTACT_TAB": {
+      "NEW": "Nova oportunidade",
+      "PIPELINE": "Pipeline",
+      "EMPTY": "Este contato ainda não tem oportunidades."
+    },
+    "ARCHIVE": {
+      "TITLE": "Arquivar contato",
+      "BADGE": "Arquivado",
+      "DESCRIPTION": "Tira o contato da lista e das buscas. As oportunidades dele continuam e seguem contando nos relatórios.",
+      "ARCHIVED_DESCRIPTION": "Este contato está fora da lista e das buscas. Ele volta sozinho quando mandar mensagem.",
+      "ARCHIVE": "Arquivar contato",
+      "UNARCHIVE": "Desarquivar contato",
+      "CONFIRM_TITLE": "Arquivar este contato?",
+      "CONFIRM": "O contato sai da lista e das buscas. Ele fica em Contatos → Arquivados.",
+      "CONFIRM_OPEN_DEALS": "Este contato possui {count} oportunidade em aberto. Deseja arquivá-lo mesmo assim mantendo a oportunidade registrada? | Este contato possui {count} oportunidades em aberto. Deseja arquivá-lo mesmo assim mantendo as oportunidades registradas?",
+      "ARCHIVED": "Contato arquivado",
+      "UNARCHIVED": "Contato desarquivado",
+      "ERROR": "Não foi possível alterar o contato. Tente de novo."
+    },
+    "COMPANY": {
+      "LABEL": "Empresa",
+      "SEARCH_PLACEHOLDER": "Buscar empresa",
+      "REMOVE": "Remover empresa",
+      "NO_RESULTS": "Nenhuma empresa encontrada"
+    },
+    "PRODUCTS": {
+      "ADD": "Adicionar produto",
+      "QUANTITY": "Quantidade",
+      "UNIT_PRICE": "Preço unitário",
+      "REMOVE": "Remover produto",
+      "TOTAL": "Total dos produtos",
+      "VALUE_FROM_PRODUCTS": "Soma dos produtos"
+    },
+    "FILES": {
+      "UPLOAD": "Enviar arquivo",
+      "CATEGORY": "Categoria",
+      "EMPTY": "Nenhum arquivo ainda. Envie aqui propostas, contratos e comprovantes.",
+      "DOWNLOAD": "Baixar",
+      "DELETE": "Excluir arquivo",
+      "DELETE_CONFIRM": "Excluir o arquivo “{name}”? Isso não pode ser desfeito.",
+      "UPLOADED": "Arquivo enviado",
+      "DELETED": "Arquivo excluído",
+      "CATEGORIES": {
+        "PROPOSAL": "Proposta comercial",
+        "CONTRACT": "Contrato",
+        "CLIENT_DOCUMENT": "Documento do cliente",
+        "RECEIPT": "Comprovante",
+        "OTHER": "Outro"
+      }
+    },
+    "CUSTOM_FIELDS": {
+      "CHOOSE": "Escolha"
+    },
+    "IMPULSES": {
+      "HINT": "Mensagens automáticas dos impulsos das etapas neste negócio.",
+      "EMPTY": "Nenhum impulso rodou neste negócio ainda.",
+      "STEP": "{impulse} · passo {step}",
+      "CANCEL": "Cancelar",
+      "TYPE": {
+        "TEXT": "Texto livre",
+        "TEMPLATE": "Modelo do WhatsApp"
+      },
+      "STATUS": {
+        "SCHEDULED": "Agendado",
+        "SENT": "Enviado",
+        "CANCELED": "Cancelado",
+        "FAILED": "Falhou"
+      },
+      "REASONS": {
+        "NO_CONTACT": "o negócio não tem contato",
+        "NO_CONVERSATION": "o contato não tem atendimento",
+        "NO_WHATSAPP_CONVERSATION": "o contato não tem atendimento no WhatsApp",
+        "TEMPLATE_NOT_FOUND": "o modelo não está aprovado nesta caixa de entrada",
+        "OUTSIDE_WINDOW": "fora da janela de 24 horas, exige modelo aprovado",
+        "STAGE_CHANGED": "o negócio mudou de etapa",
+        "CONTACT_REPLIED": "o contato respondeu",
+        "IMPULSE_DISABLED": "o impulso foi desativado",
+        "CANCELED_BY_USER": "cancelado por um usuário",
+        "CAMPAIGN_CANCELED": "a campanha foi cancelada"
+      }
+    },
+    "CLIENT_MESSAGE": {
+      "TYPE": {
+        "LABEL": "Mensagem",
+        "TEXT": "Texto livre",
+        "TEMPLATE": "Modelo do WhatsApp",
+        "TEXT_HINT": "No WhatsApp, o texto livre só sai até 24 horas depois da última mensagem do contato. Fora disso a mensagem não sai, e a falha fica registrada no histórico.",
+        "TEMPLATE_HINT": "O modelo aprovado sai mesmo fora da janela de 24 horas. Ele vai pela conversa de WhatsApp do contato."
+      },
+      "CONTENT": "Texto da mensagem",
+      "TEMPLATE": {
+        "INBOX": "Caixa de entrada do WhatsApp",
+        "LABEL": "Modelo aprovado",
+        "CHOOSE": "Escolha um modelo",
+        "VARIABLE": "Valor de {key}"
+      },
+      "VARIABLES": "Variáveis: {variables}",
+      "ERRORS": {
+        "CONTENT": "Escreva a mensagem.",
+        "TEMPLATE": "Escolha um modelo.",
+        "VARIABLES": "Preencha todas as variáveis do modelo."
+      }
+    },
+    "AI": {
+      "TITLE": "IA do pipeline",
+      "ANALYZE": "Atualizar análise",
+      "NEEDS_CONVERSATION": "Requer conversa com mensagens para a IA analisar",
+      "NEXT_STEP": "Próximo passo sugerido",
+      "CREATE_ACTIVITY": "Criar atividade",
+      "NOT_ANALYZED": "Ainda não analisado.",
+      "ANALYZED_AT": "Analisado em {date}",
+      "ERROR": "Não foi possível analisar este negócio",
+      "TEMPERATURE": {
+        "COLD": "Frio",
+        "WARM": "Morno",
+        "HOT": "Quente"
+      }
+    }
+  },
+  "CRM_PRODUCTS": {
+    "HEADER": "Produtos",
+    "DESCRIPTION": "O que a empresa vende. Os negócios usam esta lista nos produtos e no valor.",
+    "SEARCH_PLACEHOLDER": "Buscar produtos",
+    "COUNT": "{n} produtos",
+    "NEW": "Novo produto",
+    "EDIT": "Editar",
+    "DELETE": "Excluir produto",
+    "DELETE_CONFIRM": "Excluir o produto “{name}”? Isso não pode ser desfeito.",
+    "LOADING": "Carregando produtos",
+    "EMPTY": "Nenhum produto ainda. Cadastre o que a empresa vende.",
+    "NO_RESULTS": "Nenhum produto corresponde à busca.",
+    "ACTIVE": "Ativo",
+    "INACTIVE": "Desativado",
+    "TABLE": {
+      "NAME": "Nome",
+      "PRICE": "Preço",
+      "STATUS": "Situação",
+      "ACTIONS": "Ações"
+    },
+    "FORM": {
+      "NEW": "Novo produto",
+      "EDIT": "Editar produto",
+      "SAVE": "Salvar",
+      "CANCEL": "Cancelar",
+      "NAME": "Nome",
+      "NAME_PLACEHOLDER": "Ex.: Plano mensal",
+      "DESCRIPTION": "Descrição (opcional)",
+      "DESCRIPTION_PLACEHOLDER": "O que vem incluído",
+      "PRICE": "Preço (R$)",
+      "SKU": "Código do produto (opcional)",
+      "SKU_PLACEHOLDER": "Ex.: PLANO-01",
+      "ACTIVE": "Ativo: pode ser adicionado aos negócios"
+    },
+    "API": {
+      "SAVE_SUCCESS": "Produto salvo",
+      "SAVE_ERROR": "Não foi possível salvar o produto. Tente de novo.",
+      "DELETE_SUCCESS": "Produto excluído",
+      "FETCH_ERROR": "Não foi possível carregar os produtos."
+    }
+  }
+}

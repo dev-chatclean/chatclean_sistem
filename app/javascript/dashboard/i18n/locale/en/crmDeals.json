@@ -1,0 +1,495 @@
+{
+  "CRM_DEALS": {
+    "NEW": "New {item}",
+    "BOARD": {
+      "SUMMARY": "{count} {item}",
+      "LAST_30_DAYS": "Last 30 days",
+      "SUMMARY_WITH_VALUE": "{summary} · {value}",
+      "NO_DATA": "No data",
+      "STAGE_SUMMARY": "{value} · {count}",
+      "LAST_DAYS": "Last {n} days",
+      "PERIOD_PHRASE": "in the last {n} days",
+      "WAITING_LEADS": "{count} lead waiting for more than {days} days | {count} leads waiting for more than {days} days"
+    },
+    "CARD": {
+      "NO_CONTACT": "no contact",
+      "IN_STAGE": "In stage for {days} d",
+      "NEXT_ACTIVITY_OVERDUE": "Overdue",
+      "CONTACT_ARCHIVED": "contact archived",
+      "ATTACHMENTS": "{count} attachment | {count} attachments"
+    },
+    "MENU": {
+      "LABEL": "Actions",
+      "MOVE": "Move",
+      "WIN": "Win",
+      "LOSE": "Lose",
+      "DUPLICATE": "Duplicate",
+      "DELETE": "Delete"
+    },
+    "CLOSE": {
+      "WIN_TITLE": "Mark as won",
+      "LOSE_TITLE": "Mark as lost",
+      "WIN_CONFIRM": "Mark as won",
+      "LOSE_CONFIRM": "Mark as lost",
+      "WIN_REASON": "Win reason (optional)",
+      "LOSE_REASON": "Loss reason",
+      "CHOOSE_REASON": "Choose the reason",
+      "NOTE": "Notes (optional)",
+      "WIN_NOTE_PLACEHOLDER": "What made the customer close?",
+      "LOSE_NOTE_PLACEHOLDER": "What led to the loss?"
+    },
+    "REASONS": {
+      "NOT_INFORMED": "Not informed",
+      "BEST_PRICE": "Best price",
+      "DELIVERY_TIME": "Delivery time",
+      "RELATIONSHIP": "Relationship",
+      "REFERRAL": "Referral",
+      "PRODUCT_FEATURES": "Product features",
+      "OTHER": "Other",
+      "PRICE": "Price",
+      "NO_INTEREST": "No interest",
+      "COMPETITOR": "Chose a competitor",
+      "NO_RESPONSE": "No response",
+      "OUT_OF_PROFILE": "Out of profile"
+    },
+    "CONTACT": {
+      "SEARCH_PLACEHOLDER": "Search by name or phone",
+      "HINT": "Search by name or phone. Not found? Type the number to create it.",
+      "CREATE": "Create contact with {phone}",
+      "CREATE_ERROR": "Could not create the contact.",
+      "REMOVE": "Unlink"
+    },
+    "FORM": {
+      "TITLE": "New {item}",
+      "CREATE": "Create {item}",
+      "CONTACT": "Contact",
+      "OPTIONAL": "optional",
+      "DEAL_TITLE": "Title",
+      "TITLE_REQUIRED": "required without contact or company",
+      "TITLE_PLACEHOLDER": "E.g. Annual contract",
+      "VALUE": "Value (R$)",
+      "STAGE": "Stage",
+      "EXPECTED_CLOSE_DATE": "Expected close date",
+      "ASSIGNEE": "Owner"
+    },
+    "MOVE": {
+      "TITLE": "Move",
+      "DESCRIPTION": "Choose the target stage in {pipeline}.",
+      "CONFIRM": "Move",
+      "CHOOSE": "Choose the stage"
+    },
+    "STATUS": {
+      "OPEN": "Open",
+      "WON": "Won",
+      "LOST": "Lost"
+    },
+    "DETAIL": {
+      "TABS": {
+        "INFO": "Information",
+        "HISTORY": "History",
+        "ACTIVITIES": "Activities",
+        "IMPULSES": "Impulses",
+        "DEALS": "Deals",
+        "FILES": "Files",
+        "CONVERSATIONS": "Conversations"
+      },
+      "CLOSE": "Close",
+      "NOTES": "Deal note",
+      "NOTES_PLACEHOLDER": "Internal notes about the deal...",
+      "VALUE": "Value",
+      "FULL_PIPELINE": "Full pipeline",
+      "NUMBER": "Number",
+      "CREATED_AT": "Created at",
+      "IN_STAGE_SINCE": "In stage since",
+      "JOURNEY": "Deal journey",
+      "NOW": "now",
+      "SYSTEM": "System",
+      "DURATION": {
+        "LESS_THAN_MINUTE": "less than 1 min",
+        "MINUTES": "{n} min",
+        "HOURS": "{n} h",
+        "DAYS": "{n} d"
+      },
+      "EVENTS": {
+        "CREATED": "{user} created it in {to}",
+        "STAGE_CHANGED": "{user} moved it from {from} to {to}",
+        "WON": "{user} marked it as won in {to}",
+        "LOST": "{user} marked it as lost in {to}",
+        "REOPENED": "{user} reopened it in {to}",
+        "ASSIGNEE_CHANGED": "{user} changed the owner from {from} to {to}",
+        "CREATED_FROM_CONVERSATION": "{user} created it in {to} when conversation #{conversation} was assigned",
+        "ACTIVITY_CREATED": "{user} created the activity “{activity}”",
+        "ACTIVITY_COMPLETED": "{user} completed the activity “{activity}”",
+        "FILE_ADDED": "{user} attached the file “{file}” ({category})",
+        "FILE_REMOVED": "{user} removed the file “{file}” ({category})",
+        "CUSTOM_FIELD_CHANGED": "{user} changed {field} from “{from}” to “{to}”",
+        "CUSTOM_FIELD_SET": "{user} filled {field} with “{to}”",
+        "CUSTOM_FIELD_CLEARED": "{user} cleared {field}",
+        "IMPULSE_SENT": "Impulse “{impulse}” sent step {step}",
+        "IMPULSE_FAILED": "Impulse “{impulse}” failed: {reason}",
+        "IMPULSE_CANCELED": "Impulse “{impulse}” canceled: {reason}",
+        "CLIENT_REMINDER_SENT": "Client reminder for “{activity}” sent",
+        "CLIENT_REMINDER_FAILED": "Client reminder for “{activity}” failed: {reason}",
+        "CLIENT_REMINDER_CANCELED": "{user} canceled the client reminder for “{activity}”",
+        "CAMPAIGN_SENT": "Campaign “{campaign}” sent",
+        "CAMPAIGN_FAILED": "Campaign “{campaign}” failed: {reason}",
+        "CAMPAIGN_CANCELED": "Campaign “{campaign}” canceled: {reason}",
+        "CUSTOM_FIELD_AI": "AI filled {field} with “{to}”"
+      },
+      "RANGE": "{from} → {to}",
+      "NO_LABELS": "No labels",
+      "ADD_LABEL": "Add label",
+      "LABELS_NEED_CONTACT": "Link a contact to use labels",
+      "DEAL_FIELDS": "Deal fields",
+      "NEW_ACTIVITY": "New activity",
+      "DEAL_VALUE": "Deal value",
+      "EDIT_VALUE": "Edit value",
+      "PRODUCTS": "Products",
+      "NO_PRODUCTS": "No products in the catalog. Add them in Settings → Products.",
+      "DEAL_INFO": "Deal information",
+      "DEALS_NEED_CONTACT": "Link a contact or a company to see their other deals.",
+      "NO_OTHER_DEALS": "This contact has no other deals.",
+      "NO_CONTACT_TITLE": "No contact on this deal",
+      "NO_CONTACT_CONVERSATIONS": "Link a contact to see and open conversations.",
+      "NO_CONVERSATIONS": "This contact has no conversations yet.",
+      "CONVERSATION_STATUS": {
+        "OPEN": "Open",
+        "RESOLVED": "Resolved",
+        "PENDING": "Pending",
+        "SNOOZED": "Snoozed"
+      },
+      "LEAD_ORIGIN": "Lead origin",
+      "LEAD_CONVERSATION": "Conversation #{number}"
+    },
+    "API": {
+      "CREATE_SUCCESS": "Created",
+      "UPDATE_SUCCESS": "Updated",
+      "DUPLICATE_SUCCESS": "Copy #{number} created",
+      "DELETE_SUCCESS": "Deleted",
+      "FETCH_ERROR": "Could not load. Try again.",
+      "ACTIVITY_SAVE_SUCCESS": "Activity saved",
+      "ACTIVITY_DELETE_SUCCESS": "Activity deleted"
+    },
+    "DELETE": {
+      "TITLE": "Delete",
+      "MESSAGE": "#{number} {name} will be deleted. This cannot be undone."
+    },
+    "STAGE_DELETE": {
+      "TRANSFER": "This stage has {count} item(s). Choose the stage that will receive them:"
+    },
+    "NUMBER": "#{number}",
+    "TOOLBAR": {
+      "SEARCH": "Search by name, phone or number",
+      "VIEW": {
+        "LABEL": "Show:",
+        "OPEN": "Open",
+        "ALL": "All"
+      },
+      "SORT": {
+        "LABEL": "Sort:",
+        "LONGEST_IN_STAGE": "Longest in stage",
+        "RECENTLY_MOVED": "Recently moved",
+        "RECENTLY_CREATED": "Recently created",
+        "OLDEST_CREATED": "Oldest created",
+        "HIGHEST_VALUE": "Highest value",
+        "LOWEST_VALUE": "Lowest value",
+        "NEXT_ACTIVITY": "Next activity"
+      },
+      "PERIOD": {
+        "LABEL": "Period",
+        "OPEN_TITLE": "Open, created",
+        "CLOSED_TITLE": "Closed, won or lost",
+        "ANY": "Any date",
+        "DAYS": "{n} days",
+        "CUSTOM": "Custom"
+      }
+    },
+    "FILTERS": {
+      "BUTTON": "Filter",
+      "SEARCH": "Search...",
+      "CHOOSE": "Choose",
+      "CONTAINS": "Contains...",
+      "MIN": "Minimum",
+      "MAX": "Maximum",
+      "FROM": "From",
+      "TO": "To",
+      "APPLY": "Apply filter",
+      "REMOVE": "Remove filter",
+      "YES": "Yes",
+      "STALE_HINT": "Only shows cards past the stage days limit.",
+      "FIELDS": {
+        "TEAM": "Department",
+        "CONVERSATION_STATUS": "Status",
+        "CONTACT_LABEL": "Contact label",
+        "CONTACT_TYPE": "Contact type",
+        "UNREAD": "Unread messages",
+        "LAST_ACTIVITY_AT": "Last message on",
+        "ASSIGNEE": "Owner",
+        "STATUS": "Status",
+        "LOSS_REASON": "Loss reason",
+        "STAGE": "Stage",
+        "VALUE": "Value (R$)",
+        "STALE": "Stalled in stage",
+        "CONTACT": "Contact",
+        "COMPANY": "Company",
+        "TITLE": "Title",
+        "CREATED_AT": "Created at",
+        "STAGE_ENTERED_AT": "Entered stage",
+        "EXPECTED_CLOSE_DATE": "Expected close date",
+        "LABEL": "Label",
+        "LEAD_ORIGIN": "Lead origin",
+        "CHANNEL": "Channel",
+        "ACTIVITIES": "Activities",
+        "PRODUCT": "Product",
+        "PIPELINE": "Pipeline",
+        "CLOSED_AT": "Closed on"
+      },
+      "NO_OPTIONS": "Nothing to choose here yet.",
+      "ACTIVITIES": {
+        "OVERDUE": "Overdue",
+        "TODAY": "Due today",
+        "UPCOMING": "Upcoming",
+        "NONE": "No activity"
+      }
+    },
+    "LINK": {
+      "TITLE": "Link contact",
+      "DESCRIPTION": "With a linked contact, chat, metrics and conversations start working.",
+      "SEARCH": "Search existing",
+      "CREATE": "Create",
+      "SEARCH_HINT": "Search by name or phone.",
+      "NAME": "Contact name",
+      "PHONE": "Phone with area code",
+      "SUBMIT": "Link"
+    },
+    "ACTIVITY": {
+      "NEW": "New activity",
+      "EDIT": "Edit activity",
+      "ADD": "Activity",
+      "SAVE": "Save",
+      "CANCEL": "Cancel",
+      "TITLE": "Title",
+      "TITLE_PLACEHOLDER": "E.g. Call to confirm the proposal",
+      "WHEN": "When",
+      "MORE_OPTIONS": "More options",
+      "LESS_OPTIONS": "Fewer options",
+      "TYPE": "Type",
+      "PRIORITY": "Priority",
+      "ASSIGNEE": "Owner",
+      "DURATION": "Duration (min)",
+      "REMIND_BEFORE": "Remind me before",
+      "DESCRIPTION": "Description",
+      "DESCRIPTION_PLACEHOLDER": "Details for whoever does this activity",
+      "RECURRENCE": "Repeats",
+      "CHECKLIST": "Checklist",
+      "CHECKLIST_PLACEHOLDER": "Add an item and press Enter",
+      "CHECKLIST_ADD": "Add item",
+      "CHECKLIST_REMOVE": "Remove item",
+      "TYPES": {
+        "CALL": "Call",
+        "FOLLOW_UP": "Follow-up",
+        "MEETING": "Meeting",
+        "INTERNAL": "Internal"
+      },
+      "PRIORITIES": {
+        "LOW": "Low",
+        "MEDIUM": "Medium",
+        "HIGH": "High"
+      },
+      "RECURRENCES": {
+        "NEVER": "Does not repeat",
+        "DAILY": "Every day",
+        "WEEKLY": "Every week",
+        "MONTHLY": "Every month"
+      },
+      "REMIND": {
+        "NONE": "No reminder",
+        "AT_TIME": "At the time",
+        "MINUTES": "{n} min before",
+        "HOUR": "1 hour before",
+        "DAY": "1 day before"
+      },
+      "PENDING": "To do",
+      "DONE": "Done",
+      "EMPTY": "No activities yet. Create one to plan the next step.",
+      "OVERDUE": "Overdue",
+      "REQUIRED": "Required by {stage}",
+      "REQUIRED_HINT": "Required by the stage: it can be completed, not deleted.",
+      "MARK_DONE": "Mark as done",
+      "MARK_PENDING": "Mark as to do",
+      "EDIT_ACTION": "Edit",
+      "DELETE_ACTION": "Delete",
+      "DELETE_CONFIRM": "Delete the activity “{title}”? This cannot be undone.",
+      "CHECKLIST_PROGRESS": "{done}/{total}",
+      "DURATION_VALUE": "{n} min",
+      "REMINDER_TOAST": "Reminder: “{title}” at {time} ({deal})",
+      "REMINDER_OPEN": "Open deal",
+      "CLIENT_REMINDER": {
+        "LABEL": "Remind the client before",
+        "HINT": "Sends a message to the deal’s contact before the activity.",
+        "NO_CONTACT": "Link a contact to the deal to remind the client.",
+        "OFF": "Don’t remind",
+        "SENT": "Reminder sent to the client on {date}"
+      }
+    },
+    "CONTACT_TAB": {
+      "NEW": "New deal",
+      "PIPELINE": "Pipeline",
+      "EMPTY": "This contact has no deals yet."
+    },
+    "ARCHIVE": {
+      "TITLE": "Archive contact",
+      "BADGE": "Archived",
+      "DESCRIPTION": "Hide this contact from the contact list and searches. Their deals stay and keep counting in reports.",
+      "ARCHIVED_DESCRIPTION": "This contact is hidden from the list and searches. It comes back on its own when the contact sends a message.",
+      "ARCHIVE": "Archive contact",
+      "UNARCHIVE": "Unarchive contact",
+      "CONFIRM_TITLE": "Archive this contact?",
+      "CONFIRM": "The contact leaves the list and searches. You can find it under Contacts → Archived.",
+      "CONFIRM_OPEN_DEALS": "This contact has {count} open deal. Archive anyway and keep the deal? | This contact has {count} open deals. Archive anyway and keep the deals?",
+      "ARCHIVED": "Contact archived",
+      "UNARCHIVED": "Contact unarchived",
+      "ERROR": "Could not change the contact. Try again."
+    },
+    "COMPANY": {
+      "LABEL": "Company",
+      "SEARCH_PLACEHOLDER": "Search company",
+      "REMOVE": "Remove company",
+      "NO_RESULTS": "No company found"
+    },
+    "PRODUCTS": {
+      "ADD": "Add product",
+      "QUANTITY": "Quantity",
+      "UNIT_PRICE": "Unit price",
+      "REMOVE": "Remove product",
+      "TOTAL": "Products total",
+      "VALUE_FROM_PRODUCTS": "Sum of the products"
+    },
+    "FILES": {
+      "UPLOAD": "Upload file",
+      "CATEGORY": "Category",
+      "EMPTY": "No files yet. Upload proposals, contracts and receipts here.",
+      "DOWNLOAD": "Download",
+      "DELETE": "Delete file",
+      "DELETE_CONFIRM": "Delete the file “{name}”? This cannot be undone.",
+      "UPLOADED": "File uploaded",
+      "DELETED": "File deleted",
+      "CATEGORIES": {
+        "PROPOSAL": "Proposal",
+        "CONTRACT": "Contract",
+        "CLIENT_DOCUMENT": "Client document",
+        "RECEIPT": "Receipt",
+        "OTHER": "Other"
+      }
+    },
+    "CUSTOM_FIELDS": {
+      "CHOOSE": "Choose"
+    },
+    "IMPULSES": {
+      "HINT": "Automatic messages from the stage impulses for this deal.",
+      "EMPTY": "No impulse has run for this deal yet.",
+      "STEP": "{impulse} · step {step}",
+      "CANCEL": "Cancel",
+      "TYPE": {
+        "TEXT": "Free text",
+        "TEMPLATE": "WhatsApp template"
+      },
+      "STATUS": {
+        "SCHEDULED": "Scheduled",
+        "SENT": "Sent",
+        "CANCELED": "Canceled",
+        "FAILED": "Failed"
+      },
+      "REASONS": {
+        "NO_CONTACT": "the deal has no contact",
+        "NO_CONVERSATION": "the contact has no conversation",
+        "NO_WHATSAPP_CONVERSATION": "the contact has no WhatsApp conversation",
+        "TEMPLATE_NOT_FOUND": "the template is not approved in this inbox",
+        "OUTSIDE_WINDOW": "outside the 24-hour window, an approved template is needed",
+        "STAGE_CHANGED": "the deal changed stage",
+        "CONTACT_REPLIED": "the contact replied",
+        "IMPULSE_DISABLED": "the impulse was turned off",
+        "CANCELED_BY_USER": "canceled by a user",
+        "CAMPAIGN_CANCELED": "the campaign was canceled"
+      }
+    },
+    "CLIENT_MESSAGE": {
+      "TYPE": {
+        "LABEL": "Message",
+        "TEXT": "Free text",
+        "TEMPLATE": "WhatsApp template",
+        "TEXT_HINT": "On WhatsApp, free text only goes out within 24 hours of the contact’s last message. Outside that window it is not sent, and the failure is logged in the history.",
+        "TEMPLATE_HINT": "An approved template is sent even outside the 24-hour window. It goes through the contact’s WhatsApp conversation."
+      },
+      "CONTENT": "Message text",
+      "TEMPLATE": {
+        "INBOX": "WhatsApp inbox",
+        "LABEL": "Approved template",
+        "CHOOSE": "Choose a template",
+        "VARIABLE": "Value for {key}"
+      },
+      "VARIABLES": "Variables: {variables}",
+      "ERRORS": {
+        "CONTENT": "Write the message.",
+        "TEMPLATE": "Choose a template.",
+        "VARIABLES": "Fill in every template variable."
+      }
+    },
+    "AI": {
+      "TITLE": "Pipeline AI",
+      "ANALYZE": "Refresh analysis",
+      "NEEDS_CONVERSATION": "Needs a conversation with messages for the AI to analyze",
+      "NEXT_STEP": "Suggested next step",
+      "CREATE_ACTIVITY": "Create activity",
+      "NOT_ANALYZED": "Not analyzed yet.",
+      "ANALYZED_AT": "Analyzed on {date}",
+      "ERROR": "Could not analyze this deal",
+      "TEMPERATURE": {
+        "COLD": "Cold",
+        "WARM": "Warm",
+        "HOT": "Hot"
+      }
+    }
+  },
+  "CRM_PRODUCTS": {
+    "HEADER": "Products",
+    "DESCRIPTION": "What the company sells. Deals use this list for products and value.",
+    "SEARCH_PLACEHOLDER": "Search products",
+    "COUNT": "{n} products",
+    "NEW": "New product",
+    "EDIT": "Edit",
+    "DELETE": "Delete product",
+    "DELETE_CONFIRM": "Delete the product “{name}”? This cannot be undone.",
+    "LOADING": "Loading products",
+    "EMPTY": "No products yet. Add what the company sells.",
+    "NO_RESULTS": "No products match the search.",
+    "ACTIVE": "Active",
+    "INACTIVE": "Off",
+    "TABLE": {
+      "NAME": "Name",
+      "PRICE": "Price",
+      "STATUS": "Status",
+      "ACTIONS": "Actions"
+    },
+    "FORM": {
+      "NEW": "New product",
+      "EDIT": "Edit product",
+      "SAVE": "Save",
+      "CANCEL": "Cancel",
+      "NAME": "Name",
+      "NAME_PLACEHOLDER": "E.g. Monthly plan",
+      "DESCRIPTION": "Description (optional)",
+      "DESCRIPTION_PLACEHOLDER": "What it includes",
+      "PRICE": "Price (R$)",
+      "SKU": "Product code (optional)",
+      "SKU_PLACEHOLDER": "E.g. PLAN-01",
+      "ACTIVE": "Active: can be added to deals"
+    },
+    "API": {
+      "SAVE_SUCCESS": "Product saved",
+      "SAVE_ERROR": "Could not save the product. Try again.",
+      "DELETE_SUCCESS": "Product deleted",
+      "FETCH_ERROR": "Could not load the products."
+    }
+  }
+}
