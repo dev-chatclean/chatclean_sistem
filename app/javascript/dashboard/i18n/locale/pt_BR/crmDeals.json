@@ -234,7 +234,9 @@
         "LEAD_ORIGIN": "Origem do lead",
         "CHANNEL": "Canal",
         "ACTIVITIES": "Atividades",
-        "PRODUCT": "Produto"
+        "PRODUCT": "Produto",
+        "PIPELINE": "Pipeline",
+        "CLOSED_AT": "Fechado em"
       },
       "NO_OPTIONS": "Ainda não há opções para escolher.",
       "ACTIVITIES": {

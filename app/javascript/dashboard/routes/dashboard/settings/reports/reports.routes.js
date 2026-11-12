@@ -26,6 +26,7 @@ import LiveReports from './LiveReports.vue';
 import MonitorShow from './monitors/MonitorShow.vue';
 import MonitorsIndex from './monitors/MonitorsIndex.vue';
 import SLAReports from './SLAReports.vue';
+import SalesReport from '../../crm/pages/SalesReport.vue';
 
 const meta = {
   featureFlag: FEATURE_FLAGS.REPORTS,
@@ -146,6 +147,12 @@ export default {
           name: 'account_overview_reports',
           meta,
           component: LiveReports,
+        },
+        {
+          path: 'sales',
+          name: 'crm_sales_reports',
+          meta: { ...meta, permissions: ['administrator'] },
+          component: SalesReport,
         },
         {
           path: 'conversation',

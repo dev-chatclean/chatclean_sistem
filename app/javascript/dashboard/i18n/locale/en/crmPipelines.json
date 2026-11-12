@@ -364,5 +364,109 @@
         "CANCEL_SUCCESS": "Pending messages canceled"
       }
     }
+  },
+  "CRM_REPORTS": {
+    "SALES": {
+      "TITLE": "Sales & Pipeline",
+      "DESCRIPTION": "Pipeline, revenue, losses and the team's pace",
+      "PERIOD_DAYS": "{count} days",
+      "PREVIOUS": "Previous period",
+      "LOADING": "Loading the report...",
+      "ERROR": "Could not load the report",
+      "NO_DATA": "No data",
+      "EMPTY_PERIOD": "No data in the period.",
+      "VS_PREVIOUS": "{value} vs. previous",
+      "KPIS": {
+        "OPEN": {
+          "LABEL": "Open (pipeline)",
+          "HINT": "{count} stale | {count} stale"
+        },
+        "WON": {
+          "LABEL": "Won in the period",
+          "EMPTY": "in the period"
+        },
+        "LOST": {
+          "LABEL": "Lost",
+          "HINT": "{count} deal | {count} deals"
+        },
+        "CONVERSION": {
+          "LABEL": "Conversion",
+          "HINT": "{won} of {closed} closed",
+          "EMPTY": "no deal won or lost in the period"
+        },
+        "TICKET": {
+          "LABEL": "Average ticket",
+          "HINT": "per deal won",
+          "EMPTY": "no deal won in the period"
+        },
+        "CLOSE_TIME": {
+          "LABEL": "Time to close",
+          "HINT": "average until won",
+          "EMPTY": "no deal won in the period"
+        },
+        "LOSS_TIME": {
+          "LABEL": "Time to lose",
+          "HINT": "average until lost"
+        }
+      },
+      "PIPELINE": {
+        "TITLE": "Pipeline",
+        "DESCRIPTION": "Deals per stage (count · value)",
+        "TOOLTIP": "{count} deals · {value} · {total}% of total · {top}% of the top",
+        "NO_PIPELINE": "Create a pipeline to see its stages."
+      },
+      "WINS": {
+        "TITLE": "Wins over time",
+        "DESCRIPTION": "Value won per period",
+        "TOTAL": "won in the period",
+        "CURRENT": "This period",
+        "PREVIOUS": "Previous period",
+        "SHOW_TABLE": "Show as table",
+        "SHOW_CHART": "Show as chart",
+        "DATE": "Date",
+        "VALUE": "Value",
+        "WEEK_OF": "Week of {date}"
+      },
+      "CONVERSION": {
+        "TITLE": "Conversion between stages",
+        "DESCRIPTION": "Deals created in the period: how many reached each stage and how many moved on to the next. A skipped stage does not count. A stage may have more deals than the previous one.",
+        "STAGE": "Stage",
+        "REACHED": "Reached",
+        "MOVED_ON": "Moved on to the next",
+        "MOVED_ON_VALUE": "{moved} of {reached} ({percent}%)",
+        "LAST": "last stage",
+        "NO_DATA": "no data",
+        "BIGGEST_DROP": "biggest drop"
+      },
+      "BY_ASSIGNEE": {
+        "TITLE": "By owner",
+        "DESCRIPTION": "Sales ranking in the period",
+        "ASSIGNEE": "Owner",
+        "DEALS": "Deals",
+        "WON": "Won",
+        "VALUE": "Value",
+        "EMPTY": "No deal in the period."
+      },
+      "COLLABORATORS": {
+        "TITLE": "Team members",
+        "DESCRIPTION": "Won against lost, and each one's activities",
+        "ASSIGNEE": "Owner",
+        "WON": "Won",
+        "WON_VALUE": "Value won",
+        "LOST": "Lost",
+        "LOST_VALUE": "Value lost",
+        "WIN_RATE": "Win rate",
+        "ACTIVITIES_DONE": "Activities done",
+        "OVERDUE": "Overdue"
+      },
+      "STAGNATION": {
+        "TITLE": "Stagnation per stage",
+        "DESCRIPTION": "How many open deals passed the stage's limit",
+        "STAGE": "Stage",
+        "OPEN": "Open",
+        "STALE": "Stale",
+        "AVERAGE": "Average in stage"
+      }
+    }
   }
 }

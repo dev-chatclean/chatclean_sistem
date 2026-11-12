@@ -123,6 +123,23 @@ export const BOARD_FILTER_FIELDS = [
   { key: 'expected_close_date', icon: 'i-lucide-calendar-check', type: 'date' },
 ];
 
+export const SALES_REPORT_PERIODS = [7, 30, 90];
+export const SALES_REPORT_DEFAULT_PERIOD = 30;
+export const SALES_REPORT_WEEKLY_PERIOD = 90;
+export const SALES_REPORT_FILTER_FIELDS = [
+  { key: 'pipeline', icon: 'i-lucide-funnel', type: 'pipeline' },
+  { key: 'stage', icon: 'i-lucide-columns-3', type: 'stage' },
+  { key: 'assignee', icon: 'i-lucide-user', type: 'assignee' },
+  { key: 'value', icon: 'i-lucide-banknote', type: 'range' },
+  { key: 'contact', icon: 'i-lucide-contact', type: 'text' },
+  { key: 'company', icon: 'i-lucide-building-2', type: 'text' },
+  { key: 'title', icon: 'i-lucide-type', type: 'text' },
+  { key: 'channel', icon: 'i-lucide-inbox', type: 'inbox' },
+  { key: 'closed_at', icon: 'i-lucide-calendar-check-2', type: 'date' },
+  { key: 'created_at', icon: 'i-lucide-calendar-plus', type: 'date' },
+  { key: 'stage_entered_at', icon: 'i-lucide-log-in', type: 'date' },
+];
+
 export const ACTIVITY_TYPES = [
   { value: 'call', icon: 'i-lucide-phone' },
   { value: 'follow_up', icon: 'i-lucide-reply' },

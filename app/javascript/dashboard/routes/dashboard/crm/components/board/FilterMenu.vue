@@ -14,6 +14,8 @@ import {
 
 const props = defineProps({
   stages: { type: Array, default: () => [] },
+  pipelines: { type: Array, default: () => [] },
+  fields: { type: Array, default: () => BOARD_FILTER_FIELDS },
 });
 
 const emit = defineEmits(['add']);
@@ -29,8 +31,12 @@ const field = ref(null);
 const draft = ref(null);
 const products = ref([]);
 
+const usesProducts = computed(() =>
+  props.fields.some(item => item.type === 'product')
+);
+
 watch(isOpen, async open => {
-  if (!open || products.value.length) return;
+  if (!open || products.value.length || !usesProducts.value) return;
   const { data } = await CrmProductsAPI.get();
   products.value = data.payload;
 });
@@ -39,7 +45,7 @@ const fieldLabel = key => t(`CRM_DEALS.FILTERS.FIELDS.${key.toUpperCase()}`);
 
 const visibleFields = computed(() => {
   const term = query.value.trim().toLowerCase();
-  return BOARD_FILTER_FIELDS.filter(
+  return props.fields.filter(
     item => !term || fieldLabel(item.key).toLowerCase().includes(term)
   );
 });
@@ -77,6 +83,12 @@ const options = computed(() => {
     return ACTIVITY_FILTERS.map(value => ({
       value,
       label: t(`CRM_DEALS.FILTERS.ACTIVITIES.${value.toUpperCase()}`),
+    }));
+  }
+  if (field.value.type === 'pipeline') {
+    return props.pipelines.map(pipeline => ({
+      value: pipeline.id,
+      label: pipeline.name,
     }));
   }
   if (field.value.type === 'stage') {

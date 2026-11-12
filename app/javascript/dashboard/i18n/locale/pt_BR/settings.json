@@ -425,7 +425,8 @@
     "DOCS": "Ler documentos",
     "SECURITY": "Segurança",
     "CAPTAIN_AI": "Captain",
-    "CONVERSATION_WORKFLOW": "Fluxo de Conversa"
+    "CONVERSATION_WORKFLOW": "Fluxo de Conversa",
+    "REPORTS_SALES": "Vendas & Pipeline"
   },
   "DATA_IMPORTS": {
     "HEADER": "Dados",
