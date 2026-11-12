@@ -10,6 +10,8 @@ import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 
 const props = defineProps({
   contact: { type: Object, required: true },
+  // In the contact list the contact leaves the current view after the change.
+  inList: { type: Boolean, default: false },
 });
 
 const { t } = useI18n();
@@ -22,7 +24,9 @@ const isSaving = ref(false);
 const isArchived = computed(() => Boolean(props.contact.archivedAt));
 
 const refreshContact = () =>
-  store.dispatch('contacts/show', { id: props.contact.id });
+  props.inList
+    ? store.commit('contacts/DELETE_CONTACT', props.contact.id)
+    : store.dispatch('contacts/show', { id: props.contact.id });
 
 const askArchive = async () => {
   const { data } = await CrmDealsAPI.forContact(props.contact.id);
@@ -62,7 +66,8 @@ const unarchive = async () => {
 
 <template>
   <div
-    class="flex flex-col items-start w-full gap-4 pt-6 border-t border-n-strong"
+    class="flex flex-col items-start w-full gap-4 border-t border-n-strong"
+    :class="inList ? 'px-6 py-5' : 'pt-6'"
   >
     <div class="flex flex-col gap-2">
       <h6

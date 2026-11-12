@@ -14,7 +14,8 @@
     "CARD": {
       "NO_CONTACT": "no contact",
       "IN_STAGE": "In stage for {days} d",
-      "NEXT_ACTIVITY_OVERDUE": "Overdue"
+      "NEXT_ACTIVITY_OVERDUE": "Overdue",
+      "CONTACT_ARCHIVED": "contact archived"
     },
     "MENU": {
       "LABEL": "Actions",

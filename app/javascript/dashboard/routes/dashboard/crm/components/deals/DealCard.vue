@@ -84,6 +84,12 @@ const staleClass = computed(
           {{ deal.display_name }}
         </span>
         <span
+          v-if="deal.contact?.archived_at"
+          class="self-start px-1.5 py-0.5 rounded-md text-label-small bg-n-amber-3 text-n-amber-11"
+        >
+          {{ t('CRM_DEALS.CARD.CONTACT_ARCHIVED') }}
+        </span>
+        <span
           v-if="!deal.contact"
           class="self-start px-1.5 py-0.5 rounded-md text-label-small border border-n-slate-6 text-n-slate-11"
         >
