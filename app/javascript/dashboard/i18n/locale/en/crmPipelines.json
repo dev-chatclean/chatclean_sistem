@@ -466,6 +466,126 @@
         "OPEN": "Open",
         "STALE": "Stale",
         "AVERAGE": "Average in stage"
+      },
+      "DOWNLOAD_CSV": "Download CSV",
+      "BLOCKS": {
+        "BUTTON": "Blocks",
+        "ALL_VISIBLE": "All visible",
+        "HIDDEN_COUNT": "{count} hidden | {count} hidden",
+        "SHOW_ALL": "Show all",
+        "DRAG": "Drag to reorder",
+        "NAMES": {
+          "INDICATORS": "Indicators",
+          "PIPELINE": "Pipeline",
+          "WINS": "Wins over time",
+          "CONVERSION": "Conversion between stages",
+          "BY_ASSIGNEE": "By owner",
+          "BY_ORIGIN": "By origin",
+          "BY_CHANNEL": "By channel",
+          "BY_PRODUCT": "By product",
+          "ORIGIN_WINS": "Wins by origin",
+          "BY_COMPANY": "By company",
+          "WON_REASONS": "Wins by reason",
+          "WON_DEALS": "Won deals",
+          "LOST_REASONS": "Losses by reason",
+          "LOST_BY_ASSIGNEE": "Losses by owner",
+          "WHERE_LOST": "Where deals are lost",
+          "LOST_DEALS": "Lost deals",
+          "STAGNATION": "Stagnation per stage",
+          "COLLABORATORS": "Team members"
+        }
+      },
+      "SOURCES": {
+        "LEADS": "Leads",
+        "WON": "Won",
+        "LOST": "Lost",
+        "CONVERSION": "Conversion",
+        "VALUE": "Value",
+        "NO_CLOSED": "none closed"
+      },
+      "BY_ORIGIN": {
+        "DESCRIPTION": "Leads from each origin and how many of the closed ones became a sale",
+        "ORIGIN": "Origin",
+        "NONE": "No origin"
+      },
+      "BY_CHANNEL": {
+        "DESCRIPTION": "Leads from each entry channel and how many of the closed ones became a sale",
+        "CHANNEL": "Channel",
+        "NONE": "No channel"
+      },
+      "BY_PRODUCT": {
+        "DESCRIPTION": "Revenue and units sold (won deals)",
+        "PRODUCT": "Product",
+        "UNITS": "Units",
+        "REVENUE": "Revenue"
+      },
+      "ORIGIN_WINS": {
+        "DESCRIPTION": "Each origin's share of the value won"
+      },
+      "BY_COMPANY": {
+        "DESCRIPTION": "The accounts that brought the most in the period, and what is still at stake with each one",
+        "COMPANY": "Company",
+        "WON": "Won in the period",
+        "OPEN": "At stake",
+        "OPEN_VALUE": "{count} open · {value} | {count} open · {value}",
+        "EMPTY": "No company with deals in the period."
+      },
+      "REASONS": {
+        "REASON": "Reason",
+        "DEALS": "Deals",
+        "SHARE": "Share",
+        "VALUE": "Value"
+      },
+      "WON_REASONS": {
+        "DESCRIPTION": "What made each deal close",
+        "EMPTY": "No deal won with a reason in the period."
+      },
+      "LOST_REASONS": {
+        "DESCRIPTION": "How many deals each reason took",
+        "EMPTY": "No deal lost in the period."
+      },
+      "DEALS": {
+        "DEAL": "Deal",
+        "ASSIGNEE": "Owner",
+        "PRODUCTS": "Products",
+        "VALUE": "Value",
+        "CYCLE": "Took",
+        "CLOSED_AT": "Closed on",
+        "STAGE": "Stage",
+        "REASON": "Reason",
+        "NOTE": "Note",
+        "LIMIT": "Showing the {count} most recent."
+      },
+      "WON_DEALS": {
+        "DESCRIPTION": "Each sale of the period, with what was sold and how long it took",
+        "EMPTY": "No deal won in the period."
+      },
+      "LOST_DEALS": {
+        "DESCRIPTION": "Reason and note of each loss",
+        "EMPTY": "No deal lost in the period."
+      },
+      "LOST_BY_ASSIGNEE": {
+        "DESCRIPTION": "Who loses the most, in proportion to what they closed",
+        "ASSIGNEE": "Owner",
+        "LOST": "Lost",
+        "CLOSED": "Closed",
+        "RATE": "Loss rate",
+        "VALUE": "Value lost",
+        "EMPTY": "No deal lost in the period."
+      },
+      "WHERE_LOST": {
+        "DESCRIPTION": "In which stage of the pipeline the sale died, and how much that weighs",
+        "STAGE": "Stage",
+        "LOST": "Lost",
+        "SHARE": "Share of losses",
+        "VALUE": "Value lost",
+        "EMPTY": "No deal lost in the period."
+      },
+      "CSV": {
+        "FILE": "sales-pipeline-{days}-days.csv",
+        "INDICATOR": "Indicator",
+        "VALUE": "Value",
+        "DAYS": "{label} (days)"
       }
     }
   }

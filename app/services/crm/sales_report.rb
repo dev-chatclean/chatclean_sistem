@@ -6,14 +6,14 @@ class Crm::SalesReport
 
   def build
     {
-      pipeline: pipeline && { id: pipeline.id, name: pipeline.name, stages: pipeline.stages.map { |stage| stage_json(stage) } },
+      pipeline: pipeline_json,
       kpis: kpis(current_range).merge(open_kpis),
       previous_kpis: kpis(previous_range),
       wins_timeline: wins_timeline(current_range),
       previous_wins_timeline: wins_timeline(previous_range),
       stages: stage_rows,
       assignees: assignee_rows
-    }
+    }.merge(Crm::SalesReportBreakdowns.new(deals: deals, range: current_range, pipeline: pipeline).build)
   end
 
   private
@@ -38,6 +38,10 @@ class Crm::SalesReport
     return @pipeline if defined?(@pipeline)
 
     @pipeline = filters[:pipeline_id] ? account.crm_pipelines.find(filters[:pipeline_id]) : account.crm_pipelines.find_by(is_default: true)
+  end
+
+  def pipeline_json
+    pipeline && { id: pipeline.id, name: pipeline.name, stages: pipeline.stages.map { |stage| stage_json(stage) } }
   end
 
   def won_in(range)

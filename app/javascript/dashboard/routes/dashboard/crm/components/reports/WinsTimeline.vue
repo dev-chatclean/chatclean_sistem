@@ -35,8 +35,9 @@ const total = computed(() =>
   props.timeline.reduce((sum, point) => sum + point.value, 0)
 );
 
+// The axis has no room for "Semana de …": it shows the first day of each week, the table the full label.
 const chartData = computed(() => ({
-  categories: props.timeline.map(label),
+  categories: props.timeline.map(point => formatDay(point.date)),
   series: [
     {
       id: 'current',

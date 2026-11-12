@@ -55,7 +55,7 @@ const movedOnText = stage => {
       :rows="rows"
     >
       <template #row="{ row }">
-        <td class="px-3 py-2.5">
+        <td class="px-2.5 py-2.5">
           <span class="flex items-center gap-2 text-n-slate-12">
             <span
               class="rounded-full size-2 shrink-0"
@@ -70,9 +70,11 @@ const movedOnText = stage => {
             </span>
           </span>
         </td>
-        <td class="px-3 py-2.5 text-end text-n-slate-12">{{ row.reached }}</td>
+        <td class="px-2.5 py-2.5 text-end text-n-slate-12">
+          {{ row.reached }}
+        </td>
         <td
-          class="px-3 py-2.5 text-end"
+          class="px-2.5 py-2.5 text-end"
           :class="
             row.moved_on != null && row.reached
               ? 'text-n-slate-12'
