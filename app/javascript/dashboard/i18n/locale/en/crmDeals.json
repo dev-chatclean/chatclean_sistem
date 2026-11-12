@@ -218,6 +218,12 @@
       "YES": "Yes",
       "STALE_HINT": "Only shows cards past the stage days limit.",
       "FIELDS": {
+        "TEAM": "Department",
+        "CONVERSATION_STATUS": "Status",
+        "CONTACT_LABEL": "Contact label",
+        "CONTACT_TYPE": "Contact type",
+        "UNREAD": "Unread messages",
+        "LAST_ACTIVITY_AT": "Last message on",
         "ASSIGNEE": "Owner",
         "STATUS": "Status",
         "LOSS_REASON": "Loss reason",

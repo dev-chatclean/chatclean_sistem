@@ -149,6 +149,38 @@ export const SALES_REPORT_BLOCKS = [
   { key: 'stagnation', wide: true, needsStages: true },
   { key: 'collaborators', wide: true },
 ];
+export const OVERVIEW_REPORT_DEFAULT_PERIOD = 7;
+export const CONVERSATION_STATUSES = ['open', 'pending', 'snoozed', 'resolved'];
+export const CONTACT_TYPES = ['visitor', 'lead', 'customer'];
+// "Filtrar" of the Visão geral report. "Atendimento por IA" waits for the AI attendant (E6).
+export const OVERVIEW_REPORT_FILTER_FIELDS = [
+  { key: 'team', icon: 'i-lucide-users', type: 'team' },
+  { key: 'channel', icon: 'i-lucide-inbox', type: 'inbox' },
+  { key: 'assignee', icon: 'i-lucide-user', type: 'assignee' },
+  {
+    key: 'conversation_status',
+    icon: 'i-lucide-flag',
+    type: 'choice',
+    choices: CONVERSATION_STATUSES,
+    choiceLabel: 'CRM_REPORTS.OVERVIEW.CONVERSATION_STATUS',
+  },
+  { key: 'contact_label', icon: 'i-lucide-tag', type: 'label' },
+  {
+    key: 'contact_type',
+    icon: 'i-lucide-contact',
+    type: 'choice',
+    choices: CONTACT_TYPES,
+    choiceLabel: 'CRM_REPORTS.OVERVIEW.CONTACT_TYPE',
+  },
+  {
+    key: 'unread',
+    icon: 'i-lucide-mail-warning',
+    type: 'flag',
+    hint: 'CRM_REPORTS.OVERVIEW.UNREAD_HINT',
+  },
+  { key: 'created_at', icon: 'i-lucide-calendar-plus', type: 'date' },
+  { key: 'last_activity_at', icon: 'i-lucide-message-square', type: 'date' },
+];
 export const SALES_REPORT_FILTER_FIELDS = [
   { key: 'pipeline', icon: 'i-lucide-funnel', type: 'pipeline' },
   { key: 'stage', icon: 'i-lucide-columns-3', type: 'stage' },

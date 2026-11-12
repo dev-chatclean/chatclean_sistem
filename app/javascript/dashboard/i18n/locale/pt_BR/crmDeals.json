@@ -218,6 +218,12 @@
       "YES": "Sim",
       "STALE_HINT": "Mostra só os cartões que passaram do limite de dias da etapa.",
       "FIELDS": {
+        "TEAM": "Departamento",
+        "CONVERSATION_STATUS": "Status",
+        "CONTACT_LABEL": "Etiqueta do contato",
+        "CONTACT_TYPE": "Tipo de contato",
+        "UNREAD": "Mensagens não lidas",
+        "LAST_ACTIVITY_AT": "Última mensagem em",
         "ASSIGNEE": "Responsável",
         "STATUS": "Status",
         "LOSS_REASON": "Motivo de perda",

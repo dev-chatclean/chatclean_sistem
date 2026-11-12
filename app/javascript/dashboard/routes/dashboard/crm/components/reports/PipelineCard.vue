@@ -6,6 +6,7 @@ import PipelineStageBars from './PipelineStageBars.vue';
 defineProps({
   stages: { type: Array, required: true },
   pipelineName: { type: String, default: '' },
+  title: { type: String, default: '' },
 });
 
 const { t } = useI18n();
@@ -13,7 +14,7 @@ const { t } = useI18n();
 
 <template>
   <ReportCard
-    :title="t('CRM_REPORTS.SALES.PIPELINE.TITLE')"
+    :title="title || t('CRM_REPORTS.SALES.PIPELINE.TITLE')"
     :description="t('CRM_REPORTS.SALES.PIPELINE.DESCRIPTION')"
   >
     <template v-if="pipelineName" #actions>

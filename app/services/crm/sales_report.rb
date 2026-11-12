@@ -2,6 +2,8 @@
 # Money and counts are SQL aggregates; durations and stale deals come from plucked columns, never from whole records.
 # The stage blocks use the pipeline of the filter, or the account's default pipeline.
 class Crm::SalesReport
+  include Crm::ReportPeriod
+
   pattr_initialize [:account!, :period!, :time_zone!, { filters: {} }]
 
   def build
@@ -20,18 +22,6 @@ class Crm::SalesReport
 
   def deals
     @deals ||= account.crm_deals.report_filtered(filters)
-  end
-
-  def now
-    @now ||= Time.current.in_time_zone(time_zone)
-  end
-
-  def current_range
-    @current_range ||= (now - (period - 1).days).beginning_of_day..now.end_of_day
-  end
-
-  def previous_range
-    (current_range.begin - period.days)...current_range.begin
   end
 
   def pipeline

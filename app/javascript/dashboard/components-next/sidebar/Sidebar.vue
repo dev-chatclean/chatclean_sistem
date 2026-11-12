@@ -424,6 +424,12 @@ const menuItems = computed(() => {
           to: accountScopedRoute('conversation_unattended'),
         },
         {
+          name: 'Live View',
+          label: t('SIDEBAR.LIVE_VIEW'),
+          icon: 'i-lucide-radio',
+          to: accountScopedRoute('account_overview_reports'),
+        },
+        {
           name: 'Folders',
           label: t('SIDEBAR.CUSTOM_VIEWS_FOLDER'),
           icon: 'i-lucide-folder',
@@ -704,9 +710,9 @@ const menuItems = computed(() => {
       icon: 'i-lucide-chart-spline',
       children: [
         {
-          name: 'Report Overview',
-          label: t('SIDEBAR.REPORTS_OVERVIEW'),
-          to: accountScopedRoute('account_overview_reports'),
+          name: 'Reports Summary',
+          label: t('SIDEBAR.REPORTS_SUMMARY'),
+          to: accountScopedRoute('crm_overview_reports'),
         },
         {
           name: 'Reports Sales',

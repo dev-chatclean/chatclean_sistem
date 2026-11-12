@@ -27,6 +27,7 @@ import MonitorShow from './monitors/MonitorShow.vue';
 import MonitorsIndex from './monitors/MonitorsIndex.vue';
 import SLAReports from './SLAReports.vue';
 import SalesReport from '../../crm/pages/SalesReport.vue';
+import OverviewReport from '../../crm/pages/OverviewReport.vue';
 
 const meta = {
   featureFlag: FEATURE_FLAGS.REPORTS,
@@ -139,7 +140,7 @@ export default {
         {
           path: '',
           redirect: to => {
-            return { name: 'account_overview_reports', params: to.params };
+            return { name: 'crm_overview_reports', params: to.params };
           },
         },
         {
@@ -147,6 +148,12 @@ export default {
           name: 'account_overview_reports',
           meta,
           component: LiveReports,
+        },
+        {
+          path: 'summary',
+          name: 'crm_overview_reports',
+          meta: { ...meta, permissions: ['administrator'] },
+          component: OverviewReport,
         },
         {
           path: 'sales',

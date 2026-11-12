@@ -9,6 +9,10 @@ class CrmReportsAPI extends ApiClient {
   sales(params, { signal } = {}) {
     return axios.get(`${this.url}/sales`, { params, signal });
   }
+
+  overview(params, { signal } = {}) {
+    return axios.get(`${this.url}/overview`, { params, signal });
+  }
 }
 
 export default new CrmReportsAPI();
