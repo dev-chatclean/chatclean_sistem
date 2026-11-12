@@ -294,28 +294,10 @@
           "DAYS": "dias"
         }
       },
-      "TYPE": {
-        "LABEL": "Mensagem",
-        "TEXT": "Texto livre",
-        "TEMPLATE": "Modelo do WhatsApp",
-        "TEXT_HINT": "No WhatsApp, o texto livre só sai até 24 horas depois da última mensagem do contato. Fora disso o passo falha e fica registrado no histórico.",
-        "TEMPLATE_HINT": "O modelo aprovado sai mesmo fora da janela de 24 horas. Ele vai pela conversa de WhatsApp do contato."
-      },
-      "CONTENT": "Texto da mensagem",
-      "TEMPLATE": {
-        "INBOX": "Caixa de entrada do WhatsApp",
-        "LABEL": "Modelo aprovado",
-        "CHOOSE": "Escolha um modelo",
-        "VARIABLE": "Valor de {key}"
-      },
-      "VARIABLES": "Variáveis: {variables}",
       "ERRORS": {
         "NAME": "Use até {max} caracteres.",
         "DELAY": "Informe uma espera inteira, de 0 ou mais.",
-        "DELAY_MAX": "A espera pode ser de no máximo 90 dias.",
-        "CONTENT": "Escreva a mensagem.",
-        "TEMPLATE": "Escolha um modelo.",
-        "VARIABLES": "Preencha todas as variáveis do modelo."
+        "DELAY_MAX": "A espera pode ser de no máximo 90 dias."
       },
       "ADD_STEP": "Adicionar passo",
       "CLOSE": "Fechar",

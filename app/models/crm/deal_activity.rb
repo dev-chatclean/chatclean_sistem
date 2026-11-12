@@ -1,4 +1,6 @@
 class Crm::DealActivity < ApplicationRecord
+  include CrmActivityClientReminder
+
   self.table_name = 'crm_deal_activities'
 
   MAX_DURATION_MINUTES = 24 * 60
@@ -75,8 +77,10 @@ class Crm::DealActivity < ApplicationRecord
   def repeat_next_occurrence
     next_due_at = due_at + RECURRENCE_STEPS.fetch(recurrence)
     deal.activities.create!(
-      attributes.slice('assignee_id', 'title', 'activity_type', 'priority', 'duration_minutes', 'remind_before_minutes', 'description', 'recurrence')
+      attributes.slice('assignee_id', 'title', 'activity_type', 'priority', 'duration_minutes', 'remind_before_minutes', 'description', 'recurrence',
+                       'notify_client_before_minutes', 'client_reminder')
                 .merge('due_at' => next_due_at, 'checklist' => checklist.map { |item| item.merge('done' => false) })
+                .merge(deal.contact ? {} : { 'notify_client_before_minutes' => nil })
     )
   end
 

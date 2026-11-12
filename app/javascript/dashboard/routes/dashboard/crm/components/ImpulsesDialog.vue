@@ -2,14 +2,14 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
-import { useMapGetter } from 'dashboard/composables/store';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import CrmImpulsesAPI from 'dashboard/api/crm/impulses';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
-import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import ClientMessageEditor from './ClientMessageEditor.vue';
+import { useClientMessage } from '../useClientMessage';
 import {
   IMPULSE_DELAY_UNITS,
   IMPULSE_MAX_DELAY_MINUTES,
@@ -19,12 +19,10 @@ import {
 } from '../constants';
 
 const { t } = useI18n();
-const whatsAppInboxes = useMapGetter('inboxes/getWhatsAppInboxes');
-const templatesFor = useMapGetter('inboxes/getFilteredWhatsAppTemplates');
+const { buildMessage, messageError, messagePayload } = useClientMessage();
 
 const SELECT_CLASS =
   'reset-base h-10 px-3 text-sm rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12';
-const PLACEHOLDER_PATTERN = /{{\s*([^}]+?)\s*}}/g;
 
 const dialogRef = ref(null);
 const pipeline = ref(null);
@@ -35,34 +33,6 @@ const isSaving = ref(false);
 const editing = ref(null);
 const pendingDeleteId = ref(null);
 
-const templateOptions = inboxId => (inboxId ? templatesFor.value(inboxId) : []);
-
-const findTemplate = step =>
-  templateOptions(step.inboxId).find(
-    item =>
-      item.name === step.templateName && item.language === step.templateLanguage
-  );
-
-const templateBody = template =>
-  template?.components?.find(component => component.type === 'BODY')?.text ||
-  '';
-
-const templatePlaceholders = template => [
-  ...new Set(
-    [...templateBody(template).matchAll(PLACEHOLDER_PATTERN)].map(
-      match => match[1]
-    )
-  ),
-];
-
-// The template is chosen from a WhatsApp inbox; at send time it is looked up in the conversation's inbox.
-const inboxWithTemplate = (name, language) =>
-  whatsAppInboxes.value.find(inbox =>
-    templatesFor
-      .value(inbox.id)
-      .some(item => item.name === name && item.language === language)
-  )?.id ?? whatsAppInboxes.value[0]?.id;
-
 const toDelay = minutes => {
   const unit = ['DAYS', 'HOURS'].find(
     key => minutes && minutes % IMPULSE_DELAY_UNITS[key] === 0
@@ -71,20 +41,11 @@ const toDelay = minutes => {
   return { amount: minutes / IMPULSE_DELAY_UNITS[key], unit: key };
 };
 
-const buildStep = (step = {}) => {
-  const params = step.template_params || {};
-  return {
-    id: step.id,
-    ...toDelay(step.delay_minutes ?? 0),
-    messageType: step.message_type || 'text',
-    content: step.content || '',
-    inboxId: inboxWithTemplate(params.name, params.language),
-    templateName: params.name || '',
-    templateLanguage: params.language || '',
-    templateCategory: params.category || '',
-    body: { ...(params.processed_params?.body || {}) },
-  };
-};
+const buildStep = (step = {}) => ({
+  id: step.id,
+  ...toDelay(step.delay_minutes ?? 0),
+  message: buildMessage(step),
+});
 
 const fetchImpulses = async () => {
   isLoading.value = true;
@@ -131,23 +92,10 @@ const removeStep = index => {
   if (step.id) editing.value.removedStepIds.push(step.id);
 };
 
-const selectTemplate = (step, key) => {
-  const [name, language] = key.split('|');
-  const template = templateOptions(step.inboxId).find(
-    item => item.name === name && item.language === language
-  );
-  step.templateName = name;
-  step.templateLanguage = language;
-  step.templateCategory = template?.category || '';
-  step.body = Object.fromEntries(
-    templatePlaceholders(template).map(placeholder => [placeholder, ''])
-  );
-};
-
 const delayMinutes = step =>
   Number(step.amount) * IMPULSE_DELAY_UNITS[step.unit];
 
-const stepError = step => {
+const delayError = step => {
   const minutes = delayMinutes(step);
   if (!Number.isInteger(minutes) || minutes < 0) {
     return t('CRM_PIPELINES.IMPULSES.ERRORS.DELAY');
@@ -155,17 +103,10 @@ const stepError = step => {
   if (minutes > IMPULSE_MAX_DELAY_MINUTES) {
     return t('CRM_PIPELINES.IMPULSES.ERRORS.DELAY_MAX');
   }
-  if (step.messageType === 'text' && !step.content.trim()) {
-    return t('CRM_PIPELINES.IMPULSES.ERRORS.CONTENT');
-  }
-  if (step.messageType === 'template') {
-    if (!step.templateName) return t('CRM_PIPELINES.IMPULSES.ERRORS.TEMPLATE');
-    if (Object.values(step.body).some(value => !value.trim())) {
-      return t('CRM_PIPELINES.IMPULSES.ERRORS.VARIABLES');
-    }
-  }
   return '';
 };
+
+const stepError = step => delayError(step) || messageError(step.message);
 
 const nameError = computed(() =>
   editing.value?.name.trim().length > IMPULSE_NAME_MAX_LENGTH
@@ -183,17 +124,7 @@ const isInvalid = computed(
 const stepPayload = step => ({
   id: step.id,
   delay_minutes: delayMinutes(step),
-  message_type: step.messageType,
-  content: step.messageType === 'text' ? step.content.trim() : null,
-  template_params:
-    step.messageType === 'template'
-      ? {
-          name: step.templateName,
-          language: step.templateLanguage,
-          category: step.templateCategory,
-          processed_params: { body: step.body },
-        }
-      : {},
+  ...messagePayload(step.message),
 });
 
 const showError = (error, fallbackKey) => {
@@ -425,99 +356,12 @@ defineExpose({ open });
           </div>
         </div>
 
-        <div class="flex flex-col gap-1.5">
-          <span class="text-sm text-n-slate-12">
-            {{ t('CRM_PIPELINES.IMPULSES.TYPE.LABEL') }}
-          </span>
-          <select v-model="step.messageType" :class="SELECT_CLASS">
-            <option value="text">
-              {{ t('CRM_PIPELINES.IMPULSES.TYPE.TEXT') }}
-            </option>
-            <option value="template" :disabled="!whatsAppInboxes.length">
-              {{ t('CRM_PIPELINES.IMPULSES.TYPE.TEMPLATE') }}
-            </option>
-          </select>
-          <span class="text-label-small text-n-slate-11">
-            {{
-              step.messageType === 'text'
-                ? t('CRM_PIPELINES.IMPULSES.TYPE.TEXT_HINT')
-                : t('CRM_PIPELINES.IMPULSES.TYPE.TEMPLATE_HINT')
-            }}
-          </span>
-        </div>
-
-        <TextArea
-          v-if="step.messageType === 'text'"
-          v-model="step.content"
-          :label="t('CRM_PIPELINES.IMPULSES.CONTENT')"
-          :max-length="4096"
-          auto-height
+        <ClientMessageEditor
+          v-model="step.message"
+          :variables="IMPULSE_VARIABLES"
         />
-
-        <template v-else>
-          <label class="flex flex-col gap-1.5">
-            <span class="text-sm text-n-slate-12">
-              {{ t('CRM_PIPELINES.IMPULSES.TEMPLATE.INBOX') }}
-            </span>
-            <select v-model="step.inboxId" :class="SELECT_CLASS">
-              <option
-                v-for="inbox in whatsAppInboxes"
-                :key="inbox.id"
-                :value="inbox.id"
-              >
-                {{ inbox.name }}
-              </option>
-            </select>
-          </label>
-          <label class="flex flex-col gap-1.5">
-            <span class="text-sm text-n-slate-12">
-              {{ t('CRM_PIPELINES.IMPULSES.TEMPLATE.LABEL') }}
-            </span>
-            <select
-              :value="
-                step.templateName
-                  ? `${step.templateName}|${step.templateLanguage}`
-                  : ''
-              "
-              :class="SELECT_CLASS"
-              @change="selectTemplate(step, $event.target.value)"
-            >
-              <option value="" disabled>
-                {{ t('CRM_PIPELINES.IMPULSES.TEMPLATE.CHOOSE') }}
-              </option>
-              <option
-                v-for="template in templateOptions(step.inboxId)"
-                :key="`${template.name}|${template.language}`"
-                :value="`${template.name}|${template.language}`"
-              >
-                {{ `${template.name} (${template.language})` }}
-              </option>
-            </select>
-          </label>
-          <p
-            v-if="findTemplate(step)"
-            class="px-3 py-2 m-0 text-sm rounded-lg bg-n-alpha-black2 text-n-slate-12 whitespace-pre-wrap"
-          >
-            {{ templateBody(findTemplate(step)) }}
-          </p>
-          <Input
-            v-for="(_, key) in step.body"
-            :key="key"
-            v-model="step.body[key]"
-            :label="t('CRM_PIPELINES.IMPULSES.TEMPLATE.VARIABLE', { key })"
-            :placeholder="IMPULSE_VARIABLES[0]"
-          />
-        </template>
-
-        <span class="text-label-small text-n-slate-11">
-          {{
-            t('CRM_PIPELINES.IMPULSES.VARIABLES', {
-              variables: IMPULSE_VARIABLES.join(' '),
-            })
-          }}
-        </span>
-        <span v-if="stepError(step)" class="text-label-small text-n-ruby-11">
-          {{ stepError(step) }}
+        <span v-if="delayError(step)" class="text-label-small text-n-ruby-11">
+          {{ delayError(step) }}
         </span>
       </div>
 

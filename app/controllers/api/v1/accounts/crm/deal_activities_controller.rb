@@ -41,6 +41,9 @@ class Api::V1::Accounts::Crm::DealActivitiesController < Api::V1::Accounts::Base
 
   def activity_params
     params.require(:activity).permit(:title, :activity_type, :priority, :due_at, :duration_minutes, :remind_before_minutes, :description,
-                                     :recurrence, :assignee_id, :completed, checklist: [:title, :done])
+                                     :recurrence, :assignee_id, :completed, :notify_client_before_minutes,
+                                     checklist: [:title, :done],
+                                     client_reminder: [:message_type, :content, :time_zone,
+                                                       { template_params: [:name, :language, :category, { processed_params: { body: {} } }] }])
   end
 end
