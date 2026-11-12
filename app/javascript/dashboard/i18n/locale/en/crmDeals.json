@@ -15,7 +15,8 @@
       "NO_CONTACT": "no contact",
       "IN_STAGE": "In stage for {days} d",
       "NEXT_ACTIVITY_OVERDUE": "Overdue",
-      "CONTACT_ARCHIVED": "contact archived"
+      "CONTACT_ARCHIVED": "contact archived",
+      "ATTACHMENTS": "{count} attachment | {count} attachments"
     },
     "MENU": {
       "LABEL": "Actions",
@@ -117,7 +118,9 @@
         "ASSIGNEE_CHANGED": "{user} changed the owner from {from} to {to}",
         "CREATED_FROM_CONVERSATION": "{user} created it in {to} when conversation #{conversation} was assigned",
         "ACTIVITY_CREATED": "{user} created the activity “{activity}”",
-        "ACTIVITY_COMPLETED": "{user} completed the activity “{activity}”"
+        "ACTIVITY_COMPLETED": "{user} completed the activity “{activity}”",
+        "FILE_ADDED": "{user} attached the file “{file}” ({category})",
+        "FILE_REMOVED": "{user} removed the file “{file}” ({category})"
       },
       "RANGE": "{from} → {to}",
       "NO_LABELS": "No labels",
@@ -130,9 +133,6 @@
       "PRODUCTS": "Products",
       "NO_PRODUCTS": "No products in the catalog. Add them in Settings → Products.",
       "DEAL_INFO": "Deal information",
-      "UPCOMING": {
-        "FILES": "This deal's files arrive in a later part."
-      },
       "DEALS_NEED_CONTACT": "Link a contact or a company to see their other deals.",
       "NO_OTHER_DEALS": "This contact has no other deals.",
       "NO_CONTACT_TITLE": "No contact on this deal",
@@ -335,6 +335,23 @@
       "REMOVE": "Remove product",
       "TOTAL": "Products total",
       "VALUE_FROM_PRODUCTS": "Sum of the products"
+    },
+    "FILES": {
+      "UPLOAD": "Upload file",
+      "CATEGORY": "Category",
+      "EMPTY": "No files yet. Upload proposals, contracts and receipts here.",
+      "DOWNLOAD": "Download",
+      "DELETE": "Delete file",
+      "DELETE_CONFIRM": "Delete the file “{name}”? This cannot be undone.",
+      "UPLOADED": "File uploaded",
+      "DELETED": "File deleted",
+      "CATEGORIES": {
+        "PROPOSAL": "Proposal",
+        "CONTRACT": "Contract",
+        "CLIENT_DOCUMENT": "Client document",
+        "RECEIPT": "Receipt",
+        "OTHER": "Other"
+      }
     }
   },
   "CRM_PRODUCTS": {

@@ -379,6 +379,7 @@ Rails.application.routes.draw do
             resources :deals, only: [:index, :show, :create, :update, :destroy] do
               post :duplicate, on: :member
               resources :activities, only: [:create, :update, :destroy], controller: 'deal_activities'
+              resources :files, only: [:create, :destroy], controller: 'deal_files'
             end
             resources :products, only: [:index, :create, :update, :destroy]
           end

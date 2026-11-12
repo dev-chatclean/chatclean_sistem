@@ -1,0 +1,9 @@
+json.id deal_file.id
+json.category deal_file.category
+json.name deal_file.file.filename.to_s
+json.size deal_file.file.byte_size
+json.content_type deal_file.file.content_type
+json.url deal_file.file_url
+json.uploaded_by_id deal_file.uploaded_by_id
+json.uploaded_by_name deal_file.uploaded_by&.available_name
+json.created_at deal_file.created_at.to_i

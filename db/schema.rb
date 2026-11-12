@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_11_200511) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_12_025432) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1171,6 +1171,17 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_11_200511) do
     t.index ["from_stage_id"], name: "index_crm_deal_events_on_from_stage_id"
     t.index ["to_stage_id"], name: "index_crm_deal_events_on_to_stage_id"
     t.index ["user_id"], name: "index_crm_deal_events_on_user_id"
+  end
+
+  create_table "crm_deal_files", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "deal_id", null: false
+    t.bigint "uploaded_by_id", null: false
+    t.string "category", limit: 30, default: "other", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_crm_deal_files_on_account_id"
+    t.index ["deal_id"], name: "index_crm_deal_files_on_deal_id"
   end
 
   create_table "crm_deal_products", force: :cascade do |t|

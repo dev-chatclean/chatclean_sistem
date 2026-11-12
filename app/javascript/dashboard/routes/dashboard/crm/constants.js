@@ -137,3 +137,13 @@ export const ACTIVITY_FILTERS = ['overdue', 'today', 'upcoming', 'none'];
 export const PRODUCT_NAME_MAX_LENGTH = 120;
 export const PRODUCT_SKU_MAX_LENGTH = 60;
 export const MAX_PRODUCT_QUANTITY = 100000;
+
+export const DEAL_FILE_CATEGORIES = [
+  'proposal',
+  'contract',
+  'client_document',
+  'receipt',
+  'other',
+];
+export const DEAL_FILE_ACCEPT =
+  '.pdf,.txt,.csv,.zip,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.webp';

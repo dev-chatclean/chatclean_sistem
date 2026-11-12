@@ -16,3 +16,6 @@ end
 json.activities @deal.activities.includes(:assignee, :required_by_stage) do |activity|
   json.partial! 'api/v1/accounts/crm/deal_activities/activity', activity: activity
 end
+json.files @deal.files.includes(:uploaded_by, file_attachment: :blob) do |deal_file|
+  json.partial! 'api/v1/accounts/crm/deal_files/deal_file', deal_file: deal_file
+end

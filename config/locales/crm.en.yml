@@ -22,6 +22,7 @@ en:
         expected_close_date: expected close date
         positive_value: value above zero
         product: at least one product
+        document: an attached document
       errors:
         title_required: Add a title when the deal has no contact or company.
         loss_reason_required: Choose the reason the deal was lost.
@@ -52,6 +53,11 @@ en:
       errors:
         in_use: This product is in deals and cannot be deleted. Turn it off instead.
         invalid_product: Choose a product of this account.
+    deal_files:
+      errors:
+        missing: Choose a file to upload.
+        invalid_type: 'This file type is not allowed. Send PDF, Word, Excel, PowerPoint, text, CSV, zip or image.'
+        too_large: The file is larger than %{limit} MB.
     settings:
       errors:
         ai_requires_monthly_cap: Set a monthly spending cap above zero to turn on the pipeline AI.

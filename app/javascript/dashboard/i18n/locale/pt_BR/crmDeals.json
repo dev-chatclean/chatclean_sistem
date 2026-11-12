@@ -15,7 +15,8 @@
       "NO_CONTACT": "sem contato",
       "IN_STAGE": "Na etapa há {days} d",
       "NEXT_ACTIVITY_OVERDUE": "Atrasada",
-      "CONTACT_ARCHIVED": "contato arquivado"
+      "CONTACT_ARCHIVED": "contato arquivado",
+      "ATTACHMENTS": "{count} anexo | {count} anexos"
     },
     "MENU": {
       "LABEL": "Ações",
@@ -117,7 +118,9 @@
         "ASSIGNEE_CHANGED": "{user} trocou o responsável de {from} para {to}",
         "CREATED_FROM_CONVERSATION": "{user} criou em {to} quando o atendimento #{conversation} foi atribuído",
         "ACTIVITY_CREATED": "{user} criou a atividade “{activity}”",
-        "ACTIVITY_COMPLETED": "{user} concluiu a atividade “{activity}”"
+        "ACTIVITY_COMPLETED": "{user} concluiu a atividade “{activity}”",
+        "FILE_ADDED": "{user} anexou o arquivo “{file}” ({category})",
+        "FILE_REMOVED": "{user} removeu o arquivo “{file}” ({category})"
       },
       "RANGE": "{from} → {to}",
       "NO_LABELS": "Sem etiquetas",
@@ -130,9 +133,6 @@
       "PRODUCTS": "Produtos",
       "NO_PRODUCTS": "Nenhum produto no catálogo. Cadastre em Configurações → Produtos.",
       "DEAL_INFO": "Informações do negócio",
-      "UPCOMING": {
-        "FILES": "Os arquivos deste negócio chegam numa próxima parte."
-      },
       "DEALS_NEED_CONTACT": "Vincule um contato ou uma empresa para ver os outros negócios.",
       "NO_OTHER_DEALS": "Este contato não tem outros negócios.",
       "NO_CONTACT_TITLE": "Sem contato neste negócio",
@@ -335,6 +335,23 @@
       "REMOVE": "Remover produto",
       "TOTAL": "Total dos produtos",
       "VALUE_FROM_PRODUCTS": "Soma dos produtos"
+    },
+    "FILES": {
+      "UPLOAD": "Enviar arquivo",
+      "CATEGORY": "Categoria",
+      "EMPTY": "Nenhum arquivo ainda. Envie aqui propostas, contratos e comprovantes.",
+      "DOWNLOAD": "Baixar",
+      "DELETE": "Excluir arquivo",
+      "DELETE_CONFIRM": "Excluir o arquivo “{name}”? Isso não pode ser desfeito.",
+      "UPLOADED": "Arquivo enviado",
+      "DELETED": "Arquivo excluído",
+      "CATEGORIES": {
+        "PROPOSAL": "Proposta comercial",
+        "CONTRACT": "Contrato",
+        "CLIENT_DOCUMENT": "Documento do cliente",
+        "RECEIPT": "Comprovante",
+        "OTHER": "Outro"
+      }
     }
   },
   "CRM_PRODUCTS": {

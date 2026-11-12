@@ -6,8 +6,8 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::BaseControlle
 
   def index
     @deals = party_deals || pipeline_deals
-    @deals = @deals.includes({ contact: :labels }, { conversation: :inbox }, { deal_products: :product }, :company, :assignee, :stage, :pipeline,
-                             :pending_activities)
+    @deals = @deals.includes({ contact: :labels }, { conversation: :inbox }, { deal_products: :product }, :files, :company, :assignee, :stage,
+                             :pipeline, :pending_activities)
   end
 
   def show; end
