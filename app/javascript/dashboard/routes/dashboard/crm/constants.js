@@ -158,3 +158,14 @@ export const IMPULSE_VARIABLES = [
   '{{deal.stage}}',
   '{{deal.owner}}',
 ];
+
+export const CLIENT_REMINDER_OPTIONS = [15, 30, 60, 1440];
+export const CLIENT_REMINDER_VARIABLES = [
+  '{{contact.first_name}}',
+  '{{contact.name}}',
+  '{{activity.title}}',
+  '{{activity.date}}',
+  '{{activity.time}}',
+  '{{deal.title}}',
+  '{{deal.owner}}',
+];

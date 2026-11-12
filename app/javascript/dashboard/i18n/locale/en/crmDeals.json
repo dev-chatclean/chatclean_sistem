@@ -127,7 +127,10 @@
         "CUSTOM_FIELD_CLEARED": "{user} cleared {field}",
         "IMPULSE_SENT": "Impulse “{impulse}” sent step {step}",
         "IMPULSE_FAILED": "Impulse “{impulse}” failed: {reason}",
-        "IMPULSE_CANCELED": "Impulse “{impulse}” canceled: {reason}"
+        "IMPULSE_CANCELED": "Impulse “{impulse}” canceled: {reason}",
+        "CLIENT_REMINDER_SENT": "Client reminder for “{activity}” sent",
+        "CLIENT_REMINDER_FAILED": "Client reminder for “{activity}” failed: {reason}",
+        "CLIENT_REMINDER_CANCELED": "{user} canceled the client reminder for “{activity}”"
       },
       "RANGE": "{from} → {to}",
       "NO_LABELS": "No labels",
@@ -308,7 +311,14 @@
       "CHECKLIST_PROGRESS": "{done}/{total}",
       "DURATION_VALUE": "{n} min",
       "REMINDER_TOAST": "Reminder: “{title}” at {time} ({deal})",
-      "REMINDER_OPEN": "Open deal"
+      "REMINDER_OPEN": "Open deal",
+      "CLIENT_REMINDER": {
+        "LABEL": "Remind the client before",
+        "HINT": "Sends a message to the deal’s contact before the activity.",
+        "NO_CONTACT": "Link a contact to the deal to remind the client.",
+        "OFF": "Don’t remind",
+        "SENT": "Reminder sent to the client on {date}"
+      }
     },
     "CONTACT_TAB": {
       "NEW": "New deal",
@@ -388,6 +398,28 @@
         "CONTACT_REPLIED": "the contact replied",
         "IMPULSE_DISABLED": "the impulse was turned off",
         "CANCELED_BY_USER": "canceled by a user"
+      }
+    },
+    "CLIENT_MESSAGE": {
+      "TYPE": {
+        "LABEL": "Message",
+        "TEXT": "Free text",
+        "TEMPLATE": "WhatsApp template",
+        "TEXT_HINT": "On WhatsApp, free text only goes out within 24 hours of the contact’s last message. Outside that window it is not sent, and the failure is logged in the history.",
+        "TEMPLATE_HINT": "An approved template is sent even outside the 24-hour window. It goes through the contact’s WhatsApp conversation."
+      },
+      "CONTENT": "Message text",
+      "TEMPLATE": {
+        "INBOX": "WhatsApp inbox",
+        "LABEL": "Approved template",
+        "CHOOSE": "Choose a template",
+        "VARIABLE": "Value for {key}"
+      },
+      "VARIABLES": "Variables: {variables}",
+      "ERRORS": {
+        "CONTENT": "Write the message.",
+        "TEMPLATE": "Choose a template.",
+        "VARIABLES": "Fill in every template variable."
       }
     }
   },

@@ -49,7 +49,7 @@ defineExpose({ open, close });
       }}</span>
       <select
         v-model="stageId"
-        class="reset-base h-10 px-3 text-sm rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12"
+        class="reset-base h-10 ps-3 pe-6 text-sm rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12"
       >
         <option :value="null" disabled>{{ t('CRM_DEALS.MOVE.CHOOSE') }}</option>
         <option

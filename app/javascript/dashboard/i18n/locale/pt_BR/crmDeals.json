@@ -127,7 +127,10 @@
         "CUSTOM_FIELD_CLEARED": "{user} limpou {field}",
         "IMPULSE_SENT": "Impulso “{impulse}” enviou o passo {step}",
         "IMPULSE_FAILED": "Impulso “{impulse}” falhou: {reason}",
-        "IMPULSE_CANCELED": "Impulso “{impulse}” cancelado: {reason}"
+        "IMPULSE_CANCELED": "Impulso “{impulse}” cancelado: {reason}",
+        "CLIENT_REMINDER_SENT": "Lembrete ao cliente de “{activity}” enviado",
+        "CLIENT_REMINDER_FAILED": "Lembrete ao cliente de “{activity}” falhou: {reason}",
+        "CLIENT_REMINDER_CANCELED": "{user} cancelou o lembrete ao cliente de “{activity}”"
       },
       "RANGE": "{from} → {to}",
       "NO_LABELS": "Sem etiquetas",
@@ -308,7 +311,14 @@
       "CHECKLIST_PROGRESS": "{done}/{total}",
       "DURATION_VALUE": "{n} min",
       "REMINDER_TOAST": "Lembrete: “{title}” às {time} ({deal})",
-      "REMINDER_OPEN": "Abrir negócio"
+      "REMINDER_OPEN": "Abrir negócio",
+      "CLIENT_REMINDER": {
+        "LABEL": "Lembrar o cliente antes",
+        "HINT": "Envia uma mensagem ao contato do negócio antes da atividade.",
+        "NO_CONTACT": "Vincule um contato ao negócio para lembrar o cliente.",
+        "OFF": "Não lembrar",
+        "SENT": "Lembrete enviado ao cliente em {date}"
+      }
     },
     "CONTACT_TAB": {
       "NEW": "Nova oportunidade",
@@ -388,6 +398,28 @@
         "CONTACT_REPLIED": "o contato respondeu",
         "IMPULSE_DISABLED": "o impulso foi desativado",
         "CANCELED_BY_USER": "cancelado por um usuário"
+      }
+    },
+    "CLIENT_MESSAGE": {
+      "TYPE": {
+        "LABEL": "Mensagem",
+        "TEXT": "Texto livre",
+        "TEMPLATE": "Modelo do WhatsApp",
+        "TEXT_HINT": "No WhatsApp, o texto livre só sai até 24 horas depois da última mensagem do contato. Fora disso a mensagem não sai, e a falha fica registrada no histórico.",
+        "TEMPLATE_HINT": "O modelo aprovado sai mesmo fora da janela de 24 horas. Ele vai pela conversa de WhatsApp do contato."
+      },
+      "CONTENT": "Texto da mensagem",
+      "TEMPLATE": {
+        "INBOX": "Caixa de entrada do WhatsApp",
+        "LABEL": "Modelo aprovado",
+        "CHOOSE": "Escolha um modelo",
+        "VARIABLE": "Valor de {key}"
+      },
+      "VARIABLES": "Variáveis: {variables}",
+      "ERRORS": {
+        "CONTENT": "Escreva a mensagem.",
+        "TEMPLATE": "Escolha um modelo.",
+        "VARIABLES": "Preencha todas as variáveis do modelo."
       }
     }
   },

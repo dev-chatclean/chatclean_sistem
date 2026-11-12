@@ -5,6 +5,9 @@ json.priority activity.priority
 json.due_at activity.due_at.to_i
 json.duration_minutes activity.duration_minutes
 json.remind_before_minutes activity.remind_before_minutes
+json.notify_client_before_minutes activity.notify_client_before_minutes
+json.client_reminder activity.client_reminder
+json.client_reminder_sent_at activity.client_reminder_sent_at&.to_i
 json.description activity.description
 json.recurrence activity.recurrence
 json.checklist activity.checklist

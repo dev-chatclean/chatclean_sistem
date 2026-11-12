@@ -45,6 +45,9 @@ pt_BR:
         template_required: Escolha um modelo aprovado no passo com modelo.
     activities:
       errors:
+        client_reminder_no_contact: Vincule um contato ao negócio para lembrar o cliente.
+        client_reminder_content: Escreva a mensagem do lembrete ou escolha um modelo.
+        client_reminder_time_zone: Informe um fuso horário válido para o lembrete ao cliente.
         required_task_delete: Esta tarefa é obrigatória da etapa e não pode ser excluída. Marque como concluída.
     contacts:
       errors:

@@ -282,7 +282,7 @@ defineExpose({ open, reload, close });
             <select
               :value="deal.assignee.id"
               :disabled="!isAdmin"
-              class="reset-base h-12 px-4 text-base font-medium rounded-xl border border-n-slate-6 bg-transparent text-n-slate-12 disabled:opacity-80"
+              class="reset-base h-12 ps-4 pe-8 text-base font-medium rounded-xl border border-n-slate-6 bg-transparent text-n-slate-12 disabled:opacity-80"
               @change="update({ assignee_id: Number($event.target.value) })"
             >
               <option v-if="!isAdmin" :value="deal.assignee.id">

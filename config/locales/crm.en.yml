@@ -40,6 +40,9 @@ en:
         template_required: Choose an approved template for the template step.
     activities:
       errors:
+        client_reminder_no_contact: Link a contact to the deal to remind the client.
+        client_reminder_content: Write the reminder message or choose a template.
+        client_reminder_time_zone: Send a valid time zone for the client reminder.
         required_task_delete: This task is required by the stage and cannot be deleted. Mark it as done instead.
     contacts:
       errors:

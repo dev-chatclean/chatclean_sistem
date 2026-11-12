@@ -15,6 +15,8 @@ const attributesByModel = useMapGetter('attributes/getAttributesByModel');
 const NUMBER_TYPES = ['number', 'currency', 'percent'];
 const INPUT_CLASS =
   'reset-base h-11 w-44 px-3 text-base rounded-xl border border-n-slate-6 bg-transparent text-n-slate-12';
+const SELECT_CLASS =
+  'reset-base h-11 w-44 ps-3 pe-6 text-base rounded-xl border border-n-slate-6 bg-transparent text-n-slate-12';
 
 const fields = computed(() => attributesByModel.value('deal_attribute'));
 
@@ -50,7 +52,7 @@ const save = (attribute, raw) => {
       <select
         v-else-if="attribute.attribute_display_type === 'list'"
         :value="valueOf(attribute.attribute_key)"
-        :class="INPUT_CLASS"
+        :class="SELECT_CLASS"
         @change="save(attribute, $event.target.value)"
       >
         <option value="">{{ t('CRM_DEALS.CUSTOM_FIELDS.CHOOSE') }}</option>

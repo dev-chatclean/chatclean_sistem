@@ -8,11 +8,16 @@ import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import CrmDealActivitiesAPI from 'dashboard/api/crm/dealActivities';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
+import ClientMessageEditor from '../../ClientMessageEditor.vue';
+import { useClientMessage } from '../../../useClientMessage';
+import { formatDateTime } from './dealTime';
 import {
   ACTIVITY_PRIORITIES,
   ACTIVITY_RECURRENCES,
   ACTIVITY_TITLE_MAX_LENGTH,
   ACTIVITY_TYPES,
+  CLIENT_REMINDER_OPTIONS,
+  CLIENT_REMINDER_VARIABLES,
   DEFAULT_ACTIVITY_HOUR,
   DEFAULT_REMIND_BEFORE_MINUTES,
   MAX_ACTIVITY_DURATION_MINUTES,
@@ -24,17 +29,21 @@ const emit = defineEmits(['saved']);
 
 const MINUTES_IN_HOUR = 60;
 const MINUTES_IN_DAY = 1440;
-const SELECT_CLASS =
+const FIELD_CLASS =
   'reset-base h-10 px-3 text-sm rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12 disabled:opacity-70';
+const SELECT_CLASS =
+  'reset-base h-10 ps-3 pe-6 text-sm rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12 disabled:opacity-70';
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const { isAdmin } = useAdmin();
+const { buildMessage, messageError, messagePayload } = useClientMessage();
 const currentUser = useMapGetter('getCurrentUser');
 const agents = useMapGetter('agents/getAgents');
 
 const dialogRef = ref(null);
 const isSaving = ref(false);
 const dealId = ref(null);
+const dealHasContact = ref(false);
 const activity = ref(null);
 const showMore = ref(false);
 const form = ref({});
@@ -52,7 +61,9 @@ const isInvalid = computed(() => {
     !form.value.due ||
     (duration !== '' &&
       (Number(duration) <= 0 ||
-        Number(duration) > MAX_ACTIVITY_DURATION_MINUTES))
+        Number(duration) > MAX_ACTIVITY_DURATION_MINUTES)) ||
+    (form.value.notify_client_before_minutes !== null &&
+      Boolean(messageError(form.value.client_message)))
   );
 });
 
@@ -77,6 +88,7 @@ const remindLabel = minutes => {
 
 const open = ({ deal, activity: target = null }) => {
   dealId.value = deal.id;
+  dealHasContact.value = Boolean(deal.contact);
   activity.value = target;
   checklistDraft.value = '';
   form.value = target
@@ -91,6 +103,8 @@ const open = ({ deal, activity: target = null }) => {
         description: target.description || '',
         recurrence: target.recurrence,
         checklist: target.checklist.map(item => ({ ...item })),
+        notify_client_before_minutes: target.notify_client_before_minutes,
+        client_message: buildMessage(target.client_reminder),
       }
     : {
         title: '',
@@ -103,6 +117,8 @@ const open = ({ deal, activity: target = null }) => {
         description: '',
         recurrence: 'never',
         checklist: [],
+        notify_client_before_minutes: null,
+        client_message: buildMessage(),
       };
   showMore.value = Boolean(target);
   dialogRef.value?.open();
@@ -136,7 +152,14 @@ const save = async () => {
     description: form.value.description.trim() || null,
     recurrence: form.value.recurrence,
     checklist: form.value.checklist,
+    notify_client_before_minutes: form.value.notify_client_before_minutes,
   };
+  if (form.value.notify_client_before_minutes !== null) {
+    payload.client_reminder = {
+      ...messagePayload(form.value.client_message),
+      time_zone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    };
+  }
   try {
     if (activity.value) {
       await CrmDealActivitiesAPI.updateFor(
@@ -190,7 +213,7 @@ defineExpose({ open });
         <span class="text-label text-n-slate-12">
           {{ t('CRM_DEALS.ACTIVITY.WHEN') }}
         </span>
-        <input v-model="form.due" type="datetime-local" :class="SELECT_CLASS" />
+        <input v-model="form.due" type="datetime-local" :class="FIELD_CLASS" />
       </label>
 
       <button
@@ -284,7 +307,7 @@ defineExpose({ open });
               type="number"
               min="1"
               :max="MAX_ACTIVITY_DURATION_MINUTES"
-              :class="SELECT_CLASS"
+              :class="FIELD_CLASS"
             />
           </label>
           <label class="flex flex-col gap-1.5">
@@ -301,6 +324,54 @@ defineExpose({ open });
               </option>
             </select>
           </label>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <span class="text-label text-n-slate-12">
+            {{ t('CRM_DEALS.ACTIVITY.CLIENT_REMINDER.LABEL') }}
+          </span>
+          <select
+            v-model="form.notify_client_before_minutes"
+            :disabled="!dealHasContact"
+            :class="SELECT_CLASS"
+          >
+            <option :value="null">
+              {{ t('CRM_DEALS.ACTIVITY.CLIENT_REMINDER.OFF') }}
+            </option>
+            <option
+              v-for="minutes in CLIENT_REMINDER_OPTIONS"
+              :key="minutes"
+              :value="minutes"
+            >
+              {{ remindLabel(minutes) }}
+            </option>
+          </select>
+          <span class="text-label-small text-n-slate-11">
+            {{
+              dealHasContact
+                ? t('CRM_DEALS.ACTIVITY.CLIENT_REMINDER.HINT')
+                : t('CRM_DEALS.ACTIVITY.CLIENT_REMINDER.NO_CONTACT')
+            }}
+          </span>
+          <span
+            v-if="activity?.client_reminder_sent_at"
+            class="text-label-small text-n-teal-11"
+          >
+            {{
+              t('CRM_DEALS.ACTIVITY.CLIENT_REMINDER.SENT', {
+                date: formatDateTime(activity.client_reminder_sent_at, locale),
+              })
+            }}
+          </span>
+        </div>
+        <div
+          v-if="form.notify_client_before_minutes !== null"
+          class="p-3 border rounded-lg border-n-slate-6"
+        >
+          <ClientMessageEditor
+            v-model="form.client_message"
+            :variables="CLIENT_REMINDER_VARIABLES"
+          />
         </div>
 
         <label class="flex flex-col gap-1.5">
@@ -370,7 +441,7 @@ defineExpose({ open });
               type="text"
               :maxlength="ACTIVITY_TITLE_MAX_LENGTH"
               :placeholder="t('CRM_DEALS.ACTIVITY.CHECKLIST_PLACEHOLDER')"
-              :class="SELECT_CLASS"
+              :class="FIELD_CLASS"
               class="flex-1"
               @keydown.enter.prevent="addChecklistItem"
             />
