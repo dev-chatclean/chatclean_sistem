@@ -22,7 +22,7 @@ const { t } = useI18n();
 const { buildMessage, messageError, messagePayload } = useClientMessage();
 
 const SELECT_CLASS =
-  'reset-base h-10 px-3 text-sm rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12';
+  'reset-base h-10 ps-3 pe-6 text-sm rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12';
 
 const dialogRef = ref(null);
 const pipeline = ref(null);

@@ -29,8 +29,10 @@ const emit = defineEmits(['saved']);
 
 const MINUTES_IN_HOUR = 60;
 const MINUTES_IN_DAY = 1440;
-const SELECT_CLASS =
+const FIELD_CLASS =
   'reset-base h-10 px-3 text-sm rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12 disabled:opacity-70';
+const SELECT_CLASS =
+  'reset-base h-10 ps-3 pe-6 text-sm rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12 disabled:opacity-70';
 
 const { t, locale } = useI18n();
 const { isAdmin } = useAdmin();
@@ -211,7 +213,7 @@ defineExpose({ open });
         <span class="text-label text-n-slate-12">
           {{ t('CRM_DEALS.ACTIVITY.WHEN') }}
         </span>
-        <input v-model="form.due" type="datetime-local" :class="SELECT_CLASS" />
+        <input v-model="form.due" type="datetime-local" :class="FIELD_CLASS" />
       </label>
 
       <button
@@ -305,7 +307,7 @@ defineExpose({ open });
               type="number"
               min="1"
               :max="MAX_ACTIVITY_DURATION_MINUTES"
-              :class="SELECT_CLASS"
+              :class="FIELD_CLASS"
             />
           </label>
           <label class="flex flex-col gap-1.5">
@@ -439,7 +441,7 @@ defineExpose({ open });
               type="text"
               :maxlength="ACTIVITY_TITLE_MAX_LENGTH"
               :placeholder="t('CRM_DEALS.ACTIVITY.CHECKLIST_PLACEHOLDER')"
-              :class="SELECT_CLASS"
+              :class="FIELD_CLASS"
               class="flex-1"
               @keydown.enter.prevent="addChecklistItem"
             />

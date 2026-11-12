@@ -100,7 +100,7 @@ onMounted(async () => {
       <div class="flex gap-2">
         <select
           v-model="selectedId"
-          class="reset-base flex-1 min-w-0 h-9 px-3 text-sm rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12"
+          class="reset-base flex-1 min-w-0 h-9 ps-3 pe-6 text-sm rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12"
           :aria-label="t('CRM_DEALS.PRODUCTS.ADD')"
           @change="add"
         >

@@ -89,7 +89,7 @@ const confirmDelete = async () => {
     <div class="flex flex-wrap items-center justify-end gap-2">
       <select
         v-model="category"
-        class="reset-base !w-56 h-10 px-3 text-sm rounded-xl border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12"
+        class="reset-base !w-56 h-10 ps-3 pe-6 text-sm rounded-xl border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12"
         :aria-label="t('CRM_DEALS.FILES.CATEGORY')"
       >
         <option

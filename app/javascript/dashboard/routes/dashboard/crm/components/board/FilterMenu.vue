@@ -189,7 +189,7 @@ const apply = () => {
         <select
           v-if="options.length"
           v-model="draft"
-          class="reset-base h-9 px-2.5 text-sm rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12"
+          class="reset-base h-9 ps-2.5 pe-6 text-sm rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12"
         >
           <option :value="null" disabled>
             {{ t('CRM_DEALS.FILTERS.CHOOSE') }}

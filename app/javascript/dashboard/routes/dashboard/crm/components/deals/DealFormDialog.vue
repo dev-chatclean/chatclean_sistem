@@ -195,7 +195,7 @@ defineExpose({ open });
           </span>
           <select
             v-model="form.stage_id"
-            class="reset-base h-10 px-3 text-sm rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12"
+            class="reset-base h-10 ps-3 pe-6 text-sm rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12"
           >
             <option
               v-for="stage in openStages"
@@ -233,7 +233,7 @@ defineExpose({ open });
         <select
           v-model="form.assignee_id"
           :disabled="!isAdmin"
-          class="reset-base h-10 px-3 text-sm rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12 disabled:opacity-70"
+          class="reset-base h-10 ps-3 pe-6 text-sm rounded-lg border border-n-slate-6 bg-n-alpha-black2 text-n-slate-12 disabled:opacity-70"
         >
           <option
             v-for="agent in isAdmin ? agents : [currentUser]"
