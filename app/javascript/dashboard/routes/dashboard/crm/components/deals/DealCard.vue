@@ -146,6 +146,19 @@ const staleClass = computed(
       <span class="truncate">{{ productNames }}</span>
     </span>
     <span
+      v-if="showsField('attachments') && deal.files_count"
+      class="flex items-center gap-1 text-label-small text-n-slate-11"
+    >
+      <span class="i-lucide-paperclip size-3.5 shrink-0" />
+      {{
+        t(
+          'CRM_DEALS.CARD.ATTACHMENTS',
+          { count: deal.files_count },
+          deal.files_count
+        )
+      }}
+    </span>
+    <span
       v-if="showsField('origin') && originText"
       class="flex items-center gap-1 text-label-small text-n-slate-11"
     >

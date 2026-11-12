@@ -4,6 +4,12 @@ class Crm::Deal < ApplicationRecord
   WIN_REASONS = %w[not_informed best_price delivery_time relationship referral product_features other].freeze
   LOSS_REASONS = %w[price no_interest competitor no_response out_of_profile other].freeze
   MAX_VALUE = 10**10
+  REQUIREMENT_FLAGS = {
+    'expected_close_date' => 'require_expected_close_date',
+    'positive_value' => 'require_positive_value',
+    'product' => 'require_product',
+    'document' => 'require_document'
+  }.freeze
 
   belongs_to :account
   belongs_to :pipeline, class_name: 'Crm::Pipeline'
@@ -15,6 +21,7 @@ class Crm::Deal < ApplicationRecord
   has_many :events, -> { order(:created_at, :id) }, class_name: 'Crm::DealEvent', inverse_of: :deal, dependent: :delete_all
   has_many :activities, -> { order(:due_at, :id) }, class_name: 'Crm::DealActivity', inverse_of: :deal, dependent: :delete_all
   has_many :deal_products, -> { order(:id) }, class_name: 'Crm::DealProduct', inverse_of: :deal, dependent: :delete_all
+  has_many :files, -> { order(created_at: :desc, id: :desc) }, class_name: 'Crm::DealFile', inverse_of: :deal, dependent: :destroy
   has_many :pending_activities, -> { pending.order(:due_at, :id) }, class_name: 'Crm::DealActivity', inverse_of: :deal, dependent: nil
 
   enum :status, { open: 0, won: 1, lost: 2 }
@@ -121,11 +128,17 @@ class Crm::Deal < ApplicationRecord
 
   def missing_requirements
     requirements = stage&.requirements || {}
-    {
-      'expected_close_date' => requirements['require_expected_close_date'] && expected_close_date.blank?,
-      'positive_value' => requirements['require_positive_value'] && !value.to_d.positive?,
-      'product' => requirements['require_product'] && kept_deal_products.empty?
-    }.select { |_key, missing| missing }.keys
+    REQUIREMENT_FLAGS.select { |key, flag| requirements[flag] && requirement_missing?(key) }.keys
+  end
+
+  def requirement_missing?(key)
+    case key
+    when 'expected_close_date' then expected_close_date.blank?
+    when 'positive_value' then !value.to_d.positive?
+    when 'product' then kept_deal_products.empty?
+    # Files can only be added to a saved deal, so a new deal is not checked for them.
+    when 'document' then persisted? && files.empty?
+    end
   end
 
   def kept_deal_products

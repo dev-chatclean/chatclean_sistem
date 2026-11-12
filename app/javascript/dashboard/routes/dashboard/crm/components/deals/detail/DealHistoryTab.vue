@@ -23,6 +23,10 @@ const eventText = event =>
     to: event.to_stage_name || event.data.to,
     conversation: event.data.conversation,
     activity: event.data.activity,
+    file: event.data.file,
+    category: event.data.category
+      ? t(`CRM_DEALS.FILES.CATEGORIES.${event.data.category.toUpperCase()}`)
+      : '',
   });
 </script>
 

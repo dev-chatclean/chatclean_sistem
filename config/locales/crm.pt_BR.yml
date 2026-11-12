@@ -22,6 +22,7 @@ pt_BR:
         expected_close_date: data prevista de fechamento
         positive_value: valor maior que zero
         product: pelo menos um produto
+        document: um documento anexado
       errors:
         title_required: Informe um título quando a oportunidade não tem contato nem empresa.
         loss_reason_required: Escolha o motivo da perda.
@@ -52,6 +53,11 @@ pt_BR:
       errors:
         in_use: Este produto está em negócios e não pode ser excluído. Desative em vez de excluir.
         invalid_product: Escolha um produto desta conta.
+    deal_files:
+      errors:
+        missing: Escolha um arquivo para enviar.
+        invalid_type: 'Este tipo de arquivo não é aceito. Envie PDF, Word, Excel, PowerPoint, texto, CSV, zip ou imagem.'
+        too_large: O arquivo passa de %{limit} MB.
     settings:
       errors:
         ai_requires_monthly_cap: Defina um teto de gasto mensal maior que zero para ligar a IA do pipeline.

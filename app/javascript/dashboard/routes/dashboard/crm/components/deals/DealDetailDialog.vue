@@ -19,6 +19,7 @@ import DealContactDealsTab from './detail/DealContactDealsTab.vue';
 import DealConversationsTab from './detail/DealConversationsTab.vue';
 import DealActivitiesTab from './detail/DealActivitiesTab.vue';
 import ActivityFormDialog from './detail/ActivityFormDialog.vue';
+import DealFilesTab from './detail/DealFilesTab.vue';
 import { isClosingStage } from '../../dealHelpers';
 
 const props = defineProps({
@@ -35,7 +36,6 @@ const TABS = [
   'files',
   'conversations',
 ];
-const UPCOMING_TABS = ['files'];
 
 const { t } = useI18n();
 const { isAdmin } = useAdmin();
@@ -394,12 +394,11 @@ defineExpose({ open, reload, close });
               v-else-if="activeTab === 'conversations'"
               :contact="deal.contact"
             />
-            <p
-              v-else-if="UPCOMING_TABS.includes(activeTab)"
-              class="py-10 text-base text-center text-n-slate-11"
-            >
-              {{ t(`CRM_DEALS.DETAIL.UPCOMING.${activeTab.toUpperCase()}`) }}
-            </p>
+            <DealFilesTab
+              v-else-if="activeTab === 'files'"
+              :deal="deal"
+              @changed="onActivityChanged"
+            />
             <div
               v-if="isLoading"
               class="absolute inset-0 flex items-center justify-center bg-n-alpha-black1"
