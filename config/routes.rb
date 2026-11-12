@@ -389,6 +389,7 @@ Rails.application.routes.draw do
               resources :impulse_executions, only: [:destroy], controller: 'deal_impulse_executions'
             end
             resources :products, only: [:index, :create, :update, :destroy]
+            get 'reports/sales', to: 'reports#sales'
           end
 
           resources :notifications, only: [:index, :update, :destroy] do

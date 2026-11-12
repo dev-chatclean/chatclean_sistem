@@ -364,5 +364,109 @@
         "CANCEL_SUCCESS": "Envios pendentes cancelados"
       }
     }
+  },
+  "CRM_REPORTS": {
+    "SALES": {
+      "TITLE": "Vendas & Pipeline",
+      "DESCRIPTION": "Pipeline, receita, perdas e ritmo da equipe",
+      "PERIOD_DAYS": "{count} dias",
+      "PREVIOUS": "Período anterior",
+      "LOADING": "Carregando o relatório...",
+      "ERROR": "Não foi possível carregar o relatório",
+      "NO_DATA": "Sem dados",
+      "EMPTY_PERIOD": "Sem dados no período.",
+      "VS_PREVIOUS": "{value} vs. anterior",
+      "KPIS": {
+        "OPEN": {
+          "LABEL": "Em aberto (pipeline)",
+          "HINT": "{count} parado | {count} parados"
+        },
+        "WON": {
+          "LABEL": "Ganho no período",
+          "EMPTY": "no período"
+        },
+        "LOST": {
+          "LABEL": "Perdido",
+          "HINT": "{count} negócio | {count} negócios"
+        },
+        "CONVERSION": {
+          "LABEL": "Conversão",
+          "HINT": "{won} de {closed} encerrados",
+          "EMPTY": "nenhum negócio ganho ou perdido no período"
+        },
+        "TICKET": {
+          "LABEL": "Ticket médio",
+          "HINT": "por negócio ganho",
+          "EMPTY": "nenhum negócio ganho no período"
+        },
+        "CLOSE_TIME": {
+          "LABEL": "Tempo de fechamento",
+          "HINT": "média até o ganho",
+          "EMPTY": "nenhum negócio ganho no período"
+        },
+        "LOSS_TIME": {
+          "LABEL": "Tempo até perder",
+          "HINT": "média até a perda"
+        }
+      },
+      "PIPELINE": {
+        "TITLE": "Pipeline",
+        "DESCRIPTION": "Negócios por etapa (contagem · valor)",
+        "TOOLTIP": "{count} negócios · {value} · {total}% do total · {top}% do topo",
+        "NO_PIPELINE": "Crie um pipeline para ver as etapas."
+      },
+      "WINS": {
+        "TITLE": "Ganhos ao longo do tempo",
+        "DESCRIPTION": "Valor ganho por período",
+        "TOTAL": "ganho no período",
+        "CURRENT": "Período atual",
+        "PREVIOUS": "Período anterior",
+        "SHOW_TABLE": "Ver como tabela",
+        "SHOW_CHART": "Ver como gráfico",
+        "DATE": "Data",
+        "VALUE": "Valor",
+        "WEEK_OF": "Semana de {date}"
+      },
+      "CONVERSION": {
+        "TITLE": "Conversão entre etapas",
+        "DESCRIPTION": "Negócios criados no período: quantos chegaram a cada etapa e quantos seguiram para a próxima. Etapa pulada não conta. Uma etapa pode ter mais negócios que a anterior.",
+        "STAGE": "Etapa",
+        "REACHED": "Chegaram",
+        "MOVED_ON": "Seguiram para a próxima",
+        "MOVED_ON_VALUE": "{moved} de {reached} ({percent}%)",
+        "LAST": "última etapa",
+        "NO_DATA": "sem dados",
+        "BIGGEST_DROP": "maior queda"
+      },
+      "BY_ASSIGNEE": {
+        "TITLE": "Por responsável",
+        "DESCRIPTION": "Ranking de vendas no período",
+        "ASSIGNEE": "Responsável",
+        "DEALS": "Negócios",
+        "WON": "Ganhos",
+        "VALUE": "Valor",
+        "EMPTY": "Nenhum negócio no período."
+      },
+      "COLLABORATORS": {
+        "TITLE": "Colaboradores",
+        "DESCRIPTION": "Ganho contra perdido, e as atividades de cada um",
+        "ASSIGNEE": "Responsável",
+        "WON": "Ganhos",
+        "WON_VALUE": "Valor ganho",
+        "LOST": "Perdidos",
+        "LOST_VALUE": "Valor perdido",
+        "WIN_RATE": "Taxa de ganho",
+        "ACTIVITIES_DONE": "Atividades feitas",
+        "OVERDUE": "Atrasadas"
+      },
+      "STAGNATION": {
+        "TITLE": "Estagnação por etapa",
+        "DESCRIPTION": "Quantos negócios abertos passaram do prazo da etapa",
+        "STAGE": "Etapa",
+        "OPEN": "Abertos",
+        "STALE": "Parados",
+        "AVERAGE": "Média na etapa"
+      }
+    }
   }
 }

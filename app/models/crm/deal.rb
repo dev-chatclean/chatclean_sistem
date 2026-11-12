@@ -1,6 +1,7 @@
 class Crm::Deal < ApplicationRecord
   include CrmDealCustomFields
   include CrmDealImpulses
+  include CrmDealReportFilters
 
   self.table_name = 'crm_deals'
 

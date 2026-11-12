@@ -44,6 +44,13 @@ en:
         no_conversation: The AI needs a conversation with messages to analyze this deal.
         provider_error: The AI could not analyze this deal now. Try again in a few minutes.
         cooldown: Wait a few seconds before asking for a new analysis.
+    reports:
+      errors:
+        invalid_period: Choose a period of 7, 30 or 90 days.
+        invalid_time_zone: Send a valid time zone.
+        invalid_number: Check the filters with numbers.
+        invalid_date: Check the dates of the filters.
+        invalid_text: Send each filter only once.
     client_message:
       errors:
         template_required: Choose an approved WhatsApp template.

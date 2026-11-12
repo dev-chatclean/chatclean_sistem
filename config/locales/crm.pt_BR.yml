@@ -49,6 +49,13 @@ pt_BR:
         no_conversation: A IA precisa de uma conversa com mensagens para analisar este negócio.
         provider_error: A IA não conseguiu analisar este negócio agora. Tente de novo em alguns minutos.
         cooldown: Aguarde alguns segundos antes de pedir uma nova análise.
+    reports:
+      errors:
+        invalid_period: Escolha um período de 7, 30 ou 90 dias.
+        invalid_time_zone: Informe um fuso horário válido.
+        invalid_number: Confira os filtros com números.
+        invalid_date: Confira as datas dos filtros.
+        invalid_text: Envie cada filtro uma vez só.
     client_message:
       errors:
         template_required: Escolha um modelo aprovado do WhatsApp.

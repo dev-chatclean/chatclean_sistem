@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import FilterMenu from './FilterMenu.vue';
+import FilterChips from './FilterChips.vue';
 import ToolbarSelect from './ToolbarSelect.vue';
 import { BOARD_SORTS, CLOSED_PERIODS, OPEN_PERIODS } from '../../constants';
 
@@ -87,17 +88,6 @@ const addFilter = filter => {
 const removeFilter = filter => {
   state.value.filters = state.value.filters.filter(item => item !== filter);
 };
-
-const filterChipText = filter => {
-  const { value } = filter;
-  if (filter.valueLabel) return filter.valueLabel;
-  if (typeof value === 'string') return value;
-  if (value === true) return t('CRM_DEALS.FILTERS.YES');
-  if ('min' in value) {
-    return [value.min, value.max].filter(item => item !== '').join(' – ');
-  }
-  return [value.from, value.to].filter(Boolean).join(' – ');
-};
 </script>
 
 <template>
@@ -114,22 +104,7 @@ const filterChipText = filter => {
       />
     </div>
     <FilterMenu :stages="stages" @add="addFilter" />
-    <span
-      v-for="filter in state.filters"
-      :key="filter.field"
-      class="flex items-center gap-1.5 h-9 ps-3 pe-1.5 text-sm rounded-xl bg-n-brand/10 text-n-slate-12"
-    >
-      <span class="text-n-slate-11">{{ filter.label }}:</span>
-      {{ filterChipText(filter) }}
-      <button
-        type="button"
-        class="flex items-center justify-center rounded-md size-6 hover:bg-n-alpha-2"
-        :aria-label="t('CRM_DEALS.FILTERS.REMOVE')"
-        @click="removeFilter(filter)"
-      >
-        <span class="i-lucide-x size-3.5" />
-      </button>
-    </span>
+    <FilterChips :filters="state.filters" @remove="removeFilter" />
     <ToolbarSelect
       :label="t('CRM_DEALS.TOOLBAR.VIEW.LABEL')"
       :selected-text="t(`CRM_DEALS.TOOLBAR.VIEW.${state.view.toUpperCase()}`)"

@@ -234,7 +234,9 @@
         "LEAD_ORIGIN": "Lead origin",
         "CHANNEL": "Channel",
         "ACTIVITIES": "Activities",
-        "PRODUCT": "Product"
+        "PRODUCT": "Product",
+        "PIPELINE": "Pipeline",
+        "CLOSED_AT": "Closed on"
       },
       "NO_OPTIONS": "Nothing to choose here yet.",
       "ACTIVITIES": {
