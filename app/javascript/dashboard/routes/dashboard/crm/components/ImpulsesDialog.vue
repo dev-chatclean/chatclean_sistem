@@ -8,6 +8,8 @@ import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
+import StageCampaigns from './StageCampaigns.vue';
 import ClientMessageEditor from './ClientMessageEditor.vue';
 import { useClientMessage } from '../useClientMessage';
 import {
@@ -32,6 +34,18 @@ const isLoading = ref(false);
 const isSaving = ref(false);
 const editing = ref(null);
 const pendingDeleteId = ref(null);
+const campaignsRef = ref(null);
+
+const TABS = ['impulses', 'campaigns'];
+const activeTab = ref(TABS[0]);
+const tabs = computed(() =>
+  TABS.map(key => ({
+    key,
+    label: t(`CRM_PIPELINES.IMPULSES.TABS.${key.toUpperCase()}`),
+  }))
+);
+const isCampaignsTab = computed(() => activeTab.value === 'campaigns');
+const campaignForm = computed(() => campaignsRef.value?.form);
 
 const toDelay = minutes => {
   const unit = ['DAYS', 'HOURS'].find(
@@ -65,6 +79,7 @@ const open = ({ pipeline: source, stage: target }) => {
   stage.value = target;
   editing.value = null;
   impulses.value = [];
+  activeTab.value = TABS[0];
   dialogRef.value?.open();
   fetchImpulses();
 };
@@ -233,13 +248,30 @@ defineExpose({ open });
   <Dialog
     ref="dialogRef"
     :title="t('CRM_PIPELINES.IMPULSES.TITLE', { stage: stage?.name })"
-    :description="t('CRM_PIPELINES.IMPULSES.DESCRIPTION')"
+    :description="
+      isCampaignsTab
+        ? t('CRM_PIPELINES.CAMPAIGNS.DESCRIPTION')
+        : t('CRM_PIPELINES.IMPULSES.DESCRIPTION')
+    "
     :show-confirm-button="false"
     :show-cancel-button="false"
     width="2xl"
     overflow-y-auto
   >
-    <div v-if="!editing" class="flex flex-col gap-3">
+    <TabBar
+      v-if="!editing && !campaignForm"
+      :tabs="tabs"
+      :initial-active-tab="TABS.indexOf(activeTab)"
+      class="mb-4"
+      @tab-changed="activeTab = $event.key"
+    />
+    <StageCampaigns
+      v-if="isCampaignsTab"
+      ref="campaignsRef"
+      :pipeline="pipeline"
+      :stage="stage"
+    />
+    <div v-else-if="!editing" class="flex flex-col gap-3">
       <span v-if="isLoading" class="text-sm text-n-slate-11">
         {{ t('CRM_PIPELINES.IMPULSES.LOADING') }}
       </span>
@@ -379,7 +411,39 @@ defineExpose({ open });
 
     <template #footer>
       <div class="flex items-center justify-end w-full gap-2">
-        <template v-if="!editing">
+        <template v-if="isCampaignsTab && campaignForm">
+          <Button
+            :label="t('CRM_PIPELINES.FORM.CANCEL')"
+            slate
+            faded
+            sm
+            @click="campaignsRef.closeForm()"
+          />
+          <Button
+            :label="t('CRM_PIPELINES.CAMPAIGNS.SEND')"
+            icon="i-lucide-send"
+            sm
+            :is-loading="campaignsRef.isSending"
+            :disabled="!campaignsRef.canSend"
+            @click="campaignsRef.send()"
+          />
+        </template>
+        <template v-else-if="isCampaignsTab">
+          <Button
+            :label="t('CRM_PIPELINES.IMPULSES.CLOSE')"
+            slate
+            faded
+            sm
+            @click="dialogRef?.close()"
+          />
+          <Button
+            :label="t('CRM_PIPELINES.CAMPAIGNS.NEW')"
+            icon="i-lucide-plus"
+            sm
+            @click="campaignsRef?.startNew()"
+          />
+        </template>
+        <template v-else-if="!editing">
           <Button
             :label="t('CRM_PIPELINES.IMPULSES.CLOSE')"
             slate

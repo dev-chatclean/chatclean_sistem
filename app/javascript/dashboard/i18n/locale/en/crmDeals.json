@@ -130,7 +130,10 @@
         "IMPULSE_CANCELED": "Impulse “{impulse}” canceled: {reason}",
         "CLIENT_REMINDER_SENT": "Client reminder for “{activity}” sent",
         "CLIENT_REMINDER_FAILED": "Client reminder for “{activity}” failed: {reason}",
-        "CLIENT_REMINDER_CANCELED": "{user} canceled the client reminder for “{activity}”"
+        "CLIENT_REMINDER_CANCELED": "{user} canceled the client reminder for “{activity}”",
+        "CAMPAIGN_SENT": "Campaign “{campaign}” sent",
+        "CAMPAIGN_FAILED": "Campaign “{campaign}” failed: {reason}",
+        "CAMPAIGN_CANCELED": "Campaign “{campaign}” canceled: {reason}"
       },
       "RANGE": "{from} → {to}",
       "NO_LABELS": "No labels",
@@ -397,7 +400,8 @@
         "STAGE_CHANGED": "the deal changed stage",
         "CONTACT_REPLIED": "the contact replied",
         "IMPULSE_DISABLED": "the impulse was turned off",
-        "CANCELED_BY_USER": "canceled by a user"
+        "CANCELED_BY_USER": "canceled by a user",
+        "CAMPAIGN_CANCELED": "the campaign was canceled"
       }
     },
     "CLIENT_MESSAGE": {

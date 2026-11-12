@@ -130,7 +130,10 @@
         "IMPULSE_CANCELED": "Impulso “{impulse}” cancelado: {reason}",
         "CLIENT_REMINDER_SENT": "Lembrete ao cliente de “{activity}” enviado",
         "CLIENT_REMINDER_FAILED": "Lembrete ao cliente de “{activity}” falhou: {reason}",
-        "CLIENT_REMINDER_CANCELED": "{user} cancelou o lembrete ao cliente de “{activity}”"
+        "CLIENT_REMINDER_CANCELED": "{user} cancelou o lembrete ao cliente de “{activity}”",
+        "CAMPAIGN_SENT": "Campanha “{campaign}” enviada",
+        "CAMPAIGN_FAILED": "Campanha “{campaign}” falhou: {reason}",
+        "CAMPAIGN_CANCELED": "Campanha “{campaign}” cancelada: {reason}"
       },
       "RANGE": "{from} → {to}",
       "NO_LABELS": "Sem etiquetas",
@@ -397,7 +400,8 @@
         "STAGE_CHANGED": "o negócio mudou de etapa",
         "CONTACT_REPLIED": "o contato respondeu",
         "IMPULSE_DISABLED": "o impulso foi desativado",
-        "CANCELED_BY_USER": "cancelado por um usuário"
+        "CANCELED_BY_USER": "cancelado por um usuário",
+        "CAMPAIGN_CANCELED": "a campanha foi cancelada"
       }
     },
     "CLIENT_MESSAGE": {

@@ -7,6 +7,7 @@ class Crm::Deal < ApplicationRecord
   WIN_REASONS = %w[not_informed best_price delivery_time relationship referral product_features other].freeze
   LOSS_REASONS = %w[price no_interest competitor no_response out_of_profile other].freeze
   MAX_VALUE = 10**10
+  BOARD_CLOSED_WINDOW = 30.days
   REQUIREMENT_FLAGS = {
     'expected_close_date' => 'require_expected_close_date',
     'positive_value' => 'require_positive_value',
@@ -25,6 +26,7 @@ class Crm::Deal < ApplicationRecord
   has_many :activities, -> { order(:due_at, :id) }, class_name: 'Crm::DealActivity', inverse_of: :deal, dependent: :delete_all
   has_many :deal_products, -> { order(:id) }, class_name: 'Crm::DealProduct', inverse_of: :deal, dependent: :delete_all
   has_many :files, -> { order(created_at: :desc, id: :desc) }, class_name: 'Crm::DealFile', inverse_of: :deal, dependent: :destroy
+  has_many :campaign_deliveries, class_name: 'Crm::DealCampaignDelivery', inverse_of: :deal, dependent: :destroy
   has_many :pending_activities, -> { pending.order(:due_at, :id) }, class_name: 'Crm::DealActivity', inverse_of: :deal, dependent: nil
 
   enum :status, { open: 0, won: 1, lost: 2 }

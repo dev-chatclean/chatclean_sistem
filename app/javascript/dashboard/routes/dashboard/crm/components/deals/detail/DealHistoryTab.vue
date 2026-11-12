@@ -34,6 +34,7 @@ const eventText = event =>
       ? t(`CRM_DEALS.FILES.CATEGORIES.${event.data.category.toUpperCase()}`)
       : '',
     impulse: event.data.impulse,
+    campaign: event.data.campaign,
     step: event.data.step,
     reason: event.data.reason
       ? t(`CRM_DEALS.IMPULSES.REASONS.${event.data.reason.toUpperCase()}`)

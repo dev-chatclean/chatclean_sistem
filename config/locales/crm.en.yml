@@ -37,7 +37,13 @@ en:
     impulses:
       errors:
         steps_count: An impulse needs from 1 to %{max} steps.
-        template_required: Choose an approved template for the template step.
+    client_message:
+      errors:
+        template_required: Choose an approved WhatsApp template.
+    campaigns:
+      errors:
+        no_eligible_deals: There are no eligible deals with a contact in this stage to send the campaign.
+        not_running: This campaign is no longer running.
     activities:
       errors:
         client_reminder_no_contact: Link a contact to the deal to remind the client.
