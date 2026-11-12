@@ -25,6 +25,10 @@ const emit = defineEmits(['saved', 'delete']);
 
 const { t } = useI18n();
 const labels = useMapGetter('labels/getLabels');
+const attributesByModel = useMapGetter('attributes/getAttributesByModel');
+const dealAttributes = computed(() =>
+  attributesByModel.value('deal_attribute')
+);
 
 const dialogRef = ref(null);
 const requirementsRef = ref(null);
@@ -108,6 +112,13 @@ const toggleLabel = title => {
   form.value.requirements.apply_labels = current.includes(title)
     ? current.filter(item => item !== title)
     : [...current, title];
+};
+
+const toggleRequiredField = (key, checked) => {
+  const fields = form.value.requirements.required_custom_fields;
+  form.value.requirements.required_custom_fields = checked
+    ? [...fields, key]
+    : fields.filter(field => field !== key);
 };
 
 const addTask = () => {
@@ -239,7 +250,27 @@ defineExpose({ open });
           <span class="text-label text-n-slate-12">
             {{ t('CRM_PIPELINES.STAGE.REQUIREMENTS.CUSTOM_FIELDS.LABEL') }}
           </span>
+          <template v-if="dealAttributes.length">
+            <label
+              v-for="attribute in dealAttributes"
+              :key="attribute.attribute_key"
+              class="flex items-center gap-2 text-sm text-n-slate-12"
+            >
+              <Checkbox
+                :model-value="
+                  form.requirements.required_custom_fields.includes(
+                    attribute.attribute_key
+                  )
+                "
+                @update:model-value="
+                  toggleRequiredField(attribute.attribute_key, $event)
+                "
+              />
+              {{ attribute.attribute_display_name }}
+            </label>
+          </template>
           <div
+            v-else
             class="px-3 py-2.5 text-sm border rounded-lg border-n-slate-6 text-n-slate-11"
           >
             {{ t('CRM_PIPELINES.STAGE.REQUIREMENTS.CUSTOM_FIELDS.EMPTY') }}

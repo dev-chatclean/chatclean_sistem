@@ -23,6 +23,7 @@ en:
         positive_value: value above zero
         product: at least one product
         document: an attached document
+        custom_field: the field %{name}
       errors:
         title_required: Add a title when the deal has no contact or company.
         loss_reason_required: Choose the reason the deal was lost.
@@ -32,6 +33,7 @@ en:
         invalid_company: The company does not belong to this account.
         invalid_assignee: The owner must be a member of this account.
         stage_requirements: 'The stage %{stage} requires: %{fields}.'
+        invalid_custom_fields: 'Check the value of: %{fields}.'
     activities:
       errors:
         required_task_delete: This task is required by the stage and cannot be deleted. Mark it as done instead.

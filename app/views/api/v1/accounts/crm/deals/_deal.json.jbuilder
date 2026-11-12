@@ -18,6 +18,7 @@ json.closed_at deal.closed_at&.to_i
 json.created_at deal.created_at.to_i
 json.lead_origin deal.lead_origin
 json.lead_source deal.lead_source
+json.custom_attributes deal.custom_attributes
 json.pending_activities_count deal.pending_activities.size
 json.files_count deal.files.size
 json.products deal.deal_products do |item|

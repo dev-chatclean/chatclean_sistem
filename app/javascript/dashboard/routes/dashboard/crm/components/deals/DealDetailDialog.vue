@@ -12,6 +12,7 @@ import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import StagePill from './detail/StagePill.vue';
 import LinkContactCard from './detail/LinkContactCard.vue';
 import CompanyPicker from './CompanyPicker.vue';
+import DealCustomFields from './detail/DealCustomFields.vue';
 import ContactLabels from './detail/ContactLabels.vue';
 import DealInfoTab from './detail/DealInfoTab.vue';
 import DealHistoryTab from './detail/DealHistoryTab.vue';
@@ -325,6 +326,7 @@ defineExpose({ open, reload, close });
                 "
               />
             </label>
+            <DealCustomFields :deal="deal" @update="update" />
           </section>
           <div
             v-if="deal.close_reason"

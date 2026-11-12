@@ -92,7 +92,6 @@
         "NEXT_TASK": "Next task",
         "CONTACT_LABELS": "Contact labels",
         "ORIGIN": "Origin",
-        "BILLING": "Billing",
         "ATTACHMENTS": "Attachments"
       }
     },
@@ -229,7 +228,7 @@
         },
         "CUSTOM_FIELDS": {
           "LABEL": "Require filled fields",
-          "EMPTY": "No custom field created yet."
+          "EMPTY": "No deal field yet. Create them in Settings → Custom attributes → Deal."
         },
         "DEAL": {
           "LABEL": "Require from the deal",
