@@ -55,6 +55,7 @@ json.contact do
     json.email deal.contact.email
     json.thumbnail deal.contact.avatar_url
     json.labels deal.contact.labels.map(&:name)
+    json.archived_at deal.contact.archived_at&.to_i
   else
     json.nil!
   end

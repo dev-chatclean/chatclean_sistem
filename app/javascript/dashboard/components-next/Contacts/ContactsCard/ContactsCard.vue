@@ -8,6 +8,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Flag from 'dashboard/components-next/flag/Flag.vue';
 import ContactDeleteSection from 'dashboard/components-next/Contacts/ContactsCard/ContactDeleteSection.vue';
+import ContactArchiveSection from 'dashboard/routes/dashboard/crm/components/contact/ContactArchiveSection.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import countries from 'shared/constants/countries';
 
@@ -24,6 +25,7 @@ const props = defineProps({
   isUpdating: { type: Boolean, default: false },
   selectable: { type: Boolean, default: false },
   isSelected: { type: Boolean, default: false },
+  archivedAt: { type: Number, default: null },
 });
 
 const emit = defineEmits([
@@ -235,6 +237,10 @@ const handleAvatarHover = isHovered => {
                 />
               </div>
             </div>
+            <ContactArchiveSection
+              :contact="{ id: props.id, archivedAt: props.archivedAt }"
+              in-list
+            />
             <ContactDeleteSection
               :selected-contact="{
                 id: props.id,

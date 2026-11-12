@@ -36,6 +36,7 @@ pt_BR:
         required_task_delete: Esta tarefa é obrigatória da etapa e não pode ser excluída. Marque como concluída.
     contacts:
       errors:
+        already_archived: Este contato já está arquivado.
         has_deals:
           one: Este contato tem 1 negócio e não pode ser excluído. Use a opção de arquivar.
           other: Este contato tem %{count} negócios e não pode ser excluído. Use a opção de arquivar.

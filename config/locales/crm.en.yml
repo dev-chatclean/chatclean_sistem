@@ -36,6 +36,7 @@ en:
         required_task_delete: This task is required by the stage and cannot be deleted. Mark it as done instead.
     contacts:
       errors:
+        already_archived: This contact is already archived.
         has_deals:
           one: This contact has 1 deal and cannot be deleted. Archive it instead.
           other: This contact has %{count} deals and cannot be deleted. Archive it instead.
