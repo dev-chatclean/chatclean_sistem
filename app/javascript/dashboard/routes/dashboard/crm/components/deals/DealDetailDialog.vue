@@ -21,6 +21,7 @@ import DealConversationsTab from './detail/DealConversationsTab.vue';
 import DealActivitiesTab from './detail/DealActivitiesTab.vue';
 import ActivityFormDialog from './detail/ActivityFormDialog.vue';
 import DealFilesTab from './detail/DealFilesTab.vue';
+import DealImpulsesTab from './detail/DealImpulsesTab.vue';
 import { isClosingStage } from '../../dealHelpers';
 
 const props = defineProps({
@@ -33,6 +34,7 @@ const TABS = [
   'info',
   'history',
   'activities',
+  'impulses',
   'deals',
   'files',
   'conversations',
@@ -385,6 +387,11 @@ defineExpose({ open, reload, close });
               :deal="deal"
               @new="openActivityForm(null)"
               @edit="openActivityForm"
+              @changed="onActivityChanged"
+            />
+            <DealImpulsesTab
+              v-else-if="activeTab === 'impulses'"
+              :deal="deal"
               @changed="onActivityChanged"
             />
             <DealContactDealsTab

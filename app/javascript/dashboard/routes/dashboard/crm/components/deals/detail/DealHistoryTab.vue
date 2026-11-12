@@ -33,6 +33,11 @@ const eventText = event =>
     category: event.data.category
       ? t(`CRM_DEALS.FILES.CATEGORIES.${event.data.category.toUpperCase()}`)
       : '',
+    impulse: event.data.impulse,
+    step: event.data.step,
+    reason: event.data.reason
+      ? t(`CRM_DEALS.IMPULSES.REASONS.${event.data.reason.toUpperCase()}`)
+      : '',
   });
 </script>
 

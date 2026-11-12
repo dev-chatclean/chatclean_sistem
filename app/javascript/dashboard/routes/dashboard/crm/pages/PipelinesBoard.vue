@@ -18,6 +18,7 @@ import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import PipelineSettingsDialog from '../components/PipelineSettingsDialog.vue';
 import AiSettingsDialog from '../components/AiSettingsDialog.vue';
 import StageDialog from '../components/StageDialog.vue';
+import ImpulsesDialog from '../components/ImpulsesDialog.vue';
 import Draggable from 'vuedraggable';
 import CrmDealsAPI from 'dashboard/api/crm/deals';
 import DealCard from '../components/deals/DealCard.vue';
@@ -57,6 +58,7 @@ const settingsDialogRef = ref(null);
 const deleteDialogRef = ref(null);
 const aiDialogRef = ref(null);
 const stageDialogRef = ref(null);
+const impulsesDialogRef = ref(null);
 const stageDeleteDialogRef = ref(null);
 const openStageMenuId = ref(null);
 const stageToDelete = ref(null);
@@ -424,6 +426,12 @@ const stageMenuItems = stage => {
         action: 'edit',
         icon: 'i-lucide-pencil',
       },
+      {
+        label: t('CRM_PIPELINES.STAGE.MENU.IMPULSES'),
+        value: 'impulses',
+        action: 'impulses',
+        icon: 'i-lucide-send',
+      },
     ];
   }
   const items = [
@@ -438,6 +446,12 @@ const stageMenuItems = stage => {
       value: 'requirements',
       action: 'requirements',
       icon: 'i-lucide-lock',
+    },
+    {
+      label: t('CRM_PIPELINES.STAGE.MENU.IMPULSES'),
+      value: 'impulses',
+      action: 'impulses',
+      icon: 'i-lucide-send',
     },
   ];
   if (stage.stage_type === 'custom') {
@@ -497,6 +511,9 @@ const handleStageAction = (stage, { action }) => {
   if (action === 'edit') openStageDialog({ stage });
   if (action === 'requirements') {
     openStageDialog({ stage, focusRequirements: true });
+  }
+  if (action === 'impulses') {
+    impulsesDialogRef.value?.open({ pipeline: selectedPipeline.value, stage });
   }
   if (action === 'move_right') moveStageRight(stage);
   if (action === 'delete') askStageDelete(stage);
@@ -1034,6 +1051,7 @@ onMounted(() => {
       :is-loading="isMovingDeal"
       @confirm="confirmDealDelete"
     />
+    <ImpulsesDialog ref="impulsesDialogRef" />
     <StageDialog
       ref="stageDialogRef"
       @saved="fetchPipelines"

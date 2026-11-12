@@ -34,6 +34,10 @@ en:
         invalid_assignee: The owner must be a member of this account.
         stage_requirements: 'The stage %{stage} requires: %{fields}.'
         invalid_custom_fields: 'Check the value of: %{fields}.'
+    impulses:
+      errors:
+        steps_count: An impulse needs from 1 to %{max} steps.
+        template_required: Choose an approved template for the template step.
     activities:
       errors:
         required_task_delete: This task is required by the stage and cannot be deleted. Mark it as done instead.

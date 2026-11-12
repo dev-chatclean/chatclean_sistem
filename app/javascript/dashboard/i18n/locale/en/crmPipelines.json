@@ -218,7 +218,8 @@
         "EDIT_CLOSING": "Edit",
         "REQUIREMENTS": "What this stage requires",
         "MOVE_RIGHT": "Move right",
-        "DELETE": "Delete stage"
+        "DELETE": "Delete stage",
+        "IMPULSES": "Impulses"
       },
       "REQUIREMENTS": {
         "TITLE": "When entering this stage",
@@ -260,6 +261,69 @@
         "CREATE_SUCCESS": "Stage created",
         "UPDATE_SUCCESS": "Stage updated",
         "DELETE_SUCCESS": "Stage deleted"
+      }
+    },
+    "IMPULSES": {
+      "TITLE": "Impulses: {stage}",
+      "DESCRIPTION": "Automatic messages sent to the contact when a deal enters this stage.",
+      "LOADING": "Loading impulses...",
+      "EMPTY": "This stage has no impulses yet.",
+      "STEPS_COUNT": "{count} step | {count} steps",
+      "ACTIVE": "Active",
+      "EDIT": "Edit impulse",
+      "DELETE": "Delete impulse",
+      "CONFIRM_DELETE": "Delete?",
+      "ENTRY_HINT": "Impulses start when a deal enters the stage. Deals already in it are not affected. Leaving the stage cancels the pending steps.",
+      "NAME": {
+        "LABEL": "Impulse name",
+        "PLACEHOLDER": "E.g. Proposal follow-up"
+      },
+      "STOP_ON_REPLY": "Stop when the contact replies",
+      "STEP": "Step {number}",
+      "REMOVE_STEP": "Remove step",
+      "DELAY": {
+        "FIRST": "Wait after entering the stage",
+        "NEXT": "Wait after the previous step",
+        "NOW": "right away",
+        "AFTER_MINUTES": "after {count} minute | after {count} minutes",
+        "AFTER_HOURS": "after {count} hour | after {count} hours",
+        "AFTER_DAYS": "after {count} day | after {count} days",
+        "UNITS": {
+          "MINUTES": "minutes",
+          "HOURS": "hours",
+          "DAYS": "days"
+        }
+      },
+      "TYPE": {
+        "LABEL": "Message",
+        "TEXT": "Free text",
+        "TEMPLATE": "WhatsApp template",
+        "TEXT_HINT": "On WhatsApp, free text is only sent within 24 hours of the contact’s last message. Outside that window the step fails and is logged in the history.",
+        "TEMPLATE_HINT": "An approved template is sent even outside the 24-hour window. It goes through the contact’s WhatsApp conversation."
+      },
+      "CONTENT": "Message text",
+      "TEMPLATE": {
+        "INBOX": "WhatsApp inbox",
+        "LABEL": "Approved template",
+        "CHOOSE": "Choose a template",
+        "VARIABLE": "Value for {key}"
+      },
+      "VARIABLES": "Variables: {variables}",
+      "ERRORS": {
+        "NAME": "Use up to {max} characters.",
+        "DELAY": "Enter a whole wait of 0 or more.",
+        "DELAY_MAX": "The wait can be at most 90 days.",
+        "CONTENT": "Write the message.",
+        "TEMPLATE": "Choose a template.",
+        "VARIABLES": "Fill in every template variable."
+      },
+      "ADD_STEP": "Add step",
+      "CLOSE": "Close",
+      "NEW": "New impulse",
+      "SAVE": "Save impulse",
+      "API": {
+        "SAVE_SUCCESS": "Impulse saved",
+        "DELETE_SUCCESS": "Impulse deleted"
       }
     }
   }
