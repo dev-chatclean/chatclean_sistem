@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Configuração da ChatClean sobre a instalação oficial do Chatwoot (CCV2-39). Roda como root na
-# máquina depois do install.sh e de cada atualização (cwctl --upgrade); aplicar de novo não muda nada.
+# Configuração da ChatClean na máquina de produção (CCV2-39). Roda como root na
+# máquina depois do install.sh e quando o push-ops mudar algo; aplicar de novo não muda nada.
+# Desde 12/11/2026 a máquina roda o nosso código (deploy-app); nunca rode cwctl --upgrade.
 #   - completa o .env do Chatwoot: edição gratuita, anexos no S3 e e-mail pelo SES;
-#   - aplica nome e logos ChatClean sem tocar em arquivos versionados do Chatwoot, para o
-#     cwctl --upgrade continuar funcionando (ele para se houver mudança no código);
+#   - grava nome, logos e links ChatClean nas configurações (rails chatclean:branding);
 #   - instala o backup diário do banco;
 #   - reinicia o Chatwoot.
 #
@@ -79,12 +79,8 @@ chown chatwoot:chatwoot "$ENV_FILE"
 chmod 600 "$ENV_FILE"
 
 echo "==> Marca ChatClean"
-# public/brand-assets/chatclean não existe no repositório do Chatwoot, então não conta como mudança
-# de código para o cwctl --upgrade. tmp/ também é ignorado pelo git.
-install -o chatwoot -g chatwoot -m 0755 -d "$APP/public/brand-assets/chatclean"
-install -o chatwoot -g chatwoot -m 0644 brand/*.png "$APP/public/brand-assets/chatclean/"
-install -o chatwoot -g chatwoot -m 0644 branding.rb "$APP/tmp/chatclean_branding.rb"
-sudo -i -u chatwoot bash -c 'cd chatwoot && RAILS_ENV=production bundle exec rails runner tmp/chatclean_branding.rb'
+# Os logos vêm do repositório (public/brand-assets/chatclean); aqui só grava nome, logos e links nas configurações.
+sudo -i -u chatwoot bash -c 'cd chatwoot && RAILS_ENV=production bundle exec rails chatclean:branding'
 
 echo "==> Backup diário do banco (03:00 de Brasília)"
 cat > /etc/systemd/system/chatclean-backup.service <<'UNIT'

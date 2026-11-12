@@ -1,35 +1,33 @@
 # Instalação do ChatClean em produção
 
 Produção numa máquina na AWS, no Norte da Virgínia (`us-east-1`), em `https://chat.chatclean.com.br` (CCV2-39).
-A máquina roda o **Chatwoot oficial**, instalado como na documentação do Chatwoot
-([AWS](https://developers.chatwoot.com/self-hosted/deployment/aws) e
-[Linux VM](https://developers.chatwoot.com/self-hosted/deployment/linux-vm)), numa forma reduzida: uma zona,
-uma máquina, sem load balancer, RDS, ElastiCache, NAT nem bastion. Banco, Redis e HTTPS ficam na própria máquina,
-como o `install.sh` faz. A infraestrutura está em `../infra/README.md`.
+Desde 12/11/2026 (CCV2-52), a máquina roda **o código da `main` deste repositório**, no lugar do Chatwoot oficial,
+na mesma forma reduzida da [documentação do Chatwoot](https://developers.chatwoot.com/self-hosted/deployment/linux-vm):
+uma zona e uma máquina, sem load balancer, RDS, ElastiCache, NAT nem bastion. Banco, Redis e HTTPS ficam na própria
+máquina. A infraestrutura está em `../infra/README.md`.
 
-O código deste repositório **não** vai para a produção. Da ChatClean só entram:
-- a edição gratuita (`DISABLE_ENTERPRISE=true`);
-- anexos no S3 e e-mail pelo SES;
-- nome e logos;
-- o backup diário do banco.
+A pasta do Chatwoot (`/home/chatwoot/chatwoot`) segue a `main` pelo remote `chatclean`, lido com uma chave só de leitura
+(`~chatwoot/.ssh/chatclean_deploy`, cadastrada nas deploy keys do repositório). **Nunca rode `cwctl --upgrade`:** ele
+traria o Chatwoot oficial de volta por cima do nosso código. As versões novas do Chatwoot entram pela `main`
+(`../bin/sync-upstream`) e chegam à produção pelo `deploy-app`.
 
-Tudo isso é feito por `server/setup`.
+Além do código, o `server/setup` cuida da edição gratuita (`DISABLE_ENTERPRISE=true`), dos anexos no S3, do e-mail
+pelo SES e do backup diário do banco.
 
 ## Arquivos
 
 | Arquivo | Para quê |
 |---|---|
-| `push-ops` | No Mac: envia `server/` e os logos para a máquina (pelo S3 e pelo SSM) e roda o `setup` |
-| `server/setup` | Na máquina: completa o `.env`, aplica a marca, instala o backup e reinicia o Chatwoot |
-| `server/branding.rb` | Nome, logos e links da ChatClean nas configurações do Chatwoot |
+| `deploy-app` | No Mac: leva a `main` para a produção (snapshot, backup, código, front, migrações, reinício e marca) |
+| `push-ops` | No Mac: envia `server/` para a máquina (pelo S3 e pelo SSM) e roda o `setup` |
+| `server/setup` | Na máquina: completa o `.env`, aplica a marca (`rails chatclean:branding`), instala o backup e reinicia o Chatwoot |
 | `server/backup-db` | Backup diário do banco para o S3, com alerta por e-mail se falhar |
 | `restore-check.sh` + `count-rows.sql` | No Mac: restaura um dump num Postgres temporário e conta as linhas de cada tabela |
 
 ## Versão do Chatwoot
 
-A instalação e as atualizações seguem a documentação: `install.sh --install` e `cwctl --upgrade` levam à última
-versão estável do Chatwoot (em 28/10/2026, a v4.19.1). Anote a versão instalada (`sudo cwctl --version`) no Jira a
-cada instalação ou atualização.
+A produção roda a versão do Chatwoot que está na `main` (em 12/11/2026, a v4.19.1). Para uma versão nova: trazer a
+tag para a `dev` e a `main` com o CI verde, e então rodar o `deploy-app`.
 
 ## Primeira instalação
 
@@ -82,19 +80,33 @@ Antes: a infraestrutura criada (`../infra/README.md`), o SES configurado e as cr
    - o convite de um agente chega por e-mail;
    - `sudo systemctl start chatclean-backup` cria um arquivo em `s3://chatclean-backups-<conta>/database/`.
 
-## Atualizar o Chatwoot
+## Levar a `main` para a produção
 
-Como na documentação: atualiza pela `cwctl`, que leva à última versão estável e roda as migrações. Na máquina:
+No Mac, com a sessão AWS ativa (`aws sso login --profile ChatClean`) e a `main` com o CI verde:
 
 ```sh
-sudo cwctl --upgrade
+.chatclean/deploy/deploy-app
 ```
 
-Depois, no Mac, `.chatclean/deploy/push-ops`, para aplicar a marca de novo e reiniciar.
+O script:
+1. tira um snapshot do disco e espera terminar;
+2. roda o backup do banco para o S3;
+3. na máquina, com o sistema no ar: `git checkout` da `main`, `bundle install`, `pnpm install`, compila o front e roda
+   as migrações (em 12/11/2026, 3 minutos);
+4. reinicia o Chatwoot (1 a 2 minutos fora do ar) e reaplica a marca (`rails chatclean:branding`);
+5. confere o login e conta os erros 500 desde o reinício.
 
-A `cwctl` para se encontrar mudança nos arquivos do Chatwoot ("Custom code changes detected"). O `setup` não
-altera nenhum arquivo versionado: os logos ficam em `public/brand-assets/chatclean/` e o script da marca em
-`tmp/`, que o repositório do Chatwoot não tem.
+Durante os segundos antes do reinício, o processo antigo pode dar erro 500 em telas que mudaram, porque o código novo
+já está na pasta. Some quando o processo novo sobe.
+
+Rode o `push-ops` só quando mudar algo em `server/` (o `.env`, o backup).
+
+### Voltar um deploy
+
+- **Só o código** (as migrações do CRM só acrescentam tabelas e colunas): na máquina, como `chatwoot`,
+  `git checkout -B main <commit anterior>` (o `deploy-app` mostra o commit anterior), compile o front e reinicie.
+- **Tudo, inclusive o banco:** troque o disco da máquina por um volume criado do snapshot que o `deploy-app` mostrou
+  no fim (veja "Recuperar a máquina inteira", abaixo). Perde-se o que entrou depois do snapshot.
 
 ## Comandos do dia a dia (na máquina)
 
@@ -103,7 +115,7 @@ altera nenhum arquivo versionado: os logos ficam em `public/brand-assets/chatcle
 | Reiniciar | `sudo cwctl --restart` |
 | Logs do Chatwoot | `sudo cwctl --logs web` ou `sudo cwctl --logs worker` |
 | Console do Rails | `sudo cwctl --console` |
-| Versão | `sudo cwctl --version` |
+| Versão | `sudo -u chatwoot git -C /home/chatwoot/chatwoot log --oneline -1` |
 | Renovar o certificado | automático (timer do `certbot`); para conferir: `sudo certbot renew --dry-run` |
 
 ## Backup e recuperação

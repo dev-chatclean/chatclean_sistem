@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+# Leva o código da main deste repositório para a produção (CCV2-52). Roda no Mac.
+#
+# Desde 12/11/2026 a máquina roda o nosso código no lugar do Chatwoot oficial: a pasta do Chatwoot
+# segue a branch main pelo remote "chatclean", lido com a chave só de leitura
+# ~chatwoot/.ssh/chatclean_deploy. Nunca rode "cwctl --upgrade": ele traz o Chatwoot oficial por cima.
+#
+# Passos: snapshot do disco e backup do banco; na máquina, troca o código, instala as dependências,
+# compila o front e roda as migrações com o sistema no ar; reinicia (1 a 2 minutos fora);
+# reaplica a marca; confere o login e os erros do log.
+#
+# Uso: .chatclean/deploy/deploy-app [branch]   (padrão: main)
+# Precisa da sessão AWS do projeto: aws sso login --profile ChatClean
+set -euo pipefail
+
+branch="${1:-main}"
+export AWS_PROFILE="${AWS_PROFILE:-ChatClean}"
+export AWS_REGION=us-east-1
+
+instance="$(aws ec2 describe-instances \
+  --filters Name=tag:Name,Values=chatclean-production Name=instance-state-name,Values=running \
+  --query 'Reservations[0].Instances[0].InstanceId' --output text)"
+volume="$(aws ec2 describe-instances --instance-ids "$instance" \
+  --query 'Reservations[0].Instances[0].BlockDeviceMappings[0].Ebs.VolumeId' --output text)"
+
+echo "==> Snapshot do disco $volume"
+snapshot="$(aws ec2 create-snapshot --volume-id "$volume" \
+  --description "antes do deploy de $branch $(date -u +%Y-%m-%dT%H:%MZ)" \
+  --tag-specifications 'ResourceType=snapshot,Tags=[{Key=Name,Value=chatclean-pre-deploy}]' \
+  --query SnapshotId --output text)"
+aws ec2 wait snapshot-completed --snapshot-ids "$snapshot"
+echo "    $snapshot pronto"
+
+# Roda um script na máquina pelo SSM e mostra a saída; falha se o script falhar.
+run_on_server() {
+  local script="$1" timeout="$2" parameters command_id status
+  parameters="$(jq -n --arg script "$script" --arg timeout "$timeout" \
+    '{commands: [$script], executionTimeout: [$timeout]}')"
+  command_id="$(aws ssm send-command --instance-ids "$instance" --document-name AWS-RunShellScript \
+    --comment "chatclean deploy-app" --timeout-seconds 60 --parameters "$parameters" \
+    --query Command.CommandId --output text)"
+  while true; do
+    sleep 10
+    status="$(aws ssm get-command-invocation --command-id "$command_id" --instance-id "$instance" \
+      --query Status --output text 2>/dev/null || echo Pending)"
+    case "$status" in Pending|InProgress|Delayed) ;; *) break ;; esac
+  done
+  aws ssm get-command-invocation --command-id "$command_id" --instance-id "$instance" \
+    --query '[StandardOutputContent, StandardErrorContent]' --output text
+  echo "    status: $status"
+  [ "$status" = "Success" ]
+}
+
+echo "==> Backup do banco, código, dependências, front e migrações (sem reiniciar)"
+# O sudo -i quebra comandos de várias linhas: o passo do usuário chatwoot vai num arquivo.
+run_on_server "$(cat <<EOF
+set -e
+systemctl start chatclean-backup.service
+echo "backup do banco: ok"
+cat > /tmp/chatclean_deploy.sh <<'INNER'
+set -e
+cd ~/chatwoot
+git fetch -q chatclean $branch
+echo "commit anterior: \$(git log --oneline -1)"
+git checkout -q -B main chatclean/$branch
+echo "commit novo: \$(git log --oneline -1)"
+bundle install --quiet
+pnpm install --frozen-lockfile --silent
+if ! RAILS_ENV=production NODE_OPTIONS=--max-old-space-size=4096 bundle exec rake assets:precompile > /tmp/precompile.log 2>&1; then
+  tail -30 /tmp/precompile.log
+  exit 1
+fi
+echo "front: ok"
+RAILS_ENV=production bundle exec rake db:migrate > /tmp/migrate.log 2>&1 || { tail -40 /tmp/migrate.log; exit 1; }
+grep -E '^== [0-9]+ .*migrated' /tmp/migrate.log | sed 's/=*\$//' || echo "nenhuma migração nova"
+INNER
+chown chatwoot:chatwoot /tmp/chatclean_deploy.sh
+sudo -i -u chatwoot bash /tmp/chatclean_deploy.sh
+rm -f /tmp/chatclean_deploy.sh
+EOF
+)" 3000
+
+echo "==> Reiniciando e aplicando a marca"
+run_on_server "$(cat <<'EOF'
+set -e
+systemctl restart chatwoot.target
+echo 'cd ~/chatwoot && RAILS_ENV=production bundle exec rails chatclean:branding 2>&1 | tail -1' > /tmp/chatclean_branding.sh
+chown chatwoot:chatwoot /tmp/chatclean_branding.sh
+sudo -i -u chatwoot bash /tmp/chatclean_branding.sh
+rm -f /tmp/chatclean_branding.sh
+for _ in $(seq 1 40); do
+  code="$(curl -s -o /dev/null -w '%{http_code}' https://chat.chatclean.com.br/app/login || true)"
+  [ "$code" = "200" ] && break
+  sleep 5
+done
+echo "login: $code"
+started="$(systemctl show chatwoot-web.1.service -p ActiveEnterTimestamp --value)"
+echo "erros 500 desde o reinício: $(journalctl -u chatwoot-web.1.service --since "$started" --no-pager | grep -c '500 Internal Server Error')"
+[ "$code" = "200" ]
+EOF
+)" 600
+
+echo "==> Pronto. Para voltar: snapshot $snapshot (veja README.md, Voltar um deploy)"
