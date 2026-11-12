@@ -306,6 +306,59 @@
       "API": {
         "SAVE_SUCCESS": "Impulse saved",
         "DELETE_SUCCESS": "Impulse deleted"
+      },
+      "TABS": {
+        "IMPULSES": "Impulses",
+        "CAMPAIGNS": "One-off campaign"
+      }
+    },
+    "CAMPAIGNS": {
+      "DESCRIPTION": "Send one message now to the deals that are in this stage. Deals that enter later do not receive it.",
+      "LOADING": "Loading campaigns...",
+      "EMPTY": "No campaign has been sent from this stage yet.",
+      "NEW": "New campaign",
+      "SEND": "Send campaign now",
+      "CANCEL_PENDING": "Cancel pending",
+      "CONFIRM_CANCEL": "Cancel pending?",
+      "BY": "{user} · {date}",
+      "NAME": {
+        "LABEL": "Campaign name",
+        "PLACEHOLDER": "E.g.: Proposals follow-up - November"
+      },
+      "FILTERS": {
+        "TITLE": "Who receives it",
+        "ASSIGNEE": "Owner",
+        "ALL_ASSIGNEES": "All owners",
+        "STALE_DAYS": "In the stage for more than (days)",
+        "STALE_HINT": "Leave it empty to include every deal in the stage."
+      },
+      "PREVIEW": {
+        "LOADING": "Counting deals...",
+        "SUMMARY": "This campaign will be queued for {count} deal currently in this stage. | This campaign will be queued for {count} deals currently in this stage.",
+        "WITHOUT_CONTACT": "{count} deal without a contact will be skipped. | {count} deals without a contact will be skipped.",
+        "IN_RUNNING_CAMPAIGN": "{count} deal is already in a running campaign of this stage and will be skipped. | {count} deals are already in a running campaign of this stage and will be skipped.",
+        "NONE": "There are no eligible deals with a contact in this stage.",
+        "CLOSED_HINT": "Closed deals count only when closed in the last 30 days, as on the board.",
+        "INTERVAL": "Messages go out one every 3 seconds."
+      },
+      "STATUS": {
+        "RUNNING": "Running",
+        "COMPLETED": "Completed",
+        "CANCELED": "Canceled"
+      },
+      "COUNTS": {
+        "SCHEDULED": "{count} scheduled | {count} scheduled",
+        "SENT": "{count} sent | {count} sent",
+        "FAILED": "{count} failed | {count} failed",
+        "CANCELED": "{count} canceled | {count} canceled"
+      },
+      "ERRORS": {
+        "NAME": "Use up to {max} characters.",
+        "STALE_DAYS": "Enter whole days, from 1 to {max}."
+      },
+      "API": {
+        "SEND_SUCCESS": "Campaign queued",
+        "CANCEL_SUCCESS": "Pending messages canceled"
       }
     }
   }

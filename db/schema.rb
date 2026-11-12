@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_12_121754) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_12_134414) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1160,6 +1160,22 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_12_121754) do
     t.index ["deal_id"], name: "index_crm_deal_activities_on_deal_id"
   end
 
+  create_table "crm_deal_campaign_deliveries", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "campaign_id", null: false
+    t.bigint "deal_id", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "scheduled_at", null: false
+    t.datetime "executed_at"
+    t.string "failure_reason"
+    t.bigint "message_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_crm_deal_campaign_deliveries_on_account_id"
+    t.index ["campaign_id", "status"], name: "index_crm_deal_campaign_deliveries_on_campaign_id_and_status"
+    t.index ["deal_id"], name: "index_crm_deal_campaign_deliveries_on_deal_id"
+  end
+
   create_table "crm_deal_events", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "deal_id", null: false
@@ -1277,6 +1293,23 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_12_121754) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_crm_products_on_account_id"
+  end
+
+  create_table "crm_stage_campaigns", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "stage_id", null: false
+    t.bigint "created_by_id", null: false
+    t.string "name", limit: 80, null: false
+    t.integer "status", default: 0, null: false
+    t.string "message_type", limit: 20, default: "text", null: false
+    t.text "content"
+    t.jsonb "template_params", default: {}, null: false
+    t.jsonb "filters", default: {}, null: false
+    t.integer "total_targets", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_crm_stage_campaigns_on_account_id"
+    t.index ["stage_id"], name: "index_crm_stage_campaigns_on_stage_id"
   end
 
   create_table "crm_stage_impulse_steps", force: :cascade do |t|

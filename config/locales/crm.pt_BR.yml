@@ -42,7 +42,13 @@ pt_BR:
     impulses:
       errors:
         steps_count: Um impulso precisa ter de 1 a %{max} passos.
-        template_required: Escolha um modelo aprovado no passo com modelo.
+    client_message:
+      errors:
+        template_required: Escolha um modelo aprovado do WhatsApp.
+    campaigns:
+      errors:
+        no_eligible_deals: Não há negócios elegíveis com contato nesta etapa para disparar a campanha.
+        not_running: Esta campanha não está mais em andamento.
     activities:
       errors:
         client_reminder_no_contact: Vincule um contato ao negócio para lembrar o cliente.

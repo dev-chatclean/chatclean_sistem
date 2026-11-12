@@ -159,6 +159,17 @@ export const IMPULSE_VARIABLES = [
   '{{deal.owner}}',
 ];
 
+export const CAMPAIGN_NAME_MAX_LENGTH = 80;
+export const CAMPAIGN_MAX_STALE_DAYS = 365;
+export const CAMPAIGN_POLL_INTERVAL_MS = 5000;
+export const CAMPAIGN_PREVIEW_DEBOUNCE_MS = 400;
+export const CAMPAIGN_COUNT_STATUSES = [
+  'scheduled',
+  'sent',
+  'failed',
+  'canceled',
+];
+
 export const CLIENT_REMINDER_OPTIONS = [15, 30, 60, 1440];
 export const CLIENT_REMINDER_VARIABLES = [
   '{{contact.first_name}}',

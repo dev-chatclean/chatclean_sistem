@@ -306,6 +306,59 @@
       "API": {
         "SAVE_SUCCESS": "Impulso salvo",
         "DELETE_SUCCESS": "Impulso excluído"
+      },
+      "TABS": {
+        "IMPULSES": "Impulsos",
+        "CAMPAIGNS": "Campanha pontual"
+      }
+    },
+    "CAMPAIGNS": {
+      "DESCRIPTION": "Envie uma mensagem agora para os negócios que estão nesta etapa. Quem entrar depois não recebe.",
+      "LOADING": "Carregando campanhas...",
+      "EMPTY": "Nenhuma campanha foi disparada nesta etapa ainda.",
+      "NEW": "Nova campanha",
+      "SEND": "Disparar campanha agora",
+      "CANCEL_PENDING": "Cancelar pendentes",
+      "CONFIRM_CANCEL": "Cancelar pendentes?",
+      "BY": "{user} · {date}",
+      "NAME": {
+        "LABEL": "Nome da campanha",
+        "PLACEHOLDER": "Ex.: Repescagem Propostas - Novembro"
+      },
+      "FILTERS": {
+        "TITLE": "Quem recebe",
+        "ASSIGNEE": "Responsável",
+        "ALL_ASSIGNEES": "Todos os responsáveis",
+        "STALE_DAYS": "Parados na etapa há mais de (dias)",
+        "STALE_HINT": "Deixe vazio para incluir todos os negócios da etapa."
+      },
+      "PREVIEW": {
+        "LOADING": "Contando negócios...",
+        "SUMMARY": "Esta campanha será enfileirada para {count} negócio atualmente nesta etapa. | Esta campanha será enfileirada para {count} negócios atualmente nesta etapa.",
+        "WITHOUT_CONTACT": "{count} negócio sem contato será ignorado. | {count} negócios sem contato serão ignorados.",
+        "IN_RUNNING_CAMPAIGN": "{count} negócio já está numa campanha em andamento desta etapa e ficará de fora. | {count} negócios já estão numa campanha em andamento desta etapa e ficarão de fora.",
+        "NONE": "Não há negócios elegíveis com contato nesta etapa.",
+        "CLOSED_HINT": "Os negócios fechados só entram se fecharam nos últimos 30 dias, como no quadro.",
+        "INTERVAL": "As mensagens saem uma a cada 3 segundos."
+      },
+      "STATUS": {
+        "RUNNING": "Em andamento",
+        "COMPLETED": "Concluída",
+        "CANCELED": "Cancelada"
+      },
+      "COUNTS": {
+        "SCHEDULED": "{count} agendado | {count} agendados",
+        "SENT": "{count} enviado | {count} enviados",
+        "FAILED": "{count} falhou | {count} falharam",
+        "CANCELED": "{count} cancelado | {count} cancelados"
+      },
+      "ERRORS": {
+        "NAME": "Use até {max} caracteres.",
+        "STALE_DAYS": "Informe dias inteiros, de 1 a {max}."
+      },
+      "API": {
+        "SEND_SUCCESS": "Campanha enfileirada",
+        "CANCEL_SUCCESS": "Envios pendentes cancelados"
       }
     }
   }

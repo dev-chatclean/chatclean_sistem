@@ -374,6 +374,10 @@ Rails.application.routes.draw do
               resources :stages, only: [:create, :update, :destroy] do
                 patch :reorder, on: :collection
                 resources :impulses, only: [:index, :create, :update, :destroy]
+                resources :campaigns, only: [:index, :create], controller: 'stage_campaigns' do
+                  post :preview, on: :collection
+                  post :cancel, on: :member
+                end
               end
             end
             resource :settings, only: [:show, :update]

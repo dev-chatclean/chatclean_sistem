@@ -1,6 +1,4 @@
 class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::BaseController
-  BOARD_CLOSED_WINDOW = 30.days
-
   before_action :fetch_deal, except: [:index, :create]
   before_action :check_authorization
 
@@ -43,7 +41,7 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::BaseControlle
 
   def pipeline_deals
     deals = Current.account.crm_pipelines.find(params.require(:pipeline_id)).deals
-    deals = deals.board_visible(BOARD_CLOSED_WINDOW.ago) unless params[:view] == 'all'
+    deals = deals.board_visible(Crm::Deal::BOARD_CLOSED_WINDOW.ago) unless params[:view] == 'all'
     deals.order(:stage_entered_at, :id)
   end
 
