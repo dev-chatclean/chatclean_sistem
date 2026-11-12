@@ -20,6 +20,7 @@ class Crm::Stage < ApplicationRecord
   belongs_to :account
   belongs_to :pipeline, class_name: 'Crm::Pipeline', inverse_of: :stages
   has_many :deals, class_name: 'Crm::Deal', dependent: :restrict_with_error
+  has_many :impulses, -> { order(:id) }, class_name: 'Crm::StageImpulse', inverse_of: :stage, dependent: :destroy
 
   enum :stage_type, { initial: 0, custom: 1, won: 2, lost: 3 }
 

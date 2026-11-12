@@ -373,6 +373,7 @@ Rails.application.routes.draw do
             resources :pipelines, only: [:index, :show, :create, :update, :destroy] do
               resources :stages, only: [:create, :update, :destroy] do
                 patch :reorder, on: :collection
+                resources :impulses, only: [:index, :create, :update, :destroy]
               end
             end
             resource :settings, only: [:show, :update]
@@ -380,6 +381,7 @@ Rails.application.routes.draw do
               post :duplicate, on: :member
               resources :activities, only: [:create, :update, :destroy], controller: 'deal_activities'
               resources :files, only: [:create, :destroy], controller: 'deal_files'
+              resources :impulse_executions, only: [:destroy], controller: 'deal_impulse_executions'
             end
             resources :products, only: [:index, :create, :update, :destroy]
           end

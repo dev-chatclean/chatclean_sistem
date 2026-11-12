@@ -39,6 +39,10 @@ pt_BR:
         invalid_assignee: O responsável precisa ser membro desta conta.
         stage_requirements: 'A etapa %{stage} exige: %{fields}.'
         invalid_custom_fields: 'Confira o valor de: %{fields}.'
+    impulses:
+      errors:
+        steps_count: Um impulso precisa ter de 1 a %{max} passos.
+        template_required: Escolha um modelo aprovado no passo com modelo.
     activities:
       errors:
         required_task_delete: Esta tarefa é obrigatória da etapa e não pode ser excluída. Marque como concluída.

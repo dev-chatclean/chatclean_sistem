@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_12_031137) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_12_033939) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1184,6 +1184,22 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_12_031137) do
     t.index ["deal_id"], name: "index_crm_deal_files_on_deal_id"
   end
 
+  create_table "crm_deal_impulse_executions", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "deal_id", null: false
+    t.bigint "step_id", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "scheduled_at", null: false
+    t.datetime "executed_at"
+    t.string "failure_reason"
+    t.bigint "message_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_crm_deal_impulse_executions_on_account_id"
+    t.index ["deal_id", "status"], name: "index_crm_deal_impulse_executions_on_deal_id_and_status"
+    t.index ["step_id"], name: "index_crm_deal_impulse_executions_on_step_id"
+  end
+
   create_table "crm_deal_products", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "deal_id", null: false
@@ -1258,6 +1274,30 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_12_031137) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_crm_products_on_account_id"
+  end
+
+  create_table "crm_stage_impulse_steps", force: :cascade do |t|
+    t.bigint "impulse_id", null: false
+    t.integer "position", null: false
+    t.integer "delay_minutes", default: 0, null: false
+    t.string "message_type", limit: 20, default: "text", null: false
+    t.text "content"
+    t.jsonb "template_params", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["impulse_id"], name: "index_crm_stage_impulse_steps_on_impulse_id"
+  end
+
+  create_table "crm_stage_impulses", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "stage_id", null: false
+    t.string "name", limit: 80, null: false
+    t.boolean "active", default: true, null: false
+    t.boolean "stop_on_reply", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_crm_stage_impulses_on_account_id"
+    t.index ["stage_id"], name: "index_crm_stage_impulses_on_stage_id"
   end
 
   create_table "crm_stages", force: :cascade do |t|

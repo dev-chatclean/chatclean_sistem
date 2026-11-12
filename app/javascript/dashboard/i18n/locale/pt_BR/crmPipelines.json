@@ -218,7 +218,8 @@
         "EDIT_CLOSING": "Editar",
         "REQUIREMENTS": "O que esta etapa exige",
         "MOVE_RIGHT": "Mover para a direita",
-        "DELETE": "Excluir etapa"
+        "DELETE": "Excluir etapa",
+        "IMPULSES": "Impulsos"
       },
       "REQUIREMENTS": {
         "TITLE": "Ao entrar nesta etapa",
@@ -260,6 +261,69 @@
         "CREATE_SUCCESS": "Etapa criada",
         "UPDATE_SUCCESS": "Etapa atualizada",
         "DELETE_SUCCESS": "Etapa excluída"
+      }
+    },
+    "IMPULSES": {
+      "TITLE": "Impulsos: {stage}",
+      "DESCRIPTION": "Mensagens automáticas enviadas ao contato quando o negócio entra nesta etapa.",
+      "LOADING": "Carregando impulsos...",
+      "EMPTY": "Esta etapa ainda não tem impulsos.",
+      "STEPS_COUNT": "{count} passo | {count} passos",
+      "ACTIVE": "Ativo",
+      "EDIT": "Editar impulso",
+      "DELETE": "Excluir impulso",
+      "CONFIRM_DELETE": "Excluir?",
+      "ENTRY_HINT": "O impulso começa quando o negócio entra na etapa. Os negócios que já estão nela não entram. Sair da etapa cancela os passos pendentes.",
+      "NAME": {
+        "LABEL": "Nome do impulso",
+        "PLACEHOLDER": "Ex.: Retorno da proposta"
+      },
+      "STOP_ON_REPLY": "Parar quando o contato responder",
+      "STEP": "Passo {number}",
+      "REMOVE_STEP": "Remover passo",
+      "DELAY": {
+        "FIRST": "Esperar depois de entrar na etapa",
+        "NEXT": "Esperar depois do passo anterior",
+        "NOW": "na hora",
+        "AFTER_MINUTES": "depois de {count} minuto | depois de {count} minutos",
+        "AFTER_HOURS": "depois de {count} hora | depois de {count} horas",
+        "AFTER_DAYS": "depois de {count} dia | depois de {count} dias",
+        "UNITS": {
+          "MINUTES": "minutos",
+          "HOURS": "horas",
+          "DAYS": "dias"
+        }
+      },
+      "TYPE": {
+        "LABEL": "Mensagem",
+        "TEXT": "Texto livre",
+        "TEMPLATE": "Modelo do WhatsApp",
+        "TEXT_HINT": "No WhatsApp, o texto livre só sai até 24 horas depois da última mensagem do contato. Fora disso o passo falha e fica registrado no histórico.",
+        "TEMPLATE_HINT": "O modelo aprovado sai mesmo fora da janela de 24 horas. Ele vai pela conversa de WhatsApp do contato."
+      },
+      "CONTENT": "Texto da mensagem",
+      "TEMPLATE": {
+        "INBOX": "Caixa de entrada do WhatsApp",
+        "LABEL": "Modelo aprovado",
+        "CHOOSE": "Escolha um modelo",
+        "VARIABLE": "Valor de {key}"
+      },
+      "VARIABLES": "Variáveis: {variables}",
+      "ERRORS": {
+        "NAME": "Use até {max} caracteres.",
+        "DELAY": "Informe uma espera inteira, de 0 ou mais.",
+        "DELAY_MAX": "A espera pode ser de no máximo 90 dias.",
+        "CONTENT": "Escreva a mensagem.",
+        "TEMPLATE": "Escolha um modelo.",
+        "VARIABLES": "Preencha todas as variáveis do modelo."
+      },
+      "ADD_STEP": "Adicionar passo",
+      "CLOSE": "Fechar",
+      "NEW": "Novo impulso",
+      "SAVE": "Salvar impulso",
+      "API": {
+        "SAVE_SUCCESS": "Impulso salvo",
+        "DELETE_SUCCESS": "Impulso excluído"
       }
     }
   }

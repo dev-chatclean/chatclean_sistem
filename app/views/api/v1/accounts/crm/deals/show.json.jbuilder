@@ -19,3 +19,6 @@ end
 json.files @deal.files.includes(:uploaded_by, file_attachment: :blob) do |deal_file|
   json.partial! 'api/v1/accounts/crm/deal_files/deal_file', deal_file: deal_file
 end
+json.impulse_executions @deal.impulse_executions.includes(step: :impulse) do |execution|
+  json.partial! 'api/v1/accounts/crm/deal_impulse_executions/execution', execution: execution
+end

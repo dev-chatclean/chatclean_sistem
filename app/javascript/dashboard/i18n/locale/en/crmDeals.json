@@ -88,6 +88,7 @@
         "INFO": "Information",
         "HISTORY": "History",
         "ACTIVITIES": "Activities",
+        "IMPULSES": "Impulses",
         "DEALS": "Deals",
         "FILES": "Files",
         "CONVERSATIONS": "Conversations"
@@ -123,7 +124,10 @@
         "FILE_REMOVED": "{user} removed the file “{file}” ({category})",
         "CUSTOM_FIELD_CHANGED": "{user} changed {field} from “{from}” to “{to}”",
         "CUSTOM_FIELD_SET": "{user} filled {field} with “{to}”",
-        "CUSTOM_FIELD_CLEARED": "{user} cleared {field}"
+        "CUSTOM_FIELD_CLEARED": "{user} cleared {field}",
+        "IMPULSE_SENT": "Impulse “{impulse}” sent step {step}",
+        "IMPULSE_FAILED": "Impulse “{impulse}” failed: {reason}",
+        "IMPULSE_CANCELED": "Impulse “{impulse}” canceled: {reason}"
       },
       "RANGE": "{from} → {to}",
       "NO_LABELS": "No labels",
@@ -358,6 +362,33 @@
     },
     "CUSTOM_FIELDS": {
       "CHOOSE": "Choose"
+    },
+    "IMPULSES": {
+      "HINT": "Automatic messages from the stage impulses for this deal.",
+      "EMPTY": "No impulse has run for this deal yet.",
+      "STEP": "{impulse} · step {step}",
+      "CANCEL": "Cancel",
+      "TYPE": {
+        "TEXT": "Free text",
+        "TEMPLATE": "WhatsApp template"
+      },
+      "STATUS": {
+        "SCHEDULED": "Scheduled",
+        "SENT": "Sent",
+        "CANCELED": "Canceled",
+        "FAILED": "Failed"
+      },
+      "REASONS": {
+        "NO_CONTACT": "the deal has no contact",
+        "NO_CONVERSATION": "the contact has no conversation",
+        "NO_WHATSAPP_CONVERSATION": "the contact has no WhatsApp conversation",
+        "TEMPLATE_NOT_FOUND": "the template is not approved in this inbox",
+        "OUTSIDE_WINDOW": "outside the 24-hour window, an approved template is needed",
+        "STAGE_CHANGED": "the deal changed stage",
+        "CONTACT_REPLIED": "the contact replied",
+        "IMPULSE_DISABLED": "the impulse was turned off",
+        "CANCELED_BY_USER": "canceled by a user"
+      }
     }
   },
   "CRM_PRODUCTS": {

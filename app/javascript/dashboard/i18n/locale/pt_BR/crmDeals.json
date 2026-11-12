@@ -88,6 +88,7 @@
         "INFO": "Informações",
         "HISTORY": "Histórico",
         "ACTIVITIES": "Atividades",
+        "IMPULSES": "Impulsos",
         "DEALS": "Negócios",
         "FILES": "Arquivos",
         "CONVERSATIONS": "Atendimentos"
@@ -123,7 +124,10 @@
         "FILE_REMOVED": "{user} removeu o arquivo “{file}” ({category})",
         "CUSTOM_FIELD_CHANGED": "{user} alterou {field} de “{from}” para “{to}”",
         "CUSTOM_FIELD_SET": "{user} preencheu {field} com “{to}”",
-        "CUSTOM_FIELD_CLEARED": "{user} limpou {field}"
+        "CUSTOM_FIELD_CLEARED": "{user} limpou {field}",
+        "IMPULSE_SENT": "Impulso “{impulse}” enviou o passo {step}",
+        "IMPULSE_FAILED": "Impulso “{impulse}” falhou: {reason}",
+        "IMPULSE_CANCELED": "Impulso “{impulse}” cancelado: {reason}"
       },
       "RANGE": "{from} → {to}",
       "NO_LABELS": "Sem etiquetas",
@@ -358,6 +362,33 @@
     },
     "CUSTOM_FIELDS": {
       "CHOOSE": "Escolha"
+    },
+    "IMPULSES": {
+      "HINT": "Mensagens automáticas dos impulsos das etapas neste negócio.",
+      "EMPTY": "Nenhum impulso rodou neste negócio ainda.",
+      "STEP": "{impulse} · passo {step}",
+      "CANCEL": "Cancelar",
+      "TYPE": {
+        "TEXT": "Texto livre",
+        "TEMPLATE": "Modelo do WhatsApp"
+      },
+      "STATUS": {
+        "SCHEDULED": "Agendado",
+        "SENT": "Enviado",
+        "CANCELED": "Cancelado",
+        "FAILED": "Falhou"
+      },
+      "REASONS": {
+        "NO_CONTACT": "o negócio não tem contato",
+        "NO_CONVERSATION": "o contato não tem atendimento",
+        "NO_WHATSAPP_CONVERSATION": "o contato não tem atendimento no WhatsApp",
+        "TEMPLATE_NOT_FOUND": "o modelo não está aprovado nesta caixa de entrada",
+        "OUTSIDE_WINDOW": "fora da janela de 24 horas, exige modelo aprovado",
+        "STAGE_CHANGED": "o negócio mudou de etapa",
+        "CONTACT_REPLIED": "o contato respondeu",
+        "IMPULSE_DISABLED": "o impulso foi desativado",
+        "CANCELED_BY_USER": "cancelado por um usuário"
+      }
     }
   },
   "CRM_PRODUCTS": {

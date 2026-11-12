@@ -146,3 +146,15 @@ export const DEAL_FILE_CATEGORIES = [
 ];
 export const DEAL_FILE_ACCEPT =
   '.pdf,.txt,.csv,.zip,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.webp';
+
+export const IMPULSE_MAX_STEPS = 10;
+export const IMPULSE_NAME_MAX_LENGTH = 80;
+export const IMPULSE_MAX_DELAY_MINUTES = 90 * 24 * 60;
+export const IMPULSE_DELAY_UNITS = { MINUTES: 1, HOURS: 60, DAYS: 24 * 60 };
+export const IMPULSE_VARIABLES = [
+  '{{contact.name}}',
+  '{{contact.first_name}}',
+  '{{deal.title}}',
+  '{{deal.stage}}',
+  '{{deal.owner}}',
+];
