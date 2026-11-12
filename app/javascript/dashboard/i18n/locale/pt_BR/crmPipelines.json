@@ -587,6 +587,97 @@
         "VALUE": "Valor",
         "DAYS": "{label} (dias)"
       }
+    },
+    "OVERVIEW": {
+      "TITLE": "Visão geral",
+      "DESCRIPTION": "Resumo de atendimento e vendas",
+      "ERROR": "Não foi possível carregar o relatório.",
+      "KPIS": {
+        "CONVERSATIONS": {
+          "LABEL": "Conversas",
+          "TREND": "{value} no período"
+        },
+        "OPEN": {
+          "LABEL": "Em aberto",
+          "HINT": "{count} aguardando resposta"
+        },
+        "WON": {
+          "LABEL": "Vendas ganhas",
+          "HINT": "{count} negócio no período | {count} negócios no período"
+        },
+        "CONVERSION": {
+          "LABEL": "Conversão",
+          "HINT": "lead → ganho",
+          "EMPTY": "nenhum negócio criado no período"
+        }
+      },
+      "HIGHLIGHTS": {
+        "TOP_CHANNEL": {
+          "LABEL": "Canal líder",
+          "HINT": "{value} das conversas"
+        },
+        "BEST_DAY": {
+          "LABEL": "Melhor dia",
+          "HINT": "pico de {count} conversa | pico de {count} conversas"
+        },
+        "EMPTY": "nenhuma conversa no período"
+      },
+      "VOLUME": {
+        "TITLE": "Volume de conversas",
+        "DESCRIPTION": "Conversas criadas por dia",
+        "TOTAL": "total · {average}/dia méd.",
+        "CURRENT": "Período atual",
+        "PREVIOUS": "Período anterior",
+        "DATE": "Data",
+        "COUNT": "Conversas"
+      },
+      "BY_CHANNEL": {
+        "TITLE": "Por canal",
+        "DESCRIPTION": "Conversas do período por canal de entrada",
+        "CHANNEL": "Canal"
+      },
+      "PIPELINE": {
+        "TITLE": "Pipeline por etapa"
+      },
+      "AGENTS": {
+        "TITLE": "Desempenho por atendente",
+        "DESCRIPTION": "Ranking por volume e receita",
+        "AGENT": "Atendente",
+        "CONVERSATIONS": "Conversas",
+        "WON_VALUE": "Valor ganho",
+        "EMPTY": "Nenhum atendente com conversas ou vendas no período."
+      },
+      "CHANNELS": {
+        "WHATSAPP": "WhatsApp",
+        "INSTAGRAM": "Instagram",
+        "MESSENGER": "Messenger",
+        "SITE": "Site",
+        "EMAIL": "E-mail",
+        "TELEGRAM": "Telegram",
+        "LINE": "Line",
+        "SMS": "SMS",
+        "API": "API",
+        "TIKTOK": "TikTok",
+        "TWITTER": "X (Twitter)"
+      },
+      "CONVERSATION_STATUS": {
+        "OPEN": "Aberta",
+        "PENDING": "Pendente",
+        "SNOOZED": "Adiada",
+        "RESOLVED": "Resolvida"
+      },
+      "CONTACT_TYPE": {
+        "VISITOR": "Visitante",
+        "LEAD": "Lead",
+        "CUSTOMER": "Cliente"
+      },
+      "UNREAD_HINT": "Só as conversas com mensagens do cliente que ninguém da equipe abriu ainda.",
+      "CSV": {
+        "FILE": "visao-geral-{days}-dias.csv",
+        "HIGHLIGHTS": "Destaques",
+        "WAITING": "Aguardando resposta",
+        "WON_COUNT": "Negócios ganhos"
+      }
     }
   }
 }

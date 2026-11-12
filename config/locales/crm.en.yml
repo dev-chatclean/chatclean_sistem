@@ -51,6 +51,7 @@ en:
         invalid_number: Check the filters with numbers.
         invalid_date: Check the dates of the filters.
         invalid_text: Send each filter only once.
+        invalid_option: Check the filters with a fixed list of options.
     client_message:
       errors:
         template_required: Choose an approved WhatsApp template.

@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { formatCurrency } from '../../dealHelpers';
 import { formatDuration } from '../deals/detail/dealTime';
+import { TREND_CLASSES, reportTrend } from '../../reportTrend';
 
 const props = defineProps({
   kpis: { type: Object, required: true },
@@ -13,35 +14,17 @@ const props = defineProps({
 const { t } = useI18n();
 
 const PERCENT = 100;
-const TREND_CLASSES = {
-  better: 'text-n-teal-11',
-  worse: 'text-n-ruby-11',
-  same: 'text-n-slate-11',
-};
 
 const percent = value => `${Math.round(value * PERCENT)}%`;
 
-// Relative change against the previous period; null when there is nothing to compare with.
-const trend = (current, previous, { lowerIsBetter = false } = {}) => {
-  if (!previous) {
-    if (current) return null;
-    return {
-      text: t('CRM_REPORTS.SALES.VS_PREVIOUS', { value: '0%' }),
-      tone: 'same',
-      up: true,
-    };
-  }
-  const change = (current - previous) / previous;
-  const sign = change > 0 ? '+' : '';
-  let tone = 'same';
-  if (change !== 0) tone = change > 0 !== lowerIsBetter ? 'better' : 'worse';
-  return {
-    text: t('CRM_REPORTS.SALES.VS_PREVIOUS', {
-      value: `${sign}${percent(change)}`,
-    }),
-    tone,
-    up: change >= 0,
-  };
+const trend = (current, previous, options) => {
+  const change = reportTrend(current, previous, options);
+  return (
+    change && {
+      ...change,
+      text: t('CRM_REPORTS.SALES.VS_PREVIOUS', { value: change.value }),
+    }
+  );
 };
 
 const noData = t('CRM_REPORTS.SALES.NO_DATA');

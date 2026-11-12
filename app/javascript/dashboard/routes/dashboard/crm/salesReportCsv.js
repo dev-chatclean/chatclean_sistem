@@ -1,17 +1,11 @@
 import format from 'date-fns/format';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import { channelLabel, originLabel, reasonLabel } from './salesReportLabels';
+import { toCsv } from './reportCsv';
 
 // "Baixar CSV": one section per visible block, in the order of the page, with plain numbers for spreadsheets.
 const SECONDS_IN_DAY = 86400;
 const PERCENT = 100;
-const BYTE_ORDER_MARK = '\uFEFF';
-
-const cell = value => {
-  const text = value == null ? '' : String(value);
-  return /[",\r\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
-};
-
 const days = seconds =>
   seconds == null ? '' : (seconds / SECONDS_IN_DAY).toFixed(1);
 const date = timestamp => format(fromUnixTime(timestamp), 'yyyy-MM-dd');
@@ -258,14 +252,9 @@ const SECTIONS = {
 };
 
 export const buildSalesReportCsv = (report, blockKeys, t) =>
-  BYTE_ORDER_MARK +
-  blockKeys
-    .map(key =>
-      [
-        [t(`CRM_REPORTS.SALES.BLOCKS.NAMES.${key.toUpperCase()}`)],
-        ...SECTIONS[key](report, t),
-      ]
-        .map(row => row.map(cell).join(','))
-        .join('\n')
-    )
-    .join('\n\n');
+  toCsv(
+    blockKeys.map(key => ({
+      title: t(`CRM_REPORTS.SALES.BLOCKS.NAMES.${key.toUpperCase()}`),
+      rows: SECTIONS[key](report, t),
+    }))
+  );

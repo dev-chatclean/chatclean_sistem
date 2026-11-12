@@ -24,6 +24,7 @@ const { t } = useI18n();
 const agents = useMapGetter('agents/getAgents');
 const labels = useMapGetter('labels/getLabels');
 const inboxes = useMapGetter('inboxes/getInboxes');
+const teams = useMapGetter('teams/getTeams');
 
 const isOpen = ref(false);
 const query = ref('');
@@ -68,6 +69,15 @@ const options = computed(() => {
     return LEAD_ORIGINS.map(value => ({
       value,
       label: t(`CRM_PIPELINES.LEAD_ENTRY.OPTIONS.${value.toUpperCase()}`),
+    }));
+  }
+  if (field.value.type === 'team') {
+    return teams.value.map(team => ({ value: team.id, label: team.name }));
+  }
+  if (field.value.type === 'choice') {
+    return field.value.choices.map(value => ({
+      value,
+      label: t(`${field.value.choiceLabel}.${value.toUpperCase()}`),
     }));
   }
   if (field.value.type === 'inbox') {
@@ -257,7 +267,7 @@ const apply = () => {
           </label>
         </div>
         <span v-else-if="field.type === 'flag'" class="text-sm text-n-slate-11">
-          {{ t('CRM_DEALS.FILTERS.STALE_HINT') }}
+          {{ t(field.hint || 'CRM_DEALS.FILTERS.STALE_HINT') }}
         </span>
         <span v-else class="text-sm text-n-slate-11">
           {{ t('CRM_DEALS.FILTERS.NO_OPTIONS') }}

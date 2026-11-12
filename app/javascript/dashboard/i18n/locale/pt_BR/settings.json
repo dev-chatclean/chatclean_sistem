@@ -426,7 +426,9 @@
     "SECURITY": "Segurança",
     "CAPTAIN_AI": "Captain",
     "CONVERSATION_WORKFLOW": "Fluxo de Conversa",
-    "REPORTS_SALES": "Vendas & Pipeline"
+    "REPORTS_SALES": "Vendas & Pipeline",
+    "REPORTS_SUMMARY": "Visão geral",
+    "LIVE_VIEW": "Ao vivo"
   },
   "DATA_IMPORTS": {
     "HEADER": "Dados",

@@ -56,6 +56,7 @@ pt_BR:
         invalid_number: Confira os filtros com números.
         invalid_date: Confira as datas dos filtros.
         invalid_text: Envie cada filtro uma vez só.
+        invalid_option: Confira os filtros com opções fixas.
     client_message:
       errors:
         template_required: Escolha um modelo aprovado do WhatsApp.

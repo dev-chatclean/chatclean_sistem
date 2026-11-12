@@ -390,6 +390,7 @@ Rails.application.routes.draw do
             end
             resources :products, only: [:index, :create, :update, :destroy]
             get 'reports/sales', to: 'reports#sales'
+            get 'reports/overview', to: 'overview_reports#show'
           end
 
           resources :notifications, only: [:index, :update, :destroy] do
