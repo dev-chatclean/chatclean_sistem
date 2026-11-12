@@ -383,6 +383,7 @@ Rails.application.routes.draw do
             resource :settings, only: [:show, :update]
             resources :deals, only: [:index, :show, :create, :update, :destroy] do
               post :duplicate, on: :member
+              post :ai_analyze, on: :member
               resources :activities, only: [:create, :update, :destroy], controller: 'deal_activities'
               resources :files, only: [:create, :destroy], controller: 'deal_files'
               resources :impulse_executions, only: [:destroy], controller: 'deal_impulse_executions'

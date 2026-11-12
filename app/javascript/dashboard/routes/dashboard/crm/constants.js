@@ -33,6 +33,7 @@ export const CARD_FIELDS = [
   'contact_labels',
   'origin',
   'attachments',
+  'temperature',
 ];
 export const MAX_CARD_FIELDS = 4;
 
@@ -46,6 +47,11 @@ export const LEAD_ORIGINS = [
 export const LEAD_SOURCES = ['message', 'ad', 'form'];
 
 export const AI_FEATURES = ['next_step', 'fill_on_move', 'temperature'];
+export const AI_TEMPERATURE_STYLES = {
+  cold: { icon: 'i-lucide-snowflake', classes: 'bg-n-blue-3 text-n-blue-11' },
+  warm: { icon: 'i-lucide-sun', classes: 'bg-n-amber-3 text-n-amber-11' },
+  hot: { icon: 'i-lucide-flame', classes: 'bg-n-ruby-3 text-n-ruby-11' },
+};
 
 export const SETTINGS_TABS = ['pipeline', 'lead_entry', 'card'];
 

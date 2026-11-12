@@ -133,7 +133,8 @@
         "CLIENT_REMINDER_CANCELED": "{user} canceled the client reminder for “{activity}”",
         "CAMPAIGN_SENT": "Campaign “{campaign}” sent",
         "CAMPAIGN_FAILED": "Campaign “{campaign}” failed: {reason}",
-        "CAMPAIGN_CANCELED": "Campaign “{campaign}” canceled: {reason}"
+        "CAMPAIGN_CANCELED": "Campaign “{campaign}” canceled: {reason}",
+        "CUSTOM_FIELD_AI": "AI filled {field} with “{to}”"
       },
       "RANGE": "{from} → {to}",
       "NO_LABELS": "No labels",
@@ -424,6 +425,21 @@
         "CONTENT": "Write the message.",
         "TEMPLATE": "Choose a template.",
         "VARIABLES": "Fill in every template variable."
+      }
+    },
+    "AI": {
+      "TITLE": "Pipeline AI",
+      "ANALYZE": "Refresh analysis",
+      "NEEDS_CONVERSATION": "Needs a conversation with messages for the AI to analyze",
+      "NEXT_STEP": "Suggested next step",
+      "CREATE_ACTIVITY": "Create activity",
+      "NOT_ANALYZED": "Not analyzed yet.",
+      "ANALYZED_AT": "Analyzed on {date}",
+      "ERROR": "Could not analyze this deal",
+      "TEMPERATURE": {
+        "COLD": "Cold",
+        "WARM": "Warm",
+        "HOT": "Hot"
       }
     }
   },

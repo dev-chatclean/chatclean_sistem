@@ -18,10 +18,21 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::BaseControlle
   end
 
   def update
-    authorize(@deal, :reassign?) if deal_params.key?(:assignee_id) && deal_params[:assignee_id].to_i != @deal.assignee_id
+    authorize(@deal, :reassign?) if reassigning?
     @deal.assign_attributes(deal_params.except(:custom_attributes))
     @deal.merge_custom_attributes(deal_params[:custom_attributes].to_h) if deal_params.key?(:custom_attributes)
+    Crm::DealFieldsService.new(deal: @deal).perform if @deal.stage_id_changed?
     @deal.save!
+    @deal.refresh_ai_insights_later if @deal.saved_change_to_stage_id?
+    render :show
+  end
+
+  def ai_analyze
+    return render_could_not_create_error(I18n.t('crm.ai.errors.cooldown')) if @deal.ai_cooling_down?
+
+    service = Crm::DealInsightsService.new(deal: @deal)
+    return render_could_not_create_error(I18n.t("crm.ai.errors.#{service.failure_reason}")) unless service.perform
+
     render :show
   end
 
@@ -61,6 +72,10 @@ class Api::V1::Accounts::Crm::DealsController < Api::V1::Accounts::BaseControlle
 
   def check_authorization
     authorize(@deal || Crm::Deal)
+  end
+
+  def reassigning?
+    deal_params.key?(:assignee_id) && deal_params[:assignee_id].to_i != @deal.assignee_id
   end
 
   def deal_params

@@ -42,6 +42,13 @@ pt_BR:
     impulses:
       errors:
         steps_count: Um impulso precisa ter de 1 a %{max} passos.
+    ai:
+      errors:
+        disabled: Ligue o próximo passo ou a temperatura nas configurações de IA do pipeline.
+        cap_reached: A IA do pipeline atingiu o teto de gasto deste mês.
+        no_conversation: A IA precisa de uma conversa com mensagens para analisar este negócio.
+        provider_error: A IA não conseguiu analisar este negócio agora. Tente de novo em alguns minutos.
+        cooldown: Aguarde alguns segundos antes de pedir uma nova análise.
     client_message:
       errors:
         template_required: Escolha um modelo aprovado do WhatsApp.

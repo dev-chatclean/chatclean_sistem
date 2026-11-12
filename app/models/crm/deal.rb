@@ -8,6 +8,7 @@ class Crm::Deal < ApplicationRecord
   LOSS_REASONS = %w[price no_interest competitor no_response out_of_profile other].freeze
   MAX_VALUE = 10**10
   BOARD_CLOSED_WINDOW = 30.days
+  AI_COOLDOWN = 30.seconds
   REQUIREMENT_FLAGS = {
     'expected_close_date' => 'require_expected_close_date',
     'positive_value' => 'require_positive_value',
@@ -30,6 +31,7 @@ class Crm::Deal < ApplicationRecord
   has_many :pending_activities, -> { pending.order(:due_at, :id) }, class_name: 'Crm::DealActivity', inverse_of: :deal, dependent: nil
 
   enum :status, { open: 0, won: 1, lost: 2 }
+  enum :ai_temperature, { cold: 0, warm: 1, hot: 2 }, prefix: true
 
   accepts_nested_attributes_for :deal_products, allow_destroy: true
 
@@ -56,6 +58,14 @@ class Crm::Deal < ApplicationRecord
 
   def display_name
     title.presence || contact&.name.presence || company&.name.to_s
+  end
+
+  def refresh_ai_insights_later
+    Crm::DealInsightsJob.perform_later(id) if open? && account.crm_ai_insight_features.any?
+  end
+
+  def ai_cooling_down?
+    ai_analyzed_at.present? && ai_analyzed_at > AI_COOLDOWN.ago
   end
 
   def journey

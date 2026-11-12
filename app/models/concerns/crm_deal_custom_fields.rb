@@ -5,12 +5,32 @@ module CrmDealCustomFields
   NUMBER_PATTERN = /\A-?\d+(\.\d+)?\z/
 
   included do
+    attr_accessor :ai_filled_keys
+
     validate :custom_attributes_match_definitions, if: :will_save_change_to_custom_attributes?
   end
 
   # Partial update, like contacts: blank values remove the key.
   def merge_custom_attributes(values)
     self.custom_attributes = custom_attributes.merge(values).compact_blank
+  end
+
+  # Definitions of the fields the stage requires and the deal lacks. Keys whose definition was deleted are ignored.
+  def missing_custom_field_definitions
+    Array(stage.requirements['required_custom_fields']).filter_map do |key|
+      definition = deal_attribute_definitions[key]
+      definition if definition && custom_attributes[key].blank?
+    end
+  end
+
+  def valid_custom_value?(definition, value)
+    case definition.attribute_display_type
+    when 'number', 'currency', 'percent' then value.is_a?(Numeric) || value.to_s.match?(NUMBER_PATTERN)
+    when 'date' then iso_date?(value)
+    when 'checkbox' then [true, false].include?(value)
+    when 'list' then Array(definition.attribute_values).include?(value)
+    else value.is_a?(String)
+    end
   end
 
   private
@@ -27,16 +47,6 @@ module CrmDealCustomFields
     errors.add(:base, I18n.t('crm.deals.errors.invalid_custom_fields', fields: invalid.to_sentence)) if invalid.any?
   end
 
-  def valid_custom_value?(definition, value)
-    case definition.attribute_display_type
-    when 'number', 'currency', 'percent' then value.is_a?(Numeric) || value.to_s.match?(NUMBER_PATTERN)
-    when 'date' then iso_date?(value)
-    when 'checkbox' then [true, false].include?(value)
-    when 'list' then Array(definition.attribute_values).include?(value)
-    else value.is_a?(String)
-    end
-  end
-
   def iso_date?(value)
     Date.iso8601(value.to_s)
     true
@@ -44,15 +54,11 @@ module CrmDealCustomFields
     false
   end
 
-  # Names of the fields the stage requires and the deal lacks. Keys whose definition was deleted are ignored,
-  # and a new deal is not checked, like the document requirement.
+  # A new deal is not checked, like the document requirement.
   def missing_custom_fields
     return [] if new_record?
 
-    Array(stage.requirements['required_custom_fields']).filter_map do |key|
-      definition = deal_attribute_definitions[key]
-      definition.attribute_display_name if definition && custom_attributes[key].blank?
-    end
+    missing_custom_field_definitions.map(&:attribute_display_name)
   end
 
   def record_custom_field_events
@@ -61,7 +67,8 @@ module CrmDealCustomFields
       next if before[key] == after[key]
 
       name = deal_attribute_definitions[key]&.attribute_display_name || key
-      record_event('custom_field_changed', data: { 'field' => name, 'from' => before[key], 'to' => after[key] }.compact)
+      source = 'ai' if ai_filled_keys&.include?(key)
+      record_event('custom_field_changed', data: { 'field' => name, 'from' => before[key], 'to' => after[key], 'source' => source }.compact)
     end
   end
 end

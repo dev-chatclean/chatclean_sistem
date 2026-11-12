@@ -22,6 +22,8 @@ import DealActivitiesTab from './detail/DealActivitiesTab.vue';
 import ActivityFormDialog from './detail/ActivityFormDialog.vue';
 import DealFilesTab from './detail/DealFilesTab.vue';
 import DealImpulsesTab from './detail/DealImpulsesTab.vue';
+import DealAiInsights from './detail/DealAiInsights.vue';
+import DealTemperature from './DealTemperature.vue';
 import { isClosingStage } from '../../dealHelpers';
 
 const props = defineProps({
@@ -125,6 +127,14 @@ const reload = () => deal.value && load(deal.value.id);
 const openActivityForm = activity =>
   activityFormRef.value?.open({ deal: deal.value, activity });
 
+const openSuggestedActivity = suggestion =>
+  activityFormRef.value?.open({ deal: deal.value, suggestion });
+
+const onAnalyzed = data => {
+  deal.value = data;
+  emit('changed');
+};
+
 const onActivityChanged = async () => {
   await reload();
   emit('changed');
@@ -205,15 +215,22 @@ defineExpose({ open, reload, close });
               {{ deal.display_name }}
             </h2>
           </div>
-          <span
-            class="flex items-center self-start gap-2 px-3 py-1 text-sm border rounded-lg border-n-slate-6 text-n-slate-12"
-          >
+          <div class="flex items-center gap-2">
             <span
-              class="rounded-full size-2"
-              :class="STATUS_DOT[deal.status]"
+              class="flex items-center gap-2 px-3 py-1 text-sm border rounded-lg border-n-slate-6 text-n-slate-12"
+            >
+              <span
+                class="rounded-full size-2"
+                :class="STATUS_DOT[deal.status]"
+              />
+              {{ t(`CRM_DEALS.STATUS.${deal.status.toUpperCase()}`) }}
+            </span>
+            <DealTemperature
+              v-if="deal.ai_temperature"
+              :temperature="deal.ai_temperature"
+              :reason="deal.ai_temperature_reason"
             />
-            {{ t(`CRM_DEALS.STATUS.${deal.status.toUpperCase()}`) }}
-          </span>
+          </div>
         </div>
         <div class="flex items-center gap-3">
           <StagePill
@@ -260,6 +277,12 @@ defineExpose({ open, reload, close });
         <aside
           class="flex flex-col gap-6 p-7 overflow-y-auto border-e border-n-weak"
         >
+          <DealAiInsights
+            v-if="deal.ai_features.length"
+            :deal="deal"
+            @analyzed="onAnalyzed"
+            @create-activity="openSuggestedActivity"
+          />
           <div class="flex flex-col gap-2">
             <span class="text-sm font-medium text-n-slate-11">
               {{ t('CRM_DEALS.COMPANY.LABEL') }}

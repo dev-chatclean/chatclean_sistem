@@ -1,4 +1,5 @@
 json.partial! 'api/v1/accounts/crm/deals/deal', deal: @deal
+json.ai_features Current.account.crm_ai_insight_features
 json.events @deal.events.includes(:user) do |event|
   json.id event.id
   json.event_type event.event_type

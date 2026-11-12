@@ -21,6 +21,10 @@ class CrmDealsAPI extends ApiClient {
   duplicate(id) {
     return axios.post(`${this.url}/${id}/duplicate`);
   }
+
+  aiAnalyze(id) {
+    return axios.post(`${this.url}/${id}/ai_analyze`);
+  }
 }
 
 export default new CrmDealsAPI();

@@ -24,7 +24,7 @@ class Crm::Pipeline < ApplicationRecord
   ].freeze
 
   ITEM_LABELS = %w[deal client case process custom].freeze
-  CARD_FIELDS = %w[expected_close_date products next_task contact_labels origin attachments].freeze
+  CARD_FIELDS = %w[expected_close_date products next_task contact_labels origin attachments temperature].freeze
   MAX_CARD_FIELDS = 4
 
   attr_accessor :won_stage, :lost_stage

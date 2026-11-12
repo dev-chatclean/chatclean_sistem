@@ -4,11 +4,13 @@ module AccountCrm
   LEAD_ORIGINS = %w[catalog facebook ad_form instagram site].freeze
   LEAD_SOURCES = %w[message ad form].freeze
   AI_FEATURES = %w[next_step fill_on_move temperature].freeze
+  AI_INSIGHT_FEATURES = %w[next_step temperature].freeze
 
   included do
     has_many :crm_pipelines, class_name: 'Crm::Pipeline', dependent: :destroy_async
     has_many :crm_deals, class_name: 'Crm::Deal', dependent: :destroy_async
     has_many :crm_products, class_name: 'Crm::Product', dependent: :delete_all
+    has_many :crm_ai_usages, class_name: 'Crm::AiUsage', dependent: :delete_all
     store_accessor :settings, :crm_auto_create_deals, :crm_lead_entry, :crm_ai
     validate :validate_crm_auto_create_deals, if: -> { crm_auto_create_deals && will_save_change_to_settings? }
     validate :validate_crm_ai_monthly_cap, if: -> { crm_ai.present? && will_save_change_to_settings? }
@@ -20,6 +22,21 @@ module AccountCrm
 
   def crm_ai_settings
     AI_FEATURES.index_with(false).merge('monthly_cap' => 0).merge(crm_ai.to_h)
+  end
+
+  def crm_ai_cap_reached?
+    Crm::AiUsage.month_cost(self) >= crm_ai_settings['monthly_cap'].to_d
+  end
+
+  # The AI features turned on in the settings, or none once the month's cap is reached.
+  def crm_ai_active_features
+    return [] if crm_ai_cap_reached?
+
+    AI_FEATURES.select { |feature| crm_ai_settings[feature] }
+  end
+
+  def crm_ai_insight_features
+    crm_ai_active_features & AI_INSIGHT_FEATURES
   end
 
   private

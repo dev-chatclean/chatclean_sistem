@@ -37,6 +37,13 @@ en:
     impulses:
       errors:
         steps_count: An impulse needs from 1 to %{max} steps.
+    ai:
+      errors:
+        disabled: Turn on the next step or the temperature in the pipeline AI settings.
+        cap_reached: The pipeline AI reached this month's spending cap.
+        no_conversation: The AI needs a conversation with messages to analyze this deal.
+        provider_error: The AI could not analyze this deal now. Try again in a few minutes.
+        cooldown: Wait a few seconds before asking for a new analysis.
     client_message:
       errors:
         template_required: Choose an approved WhatsApp template.

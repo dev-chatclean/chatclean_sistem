@@ -19,6 +19,10 @@ class Crm::DealPolicy < ApplicationPolicy
     index?
   end
 
+  def ai_analyze?
+    index?
+  end
+
   def destroy?
     @account_user.administrator? || record.assignee_id == @user.id
   end

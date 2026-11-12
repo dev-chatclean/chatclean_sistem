@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_12_134414) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_12_142419) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1135,6 +1135,17 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_12_134414) do
     t.index ["status"], name: "index_copilot_tool_calls_running", where: "((status)::text = 'running'::text)"
   end
 
+  create_table "crm_ai_usages", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.date "month", null: false
+    t.bigint "input_tokens", default: 0, null: false
+    t.bigint "output_tokens", default: 0, null: false
+    t.decimal "cost_brl", precision: 12, scale: 6, default: "0.0", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "month"], name: "index_crm_ai_usages_on_account_id_and_month", unique: true
+  end
+
   create_table "crm_deal_activities", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "deal_id", null: false
@@ -1255,6 +1266,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_12_134414) do
     t.string "lead_origin"
     t.string "lead_source"
     t.jsonb "custom_attributes", default: {}, null: false
+    t.integer "ai_temperature"
+    t.string "ai_temperature_reason", limit: 280
+    t.text "ai_next_step"
+    t.datetime "ai_analyzed_at"
     t.index ["account_id", "number"], name: "index_crm_deals_on_account_id_and_number", unique: true
     t.index ["account_id", "status"], name: "index_crm_deals_on_account_id_and_status"
     t.index ["assignee_id"], name: "index_crm_deals_on_assignee_id"
