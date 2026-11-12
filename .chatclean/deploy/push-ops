@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Leva os scripts e logos da ChatClean para a máquina de produção e roda o setup (CCV2-39).
-# Rode no Mac depois do install.sh do Chatwoot e depois de cada atualização (cwctl --upgrade).
+# Rode no Mac depois do install.sh do Chatwoot e quando mudar algo em server/ (o código vai pelo deploy-app).
 #
-# Os arquivos de server/ e os logos de public/brand-assets/chatclean vão para
-# s3://chatclean-backups-<conta>/ops/; a máquina baixa de lá para /opt/chatclean pelo SSM.
+# Os arquivos de server/ vão para s3://chatclean-backups-<conta>/ops/; a máquina baixa de lá para
+# /opt/chatclean pelo SSM.
 #
 # Uso: .chatclean/deploy/push-ops
 # Precisa da sessão AWS do projeto: aws sso login --profile ChatClean
@@ -20,8 +20,7 @@ instance="$(aws ec2 describe-instances \
 bucket="chatclean-backups-$(aws sts get-caller-identity --query Account --output text)"
 
 echo "==> Enviando para s3://$bucket/ops/"
-aws s3 sync --delete --only-show-errors --exclude 'brand/*' server/ "s3://$bucket/ops/"
-aws s3 sync --delete --only-show-errors ../../public/brand-assets/chatclean/ "s3://$bucket/ops/brand/"
+aws s3 sync --delete --only-show-errors server/ "s3://$bucket/ops/"
 
 echo "==> Rodando o setup na máquina $instance"
 parameters="$(jq -n --arg bucket "$bucket" '{commands: [
