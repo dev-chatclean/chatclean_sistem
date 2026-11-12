@@ -126,6 +126,29 @@ export const BOARD_FILTER_FIELDS = [
 export const SALES_REPORT_PERIODS = [7, 30, 90];
 export const SALES_REPORT_DEFAULT_PERIOD = 30;
 export const SALES_REPORT_WEEKLY_PERIOD = 90;
+export const SALES_REPORT_DEALS_LIMIT = 100;
+export const SALES_REPORT_UI_KEY = 'crm_sales_report_blocks';
+// The blocks of the report in the order of the mensagem.dev report; wide blocks take the whole row.
+export const SALES_REPORT_BLOCKS = [
+  { key: 'indicators', wide: true },
+  { key: 'pipeline' },
+  { key: 'wins' },
+  { key: 'conversion', wide: true, needsStages: true },
+  { key: 'by_assignee' },
+  { key: 'by_origin' },
+  { key: 'by_channel', wide: true },
+  { key: 'by_product' },
+  { key: 'origin_wins' },
+  { key: 'by_company', wide: true },
+  { key: 'won_reasons', wide: true },
+  { key: 'won_deals', wide: true },
+  { key: 'lost_reasons', wide: true },
+  { key: 'lost_by_assignee', wide: true },
+  { key: 'where_lost', wide: true, needsStages: true },
+  { key: 'lost_deals', wide: true },
+  { key: 'stagnation', wide: true, needsStages: true },
+  { key: 'collaborators', wide: true },
+];
 export const SALES_REPORT_FILTER_FIELDS = [
   { key: 'pipeline', icon: 'i-lucide-funnel', type: 'pipeline' },
   { key: 'stage', icon: 'i-lucide-columns-3', type: 'stage' },

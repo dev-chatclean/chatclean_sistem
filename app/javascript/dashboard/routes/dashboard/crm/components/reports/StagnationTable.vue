@@ -31,7 +31,7 @@ const rows = computed(() =>
       :rows="rows"
     >
       <template #row="{ row }">
-        <td class="px-3 py-2.5">
+        <td class="px-2.5 py-2.5">
           <span class="flex items-center gap-2 text-n-slate-12">
             <span
               class="rounded-full size-2 shrink-0"
@@ -40,16 +40,16 @@ const rows = computed(() =>
             {{ row.name }}
           </span>
         </td>
-        <td class="px-3 py-2.5 text-end text-n-slate-12">
+        <td class="px-2.5 py-2.5 text-end text-n-slate-12">
           {{ row.open_count }}
         </td>
         <td
-          class="px-3 py-2.5 text-end"
+          class="px-2.5 py-2.5 text-end"
           :class="row.stale_count ? 'text-n-ruby-11' : 'text-n-slate-12'"
         >
           {{ row.stale_count }}
         </td>
-        <td class="px-3 py-2.5 text-end text-n-slate-12">
+        <td class="px-2.5 py-2.5 text-end text-n-slate-12">
           {{
             row.average_seconds == null
               ? t('CRM_REPORTS.SALES.NO_DATA')
