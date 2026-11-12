@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_11_193950) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_11_200511) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1173,6 +1173,19 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_11_193950) do
     t.index ["user_id"], name: "index_crm_deal_events_on_user_id"
   end
 
+  create_table "crm_deal_products", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "deal_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity", default: 1, null: false
+    t.decimal "unit_price", precision: 12, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_crm_deal_products_on_account_id"
+    t.index ["deal_id"], name: "index_crm_deal_products_on_deal_id"
+    t.index ["product_id"], name: "index_crm_deal_products_on_product_id"
+  end
+
   create_table "crm_deals", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "pipeline_id", null: false
@@ -1221,6 +1234,18 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_11_193950) do
     t.jsonb "card_fields", default: [], null: false
     t.index ["account_id"], name: "index_crm_pipelines_on_account_id"
     t.index ["account_id"], name: "index_crm_pipelines_on_account_id_default", unique: true, where: "is_default"
+  end
+
+  create_table "crm_products", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", limit: 120, null: false
+    t.text "description"
+    t.decimal "price", precision: 12, scale: 2, default: "0.0", null: false
+    t.string "sku", limit: 60
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_crm_products_on_account_id"
   end
 
   create_table "crm_stages", force: :cascade do |t|

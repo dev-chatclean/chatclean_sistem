@@ -14,9 +14,12 @@ class Crm::Deal < ApplicationRecord
   belongs_to :assignee, class_name: 'User'
   has_many :events, -> { order(:created_at, :id) }, class_name: 'Crm::DealEvent', inverse_of: :deal, dependent: :delete_all
   has_many :activities, -> { order(:due_at, :id) }, class_name: 'Crm::DealActivity', inverse_of: :deal, dependent: :delete_all
+  has_many :deal_products, -> { order(:id) }, class_name: 'Crm::DealProduct', inverse_of: :deal, dependent: :delete_all
   has_many :pending_activities, -> { pending.order(:due_at, :id) }, class_name: 'Crm::DealActivity', inverse_of: :deal, dependent: nil
 
   enum :status, { open: 0, won: 1, lost: 2 }
+
+  accepts_nested_attributes_for :deal_products, allow_destroy: true
 
   validates :title, length: { maximum: 120 }
   validates :value, numericality: { greater_than_or_equal_to: 0, less_than: MAX_VALUE }
@@ -28,6 +31,7 @@ class Crm::Deal < ApplicationRecord
   validate :stage_requirements_met, if: :checks_stage_requirements?
 
   before_validation :sync_with_stage
+  before_validation :sum_products_value, if: :deal_products_changed?
   before_create :assign_number
   after_create :record_creation
   after_update :record_changes
@@ -117,10 +121,24 @@ class Crm::Deal < ApplicationRecord
 
   def missing_requirements
     requirements = stage&.requirements || {}
-    missing = []
-    missing << 'expected_close_date' if requirements['require_expected_close_date'] && expected_close_date.blank?
-    missing << 'positive_value' if requirements['require_positive_value'] && !value.to_d.positive?
-    missing
+    {
+      'expected_close_date' => requirements['require_expected_close_date'] && expected_close_date.blank?,
+      'positive_value' => requirements['require_positive_value'] && !value.to_d.positive?,
+      'product' => requirements['require_product'] && kept_deal_products.empty?
+    }.select { |_key, missing| missing }.keys
+  end
+
+  def kept_deal_products
+    deal_products.reject(&:marked_for_destruction?)
+  end
+
+  def deal_products_changed?
+    deal_products.any? { |item| item.new_record? || item.changed? || item.marked_for_destruction? }
+  end
+
+  # With products, the deal value is their total.
+  def sum_products_value
+    self.value = kept_deal_products.sum(&:total)
   end
 
   def record_creation

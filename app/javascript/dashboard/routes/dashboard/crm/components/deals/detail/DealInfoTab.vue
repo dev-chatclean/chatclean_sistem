@@ -5,6 +5,7 @@ import { useRoute } from 'vue-router';
 import { conversationUrl, frontendURL } from 'dashboard/helper/URLHelper';
 import { formatCurrency, isClosingStage } from '../../../dealHelpers';
 import { entryDuration, formatDateTime, formatDuration } from './dealTime';
+import ProductsEditor from '../ProductsEditor.vue';
 
 const props = defineProps({
   deal: { type: Object, required: true },
@@ -35,6 +36,21 @@ const timeByStage = computed(() => {
   });
   return totals;
 });
+
+const hasProducts = computed(() => props.deal.products.length > 0);
+
+const addProduct = product =>
+  emit('update', {
+    deal_products_attributes: [{ product_id: product.id, quantity: 1 }],
+  });
+
+const changeProduct = (item, changes) =>
+  emit('update', { deal_products_attributes: [{ id: item.id, ...changes }] });
+
+const removeProduct = item =>
+  emit('update', {
+    deal_products_attributes: [{ id: item.id, _destroy: true }],
+  });
 
 const editValue = async () => {
   valueDraft.value = String(props.deal.value);
@@ -104,7 +120,11 @@ const valueParts = computed(() => {
           <span class="text-2xl font-semibold">{{ valueParts.amount }}</span>
         </span>
       </div>
+      <span v-if="hasProducts" class="text-label-small text-n-slate-11">
+        {{ t('CRM_DEALS.PRODUCTS.VALUE_FROM_PRODUCTS') }}
+      </span>
       <button
+        v-else
         type="button"
         class="flex items-center justify-center rounded-lg size-9 text-n-slate-11 hover:bg-n-alpha-2 hover:text-n-slate-12"
         :aria-label="t('CRM_DEALS.DETAIL.EDIT_VALUE')"
@@ -118,9 +138,12 @@ const valueParts = computed(() => {
       <h3 class="text-sm font-medium text-n-slate-11">
         {{ t('CRM_DEALS.DETAIL.PRODUCTS') }}
       </h3>
-      <p class="text-base text-n-slate-11">
-        {{ t('CRM_DEALS.DETAIL.NO_PRODUCTS') }}
-      </p>
+      <ProductsEditor
+        :items="deal.products"
+        @add="addProduct"
+        @change="changeProduct"
+        @remove="removeProduct"
+      />
     </section>
 
     <section class="flex flex-col gap-4">

@@ -380,6 +380,7 @@ Rails.application.routes.draw do
               post :duplicate, on: :member
               resources :activities, only: [:create, :update, :destroy], controller: 'deal_activities'
             end
+            resources :products, only: [:index, :create, :update, :destroy]
           end
 
           resources :notifications, only: [:index, :update, :destroy] do

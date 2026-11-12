@@ -18,21 +18,28 @@ const isLoading = ref(false);
 
 const load = async () => {
   deals.value = [];
-  if (!props.deal.contact) return;
+  if (!props.deal.contact && !props.deal.company) return;
   isLoading.value = true;
   try {
-    const { data } = await CrmDealsAPI.forContact(props.deal.contact.id);
+    const { data } = props.deal.contact
+      ? await CrmDealsAPI.forContact(props.deal.contact.id)
+      : await CrmDealsAPI.forCompany(props.deal.company.id);
     deals.value = data.payload.filter(item => item.id !== props.deal.id);
   } finally {
     isLoading.value = false;
   }
 };
 
-watch(() => props.deal.contact?.id, load, { immediate: true });
+watch(() => [props.deal.contact?.id, props.deal.company?.id], load, {
+  immediate: true,
+});
 </script>
 
 <template>
-  <p v-if="!deal.contact" class="py-6 text-base text-center text-n-slate-11">
+  <p
+    v-if="!deal.contact && !deal.company"
+    class="py-6 text-base text-center text-n-slate-11"
+  >
     {{ t('CRM_DEALS.DETAIL.DEALS_NEED_CONTACT') }}
   </p>
   <div v-else-if="isLoading" class="flex justify-center py-6"><Spinner /></div>

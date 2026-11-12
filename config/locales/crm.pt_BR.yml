@@ -21,6 +21,7 @@ pt_BR:
       requirements:
         expected_close_date: data prevista de fechamento
         positive_value: valor maior que zero
+        product: pelo menos um produto
       errors:
         title_required: Informe um título quando a oportunidade não tem contato nem empresa.
         loss_reason_required: Escolha o motivo da perda.
@@ -46,6 +47,10 @@ pt_BR:
         has_deals:
           one: '%{name} é responsável por 1 negócio. Passe para outro responsável no Funil de vendas antes de remover.'
           other: '%{name} é responsável por %{count} negócios. Passe para outro responsável no Funil de vendas antes de remover.'
+    products:
+      errors:
+        in_use: Este produto está em negócios e não pode ser excluído. Desative em vez de excluir.
+        invalid_product: Escolha um produto desta conta.
     settings:
       errors:
         ai_requires_monthly_cap: Defina um teto de gasto mensal maior que zero para ligar a IA do pipeline.

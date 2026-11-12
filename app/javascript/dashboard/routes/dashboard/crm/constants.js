@@ -101,6 +101,7 @@ export const SERVER_CLOSED_WINDOW_DAYS = 30;
 export const BOARD_FILTER_FIELDS = [
   { key: 'assignee', icon: 'i-lucide-user', type: 'assignee' },
   { key: 'label', icon: 'i-lucide-tag', type: 'label' },
+  { key: 'product', icon: 'i-lucide-package', type: 'product' },
   { key: 'status', icon: 'i-lucide-flag', type: 'status' },
   { key: 'loss_reason', icon: 'i-lucide-circle-x', type: 'loss_reason' },
   { key: 'lead_origin', icon: 'i-lucide-radar', type: 'lead_origin' },
@@ -132,3 +133,7 @@ export const ACTIVITY_TITLE_MAX_LENGTH = 120;
 export const MAX_ACTIVITY_DURATION_MINUTES = 1440;
 export const MAX_CHECKLIST_ITEMS = 30;
 export const ACTIVITY_FILTERS = ['overdue', 'today', 'upcoming', 'none'];
+
+export const PRODUCT_NAME_MAX_LENGTH = 120;
+export const PRODUCT_SKU_MAX_LENGTH = 60;
+export const MAX_PRODUCT_QUANTITY = 100000;
