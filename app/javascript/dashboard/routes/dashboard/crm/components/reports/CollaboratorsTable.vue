@@ -54,7 +54,7 @@ const winRate = row => {
       :rows="rows"
     >
       <template #row="{ row }">
-        <td class="px-3 py-2.5">
+        <td class="px-2.5 py-2.5">
           <span class="flex items-center gap-2 text-n-slate-12">
             <Avatar
               :name="row.name"
@@ -65,22 +65,26 @@ const winRate = row => {
             <span class="truncate">{{ row.name }}</span>
           </span>
         </td>
-        <td class="px-3 py-2.5 text-end text-n-teal-11">{{ row.won_count }}</td>
-        <td class="px-3 py-2.5 text-end text-n-teal-11 whitespace-nowrap">
+        <td class="px-2.5 py-2.5 text-end text-n-teal-11">
+          {{ row.won_count }}
+        </td>
+        <td class="px-2.5 py-2.5 text-end text-n-teal-11 whitespace-nowrap">
           {{ money(row.won_value) }}
         </td>
-        <td class="px-3 py-2.5 text-end text-n-slate-12">
+        <td class="px-2.5 py-2.5 text-end text-n-slate-12">
           {{ row.lost_count }}
         </td>
-        <td class="px-3 py-2.5 text-end text-n-slate-11 whitespace-nowrap">
+        <td class="px-2.5 py-2.5 text-end text-n-slate-11 whitespace-nowrap">
           {{ money(row.lost_value) }}
         </td>
-        <td class="px-3 py-2.5 text-end text-n-slate-12">{{ winRate(row) }}</td>
-        <td class="px-3 py-2.5 text-end text-n-slate-12">
+        <td class="px-2.5 py-2.5 text-end text-n-slate-12">
+          {{ winRate(row) }}
+        </td>
+        <td class="px-2.5 py-2.5 text-end text-n-slate-12">
           {{ row.activities_done }}
         </td>
         <td
-          class="px-3 py-2.5 text-end"
+          class="px-2.5 py-2.5 text-end"
           :class="row.activities_overdue ? 'text-n-ruby-11' : 'text-n-slate-12'"
         >
           {{ row.activities_overdue }}

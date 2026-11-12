@@ -14,7 +14,7 @@ defineProps({
           <th
             v-for="(column, index) in columns"
             :key="column"
-            class="px-3 py-2 font-normal text-label-small text-n-slate-11 whitespace-nowrap"
+            class="px-2.5 py-2 font-normal text-label-small text-n-slate-11 whitespace-nowrap"
             :class="index === 0 ? 'text-start' : 'text-end'"
           >
             {{ column }}

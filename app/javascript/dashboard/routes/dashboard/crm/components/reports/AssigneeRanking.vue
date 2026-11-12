@@ -38,12 +38,12 @@ const rows = computed(() =>
       :rows="rows"
     >
       <template #row="{ row }">
-        <td class="px-3 py-2.5 text-n-slate-12">{{ row.name }}</td>
-        <td class="px-3 py-2.5 text-end text-n-slate-12">{{ row.deals }}</td>
-        <td class="px-3 py-2.5 text-end text-n-slate-12">
+        <td class="px-2.5 py-2.5 text-n-slate-12">{{ row.name }}</td>
+        <td class="px-2.5 py-2.5 text-end text-n-slate-12">{{ row.deals }}</td>
+        <td class="px-2.5 py-2.5 text-end text-n-slate-12">
           {{ row.won_count }}
         </td>
-        <td class="px-3 py-2.5 text-end text-n-slate-12 whitespace-nowrap">
+        <td class="px-2.5 py-2.5 text-end text-n-slate-12 whitespace-nowrap">
           {{
             row.won_value
               ? formatCurrency(row.won_value)

@@ -466,6 +466,126 @@
         "OPEN": "Abertos",
         "STALE": "Parados",
         "AVERAGE": "Média na etapa"
+      },
+      "DOWNLOAD_CSV": "Baixar CSV",
+      "BLOCKS": {
+        "BUTTON": "Blocos",
+        "ALL_VISIBLE": "Todos visíveis",
+        "HIDDEN_COUNT": "{count} oculto | {count} ocultos",
+        "SHOW_ALL": "Mostrar todos",
+        "DRAG": "Arraste para reordenar",
+        "NAMES": {
+          "INDICATORS": "Indicadores",
+          "PIPELINE": "Pipeline",
+          "WINS": "Ganhos ao longo do tempo",
+          "CONVERSION": "Conversão entre etapas",
+          "BY_ASSIGNEE": "Por responsável",
+          "BY_ORIGIN": "Por origem",
+          "BY_CHANNEL": "Por canal",
+          "BY_PRODUCT": "Por produto",
+          "ORIGIN_WINS": "Distribuição de ganhos por origem",
+          "BY_COMPANY": "Por empresa",
+          "WON_REASONS": "Ganhos por motivo",
+          "WON_DEALS": "Negócios ganhos",
+          "LOST_REASONS": "Perdas por motivo",
+          "LOST_BY_ASSIGNEE": "Perdas por responsável",
+          "WHERE_LOST": "Onde o negócio se perde",
+          "LOST_DEALS": "Negócios perdidos",
+          "STAGNATION": "Estagnação por etapa",
+          "COLLABORATORS": "Colaboradores"
+        }
+      },
+      "SOURCES": {
+        "LEADS": "Leads",
+        "WON": "Ganhos",
+        "LOST": "Perdidos",
+        "CONVERSION": "Conversão",
+        "VALUE": "Valor",
+        "NO_CLOSED": "sem encerrados"
+      },
+      "BY_ORIGIN": {
+        "DESCRIPTION": "Leads de cada origem e quantos dos encerrados viraram venda",
+        "ORIGIN": "Origem",
+        "NONE": "Sem origem"
+      },
+      "BY_CHANNEL": {
+        "DESCRIPTION": "Leads de cada canal de entrada e quantos dos encerrados viraram venda",
+        "CHANNEL": "Canal",
+        "NONE": "Sem canal"
+      },
+      "BY_PRODUCT": {
+        "DESCRIPTION": "Receita e unidades vendidas (negócios ganhos)",
+        "PRODUCT": "Produto",
+        "UNITS": "Unidades",
+        "REVENUE": "Receita"
+      },
+      "ORIGIN_WINS": {
+        "DESCRIPTION": "Participação de cada origem no valor ganho"
+      },
+      "BY_COMPANY": {
+        "DESCRIPTION": "As contas que mais renderam no período, e o que ainda está em jogo com cada uma",
+        "COMPANY": "Empresa",
+        "WON": "Ganho no período",
+        "OPEN": "Em jogo",
+        "OPEN_VALUE": "{count} aberto · {value} | {count} abertos · {value}",
+        "EMPTY": "Nenhuma empresa com negócio no período."
+      },
+      "REASONS": {
+        "REASON": "Motivo",
+        "DEALS": "Negócios",
+        "SHARE": "Participação",
+        "VALUE": "Valor"
+      },
+      "WON_REASONS": {
+        "DESCRIPTION": "O que fez cada negócio fechar",
+        "EMPTY": "Nenhum negócio ganho com motivo informado no período."
+      },
+      "LOST_REASONS": {
+        "DESCRIPTION": "Quantos negócios cada motivo levou",
+        "EMPTY": "Nenhum negócio perdido no período."
+      },
+      "DEALS": {
+        "DEAL": "Negócio",
+        "ASSIGNEE": "Responsável",
+        "PRODUCTS": "Produtos",
+        "VALUE": "Valor",
+        "CYCLE": "Levou",
+        "CLOSED_AT": "Fechado em",
+        "STAGE": "Etapa",
+        "REASON": "Motivo",
+        "NOTE": "Justificativa",
+        "LIMIT": "Mostrando os {count} mais recentes."
+      },
+      "WON_DEALS": {
+        "DESCRIPTION": "Cada venda do período, com o que foi vendido e quanto levou",
+        "EMPTY": "Nenhum negócio ganho no período."
+      },
+      "LOST_DEALS": {
+        "DESCRIPTION": "Motivo e justificativa de cada perda",
+        "EMPTY": "Nenhum negócio perdido no período."
+      },
+      "LOST_BY_ASSIGNEE": {
+        "DESCRIPTION": "Quem mais perde, em proporção do que fechou",
+        "ASSIGNEE": "Responsável",
+        "LOST": "Perdidos",
+        "CLOSED": "Encerrados",
+        "RATE": "Taxa de perda",
+        "VALUE": "Valor perdido",
+        "EMPTY": "Nenhum negócio perdido no período."
+      },
+      "WHERE_LOST": {
+        "DESCRIPTION": "Em que etapa do pipeline a venda morreu, e quanto isso pesa na etapa",
+        "STAGE": "Etapa",
+        "LOST": "Perdidos",
+        "SHARE": "% das perdas",
+        "VALUE": "Valor perdido",
+        "EMPTY": "Nenhum negócio perdido no período."
+      },
+      "CSV": {
+        "FILE": "vendas-pipeline-{days}-dias.csv",
+        "INDICATOR": "Indicador",
+        "VALUE": "Valor",
+        "DAYS": "{label} (dias)"
       }
     }
   }
