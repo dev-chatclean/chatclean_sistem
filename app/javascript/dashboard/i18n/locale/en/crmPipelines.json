@@ -92,7 +92,8 @@
         "NEXT_TASK": "Next task",
         "CONTACT_LABELS": "Contact labels",
         "ORIGIN": "Origin",
-        "ATTACHMENTS": "Attachments"
+        "ATTACHMENTS": "Attachments",
+        "TEMPERATURE": "Temperature"
       }
     },
     "AI": {
@@ -115,7 +116,9 @@
       "MONTHLY_CAP": {
         "LABEL": "Monthly spending cap (R$)",
         "HINT": "Set a value above zero to turn on any of the three."
-      }
+      },
+      "MONTH_COST": "Spent this month: {cost}",
+      "CAP_REACHED": "The cap was reached: the AI stops until next month."
     },
     "FORM": {
       "CREATE_TITLE": "New pipeline",

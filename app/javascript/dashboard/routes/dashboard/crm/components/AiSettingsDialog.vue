@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
@@ -8,12 +8,20 @@ import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import { AI_FEATURES } from '../constants';
+import { formatCurrency } from '../dealHelpers';
 
 const { t } = useI18n();
 
 const dialogRef = ref(null);
 const isSaving = ref(false);
 const ai = ref(null);
+const monthCost = ref(0);
+
+const capReached = computed(
+  () =>
+    Number(ai.value?.monthly_cap) > 0 &&
+    monthCost.value >= Number(ai.value.monthly_cap)
+);
 
 const open = async () => {
   ai.value = null;
@@ -21,6 +29,7 @@ const open = async () => {
   try {
     const { data } = await CrmSettingsAPI.get();
     ai.value = { ...data.ai };
+    monthCost.value = data.ai_month_cost;
   } catch (error) {
     useAlert(t('CRM_PIPELINES.API.FETCH_ERROR'));
   }
@@ -81,6 +90,14 @@ defineExpose({ open });
         :label="t('CRM_PIPELINES.AI.MONTHLY_CAP.LABEL')"
         :message="t('CRM_PIPELINES.AI.MONTHLY_CAP.HINT')"
       />
+      <span class="text-sm text-n-slate-11">
+        {{
+          t('CRM_PIPELINES.AI.MONTH_COST', { cost: formatCurrency(monthCost) })
+        }}
+      </span>
+      <span v-if="capReached" class="text-sm text-n-ruby-11">
+        {{ t('CRM_PIPELINES.AI.CAP_REACHED') }}
+      </span>
     </div>
   </Dialog>
 </template>

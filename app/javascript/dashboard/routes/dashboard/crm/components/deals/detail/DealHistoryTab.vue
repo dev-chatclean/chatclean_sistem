@@ -15,6 +15,7 @@ const eventKey = event => {
   if (event.event_type === 'created' && event.data.conversation)
     return 'CREATED_FROM_CONVERSATION';
   if (event.event_type === 'custom_field_changed') {
+    if (event.data.source === 'ai') return 'CUSTOM_FIELD_AI';
     if (event.data.from === undefined) return 'CUSTOM_FIELD_SET';
     if (event.data.to === undefined) return 'CUSTOM_FIELD_CLEARED';
   }

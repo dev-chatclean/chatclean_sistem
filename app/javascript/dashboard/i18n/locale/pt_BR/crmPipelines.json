@@ -92,7 +92,8 @@
         "NEXT_TASK": "Próxima tarefa",
         "CONTACT_LABELS": "Etiquetas do contato",
         "ORIGIN": "Origem",
-        "ATTACHMENTS": "Anexos"
+        "ATTACHMENTS": "Anexos",
+        "TEMPERATURE": "Temperatura"
       }
     },
     "AI": {
@@ -115,7 +116,9 @@
       "MONTHLY_CAP": {
         "LABEL": "Teto de gasto por mês (R$)",
         "HINT": "Defina um valor maior que zero para ligar qualquer uma das três."
-      }
+      },
+      "MONTH_COST": "Gasto neste mês: {cost}",
+      "CAP_REACHED": "O teto foi atingido: a IA para até o mês que vem."
     },
     "FORM": {
       "CREATE_TITLE": "Novo pipeline",

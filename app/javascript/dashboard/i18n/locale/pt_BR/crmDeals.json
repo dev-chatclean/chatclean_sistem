@@ -133,7 +133,8 @@
         "CLIENT_REMINDER_CANCELED": "{user} cancelou o lembrete ao cliente de “{activity}”",
         "CAMPAIGN_SENT": "Campanha “{campaign}” enviada",
         "CAMPAIGN_FAILED": "Campanha “{campaign}” falhou: {reason}",
-        "CAMPAIGN_CANCELED": "Campanha “{campaign}” cancelada: {reason}"
+        "CAMPAIGN_CANCELED": "Campanha “{campaign}” cancelada: {reason}",
+        "CUSTOM_FIELD_AI": "IA preencheu {field} com “{to}”"
       },
       "RANGE": "{from} → {to}",
       "NO_LABELS": "Sem etiquetas",
@@ -424,6 +425,21 @@
         "CONTENT": "Escreva a mensagem.",
         "TEMPLATE": "Escolha um modelo.",
         "VARIABLES": "Preencha todas as variáveis do modelo."
+      }
+    },
+    "AI": {
+      "TITLE": "IA do pipeline",
+      "ANALYZE": "Atualizar análise",
+      "NEEDS_CONVERSATION": "Requer conversa com mensagens para a IA analisar",
+      "NEXT_STEP": "Próximo passo sugerido",
+      "CREATE_ACTIVITY": "Criar atividade",
+      "NOT_ANALYZED": "Ainda não analisado.",
+      "ANALYZED_AT": "Analisado em {date}",
+      "ERROR": "Não foi possível analisar este negócio",
+      "TEMPERATURE": {
+        "COLD": "Frio",
+        "WARM": "Morno",
+        "HOT": "Quente"
       }
     }
   },

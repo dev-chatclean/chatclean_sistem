@@ -86,7 +86,7 @@ const remindLabel = minutes => {
   return t('CRM_DEALS.ACTIVITY.REMIND.MINUTES', { n: minutes });
 };
 
-const open = ({ deal, activity: target = null }) => {
+const open = ({ deal, activity: target = null, suggestion = '' }) => {
   dealId.value = deal.id;
   dealHasContact.value = Boolean(deal.contact);
   activity.value = target;
@@ -107,14 +107,14 @@ const open = ({ deal, activity: target = null }) => {
         client_message: buildMessage(target.client_reminder),
       }
     : {
-        title: '',
+        title: suggestion.slice(0, ACTIVITY_TITLE_MAX_LENGTH),
         due: defaultDue(),
         activity_type: ACTIVITY_TYPES[0].value,
         priority: 'medium',
         assignee_id: currentUser.value.id,
         duration_minutes: '',
         remind_before_minutes: DEFAULT_REMIND_BEFORE_MINUTES,
-        description: '',
+        description: suggestion,
         recurrence: 'never',
         checklist: [],
         notify_client_before_minutes: null,

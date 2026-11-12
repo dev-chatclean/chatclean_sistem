@@ -5,6 +5,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import { daysInStage, formatCurrency, staleLevel } from '../../dealHelpers';
 import { ACTIVITY_TYPES } from '../../constants';
 import { formatShortDateTime } from './detail/dealTime';
+import DealTemperature from './DealTemperature.vue';
 
 const props = defineProps({
   deal: { type: Object, required: true },
@@ -158,6 +159,12 @@ const staleClass = computed(
         )
       }}
     </span>
+    <DealTemperature
+      v-if="showsField('temperature') && deal.ai_temperature"
+      :temperature="deal.ai_temperature"
+      :reason="deal.ai_temperature_reason"
+      class="self-start"
+    />
     <span
       v-if="showsField('origin') && originText"
       class="flex items-center gap-1 text-label-small text-n-slate-11"
