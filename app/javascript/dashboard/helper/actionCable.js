@@ -18,6 +18,7 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const { isImpersonating } = useImpersonation();
 const UNREAD_COUNTS_REFETCH_THROTTLE_MS = 5000;
+const CRM_REMINDER_TOAST_MS = 15000;
 const HANDOFF_ALERT_WINDOW_MS = 2500;
 const FILTERED_UNREAD_COUNTS_REFRESH_RETRY_MS = 30000;
 const FILTERED_UNREAD_COUNTS_REFRESH_RETRY_JITTER_MS = 15000;
@@ -26,6 +27,24 @@ const MENTION_UNREAD_COUNTS_REFETCH_DELAY_MS =
 const getFilteredUnreadCountsRefreshRetryDelay = () =>
   FILTERED_UNREAD_COUNTS_REFRESH_RETRY_MS +
   Math.random() * FILTERED_UNREAD_COUNTS_REFRESH_RETRY_JITTER_MS;
+
+const showCrmActivityReminder = data => {
+  const time = new Date(data.due_at * 1000).toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+  emitter.emit('newToastMessage', {
+    message: 'CRM_DEALS.ACTIVITY.REMINDER_TOAST',
+    action: {
+      usei18n: true,
+      i18nParams: { title: data.title, time, deal: data.deal_name },
+      type: 'link',
+      to: `/app/accounts/${data.account_id}/pipelines/${data.pipeline_id}?deal=${data.deal_id}`,
+      message: 'CRM_DEALS.ACTIVITY.REMINDER_OPEN',
+      duration: CRM_REMINDER_TOAST_MS,
+    },
+  });
+};
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
@@ -56,6 +75,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'contact.updated': this.onContactUpdate,
       'conversation.mentioned': this.onConversationMentioned,
       'notification.created': this.onNotificationCreated,
+      'crm.activity_reminder': showCrmActivityReminder,
       'notification.deleted': this.onNotificationDeleted,
       'notification.updated': this.onNotificationUpdated,
       'conversation.read': this.onConversationRead,

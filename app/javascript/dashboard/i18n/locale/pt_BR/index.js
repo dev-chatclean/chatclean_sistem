@@ -27,6 +27,9 @@ import inboxMgmt from './inboxMgmt.json';
 import integrationApps from './integrationApps.json';
 import integrations from './integrations.json';
 import labelsMgmt from './labelsMgmt.json';
+import crmPipelines from './crmPipelines.json';
+import chatclean from './chatclean.json';
+import crmDeals from './crmDeals.json';
 import login from './login.json';
 import macros from './macros.json';
 import mfa from './mfa.json';
@@ -76,6 +79,9 @@ export default {
   ...integrationApps,
   ...integrations,
   ...labelsMgmt,
+  ...crmPipelines,
+  ...chatclean,
+  ...crmDeals,
   ...login,
   ...macros,
   ...mfa,

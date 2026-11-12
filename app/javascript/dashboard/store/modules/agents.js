@@ -1,6 +1,7 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
 import AgentAPI from '../../api/agents';
+import { throwErrorMessage } from '../utils/api';
 
 export const state = {
   records: [],
@@ -90,7 +91,7 @@ export const actions = {
       commit(types.default.SET_AGENT_DELETING_STATUS, false);
     } catch (error) {
       commit(types.default.SET_AGENT_DELETING_STATUS, false);
-      throw new Error(error);
+      throwErrorMessage(error);
     }
   },
 };

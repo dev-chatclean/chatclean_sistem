@@ -8,6 +8,8 @@ class Api::V1::Accounts::BulkActionsController < Api::V1::Accounts::BaseControll
       head :ok
     when 'Contact'
       check_authorization_for_contact_action
+      return render_contacts_with_deals_error if delete_contact_action? && contacts_with_deals_count.positive?
+
       enqueue_contact_job
       head :ok
     else
@@ -52,6 +54,14 @@ class Api::V1::Accounts::BulkActionsController < Api::V1::Accounts::BaseControll
 
   def delete_contact_action?
     params[:action_name] == 'delete'
+  end
+
+  def contacts_with_deals_count
+    @contacts_with_deals_count ||= @current_account.crm_deals.where(contact_id: params[:ids]).distinct.count(:contact_id)
+  end
+
+  def render_contacts_with_deals_error
+    render_could_not_create_error(I18n.t('crm.contacts.errors.bulk_has_deals', count: contacts_with_deals_count))
   end
 
   def check_authorization_for_contact_action

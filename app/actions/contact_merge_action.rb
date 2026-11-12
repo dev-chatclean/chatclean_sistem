@@ -14,6 +14,7 @@ class ContactMergeAction
       merge_contact_inboxes
       merge_contact_notes
       merge_calls
+      merge_crm_deals
       merge_and_remove_mergee_contact
     end
     @base_contact
@@ -45,6 +46,10 @@ class ContactMergeAction
 
   def merge_contact_inboxes
     ContactInbox.where(contact_id: @mergee_contact.id).update(contact_id: @base_contact.id)
+  end
+
+  def merge_crm_deals
+    Crm::Deal.where(contact_id: @mergee_contact.id).update(contact_id: @base_contact.id)
   end
 
   def merge_calls

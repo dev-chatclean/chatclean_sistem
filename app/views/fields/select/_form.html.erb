@@ -1,5 +1,5 @@
 <%# Stored values read as labels ("feature_announcement" becomes "Feature Announcement"); locale codes stay as they are. %>
-<% options = field.attribute == :locale ? field.selectable_options : field.selectable_options.map { |value| [value.to_s.titleize, value] } %>
+<% options = field.attribute == :locale ? field.selectable_options : field.selectable_options.map { |value| [value.blank? ? "" : t("chatclean.super_admin.values.#{value.to_s.underscore}", default: value.to_s.titleize), value] } %>
 <%= render "field", f: f, field: field do %>
   <%# Administrate turns selects inside this class into searchable selectize inputs. %>
   <div class="field-unit--select">

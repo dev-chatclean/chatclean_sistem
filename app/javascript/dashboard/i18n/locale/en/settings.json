@@ -357,6 +357,7 @@
     "ACCOUNT_SETTINGS": "Account Settings",
     "APPLICATIONS": "Applications",
     "LABELS": "Labels",
+    "SALES_PIPELINES": "Sales pipelines",
     "CUSTOM_ATTRIBUTES": "Custom Attributes",
     "AUTOMATION": "Automation",
     "MACROS": "Macros",
@@ -365,6 +366,8 @@
     "CUSTOM_VIEWS_FOLDER": "Folders",
     "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
+    "PRODUCTS": "Products",
+    "ARCHIVED_CONTACTS": "Archived",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",
     "NEW_TEAM": "New team",
@@ -422,7 +425,10 @@
     "DOCS": "Read docs",
     "SECURITY": "Security",
     "CAPTAIN_AI": "Captain",
-    "CONVERSATION_WORKFLOW": "Conversation Workflow"
+    "CONVERSATION_WORKFLOW": "Conversation Workflow",
+    "REPORTS_SALES": "Sales & Pipeline",
+    "REPORTS_SUMMARY": "Overview",
+    "LIVE_VIEW": "Live"
   },
   "DATA_IMPORTS": {
     "HEADER": "Data",

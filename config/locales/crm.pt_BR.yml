@@ -1,0 +1,99 @@
+pt_BR:
+  support:
+    array:
+      words_connector: ', '
+      two_words_connector: ' e '
+      last_word_connector: ' e '
+  crm:
+    stages:
+      errors:
+        transfer_required: Esta etapa tem %{count} oportunidade(s). Escolha outra etapa para recebê-las.
+        duplicate_name: Já existe uma etapa chamada %{name} neste pipeline.
+        system_stage_delete: Etapas de sistema (Inicial, Ganho e Perda) são obrigatórias e não podem ser excluídas.
+        invalid_transfer_stage: Escolha outra etapa aberta deste pipeline para receber as oportunidades.
+        invalid_order: A nova ordem precisa ter todas as etapas abertas e manter Novo contato em primeiro.
+      defaults:
+        initial: Novo contato
+        won: Ganho
+        lost: Perda
+    pipelines:
+      errors:
+        has_deals: Este pipeline tem oportunidades. Mova ou exclua as oportunidades antes de excluir o pipeline.
+        invalid_card_fields: Escolha no máximo %{max} itens válidos para o cartão.
+        default_cannot_be_unset: O pipeline padrão não pode ser desligado. Defina outro pipeline como padrão.
+        default_cannot_be_deleted: Não é possível excluir o pipeline padrão. Defina outro pipeline como padrão antes de realizar a exclusão.
+    deals:
+      requirements:
+        expected_close_date: data prevista de fechamento
+        positive_value: valor maior que zero
+        product: pelo menos um produto
+        document: um documento anexado
+        custom_field: o campo %{name}
+      errors:
+        title_required: Informe um título quando a oportunidade não tem contato nem empresa.
+        loss_reason_required: Escolha o motivo da perda.
+        invalid_win_reason: Escolha um motivo de ganho válido.
+        invalid_stage: Escolha uma etapa desta conta.
+        invalid_contact: O contato não pertence a esta conta.
+        invalid_company: A empresa não pertence a esta conta.
+        invalid_assignee: O responsável precisa ser membro desta conta.
+        stage_requirements: 'A etapa %{stage} exige: %{fields}.'
+        invalid_custom_fields: 'Confira o valor de: %{fields}.'
+    impulses:
+      errors:
+        steps_count: Um impulso precisa ter de 1 a %{max} passos.
+    ai:
+      errors:
+        disabled: Ligue o próximo passo ou a temperatura nas configurações de IA do pipeline.
+        cap_reached: A IA do pipeline atingiu o teto de gasto deste mês.
+        no_conversation: A IA precisa de uma conversa com mensagens para analisar este negócio.
+        provider_error: A IA não conseguiu analisar este negócio agora. Tente de novo em alguns minutos.
+        cooldown: Aguarde alguns segundos antes de pedir uma nova análise.
+    reports:
+      errors:
+        invalid_period: Escolha um período de 7, 30 ou 90 dias.
+        invalid_time_zone: Informe um fuso horário válido.
+        invalid_number: Confira os filtros com números.
+        invalid_date: Confira as datas dos filtros.
+        invalid_text: Envie cada filtro uma vez só.
+        invalid_option: Confira os filtros com opções fixas.
+    client_message:
+      errors:
+        template_required: Escolha um modelo aprovado do WhatsApp.
+    campaigns:
+      errors:
+        no_eligible_deals: Não há negócios elegíveis com contato nesta etapa para disparar a campanha.
+        not_running: Esta campanha não está mais em andamento.
+    activities:
+      errors:
+        client_reminder_no_contact: Vincule um contato ao negócio para lembrar o cliente.
+        client_reminder_content: Escreva a mensagem do lembrete ou escolha um modelo.
+        client_reminder_time_zone: Informe um fuso horário válido para o lembrete ao cliente.
+        required_task_delete: Esta tarefa é obrigatória da etapa e não pode ser excluída. Marque como concluída.
+    contacts:
+      errors:
+        already_archived: Este contato já está arquivado.
+        has_deals:
+          one: Este contato tem 1 negócio e não pode ser excluído. Use a opção de arquivar.
+          other: Este contato tem %{count} negócios e não pode ser excluído. Use a opção de arquivar.
+        bulk_has_deals:
+          one: 1 dos contatos selecionados tem negócio e não pode ser excluído. Tire-o da seleção.
+          other: '%{count} dos contatos selecionados têm negócios e não podem ser excluídos. Tire-os da seleção.'
+    agents:
+      errors:
+        has_deals:
+          one: '%{name} é responsável por 1 negócio. Passe para outro responsável no Funil de vendas antes de remover.'
+          other: '%{name} é responsável por %{count} negócios. Passe para outro responsável no Funil de vendas antes de remover.'
+    products:
+      errors:
+        in_use: Este produto está em negócios e não pode ser excluído. Desative em vez de excluir.
+        invalid_product: Escolha um produto desta conta.
+    deal_files:
+      errors:
+        missing: Escolha um arquivo para enviar.
+        invalid_type: 'Este tipo de arquivo não é aceito. Envie PDF, Word, Excel, PowerPoint, texto, CSV, zip ou imagem.'
+        too_large: O arquivo passa de %{limit} MB.
+    settings:
+      errors:
+        ai_requires_monthly_cap: Defina um teto de gasto mensal maior que zero para ligar a IA do pipeline.
+        auto_create_requires_default_pipeline: A criação automática de oportunidades precisa de um pipeline padrão. Crie um pipeline primeiro.

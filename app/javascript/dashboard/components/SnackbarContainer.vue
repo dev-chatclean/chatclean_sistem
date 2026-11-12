@@ -29,13 +29,18 @@ const showPopover = () => {
 };
 
 const onNewToastMessage = ({ message: originalMessage, action }) => {
-  const message = action?.usei18n ? t(originalMessage) : originalMessage;
+  const message = action?.usei18n
+    ? t(originalMessage, action.i18nParams || {})
+    : originalMessage;
   const duration = action?.duration || props.duration;
 
   snackMessages.value.push({
     key: Date.now(),
     message,
-    action,
+    action:
+      action?.usei18n && action.message
+        ? { ...action, message: t(action.message) }
+        : action,
   });
 
   nextTick(showPopover);

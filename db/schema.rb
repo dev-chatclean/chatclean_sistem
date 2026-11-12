@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_19_143116) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_12_160416) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -818,11 +818,13 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_19_143116) do
     t.string "country_code", default: ""
     t.boolean "blocked", default: false, null: false
     t.bigint "company_id"
+    t.datetime "archived_at"
     t.index "lower((email)::text), account_id", name: "index_contacts_on_lower_email_account_id"
     t.index ["account_id", "contact_type"], name: "index_contacts_on_account_id_and_contact_type"
     t.index ["account_id", "email", "phone_number", "identifier"], name: "index_contacts_on_nonempty_fields", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
     t.index ["account_id", "last_activity_at"], name: "index_contacts_on_account_id_and_last_activity_at", order: { last_activity_at: "DESC NULLS LAST" }
     t.index ["account_id"], name: "index_contacts_on_account_id"
+    t.index ["account_id"], name: "index_contacts_on_account_id_archived", where: "(archived_at IS NOT NULL)"
     t.index ["account_id"], name: "index_resolved_contact_account_id", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
     t.index ["blocked"], name: "index_contacts_on_blocked"
     t.index ["company_id"], name: "index_contacts_on_company_id"
@@ -1131,6 +1133,240 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_19_143116) do
     t.datetime "updated_at", null: false
     t.index ["copilot_run_id", "call_id"], name: "index_copilot_tool_calls_on_copilot_run_id_and_call_id", unique: true
     t.index ["status"], name: "index_copilot_tool_calls_running", where: "((status)::text = 'running'::text)"
+  end
+
+  create_table "crm_ai_usages", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.date "month", null: false
+    t.bigint "input_tokens", default: 0, null: false
+    t.bigint "output_tokens", default: 0, null: false
+    t.decimal "cost_brl", precision: 12, scale: 6, default: "0.0", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "month"], name: "index_crm_ai_usages_on_account_id_and_month", unique: true
+  end
+
+  create_table "crm_deal_activities", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "deal_id", null: false
+    t.bigint "assignee_id", null: false
+    t.bigint "required_by_stage_id"
+    t.string "title", limit: 120, null: false
+    t.integer "activity_type", default: 0, null: false
+    t.integer "priority", default: 1, null: false
+    t.datetime "due_at", null: false
+    t.integer "duration_minutes"
+    t.integer "remind_before_minutes"
+    t.text "description"
+    t.integer "recurrence", default: 0, null: false
+    t.jsonb "checklist", default: [], null: false
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "notify_client_before_minutes"
+    t.jsonb "client_reminder", default: {}, null: false
+    t.datetime "client_reminder_sent_at"
+    t.index ["account_id"], name: "index_crm_deal_activities_on_account_id"
+    t.index ["assignee_id"], name: "index_crm_deal_activities_on_assignee_id"
+    t.index ["deal_id"], name: "index_crm_deal_activities_on_deal_id"
+  end
+
+  create_table "crm_deal_campaign_deliveries", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "campaign_id", null: false
+    t.bigint "deal_id", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "scheduled_at", null: false
+    t.datetime "executed_at"
+    t.string "failure_reason"
+    t.bigint "message_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_crm_deal_campaign_deliveries_on_account_id"
+    t.index ["campaign_id", "status"], name: "index_crm_deal_campaign_deliveries_on_campaign_id_and_status"
+    t.index ["deal_id"], name: "index_crm_deal_campaign_deliveries_on_deal_id"
+  end
+
+  create_table "crm_deal_events", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "deal_id", null: false
+    t.bigint "user_id"
+    t.string "event_type", limit: 40, null: false
+    t.bigint "from_stage_id"
+    t.bigint "to_stage_id"
+    t.jsonb "data", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.index ["account_id"], name: "index_crm_deal_events_on_account_id"
+    t.index ["deal_id"], name: "index_crm_deal_events_on_deal_id"
+    t.index ["from_stage_id"], name: "index_crm_deal_events_on_from_stage_id"
+    t.index ["to_stage_id"], name: "index_crm_deal_events_on_to_stage_id"
+    t.index ["user_id"], name: "index_crm_deal_events_on_user_id"
+  end
+
+  create_table "crm_deal_files", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "deal_id", null: false
+    t.bigint "uploaded_by_id", null: false
+    t.string "category", limit: 30, default: "other", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_crm_deal_files_on_account_id"
+    t.index ["deal_id"], name: "index_crm_deal_files_on_deal_id"
+  end
+
+  create_table "crm_deal_impulse_executions", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "deal_id", null: false
+    t.bigint "step_id", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "scheduled_at", null: false
+    t.datetime "executed_at"
+    t.string "failure_reason"
+    t.bigint "message_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_crm_deal_impulse_executions_on_account_id"
+    t.index ["deal_id", "status"], name: "index_crm_deal_impulse_executions_on_deal_id_and_status"
+    t.index ["step_id"], name: "index_crm_deal_impulse_executions_on_step_id"
+  end
+
+  create_table "crm_deal_products", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "deal_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity", default: 1, null: false
+    t.decimal "unit_price", precision: 12, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_crm_deal_products_on_account_id"
+    t.index ["deal_id"], name: "index_crm_deal_products_on_deal_id"
+    t.index ["product_id"], name: "index_crm_deal_products_on_product_id"
+  end
+
+  create_table "crm_deals", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "pipeline_id", null: false
+    t.bigint "stage_id", null: false
+    t.bigint "contact_id"
+    t.bigint "company_id"
+    t.bigint "assignee_id", null: false
+    t.integer "number", null: false
+    t.string "title", limit: 120
+    t.decimal "value", precision: 12, scale: 2, default: "0.0", null: false
+    t.integer "status", default: 0, null: false
+    t.date "expected_close_date"
+    t.text "notes"
+    t.datetime "stage_entered_at", null: false
+    t.datetime "closed_at"
+    t.string "close_reason", limit: 40
+    t.text "close_note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "conversation_id"
+    t.string "lead_origin"
+    t.string "lead_source"
+    t.jsonb "custom_attributes", default: {}, null: false
+    t.integer "ai_temperature"
+    t.string "ai_temperature_reason", limit: 280
+    t.text "ai_next_step"
+    t.datetime "ai_analyzed_at"
+    t.index ["account_id", "closed_at"], name: "index_crm_deals_on_account_id_and_closed_at"
+    t.index ["account_id", "created_at"], name: "index_crm_deals_on_account_id_and_created_at"
+    t.index ["account_id", "number"], name: "index_crm_deals_on_account_id_and_number", unique: true
+    t.index ["account_id", "status"], name: "index_crm_deals_on_account_id_and_status"
+    t.index ["assignee_id"], name: "index_crm_deals_on_assignee_id"
+    t.index ["company_id"], name: "index_crm_deals_on_company_id"
+    t.index ["contact_id"], name: "index_crm_deals_on_contact_id"
+    t.index ["conversation_id"], name: "index_crm_deals_on_conversation_id"
+    t.index ["pipeline_id"], name: "index_crm_deals_on_pipeline_id"
+    t.index ["stage_id"], name: "index_crm_deals_on_stage_id"
+  end
+
+  create_table "crm_pipelines", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", limit: 100, null: false
+    t.boolean "is_default", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "description"
+    t.string "group_name", limit: 60
+    t.integer "pipeline_type", default: 0, null: false
+    t.string "item_label", limit: 20, default: "deal", null: false
+    t.string "item_label_custom", limit: 30
+    t.integer "stale_after_days", default: 7, null: false
+    t.boolean "one_card_per_contact", default: true, null: false
+    t.jsonb "card_fields", default: [], null: false
+    t.index ["account_id"], name: "index_crm_pipelines_on_account_id"
+    t.index ["account_id"], name: "index_crm_pipelines_on_account_id_default", unique: true, where: "is_default"
+  end
+
+  create_table "crm_products", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", limit: 120, null: false
+    t.text "description"
+    t.decimal "price", precision: 12, scale: 2, default: "0.0", null: false
+    t.string "sku", limit: 60
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_crm_products_on_account_id"
+  end
+
+  create_table "crm_stage_campaigns", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "stage_id", null: false
+    t.bigint "created_by_id", null: false
+    t.string "name", limit: 80, null: false
+    t.integer "status", default: 0, null: false
+    t.string "message_type", limit: 20, default: "text", null: false
+    t.text "content"
+    t.jsonb "template_params", default: {}, null: false
+    t.jsonb "filters", default: {}, null: false
+    t.integer "total_targets", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_crm_stage_campaigns_on_account_id"
+    t.index ["stage_id"], name: "index_crm_stage_campaigns_on_stage_id"
+  end
+
+  create_table "crm_stage_impulse_steps", force: :cascade do |t|
+    t.bigint "impulse_id", null: false
+    t.integer "position", null: false
+    t.integer "delay_minutes", default: 0, null: false
+    t.string "message_type", limit: 20, default: "text", null: false
+    t.text "content"
+    t.jsonb "template_params", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["impulse_id"], name: "index_crm_stage_impulse_steps_on_impulse_id"
+  end
+
+  create_table "crm_stage_impulses", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "stage_id", null: false
+    t.string "name", limit: 80, null: false
+    t.boolean "active", default: true, null: false
+    t.boolean "stop_on_reply", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_crm_stage_impulses_on_account_id"
+    t.index ["stage_id"], name: "index_crm_stage_impulses_on_stage_id"
+  end
+
+  create_table "crm_stages", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "pipeline_id", null: false
+    t.string "name", limit: 50, null: false
+    t.integer "stage_type", default: 1, null: false
+    t.string "color", limit: 7, null: false
+    t.integer "position", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "stale_after_days"
+    t.jsonb "requirements", default: {}, null: false
+    t.index "pipeline_id, lower((name)::text)", name: "index_crm_stages_on_pipeline_id_and_lower_name", unique: true
+    t.index ["account_id"], name: "index_crm_stages_on_account_id"
+    t.index ["pipeline_id", "position"], name: "index_crm_stages_on_pipeline_id_and_position"
   end
 
   create_table "csat_survey_responses", force: :cascade do |t|

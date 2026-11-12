@@ -1,0 +1,683 @@
+{
+  "CRM_PIPELINES": {
+    "HEADER": "Pipelines",
+    "SEARCH_PLACEHOLDER": "Search pipeline",
+    "NO_SEARCH_RESULTS": "No pipeline found",
+    "ADD_PIPELINE": "Add pipeline",
+    "CREATE_BUTTON": "Create pipeline",
+    "DEFAULT_BADGE": "Default",
+    "COLLAPSE_PANEL": "Collapse pipelines",
+    "EXPAND_PANEL": "Expand pipelines",
+    "ITEM_LABELS": {
+      "deal": "deal | deals",
+      "client": "client | clients",
+      "case": "case | cases",
+      "process": "process | processes"
+    },
+    "EMPTY": {
+      "TITLE": "No pipelines yet",
+      "ADMIN": "Create the first pipeline to organize your sales in stages.",
+      "AGENT": "An administrator needs to create the first pipeline."
+    },
+    "BOARD": {
+      "COUNT": "{count} {item}",
+      "EMPTY_STAGE": "No {item} in this stage",
+      "EMPTY_WON": "{item} won {period} show up here.",
+      "EMPTY_LOST": "{item} lost {period} show up here."
+    },
+    "LEAD_ENTRY_HINT": {
+      "ENABLE": "Turn on lead entry",
+      "DISMISS": "Dismiss",
+      "TOOLTIP": "Every new conversation becomes a deal in the default pipeline"
+    },
+    "MENU": {
+      "LABEL": "Pipeline options",
+      "SETTINGS": "Pipeline settings",
+      "EDIT": "Edit pipeline",
+      "CARD": "Customize card",
+      "LEAD_ENTRY": "Lead entry",
+      "AI": "Pipeline AI",
+      "SET_DEFAULT": "Set as default",
+      "DELETE": "Delete pipeline",
+      "DELETE_DEFAULT_BLOCKED": "Delete (set another default first)"
+    },
+    "SETTINGS_TABS": {
+      "PIPELINE": "Pipeline",
+      "LEAD_ENTRY": "Lead entry",
+      "CARD": "Card",
+      "TITLES": {
+        "PIPELINE": "Edit pipeline",
+        "LEAD_ENTRY": "Lead entry",
+        "CARD": "Customize card"
+      }
+    },
+    "LEAD_ENTRY": {
+      "TOGGLE": "Create a deal for each new conversation",
+      "DESCRIPTION": "When a conversation that matches the rules below is assigned to an agent, it becomes an open deal in the default pipeline, in the first stage, and the agent becomes the owner. This setting applies to the whole account. Turning it off keeps the deals already on the board.",
+      "NEEDS_DEFAULT": "Create a pipeline first: it becomes the default.",
+      "CHANNELS": "Channels",
+      "ALL_CHANNELS": "All channels",
+      "ORIGINS": "Origins",
+      "SOURCES": "Sources",
+      "OPTIONS": {
+        "CATALOG": "Catalog",
+        "FACEBOOK": "Facebook",
+        "AD_FORM": "Ad form",
+        "INSTAGRAM": "Instagram",
+        "SITE": "Website",
+        "MESSAGE": "Message received",
+        "AD": "Ad",
+        "FORM": "Form"
+      },
+      "LISTS_HINT": "Uncheck what should not become a lead. With everything checked in a list, channels and origins added later are included too. With more than one list unchecked, the conversation must match all of them.",
+      "ALERT_DAYS": {
+        "LABEL": "Warn when waiting more than (days)",
+        "HINT": "After this period, the lead gets an alert badge on the column and on the board header."
+      }
+    },
+    "CARD": {
+      "HINT": "Choose up to {max} fields to show under the standard card. The whole team sees the same fields on every card of this pipeline.",
+      "ITEMS": "{item} card items",
+      "ONLY_WHEN_FILLED": "only shows when filled",
+      "PREVIEW": {
+        "CONTACT": "Contact name",
+        "OWNER": "Owner",
+        "VALUE": "Value",
+        "IN_STAGE": "In stage for 3 d",
+        "NUMBER": "#12"
+      },
+      "FIELDS": {
+        "EXPECTED_CLOSE_DATE": "Expected close date",
+        "PRODUCTS": "Products",
+        "NEXT_TASK": "Next task",
+        "CONTACT_LABELS": "Contact labels",
+        "ORIGIN": "Origin",
+        "ATTACHMENTS": "Attachments",
+        "TEMPERATURE": "Temperature"
+      }
+    },
+    "AI": {
+      "TITLE": "Pipeline AI",
+      "DESCRIPTION": "Uses the ChatClean AI key. You choose what it does on the deal cards and how much it may spend per month.",
+      "FEATURES": {
+        "NEXT_STEP": {
+          "TITLE": "Suggest the next step",
+          "HINT": "Shows on the card what to do next with the customer."
+        },
+        "FILL_ON_MOVE": {
+          "TITLE": "Fill fields when moving",
+          "HINT": "When a deal changes stage, fills the required fields from the conversation."
+        },
+        "TEMPERATURE": {
+          "TITLE": "Explain the temperature badge",
+          "HINT": "Shows how hot the deal is and why."
+        }
+      },
+      "MONTHLY_CAP": {
+        "LABEL": "Monthly spending cap (R$)",
+        "HINT": "Set a value above zero to turn on any of the three."
+      },
+      "MONTH_COST": "Spent this month: {cost}",
+      "CAP_REACHED": "The cap was reached: the AI stops until next month."
+    },
+    "FORM": {
+      "CREATE_TITLE": "New pipeline",
+      "CREATE": "Create pipeline",
+      "SAVE": "Save",
+      "CANCEL": "Cancel",
+      "NAME": {
+        "LABEL": "Name",
+        "PLACEHOLDER": "E.g. Inbound sales",
+        "TOO_LONG": "Use at most {max} characters"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Description (optional)",
+        "PLACEHOLDER": "What this pipeline is for"
+      },
+      "GROUP": {
+        "LABEL": "Group (optional)",
+        "PLACEHOLDER": "E.g. Sales"
+      },
+      "TYPE": {
+        "LABEL": "Type",
+        "SALES": "Sales",
+        "MANAGEMENT": "Management",
+        "SALES_HINT": "With value, won and lost",
+        "MANAGEMENT_HINT": "To follow processes, without value",
+        "LOCKED": "The type was set on creation and does not change"
+      },
+      "ITEM_LABEL": {
+        "LABEL": "What to call each item",
+        "OPTIONS": {
+          "DEAL": "Default (deal)",
+          "CLIENT": "Client",
+          "CASE": "Case",
+          "PROCESS": "Process",
+          "CUSTOM": "Custom"
+        },
+        "CUSTOM_PLACEHOLDER": "E.g. Ticket",
+        "HINT": "Shows on the \"New…\" button, on counters, on the card and on menus. You can change it later: it is only the text."
+      },
+      "STALE_DAYS": {
+        "LABEL": "Deal stalled after (days)",
+        "HINT": "Every new stage starts with this limit. Won and lost do not count.",
+        "INVALID": "Use a whole number between 1 and {max}"
+      },
+      "ONE_CARD": {
+        "LABEL": "One card per contact",
+        "HINT": "If the contact already has an open card in this pipeline, that card opens instead of creating another. Only this pipeline counts."
+      },
+      "STAGES": {
+        "LABEL": "Stages",
+        "HINT": "Drag to change the order. New contact always comes first."
+      },
+      "CLOSING_STAGES": "Closing columns",
+      "CLOSING_STAGES_HINT": "The pipeline starts with the New contact stage. The won and lost columns are required and always close the board.",
+      "WON": {
+        "LABEL": "Won column name",
+        "DEFAULT_NAME": "Won"
+      },
+      "LOST": {
+        "LABEL": "Lost column name",
+        "DEFAULT_NAME": "Lost"
+      },
+      "STAGE_NAME_LENGTH": "Use between {min} and {max} characters"
+    },
+    "DELETE_CONFIRM": {
+      "TITLE": "Delete pipeline",
+      "MESSAGE": "Are you sure you want to delete the pipeline {name}? Its stages are deleted too.",
+      "YES": "Delete",
+      "NO": "Cancel"
+    },
+    "API": {
+      "FETCH_ERROR": "Could not load the pipelines. Try again.",
+      "CREATE_SUCCESS": "Pipeline created",
+      "UPDATE_SUCCESS": "Pipeline updated",
+      "DEFAULT_SUCCESS": "{name} is now the default pipeline",
+      "DELETE_SUCCESS": "Pipeline deleted",
+      "SETTINGS_SUCCESS": "Settings saved",
+      "SAVE_ERROR": "Could not save. Try again.",
+      "DELETE_ERROR": "Could not delete the pipeline. Try again."
+    },
+    "STAGE": {
+      "ADD_AFTER": "New stage after this one",
+      "MENU_LABEL": "Actions for stage {name}",
+      "CREATE_TITLE": "New stage",
+      "EDIT_TITLE": "Edit stage",
+      "CREATE": "Create stage",
+      "SAVE": "Save stage",
+      "DELETE": "Delete",
+      "NAME": {
+        "LABEL": "Stage name",
+        "PLACEHOLDER": "E.g. Proposal sent"
+      },
+      "COLOR": "Color",
+      "STALE_DAYS": {
+        "LABEL": "Stalled after (days)",
+        "HINT": "The card turns yellow close to this limit and red after it."
+      },
+      "MENU": {
+        "EDIT": "Edit stage",
+        "EDIT_CLOSING": "Edit",
+        "REQUIREMENTS": "What this stage requires",
+        "MOVE_RIGHT": "Move right",
+        "DELETE": "Delete stage",
+        "IMPULSES": "Impulses"
+      },
+      "REQUIREMENTS": {
+        "TITLE": "When entering this stage",
+        "OWNER": {
+          "LABEL": "Require owner",
+          "HINT": "The deal only enters this stage with an owner"
+        },
+        "CUSTOM_FIELDS": {
+          "LABEL": "Require filled fields",
+          "EMPTY": "No deal field yet. Create them in Settings → Custom attributes → Deal."
+        },
+        "DEAL": {
+          "LABEL": "Require from the deal",
+          "REQUIRE_EXPECTED_CLOSE_DATE": "Expected close date",
+          "REQUIRE_POSITIVE_VALUE": "Value above zero",
+          "REQUIRE_PRODUCT": "At least one product"
+        },
+        "TASKS": {
+          "LABEL": "Required tasks",
+          "HINT": "The deal gets these tasks when it enters the stage.",
+          "PLACEHOLDER": "E.g. Send proposal",
+          "ADD": "Add",
+          "REMOVE": "Remove task"
+        },
+        "LABELS": {
+          "LABEL": "Apply labels",
+          "EMPTY": "No labels in the account yet."
+        },
+        "DOCUMENT": {
+          "LABEL": "Require document",
+          "HINT": "The deal only enters this stage with an attached document"
+        }
+      },
+      "DELETE_CONFIRM": {
+        "TITLE": "Delete stage",
+        "MESSAGE": "Are you sure you want to delete the stage {name}?"
+      },
+      "API": {
+        "CREATE_SUCCESS": "Stage created",
+        "UPDATE_SUCCESS": "Stage updated",
+        "DELETE_SUCCESS": "Stage deleted"
+      }
+    },
+    "IMPULSES": {
+      "TITLE": "Impulses: {stage}",
+      "DESCRIPTION": "Automatic messages sent to the contact when a deal enters this stage.",
+      "LOADING": "Loading impulses...",
+      "EMPTY": "This stage has no impulses yet.",
+      "STEPS_COUNT": "{count} step | {count} steps",
+      "ACTIVE": "Active",
+      "EDIT": "Edit impulse",
+      "DELETE": "Delete impulse",
+      "CONFIRM_DELETE": "Delete?",
+      "ENTRY_HINT": "Impulses start when a deal enters the stage. Deals already in it are not affected. Leaving the stage cancels the pending steps.",
+      "NAME": {
+        "LABEL": "Impulse name",
+        "PLACEHOLDER": "E.g. Proposal follow-up"
+      },
+      "STOP_ON_REPLY": "Stop when the contact replies",
+      "STEP": "Step {number}",
+      "REMOVE_STEP": "Remove step",
+      "DELAY": {
+        "FIRST": "Wait after entering the stage",
+        "NEXT": "Wait after the previous step",
+        "NOW": "right away",
+        "AFTER_MINUTES": "after {count} minute | after {count} minutes",
+        "AFTER_HOURS": "after {count} hour | after {count} hours",
+        "AFTER_DAYS": "after {count} day | after {count} days",
+        "UNITS": {
+          "MINUTES": "minutes",
+          "HOURS": "hours",
+          "DAYS": "days"
+        }
+      },
+      "ERRORS": {
+        "NAME": "Use up to {max} characters.",
+        "DELAY": "Enter a whole wait of 0 or more.",
+        "DELAY_MAX": "The wait can be at most 90 days."
+      },
+      "ADD_STEP": "Add step",
+      "CLOSE": "Close",
+      "NEW": "New impulse",
+      "SAVE": "Save impulse",
+      "API": {
+        "SAVE_SUCCESS": "Impulse saved",
+        "DELETE_SUCCESS": "Impulse deleted"
+      },
+      "TABS": {
+        "IMPULSES": "Impulses",
+        "CAMPAIGNS": "One-off campaign"
+      }
+    },
+    "CAMPAIGNS": {
+      "DESCRIPTION": "Send one message now to the deals that are in this stage. Deals that enter later do not receive it.",
+      "LOADING": "Loading campaigns...",
+      "EMPTY": "No campaign has been sent from this stage yet.",
+      "NEW": "New campaign",
+      "SEND": "Send campaign now",
+      "CANCEL_PENDING": "Cancel pending",
+      "CONFIRM_CANCEL": "Cancel pending?",
+      "BY": "{user} · {date}",
+      "NAME": {
+        "LABEL": "Campaign name",
+        "PLACEHOLDER": "E.g.: Proposals follow-up - November"
+      },
+      "FILTERS": {
+        "TITLE": "Who receives it",
+        "ASSIGNEE": "Owner",
+        "ALL_ASSIGNEES": "All owners",
+        "STALE_DAYS": "In the stage for more than (days)",
+        "STALE_HINT": "Leave it empty to include every deal in the stage."
+      },
+      "PREVIEW": {
+        "LOADING": "Counting deals...",
+        "SUMMARY": "This campaign will be queued for {count} deal currently in this stage. | This campaign will be queued for {count} deals currently in this stage.",
+        "WITHOUT_CONTACT": "{count} deal without a contact will be skipped. | {count} deals without a contact will be skipped.",
+        "IN_RUNNING_CAMPAIGN": "{count} deal is already in a running campaign of this stage and will be skipped. | {count} deals are already in a running campaign of this stage and will be skipped.",
+        "NONE": "There are no eligible deals with a contact in this stage.",
+        "CLOSED_HINT": "Closed deals count only when closed in the last 30 days, as on the board.",
+        "INTERVAL": "Messages go out one every 3 seconds."
+      },
+      "STATUS": {
+        "RUNNING": "Running",
+        "COMPLETED": "Completed",
+        "CANCELED": "Canceled"
+      },
+      "COUNTS": {
+        "SCHEDULED": "{count} scheduled | {count} scheduled",
+        "SENT": "{count} sent | {count} sent",
+        "FAILED": "{count} failed | {count} failed",
+        "CANCELED": "{count} canceled | {count} canceled"
+      },
+      "ERRORS": {
+        "NAME": "Use up to {max} characters.",
+        "STALE_DAYS": "Enter whole days, from 1 to {max}."
+      },
+      "API": {
+        "SEND_SUCCESS": "Campaign queued",
+        "CANCEL_SUCCESS": "Pending messages canceled"
+      }
+    }
+  },
+  "CRM_REPORTS": {
+    "SALES": {
+      "TITLE": "Sales & Pipeline",
+      "DESCRIPTION": "Pipeline, revenue, losses and the team's pace",
+      "PERIOD_DAYS": "{count} days",
+      "PREVIOUS": "Previous period",
+      "LOADING": "Loading the report...",
+      "ERROR": "Could not load the report",
+      "NO_DATA": "No data",
+      "EMPTY_PERIOD": "No data in the period.",
+      "VS_PREVIOUS": "{value} vs. previous",
+      "KPIS": {
+        "OPEN": {
+          "LABEL": "Open (pipeline)",
+          "HINT": "{count} stale | {count} stale"
+        },
+        "WON": {
+          "LABEL": "Won in the period",
+          "EMPTY": "in the period"
+        },
+        "LOST": {
+          "LABEL": "Lost",
+          "HINT": "{count} deal | {count} deals"
+        },
+        "CONVERSION": {
+          "LABEL": "Conversion",
+          "HINT": "{won} of {closed} closed",
+          "EMPTY": "no deal won or lost in the period"
+        },
+        "TICKET": {
+          "LABEL": "Average ticket",
+          "HINT": "per deal won",
+          "EMPTY": "no deal won in the period"
+        },
+        "CLOSE_TIME": {
+          "LABEL": "Time to close",
+          "HINT": "average until won",
+          "EMPTY": "no deal won in the period"
+        },
+        "LOSS_TIME": {
+          "LABEL": "Time to lose",
+          "HINT": "average until lost"
+        }
+      },
+      "PIPELINE": {
+        "TITLE": "Pipeline",
+        "DESCRIPTION": "Deals per stage (count · value)",
+        "TOOLTIP": "{count} deals · {value} · {total}% of total · {top}% of the top",
+        "NO_PIPELINE": "Create a pipeline to see its stages."
+      },
+      "WINS": {
+        "TITLE": "Wins over time",
+        "DESCRIPTION": "Value won per period",
+        "TOTAL": "won in the period",
+        "CURRENT": "This period",
+        "PREVIOUS": "Previous period",
+        "SHOW_TABLE": "Show as table",
+        "SHOW_CHART": "Show as chart",
+        "DATE": "Date",
+        "VALUE": "Value",
+        "WEEK_OF": "Week of {date}"
+      },
+      "CONVERSION": {
+        "TITLE": "Conversion between stages",
+        "DESCRIPTION": "Deals created in the period: how many reached each stage and how many moved on to the next. A skipped stage does not count. A stage may have more deals than the previous one.",
+        "STAGE": "Stage",
+        "REACHED": "Reached",
+        "MOVED_ON": "Moved on to the next",
+        "MOVED_ON_VALUE": "{moved} of {reached} ({percent}%)",
+        "LAST": "last stage",
+        "NO_DATA": "no data",
+        "BIGGEST_DROP": "biggest drop"
+      },
+      "BY_ASSIGNEE": {
+        "TITLE": "By owner",
+        "DESCRIPTION": "Sales ranking in the period",
+        "ASSIGNEE": "Owner",
+        "DEALS": "Deals",
+        "WON": "Won",
+        "VALUE": "Value",
+        "EMPTY": "No deal in the period."
+      },
+      "COLLABORATORS": {
+        "TITLE": "Team members",
+        "DESCRIPTION": "Won against lost, and each one's activities",
+        "ASSIGNEE": "Owner",
+        "WON": "Won",
+        "WON_VALUE": "Value won",
+        "LOST": "Lost",
+        "LOST_VALUE": "Value lost",
+        "WIN_RATE": "Win rate",
+        "ACTIVITIES_DONE": "Activities done",
+        "OVERDUE": "Overdue"
+      },
+      "STAGNATION": {
+        "TITLE": "Stagnation per stage",
+        "DESCRIPTION": "How many open deals passed the stage's limit",
+        "STAGE": "Stage",
+        "OPEN": "Open",
+        "STALE": "Stale",
+        "AVERAGE": "Average in stage"
+      },
+      "DOWNLOAD_CSV": "Download CSV",
+      "BLOCKS": {
+        "BUTTON": "Blocks",
+        "ALL_VISIBLE": "All visible",
+        "HIDDEN_COUNT": "{count} hidden | {count} hidden",
+        "SHOW_ALL": "Show all",
+        "DRAG": "Drag to reorder",
+        "NAMES": {
+          "INDICATORS": "Indicators",
+          "PIPELINE": "Pipeline",
+          "WINS": "Wins over time",
+          "CONVERSION": "Conversion between stages",
+          "BY_ASSIGNEE": "By owner",
+          "BY_ORIGIN": "By origin",
+          "BY_CHANNEL": "By channel",
+          "BY_PRODUCT": "By product",
+          "ORIGIN_WINS": "Wins by origin",
+          "BY_COMPANY": "By company",
+          "WON_REASONS": "Wins by reason",
+          "WON_DEALS": "Won deals",
+          "LOST_REASONS": "Losses by reason",
+          "LOST_BY_ASSIGNEE": "Losses by owner",
+          "WHERE_LOST": "Where deals are lost",
+          "LOST_DEALS": "Lost deals",
+          "STAGNATION": "Stagnation per stage",
+          "COLLABORATORS": "Team members"
+        }
+      },
+      "SOURCES": {
+        "LEADS": "Leads",
+        "WON": "Won",
+        "LOST": "Lost",
+        "CONVERSION": "Conversion",
+        "VALUE": "Value",
+        "NO_CLOSED": "none closed"
+      },
+      "BY_ORIGIN": {
+        "DESCRIPTION": "Leads from each origin and how many of the closed ones became a sale",
+        "ORIGIN": "Origin",
+        "NONE": "No origin"
+      },
+      "BY_CHANNEL": {
+        "DESCRIPTION": "Leads from each entry channel and how many of the closed ones became a sale",
+        "CHANNEL": "Channel",
+        "NONE": "No channel"
+      },
+      "BY_PRODUCT": {
+        "DESCRIPTION": "Revenue and units sold (won deals)",
+        "PRODUCT": "Product",
+        "UNITS": "Units",
+        "REVENUE": "Revenue"
+      },
+      "ORIGIN_WINS": {
+        "DESCRIPTION": "Each origin's share of the value won"
+      },
+      "BY_COMPANY": {
+        "DESCRIPTION": "The accounts that brought the most in the period, and what is still at stake with each one",
+        "COMPANY": "Company",
+        "WON": "Won in the period",
+        "OPEN": "At stake",
+        "OPEN_VALUE": "{count} open · {value} | {count} open · {value}",
+        "EMPTY": "No company with deals in the period."
+      },
+      "REASONS": {
+        "REASON": "Reason",
+        "DEALS": "Deals",
+        "SHARE": "Share",
+        "VALUE": "Value"
+      },
+      "WON_REASONS": {
+        "DESCRIPTION": "What made each deal close",
+        "EMPTY": "No deal won with a reason in the period."
+      },
+      "LOST_REASONS": {
+        "DESCRIPTION": "How many deals each reason took",
+        "EMPTY": "No deal lost in the period."
+      },
+      "DEALS": {
+        "DEAL": "Deal",
+        "ASSIGNEE": "Owner",
+        "PRODUCTS": "Products",
+        "VALUE": "Value",
+        "CYCLE": "Took",
+        "CLOSED_AT": "Closed on",
+        "STAGE": "Stage",
+        "REASON": "Reason",
+        "NOTE": "Note",
+        "LIMIT": "Showing the {count} most recent."
+      },
+      "WON_DEALS": {
+        "DESCRIPTION": "Each sale of the period, with what was sold and how long it took",
+        "EMPTY": "No deal won in the period."
+      },
+      "LOST_DEALS": {
+        "DESCRIPTION": "Reason and note of each loss",
+        "EMPTY": "No deal lost in the period."
+      },
+      "LOST_BY_ASSIGNEE": {
+        "DESCRIPTION": "Who loses the most, in proportion to what they closed",
+        "ASSIGNEE": "Owner",
+        "LOST": "Lost",
+        "CLOSED": "Closed",
+        "RATE": "Loss rate",
+        "VALUE": "Value lost",
+        "EMPTY": "No deal lost in the period."
+      },
+      "WHERE_LOST": {
+        "DESCRIPTION": "In which stage of the pipeline the sale died, and how much that weighs",
+        "STAGE": "Stage",
+        "LOST": "Lost",
+        "SHARE": "Share of losses",
+        "VALUE": "Value lost",
+        "EMPTY": "No deal lost in the period."
+      },
+      "CSV": {
+        "FILE": "sales-pipeline-{days}-days.csv",
+        "INDICATOR": "Indicator",
+        "VALUE": "Value",
+        "DAYS": "{label} (days)"
+      }
+    },
+    "OVERVIEW": {
+      "TITLE": "Overview",
+      "DESCRIPTION": "Summary of service and sales",
+      "ERROR": "Could not load the report.",
+      "KPIS": {
+        "CONVERSATIONS": {
+          "LABEL": "Conversations",
+          "TREND": "{value} in the period"
+        },
+        "OPEN": {
+          "LABEL": "Open",
+          "HINT": "{count} waiting for a reply"
+        },
+        "WON": {
+          "LABEL": "Sales won",
+          "HINT": "{count} deal in the period | {count} deals in the period"
+        },
+        "CONVERSION": {
+          "LABEL": "Conversion",
+          "HINT": "lead → won",
+          "EMPTY": "no deal created in the period"
+        }
+      },
+      "HIGHLIGHTS": {
+        "TOP_CHANNEL": {
+          "LABEL": "Leading channel",
+          "HINT": "{value} of the conversations"
+        },
+        "BEST_DAY": {
+          "LABEL": "Best day",
+          "HINT": "peak of {count} conversation | peak of {count} conversations"
+        },
+        "EMPTY": "no conversation in the period"
+      },
+      "VOLUME": {
+        "TITLE": "Conversation volume",
+        "DESCRIPTION": "Conversations created per day",
+        "TOTAL": "total · {average}/day avg.",
+        "CURRENT": "This period",
+        "PREVIOUS": "Previous period",
+        "DATE": "Date",
+        "COUNT": "Conversations"
+      },
+      "BY_CHANNEL": {
+        "TITLE": "By channel",
+        "DESCRIPTION": "Conversations of the period per entry channel",
+        "CHANNEL": "Channel"
+      },
+      "PIPELINE": {
+        "TITLE": "Pipeline by stage"
+      },
+      "AGENTS": {
+        "TITLE": "Performance by agent",
+        "DESCRIPTION": "Ranking by volume and revenue",
+        "AGENT": "Agent",
+        "CONVERSATIONS": "Conversations",
+        "WON_VALUE": "Value won",
+        "EMPTY": "No agent with conversations or sales in the period."
+      },
+      "CHANNELS": {
+        "WHATSAPP": "WhatsApp",
+        "INSTAGRAM": "Instagram",
+        "MESSENGER": "Messenger",
+        "SITE": "Website",
+        "EMAIL": "Email",
+        "TELEGRAM": "Telegram",
+        "LINE": "Line",
+        "SMS": "SMS",
+        "API": "API",
+        "TIKTOK": "TikTok",
+        "TWITTER": "X (Twitter)"
+      },
+      "CONVERSATION_STATUS": {
+        "OPEN": "Open",
+        "PENDING": "Pending",
+        "SNOOZED": "Snoozed",
+        "RESOLVED": "Resolved"
+      },
+      "CONTACT_TYPE": {
+        "VISITOR": "Visitor",
+        "LEAD": "Lead",
+        "CUSTOMER": "Customer"
+      },
+      "UNREAD_HINT": "Only conversations with customer messages no one on the team has opened yet.",
+      "CSV": {
+        "FILE": "overview-{days}-days.csv",
+        "HIGHLIGHTS": "Highlights",
+        "WAITING": "Waiting for a reply",
+        "WON_COUNT": "Deals won"
+      }
+    }
+  }
+}

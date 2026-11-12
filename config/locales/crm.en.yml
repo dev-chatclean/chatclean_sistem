@@ -1,0 +1,94 @@
+en:
+  crm:
+    stages:
+      errors:
+        transfer_required: This stage has %{count} deal(s). Choose another stage to receive them.
+        duplicate_name: There is already a stage called %{name} in this pipeline.
+        system_stage_delete: System stages (New contact, Won and Lost) are required and cannot be deleted.
+        invalid_transfer_stage: Choose another open stage of this pipeline to receive the deals.
+        invalid_order: The new order must include every open stage and keep New contact first.
+      defaults:
+        initial: New contact
+        won: Won
+        lost: Lost
+    pipelines:
+      errors:
+        has_deals: This pipeline has deals. Move or delete them before deleting the pipeline.
+        invalid_card_fields: Choose at most %{max} valid card items.
+        default_cannot_be_unset: The default pipeline cannot be turned off. Set another pipeline as the default instead.
+        default_cannot_be_deleted: The default pipeline cannot be deleted. Set another pipeline as the default before deleting it.
+    deals:
+      requirements:
+        expected_close_date: expected close date
+        positive_value: value above zero
+        product: at least one product
+        document: an attached document
+        custom_field: the field %{name}
+      errors:
+        title_required: Add a title when the deal has no contact or company.
+        loss_reason_required: Choose the reason the deal was lost.
+        invalid_win_reason: Choose a valid win reason.
+        invalid_stage: Choose a stage of this account.
+        invalid_contact: The contact does not belong to this account.
+        invalid_company: The company does not belong to this account.
+        invalid_assignee: The owner must be a member of this account.
+        stage_requirements: 'The stage %{stage} requires: %{fields}.'
+        invalid_custom_fields: 'Check the value of: %{fields}.'
+    impulses:
+      errors:
+        steps_count: An impulse needs from 1 to %{max} steps.
+    ai:
+      errors:
+        disabled: Turn on the next step or the temperature in the pipeline AI settings.
+        cap_reached: The pipeline AI reached this month's spending cap.
+        no_conversation: The AI needs a conversation with messages to analyze this deal.
+        provider_error: The AI could not analyze this deal now. Try again in a few minutes.
+        cooldown: Wait a few seconds before asking for a new analysis.
+    reports:
+      errors:
+        invalid_period: Choose a period of 7, 30 or 90 days.
+        invalid_time_zone: Send a valid time zone.
+        invalid_number: Check the filters with numbers.
+        invalid_date: Check the dates of the filters.
+        invalid_text: Send each filter only once.
+        invalid_option: Check the filters with a fixed list of options.
+    client_message:
+      errors:
+        template_required: Choose an approved WhatsApp template.
+    campaigns:
+      errors:
+        no_eligible_deals: There are no eligible deals with a contact in this stage to send the campaign.
+        not_running: This campaign is no longer running.
+    activities:
+      errors:
+        client_reminder_no_contact: Link a contact to the deal to remind the client.
+        client_reminder_content: Write the reminder message or choose a template.
+        client_reminder_time_zone: Send a valid time zone for the client reminder.
+        required_task_delete: This task is required by the stage and cannot be deleted. Mark it as done instead.
+    contacts:
+      errors:
+        already_archived: This contact is already archived.
+        has_deals:
+          one: This contact has 1 deal and cannot be deleted. Archive it instead.
+          other: This contact has %{count} deals and cannot be deleted. Archive it instead.
+        bulk_has_deals:
+          one: 1 of the selected contacts has deals and cannot be deleted. Remove it from the selection.
+          other: '%{count} of the selected contacts have deals and cannot be deleted. Remove them from the selection.'
+    agents:
+      errors:
+        has_deals:
+          one: '%{name} owns 1 deal. Move it to another owner in the sales pipeline before removing this agent.'
+          other: '%{name} owns %{count} deals. Move them to another owner in the sales pipeline before removing this agent.'
+    products:
+      errors:
+        in_use: This product is in deals and cannot be deleted. Turn it off instead.
+        invalid_product: Choose a product of this account.
+    deal_files:
+      errors:
+        missing: Choose a file to upload.
+        invalid_type: 'This file type is not allowed. Send PDF, Word, Excel, PowerPoint, text, CSV, zip or image.'
+        too_large: The file is larger than %{limit} MB.
+    settings:
+      errors:
+        ai_requires_monthly_cap: Set a monthly spending cap above zero to turn on the pipeline AI.
+        auto_create_requires_default_pipeline: Automatic deal creation needs a default pipeline. Create a pipeline first.

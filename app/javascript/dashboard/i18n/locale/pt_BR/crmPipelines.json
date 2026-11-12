@@ -1,0 +1,683 @@
+{
+  "CRM_PIPELINES": {
+    "HEADER": "Pipelines",
+    "SEARCH_PLACEHOLDER": "Buscar pipeline",
+    "NO_SEARCH_RESULTS": "Nenhum pipeline encontrado",
+    "ADD_PIPELINE": "Adicionar pipeline",
+    "CREATE_BUTTON": "Criar pipeline",
+    "DEFAULT_BADGE": "Padrão",
+    "COLLAPSE_PANEL": "Recolher pipelines",
+    "EXPAND_PANEL": "Mostrar pipelines",
+    "ITEM_LABELS": {
+      "deal": "negócio | negócios",
+      "client": "cliente | clientes",
+      "case": "caso | casos",
+      "process": "processo | processos"
+    },
+    "EMPTY": {
+      "TITLE": "Nenhum pipeline ainda",
+      "ADMIN": "Crie o primeiro pipeline para organizar suas vendas em etapas.",
+      "AGENT": "Um administrador precisa criar o primeiro pipeline."
+    },
+    "BOARD": {
+      "COUNT": "{count} {item}",
+      "EMPTY_STAGE": "Nenhum {item} nesta etapa",
+      "EMPTY_WON": "Os {item} ganhos {period} aparecem aqui.",
+      "EMPTY_LOST": "Os {item} perdidos {period} aparecem aqui."
+    },
+    "LEAD_ENTRY_HINT": {
+      "ENABLE": "Ligar entrada de leads",
+      "DISMISS": "Dispensar",
+      "TOOLTIP": "Cada conversa nova vira um negócio no pipeline padrão"
+    },
+    "MENU": {
+      "LABEL": "Opções do pipeline",
+      "SETTINGS": "Configurar pipeline",
+      "EDIT": "Editar pipeline",
+      "CARD": "Personalizar cartão",
+      "LEAD_ENTRY": "Entrada de leads",
+      "AI": "IA do pipeline",
+      "SET_DEFAULT": "Definir como padrão",
+      "DELETE": "Excluir pipeline",
+      "DELETE_DEFAULT_BLOCKED": "Excluir (defina outro padrão antes)"
+    },
+    "SETTINGS_TABS": {
+      "PIPELINE": "Pipeline",
+      "LEAD_ENTRY": "Entrada de leads",
+      "CARD": "Cartão",
+      "TITLES": {
+        "PIPELINE": "Editar pipeline",
+        "LEAD_ENTRY": "Entrada de leads",
+        "CARD": "Personalizar cartão"
+      }
+    },
+    "LEAD_ENTRY": {
+      "TOGGLE": "Criar um negócio para cada conversa nova",
+      "DESCRIPTION": "Quando uma conversa que casar com as regras abaixo for atribuída a um atendente, ela vira uma oportunidade aberta no pipeline padrão, na primeira etapa, e o atendente vira o responsável. A configuração vale para a conta inteira. Ao desligar, as oportunidades que já estão no quadro continuam lá.",
+      "NEEDS_DEFAULT": "Crie um pipeline primeiro: ele vira o padrão.",
+      "CHANNELS": "Canais",
+      "ALL_CHANNELS": "Todos os canais",
+      "ORIGINS": "Origens",
+      "SOURCES": "Fontes",
+      "OPTIONS": {
+        "CATALOG": "Catálogo",
+        "FACEBOOK": "Facebook",
+        "AD_FORM": "Formulário do anúncio",
+        "INSTAGRAM": "Instagram",
+        "SITE": "Site",
+        "MESSAGE": "Mensagem recebida",
+        "AD": "Anúncio",
+        "FORM": "Formulário"
+      },
+      "LISTS_HINT": "Desmarque o que não deve virar lead. Com tudo marcado numa lista, o canal conectado e a origem cadastrada depois também entram. Com mais de uma lista desmarcada, a conversa precisa casar com todas.",
+      "ALERT_DAYS": {
+        "LABEL": "Avisar quando esperar mais de (dias)",
+        "HINT": "Passado esse prazo, o lead ganha um selo de alerta na coluna e no cabeçalho do quadro."
+      }
+    },
+    "CARD": {
+      "HINT": "Escolha até {max} campos para aparecer embaixo do cartão padrão. Todo o time vê os mesmos campos em todos os cartões deste pipeline.",
+      "ITEMS": "Itens do cartão de {item}",
+      "ONLY_WHEN_FILLED": "só aparece quando preenchido",
+      "PREVIEW": {
+        "CONTACT": "Nome do contato",
+        "OWNER": "Responsável",
+        "VALUE": "Valor",
+        "IN_STAGE": "Na etapa há 3 d",
+        "NUMBER": "#12"
+      },
+      "FIELDS": {
+        "EXPECTED_CLOSE_DATE": "Data prevista de fechamento",
+        "PRODUCTS": "Produtos",
+        "NEXT_TASK": "Próxima tarefa",
+        "CONTACT_LABELS": "Etiquetas do contato",
+        "ORIGIN": "Origem",
+        "ATTACHMENTS": "Anexos",
+        "TEMPERATURE": "Temperatura"
+      }
+    },
+    "AI": {
+      "TITLE": "IA do pipeline",
+      "DESCRIPTION": "Usa a chave de IA da ChatClean. Você escolhe o que ela faz nos cartões e quanto pode gastar por mês.",
+      "FEATURES": {
+        "NEXT_STEP": {
+          "TITLE": "Sugerir o próximo passo",
+          "HINT": "Mostra no cartão o que fazer em seguida com o cliente."
+        },
+        "FILL_ON_MOVE": {
+          "TITLE": "Preencher campos ao mover",
+          "HINT": "Quando a oportunidade muda de etapa, preenche os campos exigidos a partir da conversa."
+        },
+        "TEMPERATURE": {
+          "TITLE": "Explicar o selo de temperatura",
+          "HINT": "Mostra o quanto a oportunidade está quente e por quê."
+        }
+      },
+      "MONTHLY_CAP": {
+        "LABEL": "Teto de gasto por mês (R$)",
+        "HINT": "Defina um valor maior que zero para ligar qualquer uma das três."
+      },
+      "MONTH_COST": "Gasto neste mês: {cost}",
+      "CAP_REACHED": "O teto foi atingido: a IA para até o mês que vem."
+    },
+    "FORM": {
+      "CREATE_TITLE": "Novo pipeline",
+      "CREATE": "Criar pipeline",
+      "SAVE": "Salvar",
+      "CANCEL": "Cancelar",
+      "NAME": {
+        "LABEL": "Nome",
+        "PLACEHOLDER": "Ex.: Vendas inbound",
+        "TOO_LONG": "Use no máximo {max} caracteres"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descrição (opcional)",
+        "PLACEHOLDER": "Para que serve este pipeline"
+      },
+      "GROUP": {
+        "LABEL": "Grupo (opcional)",
+        "PLACEHOLDER": "Ex.: Comercial"
+      },
+      "TYPE": {
+        "LABEL": "Tipo",
+        "SALES": "Vendas",
+        "MANAGEMENT": "Gestão",
+        "SALES_HINT": "Com valor, ganho e perda",
+        "MANAGEMENT_HINT": "Para acompanhar processos, sem valor",
+        "LOCKED": "O tipo foi definido na criação e não muda"
+      },
+      "ITEM_LABEL": {
+        "LABEL": "Como chamar cada item",
+        "OPTIONS": {
+          "DEAL": "Padrão (negócio)",
+          "CLIENT": "Cliente",
+          "CASE": "Caso",
+          "PROCESS": "Processo",
+          "CUSTOM": "Personalizado"
+        },
+        "CUSTOM_PLACEHOLDER": "Ex.: Chamado",
+        "HINT": "Aparece no botão \"Novo …\", nos contadores, no cartão e nos menus. Dá para mudar depois: é só o texto."
+      },
+      "STALE_DAYS": {
+        "LABEL": "Negócio parado após (dias)",
+        "HINT": "Toda etapa nova nasce com esse limite. Ganhos e perdidos não contam.",
+        "INVALID": "Use um número inteiro entre 1 e {max}"
+      },
+      "ONE_CARD": {
+        "LABEL": "Um card por contato",
+        "HINT": "Se o contato já tem um card em andamento neste pipeline, abrimos esse card em vez de criar outro. Vale só para este pipeline."
+      },
+      "STAGES": {
+        "LABEL": "Etapas",
+        "HINT": "Arraste para mudar a ordem. Novo contato fica sempre em primeiro."
+      },
+      "CLOSING_STAGES": "Colunas de fechamento",
+      "CLOSING_STAGES_HINT": "O pipeline começa na etapa Novo contato. As colunas de ganho e de perda são obrigatórias e sempre fecham o quadro.",
+      "WON": {
+        "LABEL": "Nome da coluna de ganho",
+        "DEFAULT_NAME": "Ganho"
+      },
+      "LOST": {
+        "LABEL": "Nome da coluna de perda",
+        "DEFAULT_NAME": "Perda"
+      },
+      "STAGE_NAME_LENGTH": "Use entre {min} e {max} caracteres"
+    },
+    "DELETE_CONFIRM": {
+      "TITLE": "Excluir pipeline",
+      "MESSAGE": "Tem certeza de que deseja excluir o pipeline {name}? As etapas dele também serão excluídas.",
+      "YES": "Excluir",
+      "NO": "Cancelar"
+    },
+    "API": {
+      "FETCH_ERROR": "Não foi possível carregar os pipelines. Tente de novo.",
+      "CREATE_SUCCESS": "Pipeline criado",
+      "UPDATE_SUCCESS": "Pipeline atualizado",
+      "DEFAULT_SUCCESS": "{name} agora é o pipeline padrão",
+      "DELETE_SUCCESS": "Pipeline excluído",
+      "SETTINGS_SUCCESS": "Configuração salva",
+      "SAVE_ERROR": "Não foi possível salvar. Tente de novo.",
+      "DELETE_ERROR": "Não foi possível excluir o pipeline. Tente de novo."
+    },
+    "STAGE": {
+      "ADD_AFTER": "Nova etapa depois desta",
+      "MENU_LABEL": "Ações da etapa {name}",
+      "CREATE_TITLE": "Nova etapa",
+      "EDIT_TITLE": "Editar etapa",
+      "CREATE": "Criar etapa",
+      "SAVE": "Salvar etapa",
+      "DELETE": "Excluir",
+      "NAME": {
+        "LABEL": "Nome da etapa",
+        "PLACEHOLDER": "Ex.: Proposta enviada"
+      },
+      "COLOR": "Cor",
+      "STALE_DAYS": {
+        "LABEL": "Parado depois de (dias)",
+        "HINT": "O cartão fica amarelo perto desse limite e vermelho quando passa dele."
+      },
+      "MENU": {
+        "EDIT": "Editar etapa",
+        "EDIT_CLOSING": "Editar",
+        "REQUIREMENTS": "O que esta etapa exige",
+        "MOVE_RIGHT": "Mover para a direita",
+        "DELETE": "Excluir etapa",
+        "IMPULSES": "Impulsos"
+      },
+      "REQUIREMENTS": {
+        "TITLE": "Ao entrar nesta etapa",
+        "OWNER": {
+          "LABEL": "Exigir responsável",
+          "HINT": "A oportunidade só entra nesta etapa com alguém responsável"
+        },
+        "CUSTOM_FIELDS": {
+          "LABEL": "Exigir campos preenchidos",
+          "EMPTY": "Nenhum campo de negócio ainda. Crie em Configurações → Atributos personalizados → Negócio."
+        },
+        "DEAL": {
+          "LABEL": "Exigir da oportunidade",
+          "REQUIRE_EXPECTED_CLOSE_DATE": "Data prevista de fechamento",
+          "REQUIRE_POSITIVE_VALUE": "Valor maior que zero",
+          "REQUIRE_PRODUCT": "Pelo menos um produto"
+        },
+        "TASKS": {
+          "LABEL": "Tarefas obrigatórias",
+          "HINT": "A oportunidade ganha estas tarefas ao entrar na etapa.",
+          "PLACEHOLDER": "Ex.: Enviar proposta",
+          "ADD": "Adicionar",
+          "REMOVE": "Remover tarefa"
+        },
+        "LABELS": {
+          "LABEL": "Aplicar etiquetas",
+          "EMPTY": "Nenhuma etiqueta na conta ainda."
+        },
+        "DOCUMENT": {
+          "LABEL": "Exigir documento",
+          "HINT": "A oportunidade só entra nesta etapa com documento anexado"
+        }
+      },
+      "DELETE_CONFIRM": {
+        "TITLE": "Excluir etapa",
+        "MESSAGE": "Tem certeza de que deseja excluir a etapa {name}?"
+      },
+      "API": {
+        "CREATE_SUCCESS": "Etapa criada",
+        "UPDATE_SUCCESS": "Etapa atualizada",
+        "DELETE_SUCCESS": "Etapa excluída"
+      }
+    },
+    "IMPULSES": {
+      "TITLE": "Impulsos: {stage}",
+      "DESCRIPTION": "Mensagens automáticas enviadas ao contato quando o negócio entra nesta etapa.",
+      "LOADING": "Carregando impulsos...",
+      "EMPTY": "Esta etapa ainda não tem impulsos.",
+      "STEPS_COUNT": "{count} passo | {count} passos",
+      "ACTIVE": "Ativo",
+      "EDIT": "Editar impulso",
+      "DELETE": "Excluir impulso",
+      "CONFIRM_DELETE": "Excluir?",
+      "ENTRY_HINT": "O impulso começa quando o negócio entra na etapa. Os negócios que já estão nela não entram. Sair da etapa cancela os passos pendentes.",
+      "NAME": {
+        "LABEL": "Nome do impulso",
+        "PLACEHOLDER": "Ex.: Retorno da proposta"
+      },
+      "STOP_ON_REPLY": "Parar quando o contato responder",
+      "STEP": "Passo {number}",
+      "REMOVE_STEP": "Remover passo",
+      "DELAY": {
+        "FIRST": "Esperar depois de entrar na etapa",
+        "NEXT": "Esperar depois do passo anterior",
+        "NOW": "na hora",
+        "AFTER_MINUTES": "depois de {count} minuto | depois de {count} minutos",
+        "AFTER_HOURS": "depois de {count} hora | depois de {count} horas",
+        "AFTER_DAYS": "depois de {count} dia | depois de {count} dias",
+        "UNITS": {
+          "MINUTES": "minutos",
+          "HOURS": "horas",
+          "DAYS": "dias"
+        }
+      },
+      "ERRORS": {
+        "NAME": "Use até {max} caracteres.",
+        "DELAY": "Informe uma espera inteira, de 0 ou mais.",
+        "DELAY_MAX": "A espera pode ser de no máximo 90 dias."
+      },
+      "ADD_STEP": "Adicionar passo",
+      "CLOSE": "Fechar",
+      "NEW": "Novo impulso",
+      "SAVE": "Salvar impulso",
+      "API": {
+        "SAVE_SUCCESS": "Impulso salvo",
+        "DELETE_SUCCESS": "Impulso excluído"
+      },
+      "TABS": {
+        "IMPULSES": "Impulsos",
+        "CAMPAIGNS": "Campanha pontual"
+      }
+    },
+    "CAMPAIGNS": {
+      "DESCRIPTION": "Envie uma mensagem agora para os negócios que estão nesta etapa. Quem entrar depois não recebe.",
+      "LOADING": "Carregando campanhas...",
+      "EMPTY": "Nenhuma campanha foi disparada nesta etapa ainda.",
+      "NEW": "Nova campanha",
+      "SEND": "Disparar campanha agora",
+      "CANCEL_PENDING": "Cancelar pendentes",
+      "CONFIRM_CANCEL": "Cancelar pendentes?",
+      "BY": "{user} · {date}",
+      "NAME": {
+        "LABEL": "Nome da campanha",
+        "PLACEHOLDER": "Ex.: Repescagem Propostas - Novembro"
+      },
+      "FILTERS": {
+        "TITLE": "Quem recebe",
+        "ASSIGNEE": "Responsável",
+        "ALL_ASSIGNEES": "Todos os responsáveis",
+        "STALE_DAYS": "Parados na etapa há mais de (dias)",
+        "STALE_HINT": "Deixe vazio para incluir todos os negócios da etapa."
+      },
+      "PREVIEW": {
+        "LOADING": "Contando negócios...",
+        "SUMMARY": "Esta campanha será enfileirada para {count} negócio atualmente nesta etapa. | Esta campanha será enfileirada para {count} negócios atualmente nesta etapa.",
+        "WITHOUT_CONTACT": "{count} negócio sem contato será ignorado. | {count} negócios sem contato serão ignorados.",
+        "IN_RUNNING_CAMPAIGN": "{count} negócio já está numa campanha em andamento desta etapa e ficará de fora. | {count} negócios já estão numa campanha em andamento desta etapa e ficarão de fora.",
+        "NONE": "Não há negócios elegíveis com contato nesta etapa.",
+        "CLOSED_HINT": "Os negócios fechados só entram se fecharam nos últimos 30 dias, como no quadro.",
+        "INTERVAL": "As mensagens saem uma a cada 3 segundos."
+      },
+      "STATUS": {
+        "RUNNING": "Em andamento",
+        "COMPLETED": "Concluída",
+        "CANCELED": "Cancelada"
+      },
+      "COUNTS": {
+        "SCHEDULED": "{count} agendado | {count} agendados",
+        "SENT": "{count} enviado | {count} enviados",
+        "FAILED": "{count} falhou | {count} falharam",
+        "CANCELED": "{count} cancelado | {count} cancelados"
+      },
+      "ERRORS": {
+        "NAME": "Use até {max} caracteres.",
+        "STALE_DAYS": "Informe dias inteiros, de 1 a {max}."
+      },
+      "API": {
+        "SEND_SUCCESS": "Campanha enfileirada",
+        "CANCEL_SUCCESS": "Envios pendentes cancelados"
+      }
+    }
+  },
+  "CRM_REPORTS": {
+    "SALES": {
+      "TITLE": "Vendas & Pipeline",
+      "DESCRIPTION": "Pipeline, receita, perdas e ritmo da equipe",
+      "PERIOD_DAYS": "{count} dias",
+      "PREVIOUS": "Período anterior",
+      "LOADING": "Carregando o relatório...",
+      "ERROR": "Não foi possível carregar o relatório",
+      "NO_DATA": "Sem dados",
+      "EMPTY_PERIOD": "Sem dados no período.",
+      "VS_PREVIOUS": "{value} vs. anterior",
+      "KPIS": {
+        "OPEN": {
+          "LABEL": "Em aberto (pipeline)",
+          "HINT": "{count} parado | {count} parados"
+        },
+        "WON": {
+          "LABEL": "Ganho no período",
+          "EMPTY": "no período"
+        },
+        "LOST": {
+          "LABEL": "Perdido",
+          "HINT": "{count} negócio | {count} negócios"
+        },
+        "CONVERSION": {
+          "LABEL": "Conversão",
+          "HINT": "{won} de {closed} encerrados",
+          "EMPTY": "nenhum negócio ganho ou perdido no período"
+        },
+        "TICKET": {
+          "LABEL": "Ticket médio",
+          "HINT": "por negócio ganho",
+          "EMPTY": "nenhum negócio ganho no período"
+        },
+        "CLOSE_TIME": {
+          "LABEL": "Tempo de fechamento",
+          "HINT": "média até o ganho",
+          "EMPTY": "nenhum negócio ganho no período"
+        },
+        "LOSS_TIME": {
+          "LABEL": "Tempo até perder",
+          "HINT": "média até a perda"
+        }
+      },
+      "PIPELINE": {
+        "TITLE": "Pipeline",
+        "DESCRIPTION": "Negócios por etapa (contagem · valor)",
+        "TOOLTIP": "{count} negócios · {value} · {total}% do total · {top}% do topo",
+        "NO_PIPELINE": "Crie um pipeline para ver as etapas."
+      },
+      "WINS": {
+        "TITLE": "Ganhos ao longo do tempo",
+        "DESCRIPTION": "Valor ganho por período",
+        "TOTAL": "ganho no período",
+        "CURRENT": "Período atual",
+        "PREVIOUS": "Período anterior",
+        "SHOW_TABLE": "Ver como tabela",
+        "SHOW_CHART": "Ver como gráfico",
+        "DATE": "Data",
+        "VALUE": "Valor",
+        "WEEK_OF": "Semana de {date}"
+      },
+      "CONVERSION": {
+        "TITLE": "Conversão entre etapas",
+        "DESCRIPTION": "Negócios criados no período: quantos chegaram a cada etapa e quantos seguiram para a próxima. Etapa pulada não conta. Uma etapa pode ter mais negócios que a anterior.",
+        "STAGE": "Etapa",
+        "REACHED": "Chegaram",
+        "MOVED_ON": "Seguiram para a próxima",
+        "MOVED_ON_VALUE": "{moved} de {reached} ({percent}%)",
+        "LAST": "última etapa",
+        "NO_DATA": "sem dados",
+        "BIGGEST_DROP": "maior queda"
+      },
+      "BY_ASSIGNEE": {
+        "TITLE": "Por responsável",
+        "DESCRIPTION": "Ranking de vendas no período",
+        "ASSIGNEE": "Responsável",
+        "DEALS": "Negócios",
+        "WON": "Ganhos",
+        "VALUE": "Valor",
+        "EMPTY": "Nenhum negócio no período."
+      },
+      "COLLABORATORS": {
+        "TITLE": "Colaboradores",
+        "DESCRIPTION": "Ganho contra perdido, e as atividades de cada um",
+        "ASSIGNEE": "Responsável",
+        "WON": "Ganhos",
+        "WON_VALUE": "Valor ganho",
+        "LOST": "Perdidos",
+        "LOST_VALUE": "Valor perdido",
+        "WIN_RATE": "Taxa de ganho",
+        "ACTIVITIES_DONE": "Atividades feitas",
+        "OVERDUE": "Atrasadas"
+      },
+      "STAGNATION": {
+        "TITLE": "Estagnação por etapa",
+        "DESCRIPTION": "Quantos negócios abertos passaram do prazo da etapa",
+        "STAGE": "Etapa",
+        "OPEN": "Abertos",
+        "STALE": "Parados",
+        "AVERAGE": "Média na etapa"
+      },
+      "DOWNLOAD_CSV": "Baixar CSV",
+      "BLOCKS": {
+        "BUTTON": "Blocos",
+        "ALL_VISIBLE": "Todos visíveis",
+        "HIDDEN_COUNT": "{count} oculto | {count} ocultos",
+        "SHOW_ALL": "Mostrar todos",
+        "DRAG": "Arraste para reordenar",
+        "NAMES": {
+          "INDICATORS": "Indicadores",
+          "PIPELINE": "Pipeline",
+          "WINS": "Ganhos ao longo do tempo",
+          "CONVERSION": "Conversão entre etapas",
+          "BY_ASSIGNEE": "Por responsável",
+          "BY_ORIGIN": "Por origem",
+          "BY_CHANNEL": "Por canal",
+          "BY_PRODUCT": "Por produto",
+          "ORIGIN_WINS": "Distribuição de ganhos por origem",
+          "BY_COMPANY": "Por empresa",
+          "WON_REASONS": "Ganhos por motivo",
+          "WON_DEALS": "Negócios ganhos",
+          "LOST_REASONS": "Perdas por motivo",
+          "LOST_BY_ASSIGNEE": "Perdas por responsável",
+          "WHERE_LOST": "Onde o negócio se perde",
+          "LOST_DEALS": "Negócios perdidos",
+          "STAGNATION": "Estagnação por etapa",
+          "COLLABORATORS": "Colaboradores"
+        }
+      },
+      "SOURCES": {
+        "LEADS": "Leads",
+        "WON": "Ganhos",
+        "LOST": "Perdidos",
+        "CONVERSION": "Conversão",
+        "VALUE": "Valor",
+        "NO_CLOSED": "sem encerrados"
+      },
+      "BY_ORIGIN": {
+        "DESCRIPTION": "Leads de cada origem e quantos dos encerrados viraram venda",
+        "ORIGIN": "Origem",
+        "NONE": "Sem origem"
+      },
+      "BY_CHANNEL": {
+        "DESCRIPTION": "Leads de cada canal de entrada e quantos dos encerrados viraram venda",
+        "CHANNEL": "Canal",
+        "NONE": "Sem canal"
+      },
+      "BY_PRODUCT": {
+        "DESCRIPTION": "Receita e unidades vendidas (negócios ganhos)",
+        "PRODUCT": "Produto",
+        "UNITS": "Unidades",
+        "REVENUE": "Receita"
+      },
+      "ORIGIN_WINS": {
+        "DESCRIPTION": "Participação de cada origem no valor ganho"
+      },
+      "BY_COMPANY": {
+        "DESCRIPTION": "As contas que mais renderam no período, e o que ainda está em jogo com cada uma",
+        "COMPANY": "Empresa",
+        "WON": "Ganho no período",
+        "OPEN": "Em jogo",
+        "OPEN_VALUE": "{count} aberto · {value} | {count} abertos · {value}",
+        "EMPTY": "Nenhuma empresa com negócio no período."
+      },
+      "REASONS": {
+        "REASON": "Motivo",
+        "DEALS": "Negócios",
+        "SHARE": "Participação",
+        "VALUE": "Valor"
+      },
+      "WON_REASONS": {
+        "DESCRIPTION": "O que fez cada negócio fechar",
+        "EMPTY": "Nenhum negócio ganho com motivo informado no período."
+      },
+      "LOST_REASONS": {
+        "DESCRIPTION": "Quantos negócios cada motivo levou",
+        "EMPTY": "Nenhum negócio perdido no período."
+      },
+      "DEALS": {
+        "DEAL": "Negócio",
+        "ASSIGNEE": "Responsável",
+        "PRODUCTS": "Produtos",
+        "VALUE": "Valor",
+        "CYCLE": "Levou",
+        "CLOSED_AT": "Fechado em",
+        "STAGE": "Etapa",
+        "REASON": "Motivo",
+        "NOTE": "Justificativa",
+        "LIMIT": "Mostrando os {count} mais recentes."
+      },
+      "WON_DEALS": {
+        "DESCRIPTION": "Cada venda do período, com o que foi vendido e quanto levou",
+        "EMPTY": "Nenhum negócio ganho no período."
+      },
+      "LOST_DEALS": {
+        "DESCRIPTION": "Motivo e justificativa de cada perda",
+        "EMPTY": "Nenhum negócio perdido no período."
+      },
+      "LOST_BY_ASSIGNEE": {
+        "DESCRIPTION": "Quem mais perde, em proporção do que fechou",
+        "ASSIGNEE": "Responsável",
+        "LOST": "Perdidos",
+        "CLOSED": "Encerrados",
+        "RATE": "Taxa de perda",
+        "VALUE": "Valor perdido",
+        "EMPTY": "Nenhum negócio perdido no período."
+      },
+      "WHERE_LOST": {
+        "DESCRIPTION": "Em que etapa do pipeline a venda morreu, e quanto isso pesa na etapa",
+        "STAGE": "Etapa",
+        "LOST": "Perdidos",
+        "SHARE": "% das perdas",
+        "VALUE": "Valor perdido",
+        "EMPTY": "Nenhum negócio perdido no período."
+      },
+      "CSV": {
+        "FILE": "vendas-pipeline-{days}-dias.csv",
+        "INDICATOR": "Indicador",
+        "VALUE": "Valor",
+        "DAYS": "{label} (dias)"
+      }
+    },
+    "OVERVIEW": {
+      "TITLE": "Visão geral",
+      "DESCRIPTION": "Resumo de atendimento e vendas",
+      "ERROR": "Não foi possível carregar o relatório.",
+      "KPIS": {
+        "CONVERSATIONS": {
+          "LABEL": "Conversas",
+          "TREND": "{value} no período"
+        },
+        "OPEN": {
+          "LABEL": "Em aberto",
+          "HINT": "{count} aguardando resposta"
+        },
+        "WON": {
+          "LABEL": "Vendas ganhas",
+          "HINT": "{count} negócio no período | {count} negócios no período"
+        },
+        "CONVERSION": {
+          "LABEL": "Conversão",
+          "HINT": "lead → ganho",
+          "EMPTY": "nenhum negócio criado no período"
+        }
+      },
+      "HIGHLIGHTS": {
+        "TOP_CHANNEL": {
+          "LABEL": "Canal líder",
+          "HINT": "{value} das conversas"
+        },
+        "BEST_DAY": {
+          "LABEL": "Melhor dia",
+          "HINT": "pico de {count} conversa | pico de {count} conversas"
+        },
+        "EMPTY": "nenhuma conversa no período"
+      },
+      "VOLUME": {
+        "TITLE": "Volume de conversas",
+        "DESCRIPTION": "Conversas criadas por dia",
+        "TOTAL": "total · {average}/dia méd.",
+        "CURRENT": "Período atual",
+        "PREVIOUS": "Período anterior",
+        "DATE": "Data",
+        "COUNT": "Conversas"
+      },
+      "BY_CHANNEL": {
+        "TITLE": "Por canal",
+        "DESCRIPTION": "Conversas do período por canal de entrada",
+        "CHANNEL": "Canal"
+      },
+      "PIPELINE": {
+        "TITLE": "Pipeline por etapa"
+      },
+      "AGENTS": {
+        "TITLE": "Desempenho por atendente",
+        "DESCRIPTION": "Ranking por volume e receita",
+        "AGENT": "Atendente",
+        "CONVERSATIONS": "Conversas",
+        "WON_VALUE": "Valor ganho",
+        "EMPTY": "Nenhum atendente com conversas ou vendas no período."
+      },
+      "CHANNELS": {
+        "WHATSAPP": "WhatsApp",
+        "INSTAGRAM": "Instagram",
+        "MESSENGER": "Messenger",
+        "SITE": "Site",
+        "EMAIL": "E-mail",
+        "TELEGRAM": "Telegram",
+        "LINE": "Line",
+        "SMS": "SMS",
+        "API": "API",
+        "TIKTOK": "TikTok",
+        "TWITTER": "X (Twitter)"
+      },
+      "CONVERSATION_STATUS": {
+        "OPEN": "Aberta",
+        "PENDING": "Pendente",
+        "SNOOZED": "Adiada",
+        "RESOLVED": "Resolvida"
+      },
+      "CONTACT_TYPE": {
+        "VISITOR": "Visitante",
+        "LEAD": "Lead",
+        "CUSTOMER": "Cliente"
+      },
+      "UNREAD_HINT": "Só as conversas com mensagens do cliente que ninguém da equipe abriu ainda.",
+      "CSV": {
+        "FILE": "visao-geral-{days}-dias.csv",
+        "HIGHLIGHTS": "Destaques",
+        "WAITING": "Aguardando resposta",
+        "WON_COUNT": "Negócios ganhos"
+      }
+    }
+  }
+}

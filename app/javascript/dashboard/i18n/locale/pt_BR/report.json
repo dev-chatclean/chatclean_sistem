@@ -713,7 +713,7 @@
     }
   },
   "OVERVIEW_REPORTS": {
-    "HEADER": "Visão geral",
+    "HEADER": "Ao vivo",
     "LIVE": "Em tempo real",
     "HEATMAP_ARIA_LABEL": "{metric} por dia e hora",
     "ACCOUNT_CONVERSATIONS": {
